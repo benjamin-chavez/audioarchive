@@ -8,7 +8,9 @@
     "dev": "turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "tfi": "cd ./infrastructure && terraform init",
+    "tfa": "cd ./infrastructure && terraform apply -var-file=.tfvars"
   },
   "devDependencies": {
     "eslint-config-custom": "workspace:*",

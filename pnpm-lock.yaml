@@ -66,12 +66,21 @@ importers:
       cors:
         specifier: ^2.8.5
         version: 2.8.5
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.3.1
       express:
         specifier: ^4.18.2
         version: 4.18.2
+      express-async-handler:
+        specifier: ^1.2.0
+        version: 1.2.0
       express-flash:
         specifier: ^0.0.2
         version: 0.0.2
+      express-list-endpoints:
+        specifier: ^6.0.0
+        version: 6.0.0
       helmet:
         specifier: ^7.1.0
         version: 7.1.0
@@ -2112,6 +2121,11 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
+  /dotenv@16.3.1:
+    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
+    engines: {node: '>=12'}
+    dev: false
+
   /ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
@@ -2629,11 +2643,20 @@ packages:
       jest-message-util: 29.7.0
       jest-util: 29.7.0
 
+  /express-async-handler@1.2.0:
+    resolution: {integrity: sha512-rCSVtPXRmQSW8rmik/AIb2P0op6l7r1fMW538yyvTMltCO4xQEWMmobfrIxN2V1/mVrgxB8Az3reYF6yUZw37w==}
+    dev: false
+
   /express-flash@0.0.2:
     resolution: {integrity: sha512-QVUR0ZZRCaa8+iPHoUQaQJrQWcQuK/Q+19M7IUIdIEtvwhrA/ifHT7y1CVJI41YfGiOQnbGtn3uvd2vOdgu58A==}
     engines: {node: '>= 0.8.0'}
     dependencies:
       connect-flash: 0.1.1
+    dev: false
+
+  /express-list-endpoints@6.0.0:
+    resolution: {integrity: sha512-1I30bSVego+AU/eSsX/bV2xrOXW5tFhsuXZp7wZd9396bAAxH7KHaAwLXQYra0Aw33xA67HmNiceGf2SOvXaLg==}
+    engines: {node: '>=10'}
     dev: false
 
   /express@4.18.2:

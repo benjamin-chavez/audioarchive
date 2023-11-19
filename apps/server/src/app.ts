@@ -1,5 +1,8 @@
 // apps/server/src/app.ts
 
+import dotenv from 'dotenv';
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+
 import { json, urlencoded } from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -7,22 +10,8 @@ import express, { Express } from 'express';
 import flash from 'express-flash';
 import helmet from 'helmet';
 import morgan from 'morgan';
-// import errorHandler from './middleware/errorMiddleware';
-// import routes from './routes/index';
-
-export const server: any = express();
-server
-  .disable('x-powered-by')
-  .use(morgan('dev'))
-  .use(urlencoded({ extended: true }))
-  .use(json())
-  .use(cors())
-  .get('/message/:name', (req: any, res: any) => {
-    return res.json({ message: `hello ${req.params.name}` });
-  })
-  .get('/healthz', (req: any, res: any) => {
-    return res.json({ ok: true });
-  });
+import errorHandler from './middleware/errorMiddleware';
+import routes from './routes';
 
 const app: Express = express();
 
@@ -34,11 +23,9 @@ const audience = process.env.AUTH0_AUDIENCE;
 //   origin: 'http://localhost:3000',
 // };
 
-// app.use(cors(corsOptions));
-
 if (!baseUrl || !issuerBaseUrl) {
   throw new Error(
-    'Please make sure that the file .env.local is in place and populated'
+    `Please make sure that the file .env.${process.env.NODE_ENV} is in place and populated`
   );
 }
 
@@ -49,36 +36,54 @@ if (!audience) {
   process.exit(1);
 }
 
-app.use(morgan('dev'));
-app.use(helmet());
-// TODO: CHANGE CORS BACK
-// app.use(cors({ origin: baseUrl }));
-app.use(cors({ origin: '*' }));
-
-// app.use(express.json());
-app.use(
-  express.json({
-    // We need the raw body to verify webhook signatures.
-    // Let's compute it only when hitting the Stripe webhook endpoint.
-    verify: (req, res, buf) => {
-      // @ts-ignore
-      if (req.originalUrl.startsWith('/api/webhook')) {
+app
+  .disable('x-powered-by')
+  .use(morgan('dev'))
+  .use(helmet())
+  // .use(urlencoded({ extended: true }))
+  // .use(json())
+  // .use(cors(corsOptions))
+  .use(
+    cors({
+      origin: [
+        // TODO: REMOVE WILDCARD
+        '*',
+        baseUrl,
+      ],
+    })
+  )
+  // .use(express.json());
+  .use(
+    json({
+      // We need the raw body to verify webhook signatures.
+      // Let's compute it only when hitting the Stripe webhook endpoint.
+      verify: (req, res, buf) => {
         // @ts-ignore
-        req.rawBody = buf.toString();
-      }
-    },
+        if (req.originalUrl.startsWith('/api/webhook')) {
+          // @ts-ignore
+          req.rawBody = buf.toString();
+        }
+      },
+    })
+  )
+  .use(urlencoded({ extended: false }))
+  .use(cookieParser())
+  .use(flash())
+  // .use((req, res, next) => {
+  //   console.log('Request Headers: ', req.headers);
+  //   next();
+  // })
+  .use('/', (req: any, res: any) => {
+    return res.json({ ok: true });
   })
-);
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(flash());
-
-// app.use((req, res, next) => {
-//   console.log('Request Headers: ', req.headers);
-//   next();
-// });
-
-app.use('/api', routes);
+  .use('/api', routes)
+  .get('/message/:name', (req: any, res: any) => {
+    return res.json({ message: `hello ${req.params.name}` });
+  })
+  .get('/healthz', (req: any, res: any) => {
+    return res.json({ ok: true });
+  })
+  .use(errorHandler);
 
 // app.use((err, req, res, next) => {
 //   if (err.name === 'UnauthorizedError') {
@@ -88,6 +93,5 @@ app.use('/api', routes);
 //     next(err);
 //   }
 // });
-app.use(errorHandler);
 
 export default app;
