@@ -67,7 +67,7 @@ RUN turbo run build --filter=server
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
+# ENV NODE_ENV production
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 expressjs
