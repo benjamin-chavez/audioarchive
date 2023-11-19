@@ -60,12 +60,21 @@ importers:
       body-parser:
         specifier: ^1.20.2
         version: 1.20.2
+      cookie-parser:
+        specifier: ^1.4.6
+        version: 1.4.6
       cors:
         specifier: ^2.8.5
         version: 2.8.5
       express:
         specifier: ^4.18.2
         version: 4.18.2
+      express-flash:
+        specifier: ^0.0.2
+        version: 0.0.2
+      helmet:
+        specifier: ^7.1.0
+        version: 7.1.0
       logger:
         specifier: workspace:*
         version: link:../../packages/logger
@@ -76,12 +85,21 @@ importers:
       '@types/body-parser':
         specifier: ^1.19.5
         version: 1.19.5
+      '@types/cookie-parser':
+        specifier: ^1.4.6
+        version: 1.4.6
       '@types/cors':
         specifier: ^2.8.16
         version: 2.8.16
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21
+      '@types/express-flash':
+        specifier: ^0.0.5
+        version: 0.0.5
+      '@types/express-list-endpoints':
+        specifier: ^6.0.3
+        version: 6.0.3
       '@types/jest':
         specifier: ^29.5.8
         version: 29.5.8
@@ -104,7 +122,7 @@ importers:
         specifier: ^8.54.0
         version: 8.54.0
       eslint-config-custom-server:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/eslint-config-custom-server
       jest:
         specifier: ^29.7.0
@@ -1170,6 +1188,12 @@ packages:
       '@types/node': 20.9.2
     dev: true
 
+  /@types/cookie-parser@1.4.6:
+    resolution: {integrity: sha512-KoooCrD56qlLskXPLGUiJxOMnv5l/8m7cQD2OxJ73NPMhuSz9PmvwRD6EpjDyKBVrdJDdQ4bQK7JFNHnNmax0w==}
+    dependencies:
+      '@types/express': 4.17.21
+    dev: true
+
   /@types/cookiejar@2.1.4:
     resolution: {integrity: sha512-b698BLJ6kPVd6uhHsY7wlebZdrWPXYied883PDSzpJZYOP97EOn/oGdLCH3jJf157srkFReIZY5v0H1s8Dozrg==}
     dev: true
@@ -1178,6 +1202,18 @@ packages:
     resolution: {integrity: sha512-Trx5or1Nyg1Fq138PCuWqoApzvoSLWzZ25ORBiHMbbUT42g578lH1GT4TwYDbiUOLFuDsCkfLneT2105fsFWGg==}
     dependencies:
       '@types/node': 20.9.2
+    dev: true
+
+  /@types/express-flash@0.0.5:
+    resolution: {integrity: sha512-lz8xxkEev6JHEyHeDNb45tUkhUnPERim9td+Ov7kBDCq6+dFHlu+BvTKYz7DcLh02a3ZK+tg2mze4tZ8DgJyLw==}
+    dependencies:
+      '@types/express': 4.17.21
+    dev: true
+
+  /@types/express-list-endpoints@6.0.3:
+    resolution: {integrity: sha512-0lZ5pOHtivd8Vx49E5gBQHMTmccMCQTLGjPBsBKHABdC9b55VY86dxvhfMkbJefzaH0YHhgExWOg5WoG2gDIeg==}
+    dependencies:
+      '@types/express': 4.17.21
     dev: true
 
   /@types/express-serve-static-core@4.17.41:
@@ -1863,6 +1899,11 @@ packages:
   /concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
+  /connect-flash@0.1.1:
+    resolution: {integrity: sha512-2rcfELQt/ZMP+SM/pG8PyhJRaLKp+6Hk2IUBNkEit09X+vwn3QsAL3ZbYtxUn7NVPzbMTSLRDhqe0B/eh30RYA==}
+    engines: {node: '>= 0.4.0'}
+    dev: false
+
   /content-disposition@0.5.4:
     resolution: {integrity: sha512-FveZTNuGw04cxlAiWbzi6zTAL/lhehaWbTtgluJh4/E95DqMwTmha3KZN1aAWA8cFIhHzMZUvLevkw5Rqk+tSQ==}
     engines: {node: '>= 0.6'}
@@ -1878,8 +1919,21 @@ packages:
   /convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
+  /cookie-parser@1.4.6:
+    resolution: {integrity: sha512-z3IzaNjdwUC2olLIB5/ITd0/setiaFMLYiZJle7xg5Fe9KWAceil7xszYfHHBtDFYLSgJduS2Ty0P1uJdPDJeA==}
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      cookie: 0.4.1
+      cookie-signature: 1.0.6
+    dev: false
+
   /cookie-signature@1.0.6:
     resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
+    dev: false
+
+  /cookie@0.4.1:
+    resolution: {integrity: sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==}
+    engines: {node: '>= 0.6'}
     dev: false
 
   /cookie@0.5.0:
@@ -2575,6 +2629,13 @@ packages:
       jest-message-util: 29.7.0
       jest-util: 29.7.0
 
+  /express-flash@0.0.2:
+    resolution: {integrity: sha512-QVUR0ZZRCaa8+iPHoUQaQJrQWcQuK/Q+19M7IUIdIEtvwhrA/ifHT7y1CVJI41YfGiOQnbGtn3uvd2vOdgu58A==}
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      connect-flash: 0.1.1
+    dev: false
+
   /express@4.18.2:
     resolution: {integrity: sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ==}
     engines: {node: '>= 0.10.0'}
@@ -2913,6 +2974,11 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       function-bind: 1.1.2
+
+  /helmet@7.1.0:
+    resolution: {integrity: sha512-g+HZqgfbpXdCkme/Cd/mZkV0aV3BZZZSugecH03kl38m/Kmdx8jKjBikpDj2cr+Iynv4KpYEviojNdTJActJAg==}
+    engines: {node: '>=16.0.0'}
+    dev: false
 
   /hexoid@1.0.0:
     resolution: {integrity: sha512-QFLV0taWQOZtvIRIAdBChesmogZrtuXvVWsFHZTk2SU+anspqZ2vMnoLg7IE1+Uk16N19APic1BuF8bC8c2m5g==}

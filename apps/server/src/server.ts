@@ -1,59 +1,19 @@
-import { json, urlencoded } from 'body-parser';
-import express from 'express';
-import morgan from 'morgan';
-import cors from 'cors';
+// apps/server/src/server.ts
 
-// export const createServer: any = () => {
-//   const app = express();
-//   app
-//     .disable('x-powered-by')
-//     .use(morgan('dev'))
-//     .use(urlencoded({ extended: true }))
-//     .use(json())
-//     .use(cors())
-//     .get('/message/:name', (req, res) => {
-//       return res.json({ message: `hello ${req.params.name}` });
-//     })
-//     .get('/healthz', (req, res) => {
-//       return res.json({ ok: true });
-//     });
+import dotenv from 'dotenv';
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+import app from './app';
 
-//   return app;
-// };
+const PORT = process.env.PORT || 5000;
 
-export const server: any = express();
-server
-  .disable('x-powered-by')
-  .use(morgan('dev'))
-  .use(urlencoded({ extended: true }))
-  .use(json())
-  .use(cors())
-  .get('/message/:name', (req: any, res: any) => {
-    return res.json({ message: `hello ${req.params.name}` });
-  })
-  .get('/healthz', (req: any, res: any) => {
-    return res.json({ ok: true });
-  });
-// // @ts-nocheck
-// import { json, urlencoded } from 'body-parser';
-// import express from 'express';
-// import morgan from 'morgan';
-// import cors from 'cors';
+app.listen(PORT, () => {
+  console.log('Current NODE_ENV:', process.env.NODE_ENV);
 
-// export const createServer: any = () => {
-//   const app = express();
-//   app
-//     .disable('x-powered-by')
-//     .use(morgan('dev'))
-//     .use(urlencoded({ extended: true }))
-//     .use(json())
-//     .use(cors('*'))
-//     .get('/message/:name', (req, res) => {
-//       return res.json({ message: `hello ${req.params.name}` });
-//     })
-//     .get('/healthz', (req, res) => {
-//       return res.json({ ok: true });
-//     });
+  console.log(`Server listening on port: ${PORT}!`);
+});
 
-//   return app;
-// };
+// const server = app.listen(PORT, () =>
+//   console.log(`API Server listening on port ${PORT}`)
+// );
+
+// process.on('SIGINT', () => server.close());
