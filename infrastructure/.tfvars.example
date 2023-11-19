@@ -1,0 +1,9 @@
+# infrastructure/tfvars.tf
+
+aws_profile      = ""
+aws_region       = ""
+environment_name = ""
+repository_name  = ""
+repository_owner = ""
+
+# db_password      = ""

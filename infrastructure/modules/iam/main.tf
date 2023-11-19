@@ -343,7 +343,8 @@ data "aws_iam_policy_document" "role_policy_devops_role" {
       "ssm:DescribeParameters"
     ]
     resources = [
-      "arn:aws:ssm:<region>:<account-id>:parameter/myapp/github_token"
+      # "arn:aws:ssm:<region>:<account-id>:parameter/myapp/github_token"
+      "*"
     ]
   }
 }
