@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
-    "dev": "NODE_ENV=development  nodemon --exec \"node  -r esbuild-register ./src/server.ts\" -e .ts",
+    "dev": "NODE_ENV=development nodemon --exec \"node  -r esbuild-register ./src/server.ts\" -e .ts",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\"",
     "start": "node -r esbuild-register ./src/server.ts",
     "test": "jest --detectOpenHandles"
