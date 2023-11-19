@@ -15,26 +15,26 @@ import routes from './routes';
 
 const app: Express = express();
 
-const baseUrl = process.env.AUTH0_BASE_URL;
-const issuerBaseUrl = process.env.AUTH0_ISSUER_BASE_URL;
-const audience = process.env.AUTH0_AUDIENCE;
+// const baseUrl = process.env.AUTH0_BASE_URL;
+// const issuerBaseUrl = process.env.AUTH0_ISSUER_BASE_URL;
+// const audience = process.env.AUTH0_AUDIENCE;
 
 // const corsOptions = {
 //   origin: 'http://localhost:3000',
 // };
 
-if (!baseUrl || !issuerBaseUrl) {
-  throw new Error(
-    `Please make sure that the file .env.${process.env.NODE_ENV} is in place and populated`
-  );
-}
+// if (!baseUrl || !issuerBaseUrl) {
+//   throw new Error(
+//     `Please make sure that the file .env.${process.env.NODE_ENV} is in place and populated`
+//   );
+// }
 
-if (!audience) {
-  console.log(
-    'AUTH0_AUDIENCE not set in .env.local. Shutting down API server.'
-  );
-  process.exit(1);
-}
+// if (!audience) {
+//   console.log(
+//     'AUTH0_AUDIENCE not set in .env.local. Shutting down API server.'
+//   );
+//   process.exit(1);
+// }
 
 app
   .disable('x-powered-by')
@@ -48,7 +48,7 @@ app
       origin: [
         // TODO: REMOVE WILDCARD
         '*',
-        baseUrl,
+        // baseUrl,
       ],
     })
   )
