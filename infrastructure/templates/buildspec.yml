@@ -1,0 +1,61 @@
+version: 0.2
+
+# Cache Docker layers to S3 and leverage local caching
+cache:
+  paths:
+    - '/root/.docker/**/*'
+    - '/var/cache/docker/buildkit'
+    - '/var/lib/docker/cache'
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - echo Pulling latest image for caching...
+      - docker pull $REPO_URL:latest || true
+      - echo Checking for build type...
+      - |
+        if expr "${FOLDER_PATH}" : ".*client*" ; then
+          echo "Client build, embedding frontend layer file with ALB backend DNS"
+        else
+          echo "Server build, adding ECS Task Role to the task definition file"
+          sed -i "3i\"taskRoleArn\": \"arn:aws:iam::<AWS_ACCOUNT_ID>:role/<ECS_TASK_ROLE>\"," ./infrastructure/templates/taskdef.json
+        fi
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo "Building Docker image..."
+      - docker build --cache-from $REPO_URL:latest -t $REPO_URL:$IMAGE_TAG -f $FOLDER_PATH/Dockerfile .
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - echo $REPO_URL:$IMAGE_TAG
+      - docker push $REPO_URL:$IMAGE_TAG
+      - echo Changing directory to templates directory
+      - |
+        cd ./infrastructure/templates
+        echo Preparing spec files in new folder
+        mkdir -p Artifacts
+        cp appspec.yaml Artifacts/appspec.yaml
+        cp taskdef.json Artifacts/taskdef.json
+        echo Changing directory to the Artifacts directory
+        cd Artifacts
+        echo Preparating artifacts
+        sed -i "s|<TASK_DEFINITION_FAMILY>|$TASK_DEFINITION_FAMILY|g" taskdef.json
+        sed -i "s|<CONTAINER_NAME>|$CONTAINER_NAME|g" appspec.yaml taskdef.json
+        sed -i "s|<SERVICE_PORT>|$SERVICE_PORT|g" appspec.yaml taskdef.json
+        sed -i "s|<ECS_ROLE>|$ECS_ROLE|g" taskdef.json
+        sed -i "s|<ECS_TASK_ROLE>|$ECS_TASK_ROLE|g" taskdef.json
+        sed -i "s|<REPO_URL>|$REPO_URL|g" taskdef.json
+        sed -i "s|<AWS_ACCOUNT_ID>|$AWS_ACCOUNT_ID|g" taskdef.json
+        sed -i "s|<AWS_REGION>|$AWS_REGION|g" taskdef.json
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'infrastructure/templates/Artifacts'
+  discard-paths: yes
