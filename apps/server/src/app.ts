@@ -1,7 +1,7 @@
 // apps/server/src/app.ts
 
-import dotenv from 'dotenv';
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+// import dotenv from 'dotenv';
+// dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 import { json, urlencoded } from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -73,16 +73,15 @@ app
   //   console.log('Request Headers: ', req.headers);
   //   next();
   // })
-  .use('/', (req: any, res: any) => {
-    return res.json({ ok: true });
-  })
-  .use('/api', routes)
   .get('/message/:name', (req: any, res: any) => {
     return res.json({ message: `hello ${req.params.name}` });
   })
   .get('/healthz', (req: any, res: any) => {
     return res.json({ ok: true });
+  }).use('/', (req: any, res: any) => {
+    return res.json({ ok: true });
   })
+  .use('/api', routes)
   // .use(errorHandler);
 
 // app.use((err, req, res, next) => {
