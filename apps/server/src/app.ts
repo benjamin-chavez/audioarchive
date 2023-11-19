@@ -10,7 +10,7 @@ import express, { Express } from 'express';
 import flash from 'express-flash';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import errorHandler from './middleware/errorMiddleware';
+// import errorHandler from './middleware/errorMiddleware';
 import routes from './routes';
 
 const app: Express = express();
@@ -83,7 +83,7 @@ app
   .get('/healthz', (req: any, res: any) => {
     return res.json({ ok: true });
   })
-  .use(errorHandler);
+  // .use(errorHandler);
 
 // app.use((err, req, res, next) => {
 //   if (err.name === 'UnauthorizedError') {
