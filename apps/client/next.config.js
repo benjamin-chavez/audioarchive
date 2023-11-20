@@ -20,7 +20,9 @@ const nextConfig = {
         source: '/api/:path*',
         // destination: 'http://localhost:5000/api/:path*',
         // destination: 'http://server:5000/api/:path*',
-        destination: `${serverUrl}/api/:path*`,
+        // destination: `${serverUrl}/api/:path*`,
+        destination:
+          'alb-developmentenv-ser-464535678.us-east-2.elb.amazonaws.com/api/:path',
       },
     ];
   },

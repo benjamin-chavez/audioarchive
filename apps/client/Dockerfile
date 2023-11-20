@@ -1,7 +1,6 @@
 # src Dockerfile: https://github.com/vercel/turbo/blob/main/examples/with-docker/apps/client/Dockerfile
 FROM node:18-alpine AS alpine
-# FROM node:20.9.0-alpine3.18 AS alpine
-# FROM public.ecr.aws/docker/library/node:20.9.0-alpine AS apline
+# FROM public.ecr.aws/docker/library/node:20.9.0-alpine3.18 AS apline
 
 # setup pnpm on the alpine base
 FROM alpine as base
