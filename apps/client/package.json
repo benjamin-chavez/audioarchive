@@ -9,6 +9,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^3.3.0",
+    "@heroicons/react": "^2.0.18",
     "geist": "^1.1.0",
     "next": "^14.0.3",
     "react": "^18.2.0",
