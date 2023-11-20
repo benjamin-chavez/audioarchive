@@ -1,5 +1,16 @@
 const path = require('path');
-// let serverUrl = 'http://<SERVER_ALB_URL>'; // | http://server:5000;
+let serverUrl;
+
+if (process.env.NODE_ENV === 'development') {
+  console.log('DEVELOPMENT');
+  serverUrl = 'localhost:5000';
+  // serverUrl = 'server:5000';
+} else {
+  console.log('ELSE');
+  serverUrl = '<SERVER_ALB_URL>';
+}
+// let serverUrl =
+//   process.env.NODE_ENV === 'development' ? 'server:5000' : '<SERVER_ALB_URL>';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -21,8 +32,10 @@ const nextConfig = {
         // destination: 'http://localhost:5000/api/:path*',
         // destination: 'http://server:5000/api/:path*',
         // destination: 'http://server:5000/api/:path*',
-        destination:
-          'http://alb-developmentenv-ser-151200939.us-east-2.elb.amazonaws.com/api/:path*',
+        destination: `http://${serverUrl}/api/:path*`,
+
+        // destination:
+        //   'http://alb-developmentenv-ser-151200939.us-east-2.elb.amazonaws.com/api/:path*',
       },
     ];
   },
