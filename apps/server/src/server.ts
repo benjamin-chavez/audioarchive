@@ -49,7 +49,6 @@ server
   .use(
     cors({
       origin: '*',
-      methods: ['GET', 'POST', 'PUT', 'PATCH'],
     })
   )
   .get('/message/:name', (req: any, res: any) => {
@@ -59,8 +58,13 @@ server
     return res.json({ ok: true });
   })
   .get('/api', (req: any, res: any) => {
-    return res.json({ ok: true });
+    return res.json({ ok: 'hello' });
+  })
+  .get('/api/health', (req: any, res: any) => {
+    // return res.json({ ok: 'hello' });
+    return res.status(200).json({ message: 'Healthy!' });
   });
+
 // // @ts-nocheck
 // import { json, urlencoded } from 'body-parser';
 // import express from 'express';
