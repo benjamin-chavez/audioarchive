@@ -3,10 +3,11 @@ import 'server-only';
 import '@/styles/globals.css';
 
 import { UserProvider } from '@auth0/nextjs-auth0/client';
-import Metadata from 'next';
+// import type Metadata from 'next';
+import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { GeistSans, GeistMono } from 'geist/font';
-// import { Metadata } from 'next/dist/lib/metadata/types/metadata-interface';
+// import type { Metadata } from 'next/dist/lib/metadata/types/metadata-interface';
 import Container from '../components/container';
 import Navbar from '../components/navbar';
 // import TanstackQueryProviders from '../lib/tanstack-query-utils/tanstackQueryProviders';
