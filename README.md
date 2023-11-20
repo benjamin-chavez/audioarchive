@@ -25,7 +25,7 @@ docker network create app_network
 # Build prod using new BuildKit engine
 COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build
 
-# Start prod
+# Start dev
 docker-compose -f docker-compose.yml up
 
 # OR Start prod in detached mode

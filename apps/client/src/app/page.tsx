@@ -60,7 +60,7 @@ export default function Client() {
           <p>{response.message}</p>
         </div>
       )}
-      <Button>Press!</Button>
+      <Button>hi dude me !</Button>
     </div>
   );
 }

@@ -1,7 +1,10 @@
+# TODO: Alternative approach: https://medium.com/@elifront/best-next-js-docker-compose-hot-reload-production-ready-docker-setup-28a9125ba1dc
+
+
 # src Dockerfile: https://github.com/vercel/turbo/blob/main/examples/with-docker/apps/client/Dockerfile
-# FROM node:18-alpine AS alpine
-FROM node:20.9.0-alpine3.18 AS alpine
-# FROM public.ecr.aws/docker/library/node:20.9.0-alpine3.18 AS apline
+FROM node:18-alpine AS alpine
+# FROM node:20.9.0-alpine3.18 AS alpine
+# FROM public.ecr.aws/docker/library/node:20.9.0-alpine AS apline
 
 # setup pnpm on the alpine base
 FROM alpine as base
@@ -9,6 +12,12 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 RUN pnpm install turbo --global
+
+FROM base AS dev
+
+WORKDIR /app
+# COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 
 FROM base AS builder
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.

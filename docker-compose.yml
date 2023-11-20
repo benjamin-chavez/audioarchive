@@ -7,20 +7,32 @@ services:
     container_name: client
     build:
       context: .
-      dockerfile: ./apps/client/Dockerfile
+      dockerfile: ./apps/client/dev.Dockerfile
+      target: dev
     restart: always
+    command: pnpm dev
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./apps/client/src/:/app/apps/client/src
+      - ./apps/client/public:/app/apps/client/public
     ports:
       - 3000:3000
     networks:
       - app_network
+
   server:
     container_name: server
     build:
       context: .
-      dockerfile: ./apps/server/Dockerfile
+      dockerfile: ./apps/server/dev.Dockerfile
     restart: always
     ports:
       - 5000:5000
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./apps/server/src:/app/apps/server/src
     networks:
       - app_network
 
