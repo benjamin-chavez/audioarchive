@@ -99,6 +99,12 @@ importers:
       express:
         specifier: ^4.18.2
         version: 4.18.2
+      express-async-handler:
+        specifier: ^1.2.0
+        version: 1.2.0
+      express-list-endpoints:
+        specifier: ^6.0.0
+        version: 6.0.0
       logger:
         specifier: workspace:*
         version: link:../../packages/logger
@@ -115,6 +121,9 @@ importers:
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21
+      '@types/express-list-endpoints':
+        specifier: ^6.0.3
+        version: 6.0.3
       '@types/jest':
         specifier: ^29.5.8
         version: 29.5.8
@@ -1321,6 +1330,12 @@ packages:
     resolution: {integrity: sha512-Trx5or1Nyg1Fq138PCuWqoApzvoSLWzZ25ORBiHMbbUT42g578lH1GT4TwYDbiUOLFuDsCkfLneT2105fsFWGg==}
     dependencies:
       '@types/node': 20.9.2
+    dev: true
+
+  /@types/express-list-endpoints@6.0.3:
+    resolution: {integrity: sha512-0lZ5pOHtivd8Vx49E5gBQHMTmccMCQTLGjPBsBKHABdC9b55VY86dxvhfMkbJefzaH0YHhgExWOg5WoG2gDIeg==}
+    dependencies:
+      '@types/express': 4.17.21
     dev: true
 
   /@types/express-serve-static-core@4.17.41:
@@ -3150,6 +3165,15 @@ packages:
       jest-matcher-utils: 29.7.0
       jest-message-util: 29.7.0
       jest-util: 29.7.0
+
+  /express-async-handler@1.2.0:
+    resolution: {integrity: sha512-rCSVtPXRmQSW8rmik/AIb2P0op6l7r1fMW538yyvTMltCO4xQEWMmobfrIxN2V1/mVrgxB8Az3reYF6yUZw37w==}
+    dev: false
+
+  /express-list-endpoints@6.0.0:
+    resolution: {integrity: sha512-1I30bSVego+AU/eSsX/bV2xrOXW5tFhsuXZp7wZd9396bAAxH7KHaAwLXQYra0Aw33xA67HmNiceGf2SOvXaLg==}
+    engines: {node: '>=10'}
+    dev: false
 
   /express@4.18.2:
     resolution: {integrity: sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ==}

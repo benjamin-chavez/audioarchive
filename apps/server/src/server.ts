@@ -21,6 +21,7 @@ import { json, urlencoded } from 'body-parser';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+import routes from './routes';
 
 // export const createServer: any = () => {
 //   const app = express();
@@ -40,8 +41,8 @@ import cors from 'cors';
 //   return app;
 // };
 
-export const server: any = express();
-server
+export const app: any = express();
+app
   .disable('x-powered-by')
   .use(morgan('dev'))
   .use(urlencoded({ extended: true }))
@@ -57,13 +58,11 @@ server
   .get('/healthz', (req: any, res: any) => {
     return res.json({ ok: true });
   })
-  .get('/api', (req: any, res: any) => {
-    return res.json({ ok: 'hello' });
-  })
   .get('/api/health', (req: any, res: any) => {
     // return res.json({ ok: 'hello' });
     return res.status(200).json({ message: 'Healthy!' });
-  });
+  })
+  .use('/api', routes);
 
 // // @ts-nocheck
 // import { json, urlencoded } from 'body-parser';
