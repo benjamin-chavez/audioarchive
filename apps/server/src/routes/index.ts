@@ -3,7 +3,7 @@
 import express, { Router } from 'express';
 import asyncHandler from 'express-async-handler';
 import listEndpoints from 'express-list-endpoints';
-import { app } from '../server';
+import { app } from '../app';
 
 // import S3Service from '../services/s3.service';
 // import appUserRoutes from './app-user.routes';

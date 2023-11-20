@@ -138,4 +138,4 @@ COPY --from=installer /app .
 
 EXPOSE 5000
 
-CMD node apps/server/dist/index.js
+CMD node apps/server/dist/server.js

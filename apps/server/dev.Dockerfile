@@ -55,4 +55,4 @@ COPY --from=installer /app .
 
 EXPOSE 5000
 
-CMD ["nodemon", "--exec", "node -r esbuild-register ./apps/server/src/index.ts", "-e", "ts"]
+CMD ["nodemon", "--exec", "node -r esbuild-register ./apps/server/src/server.ts", "-e", "ts"]
