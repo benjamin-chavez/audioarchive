@@ -22,7 +22,7 @@ const nextConfig = {
         // destination: 'http://server:5000/api/:path*',
         // destination: 'http://server:5000/api/:path*',
         destination:
-          'http://alb-developmentenv-ser-974174920.us-east-2.elb.amazonaws.com/api/:path*',
+          'http://alb-developmentenv-ser-151200939.us-east-2.elb.amazonaws.com/api/:path*',
       },
     ];
   },

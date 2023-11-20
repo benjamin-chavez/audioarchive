@@ -81,6 +81,8 @@
 
 # CMD node apps/server/dist/app.js
 
+# apps/server/Dockerfile
+
 # src Dockerfile: https://github.com/vercel/turbo/blob/main/examples/with-docker/apps/server/Dockerfile
 FROM node:18-alpine AS alpine
 # FROM public.ecr.aws/docker/library/node:20.9.0-alpine3.18 AS apline
@@ -135,6 +137,11 @@ RUN addgroup --system --gid 1001 expressjs
 RUN adduser --system --uid 1001 expressjs
 USER expressjs
 COPY --from=installer /app .
+
+
+# ARG NODE_ENV
+# ENV NODE_ENV=${NODE_ENV}
+ENV NODE_ENV=production
 
 EXPOSE 5000
 

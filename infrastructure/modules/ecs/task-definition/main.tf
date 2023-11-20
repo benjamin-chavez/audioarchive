@@ -16,14 +16,13 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
     [
       {
         "logConfiguration": {
-            "logDriver": "awslogs",
-            "secretOptions": null,
-            "options": {
-              "awslogs-group": "/ecs/task-definition-${var.name}",
-              "awslogs-region": "${var.region}",
-              "awslogs-stream-prefix": "ecs"
-            }
-          },
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "/ecs/task-definition-${var.name}",
+            "awslogs-region": "${var.region}",
+            "awslogs-stream-prefix": "ecs"
+          }
+        },
         "cpu": 0,
         "image": "${var.docker_repo}",
         "name": "${var.container_name}",
@@ -33,10 +32,16 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
             "containerPort": ${var.container_port},
             "hostPort": ${var.container_port}
           }
+        ],
+        "environment": [
+          {
+            "name": "NODE_ENV",
+            "value": "${var.node_env}"
+          }
         ]
-        }
+      }
     ]
-    DEFINITION
+  DEFINITION
 }
 
 # ------- CloudWatch Logs groups to store ecs-containers logs -------

@@ -102,3 +102,10 @@ variable "repository_branch" {
 #   description = "The password for the RDS Postgres database instance"
 #   type        = string
 # }
+
+
+variable "node_env" {
+  description = "The environment to set for the Node.js application"
+  type        = string
+  default     = "production"
+}

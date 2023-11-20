@@ -53,6 +53,8 @@ RUN adduser --system --uid 1001 expressjs
 USER expressjs
 COPY --from=installer /app .
 
+ENV NODE_ENV=development
+
 EXPOSE 5000
 
 CMD ["nodemon", "--exec", "node -r esbuild-register ./apps/server/src/server.ts", "-e", "ts"]

@@ -28,7 +28,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo "Building Docker image..."
-      - docker build --cache-from $REPO_URL:latest -t $REPO_URL:$IMAGE_TAG -f $FOLDER_PATH/Dockerfile .
+      - docker build --build-arg NODE_ENV=production --cache-from $REPO_URL:latest -t $REPO_URL:$IMAGE_TAG -f $FOLDER_PATH/Dockerfile .
 
   post_build:
     commands:

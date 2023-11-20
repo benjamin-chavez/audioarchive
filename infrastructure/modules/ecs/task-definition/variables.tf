@@ -44,3 +44,8 @@ variable "container_port" {
   description = "The port that the container will use to listen to requests"
   type        = number
 }
+
+variable "node_env" {
+  description = "The environment to set for the Node.js application"
+  type        = string
+}

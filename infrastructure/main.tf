@@ -31,6 +31,11 @@ data "aws_ssm_parameter" "github_token" {
   name = "/${var.app_name}/github_token"
 }
 
+# -------  SSM NODE_ENV-------
+data "aws_ssm_parameter" "node_env" {
+  name = "/${var.app_name}/config/node_env"
+}
+
 # ------- Networking -------
 module "networking" {
   source = "./modules/networking"
@@ -202,6 +207,7 @@ module "ecs_task_definition_server" {
   docker_repo        = module.ecr_server.ecr_repository_url
   region             = var.aws_region
   container_port     = var.port_app_server
+  node_env           = var.node_env
 }
 
 # ------- Creating ECS Task Definition for the client -------
@@ -216,6 +222,7 @@ module "ecs_task_definition_client" {
   docker_repo        = module.ecr_client.ecr_repository_url
   region             = var.aws_region
   container_port     = var.port_app_client
+  node_env           = var.node_env
 }
 
 # ------- Creating Security Group for ECS TASKS (Server) -------

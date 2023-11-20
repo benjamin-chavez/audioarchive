@@ -163,7 +163,9 @@ app
   })
   .get('/api/health', (req: any, res: any) => {
     // return res.json({ ok: 'hello' });
-    return res.status(200).json({ message: 'Healthy!' });
+    return res
+      .status(200)
+      .json({ message: `Healthy! | ${process.env.NODE_ENV}` });
   })
   .use('/api', routes);
 
