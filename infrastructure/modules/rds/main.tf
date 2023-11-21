@@ -36,6 +36,7 @@ resource "aws_db_instance" "psql_rds" {
   # kms_key_id        = var.kms_key_id
   kms_key_id = var.storage_encrypted ? var.kms_key_id : null
 
+  skip_final_snapshot = true
 
   identifier          = var.identifier
   deletion_protection = var.deletion_protection
