@@ -533,6 +533,7 @@ module "security_group_rds_db" {
 # ------- Database Module -------
 module "psql_rds" {
   source                 = "./modules/rds"
+  depends_on             = [module.security_group_rds_db, module.networking]
   create                 = true
   identifier             = "audio-archive-psql-db2"
   engine_version         = "15.4"

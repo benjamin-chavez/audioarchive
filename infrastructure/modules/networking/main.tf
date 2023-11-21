@@ -87,31 +87,31 @@ resource "aws_default_route_table" "rt_public" {
 }
 
 # ------- Create EIP -------
-# resource "aws_eip" "eip" {
-#   vpc = true
-#   tags = {
-#     Name = "eip-${var.name}"
-#   }
-# }
+resource "aws_eip" "eip" {
+  vpc = true
+  tags = {
+    Name = "eip-${var.name}"
+  }
+}
 
 # ------- Attach EIP to Nat Gateway -------
-# resource "aws_nat_gateway" "natgw" {
-#   allocation_id = aws_eip.eip.id
-#   subnet_id     = aws_subnet.public_subnets[0].id
-#   tags = {
-#     Name = "nat_${var.name}"
-#   }
-# }
+resource "aws_nat_gateway" "natgw" {
+  allocation_id = aws_eip.eip.id
+  subnet_id     = aws_subnet.public_subnets[0].id
+  tags = {
+    Name = "nat_${var.name}"
+  }
+}
 
 # ------- Create Private Route Private Table -------
 resource "aws_route_table" "rt_private" {
   vpc_id = aws_vpc.aws_vpc.id
 
   # ------- Internet Route -------
-  # route {
-  #   cidr_block = "0.0.0.0/0"
-  #   gateway_id = aws_nat_gateway.natgw.id
-  # }
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_nat_gateway.natgw.id
+  }
 
   tags = {
     Name = "private_rt_${var.name}"
