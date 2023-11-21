@@ -118,18 +118,18 @@ module "security_group_alb_client" {
 }
 
 # ------- Creating Server Application ALB -------
-module "alb_server" {
-  source       = "./modules/alb"
-  create_alb   = true
-  enable_https = true
-  name         = "${var.environment_name}-ser"
-  subnets = [
-    module.networking.public_subnets[0],
-    module.networking.public_subnets[1]
-  ]
-  security_group = module.security_group_alb_server.sg_id
-  target_group   = module.target_group_server_blue.arn_tg
-}
+# module "alb_server" {
+#   source       = "./modules/alb"
+#   create_alb   = true
+#   enable_https = true
+#   name         = "${var.environment_name}-ser"
+#   subnets = [
+#     module.networking.public_subnets[0],
+#     module.networking.public_subnets[1]
+#   ]
+#   security_group = module.security_group_alb_server.sg_id
+#   target_group   = module.target_group_server_blue.arn_tg
+# }
 
 # ------- Creating Client Application ALB -------
 module "alb_client" {
@@ -155,7 +155,7 @@ module "alb_client" {
 # }
 
 # ------- Creating Route 53 Subdomains -------
-resource "aws_route53_record" "subdomain_a_record" {
+resource "aws_route53_record" "subdomain_a_record_main" {
   zone_id = "Z03559123CZF1EZ8Q3C7O"
   name    = "audioarchive.benchavez.xyz"
   type    = "A"
@@ -168,18 +168,18 @@ resource "aws_route53_record" "subdomain_a_record" {
   }
 }
 
-# resource "aws_route53_record" "subdomain_a_record" {
-#   zone_id = "Z03559123CZF1EZ8Q3C7O"
-#   name    = "api.audioarchive.benchavez.xyz"
-#   type    = "A"
+resource "aws_route53_record" "subdomain_a_record_api" {
+  zone_id = "Z03559123CZF1EZ8Q3C7O"
+  name    = "api.audioarchive.benchavez.xyz"
+  type    = "A"
 
-#   alias {
-#     name    = module.alb_client.dns_alb
-#     zone_id = module.alb_client.alb_zone_id
+  alias {
+    name    = module.alb_client.dns_alb
+    zone_id = module.alb_client.alb_zone_id
 
-#     evaluate_target_health = true
-#   }
-# }
+    evaluate_target_health = true
+  }
+}
 
 # ------- ECS Role -------
 module "ecs_role" {
@@ -250,6 +250,7 @@ module "security_group_ecs_task_server" {
     module.security_group_alb_server.sg_id
   ]
 }
+
 # ------- Creating Security Group for ECS TASKS (Client) -------
 module "security_group_ecs_task_client" {
   source       = "./modules/security-group"
@@ -270,7 +271,8 @@ module "ecs_cluster" {
 
 # ------- Creating ECS Service server -------
 module "ecs_service_server" {
-  depends_on          = [module.alb_server]
+  # depends_on          = [module.alb_server]
+  depends_on          = [module.alb_client]
   source              = "./modules/ecs/service"
   name                = "${var.environment_name}-server"
   desired_tasks       = 1
@@ -362,6 +364,43 @@ module "ecs_autoscaling_client" {
 # }
 
 
+# ------- ALB Listener Rules Module -------
+# HTTP Listener Rule for Client
+resource "aws_alb_listener_rule" "http_client_rule" {
+  listener_arn = module.alb_client.arn_listener # Replace with your HTTP listener ARN
+  priority     = 100
+
+  action {
+    type             = "forward"
+    target_group_arn = module.target_group_client_blue.arn_tg
+  }
+
+  condition {
+    path_pattern {
+      values = ["/client/*"] # Path pattern for client traffic
+    }
+  }
+}
+
+# HTTP Listener Rule for Server
+resource "aws_alb_listener_rule" "http_server_rule" {
+  listener_arn = module.alb_client.arn_listener # Replace with your HTTP listener ARN
+  priority     = 200
+
+  action {
+    type             = "forward"
+    target_group_arn = module.target_group_server_blue.arn_tg
+  }
+
+  condition {
+    path_pattern {
+      values = ["/server/*"] # Path pattern for server traffic
+    }
+  }
+}
+
+
+
 # ------- CodePipeline -------
 
 # ------- Creating Bucket to store CodePipeline artifacts -------
@@ -451,17 +490,19 @@ module "codebuild_client" {
   container_name         = var.container_name["client"]
   service_port           = var.port_app_client
   ecs_role               = var.iam_role_name["ecs"]
-  server_alb_url         = module.alb_server.dns_alb
-  s3_bucket_build_cache  = module.s3_codebuild_cache.s3_bucket_id
+  # server_alb_url         = module.alb_server.dns_alb
+  server_alb_url        = module.alb_client.dns_alb
+  s3_bucket_build_cache = module.s3_codebuild_cache.s3_bucket_id
 }
 
 # ------- Creating the server CodeDeploy project -------
 module "codedeploy_server" {
-  source          = "./modules/codedeploy"
-  name            = "Deploy-${var.environment_name}-server"
-  ecs_cluster     = module.ecs_cluster.ecs_cluster_name
-  ecs_service     = module.ecs_service_server.ecs_service_name
-  alb_listener    = module.alb_server.arn_listener
+  source      = "./modules/codedeploy"
+  name        = "Deploy-${var.environment_name}-server"
+  ecs_cluster = module.ecs_cluster.ecs_cluster_name
+  ecs_service = module.ecs_service_server.ecs_service_name
+  # alb_listener    = module.alb_server.arn_listener
+  alb_listener    = module.alb_client.arn_listener
   tg_blue         = module.target_group_server_blue.tg_name
   tg_green        = module.target_group_server_green.tg_name
   sns_topic_arn   = module.sns.sns_arn

@@ -10,6 +10,7 @@ output "application_url" {
 # }
 
 output "api_endpoint" {
-  value       = "${module.alb_server.dns_alb}/api"
+  # value       = "${module.alb_server.dns_alb}/api"
+  value       = "${module.alb_client.dns_alb}/api"
   description = "test api_endpoint"
 }
