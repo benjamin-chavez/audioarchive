@@ -377,7 +377,7 @@ resource "aws_alb_listener_rule" "http_client_rule" {
 
   condition {
     path_pattern {
-      values = ["/client/*"] # Path pattern for client traffic
+      values = ["audioarchive.benchavez.xyz"]
     }
   }
 }
@@ -394,7 +394,7 @@ resource "aws_alb_listener_rule" "http_server_rule" {
 
   condition {
     path_pattern {
-      values = ["/server/*"] # Path pattern for server traffic
+      values = ["api.audioarchive.benchavez.xyz"]
     }
   }
 }
