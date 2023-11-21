@@ -7,7 +7,8 @@ if (process.env.NODE_ENV === 'development') {
   // serverUrl = 'server:5000';
 } else {
   console.log('ELSE');
-  serverUrl = '<SERVER_ALB_URL>';
+  // serverUrl = '<SERVER_ALB_URL>';
+  serverUrl = 'api.audioarchive.benchavez.xyz';
 }
 // let serverUrl =
 //   process.env.NODE_ENV === 'development' ? 'server:5000' : '<SERVER_ALB_URL>';
