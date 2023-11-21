@@ -455,9 +455,11 @@ module "policy_devops_role" {
 
 # ------- Creating a SNS topic -------
 module "sns" {
-  source   = "./modules/sns"
-  sns_name = "sns-${var.environment_name}"
+  source              = "./modules/sns"
+  sns_name            = "sns-${var.environment_name}"
+  codedeploy_sns_name = "sns-codedeploy-notifications-${var.environment_name}"
 }
+
 
 # ------- Creating the server CodeBuild project -------
 module "codebuild_server" {

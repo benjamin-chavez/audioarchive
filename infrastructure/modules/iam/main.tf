@@ -107,7 +107,6 @@ resource "aws_iam_role" "codedeploy_role" {
   ]
 }
 EOF
-
 }
 
 # ------- IAM Policies -------
@@ -367,4 +366,34 @@ data "aws_iam_policy_document" "role_policy_ecs_task_role" {
     ]
     resources = ["*"]
   }
+}
+
+
+# TODO: REVIEW
+# IAM Policy for CodeDeploy Logging
+resource "aws_iam_policy" "codedeploy_logging_policy" {
+  name        = "codedeploy-logging-policy"
+  description = "Policy to allow CodeDeploy to log to CloudWatch Logs"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Resource = "arn:aws:logs:*:*:*"
+      }
+    ]
+  })
+}
+
+# TODO: REVIEW
+# Attach the Logging Policy to the CodeDeploy Role
+resource "aws_iam_role_policy_attachment" "codedeploy_logging_attachment" {
+  role       = aws_iam_role.codedeploy_role[0].name
+  policy_arn = aws_iam_policy.codedeploy_logging_policy.arn
 }

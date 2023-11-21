@@ -11,6 +11,7 @@
     "test": "turbo run test",
     "tfi": "cd ./infrastructure && terraform init",
     "tfa": "cd ./infrastructure && terraform apply -var-file=.tfvars",
+    "tfp": "cd ./infrastructure && terraform plan -var-file=.tfvars",
     "tfd": "cd ./infrastructure && terraform destroy -var-file=.tfvars"
   },
   "devDependencies": {

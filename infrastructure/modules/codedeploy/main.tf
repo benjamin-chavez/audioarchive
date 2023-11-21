@@ -74,3 +74,24 @@ resource "aws_codedeploy_deployment_group" "main" {
     ignore_changes = [blue_green_deployment_config]
   }
 }
+
+# ------- CloudWatch Logs groups to store CodeDeploy Logs -------
+resource "aws_cloudwatch_log_group" "codedeploy_log_group" {
+  # name              = "/aws/codedeploy/${var.application_name}"
+  name              = "/aws/codedeploy/${var.name}"
+  retention_in_days = 30
+}
+
+resource "aws_cloudwatch_event_rule" "codedeploy_rule" {
+  name        = "codedeploy-event-rule-${var.name}"
+  description = "Capture CodeDeploy deployment events for ${var.name}"
+  event_pattern = jsonencode({
+    source : ["aws.codedeploy"]
+  })
+}
+
+resource "aws_cloudwatch_event_target" "sns_target" {
+  rule      = aws_cloudwatch_event_rule.codedeploy_rule.name
+  target_id = "SendToSNS"
+  arn       = var.sns_topic_arn
+}
