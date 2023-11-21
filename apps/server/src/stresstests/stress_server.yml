@@ -1,19 +1,40 @@
-
-
+# apps/server/src/stresstests/stress_server.yml
 
 config:
   target: "http://api.audioarchive.benchavez.xyz" # Change me to the right env target
   phases:
     - duration: 100
       arrivalRate: 20
-  http:
-    timeout: 5 # Wait 5 sec before aborting the request
-    pool: 50 # Fixed number of pool connection, to be reused
+      name: original
+    - duration: 60
+      arrivalRate: 1
+      rampTo: 5
+      name: Warm up phase
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 10
+      name: Ramp up load
+    - duration: 30
+      arrivalRate: 10
+      rampTo: 30
+      name: Spike phase
+  # http:
+  #   timeout: 5 # Wait 5 sec before aborting the request
+  #   pool: 50 # Fixed number of pool connection, to be reused
+  plugins:
+    ensure: {}
+    apdex: {}
+    metrics-by-endpoint: {}
+  apdex:
+    threshold: 100
+  ensure:
+      thresholds:
+        - http.response_time.p99: 100
+        - http.response_time.p95: 75
 scenarios:
   - name: "Generating load on the server fleet of tasks"
     flow:
       - loop:
           - get:
-              # url: "/api/getAllProducts" # Change me to "/" if necessary
               url: "/api/health" # Change me to "/" if necessary
-        count: 10
+        count: 100

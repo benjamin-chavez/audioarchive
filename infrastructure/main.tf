@@ -314,7 +314,7 @@ module "ecs_autoscaling_server" {
   name         = "${var.environment_name}-server"
   cluster_name = module.ecs_cluster.ecs_cluster_name
   min_capacity = 1
-  max_capacity = 4
+  max_capacity = 10
 }
 
 # ------- Creating ECS Autoscaling policies for the client application -------
@@ -324,7 +324,7 @@ module "ecs_autoscaling_client" {
   name         = "${var.environment_name}-client"
   cluster_name = module.ecs_cluster.ecs_cluster_name
   min_capacity = 1
-  max_capacity = 4
+  max_capacity = 10
 }
 
 
