@@ -327,43 +327,6 @@ module "ecs_autoscaling_client" {
   max_capacity = 4
 }
 
-# ------- Creating Security Group for the Database -------
-# module "security_group_rds_db" {
-#   source              = "./modules/security-group"
-#   name                = "rds-${var.environment_name}-db"
-#   description         = "Controls access to the RDS Database"
-#   vpc_id              = module.networking.aws_vpc
-#   cidr_blocks_ingress = ["0.0.0.0/0"]
-#   ingress_port        = 5432
-#   security_groups = [
-#     module.security_group_alb_server.sg_id,
-#     module.security_group_alb_client.sg_id,
-#     module.security_group_ecs_task_server.sg_id,
-#     module.security_group_ecs_task_client.sg_id
-#   ]
-# }
-
-# ------- Database Module -------
-# module "psql_rds" {
-#   source                 = "./modules/rds"
-#   create                 = true
-#   identifier             = "audio-archive-psql-db2"
-#   engine_version         = "15.4"
-#   instance_class         = "db.t3.micro"
-#   allocated_storage      = 20
-#   storage_type           = "gp2"
-#   storage_encrypted      = false
-#   kms_key_id             = "your-kms-key-id"
-#   db_name                = "postgres"
-#   password               = var.db_password
-#   vpc_id                 = module.networking.aws_vpc
-#   vpc_security_group_ids = [module.security_group_rds_db.sg_id]
-#   db_subnet_group_name   = module.networking.database_subnet_group_name
-#   parameter_group_name   = "default.postgres15"
-#   publicly_accessible    = true
-#   deletion_protection    = false
-# }
-
 
 # ------- ALB Listener Rules Module -------
 # HTTP Listener Rule for Client
@@ -548,4 +511,42 @@ module "codepipeline" {
 module "s3_assets" {
   source      = "./modules/s3"
   bucket_name = "assets-${var.aws_region}-${random_id.RANDOM_ID.hex}"
+}
+
+
+# ------- Creating Security Group for the Database -------
+module "security_group_rds_db" {
+  source              = "./modules/security-group"
+  name                = "rds-${var.environment_name}-db"
+  description         = "Controls access to the RDS Database"
+  vpc_id              = module.networking.aws_vpc
+  cidr_blocks_ingress = ["0.0.0.0/0"]
+  ingress_port        = 5432
+  security_groups = [
+    module.security_group_alb_server.sg_id,
+    module.security_group_alb_client.sg_id,
+    module.security_group_ecs_task_server.sg_id,
+    module.security_group_ecs_task_client.sg_id
+  ]
+}
+
+# ------- Database Module -------
+module "psql_rds" {
+  source                 = "./modules/rds"
+  create                 = true
+  identifier             = "audio-archive-psql-db2"
+  engine_version         = "15.4"
+  instance_class         = "db.t3.micro"
+  allocated_storage      = 20
+  storage_type           = "gp2"
+  storage_encrypted      = false
+  kms_key_id             = "your-kms-key-id"
+  db_name                = "postgres"
+  password               = var.db_password
+  vpc_id                 = module.networking.aws_vpc
+  vpc_security_group_ids = [module.security_group_rds_db.sg_id]
+  db_subnet_group_name   = module.networking.database_subnet_group_name
+  parameter_group_name   = "default.postgres15"
+  publicly_accessible    = true
+  deletion_protection    = false
 }

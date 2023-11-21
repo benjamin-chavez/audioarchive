@@ -98,10 +98,10 @@ variable "repository_branch" {
 }
 
 
-# variable "db_password" {
-#   description = "The password for the RDS Postgres database instance"
-#   type        = string
-# }
+variable "db_password" {
+  description = "The password for the RDS Postgres database instance"
+  type        = string
+}
 
 
 variable "node_env" {
