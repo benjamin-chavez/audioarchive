@@ -247,7 +247,8 @@ module "security_group_ecs_task_server" {
   vpc_id       = module.networking.aws_vpc
   ingress_port = var.port_app_server
   security_groups = [
-    module.security_group_alb_server.sg_id
+    # module.security_group_alb_server.sg_id
+    module.security_group_alb_client.sg_id
   ]
 }
 
@@ -376,7 +377,7 @@ resource "aws_alb_listener_rule" "http_client_rule" {
   }
 
   condition {
-    path_pattern {
+    host_header {
       values = ["audioarchive.benchavez.xyz"]
     }
   }
@@ -393,7 +394,7 @@ resource "aws_alb_listener_rule" "http_server_rule" {
   }
 
   condition {
-    path_pattern {
+    host_header {
       values = ["api.audioarchive.benchavez.xyz"]
     }
   }
