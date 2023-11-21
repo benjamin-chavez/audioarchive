@@ -187,14 +187,16 @@ module "ecs_role" {
   create_ecs_role    = true
   name               = var.iam_role_name["ecs"]
   name_ecs_task_role = var.iam_role_name["ecs_task_role"]
+  environment_name   = var.environment_name
 }
 
 # ------- Creating a IAM Policy for role -------
 module "ecs_role_policy" {
-  source        = "./modules/iam"
-  name          = "ecs-ecr-${var.environment_name}"
-  create_policy = true
-  attach_to     = module.ecs_role.name_role
+  source           = "./modules/iam"
+  name             = "ecs-ecr-${var.environment_name}"
+  create_policy    = true
+  attach_to        = module.ecs_role.name_role
+  environment_name = var.environment_name
 }
 
 # ------- Creating server ECR Repository to store Docker Images -------
@@ -422,12 +424,14 @@ module "devops_role" {
   source             = "./modules/iam"
   create_devops_role = true
   name               = var.iam_role_name["devops"]
+  environment_name   = var.environment_name
 }
 
 module "codedeploy_role" {
   source                 = "./modules/iam"
   create_codedeploy_role = true
   name                   = var.iam_role_name["codedeploy"]
+  environment_name       = var.environment_name
 }
 
 # ------- Creating an IAM Policy for role -------
@@ -451,6 +455,7 @@ module "policy_devops_role" {
     module.codedeploy_client.application_arn,
     module.codedeploy_client.deployment_group_arn
   ]
+  environment_name = var.environment_name
 }
 
 # ------- Creating a SNS topic -------

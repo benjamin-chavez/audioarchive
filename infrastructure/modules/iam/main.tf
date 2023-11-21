@@ -90,14 +90,13 @@ EOF
 }
 
 resource "aws_iam_role" "codedeploy_role" {
-  count              = var.create_codedeploy_role == true ? 1 : 0
-  name               = var.name
+  name = "codedeploy-role-${var.environment_name}"
+
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "",
       "Effect": "Allow",
       "Principal": {
         "Service": "codedeploy.amazonaws.com"
@@ -108,6 +107,8 @@ resource "aws_iam_role" "codedeploy_role" {
 }
 EOF
 }
+
+
 
 # ------- IAM Policies -------
 resource "aws_iam_policy" "policy_for_role" {
@@ -121,6 +122,7 @@ resource "aws_iam_policy" "policy_for_role" {
   }
 }
 
+
 resource "aws_iam_policy" "policy_for_ecs_task_role" {
   count       = var.create_ecs_role == true ? 1 : 0
   name        = "Policy-${var.name_ecs_task_role}"
@@ -131,6 +133,38 @@ resource "aws_iam_policy" "policy_for_ecs_task_role" {
     create_before_destroy = true
   }
 }
+
+
+resource "aws_iam_policy" "codedeploy_policy" {
+  name        = "codedeploy-policy-${var.environment_name}"
+  description = "IAM policy for AWS CodeDeploy"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      // Add necessary permissions here. Example:
+      {
+        Effect = "Allow",
+        Action = [
+          "ecs:RegisterTaskDefinition",
+          "ecs:DeregisterTaskDefinition",
+          // ... other ECS-related permissions
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:Get*",
+          // ... other S3-related permissions
+        ],
+        Resource = "*"
+      },
+      // ... Add other necessary permissions
+    ]
+  })
+}
+
 
 # ------- IAM Policies Attachments -------
 resource "aws_iam_role_policy_attachment" "ecs_attachment" {
@@ -143,6 +177,7 @@ resource "aws_iam_role_policy_attachment" "ecs_attachment" {
   }
 }
 
+
 resource "aws_iam_role_policy_attachment" "attachment" {
   count      = length(aws_iam_role.ecs_task_excecution_role) > 0 ? 1 : 0
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
@@ -152,6 +187,7 @@ resource "aws_iam_role_policy_attachment" "attachment" {
     create_before_destroy = true
   }
 }
+
 
 resource "aws_iam_role_policy_attachment" "attachment2" {
   count      = var.create_devops_policy == true ? 1 : 0
@@ -163,11 +199,19 @@ resource "aws_iam_role_policy_attachment" "attachment2" {
   }
 }
 
+
+resource "aws_iam_role_policy_attachment" "codedeploy_policy_attach" {
+  role       = aws_iam_role.codedeploy_role.name
+  policy_arn = aws_iam_policy.codedeploy_policy.arn
+}
+
+
 resource "aws_iam_role_policy_attachment" "codedeploy_attachment" {
   count      = var.create_codedeploy_role == true ? 1 : 0
   policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployRoleForECS"
   role       = aws_iam_role.codedeploy_role[0].name
 }
+
 
 # ------- IAM Policy Documents -------
 data "aws_iam_policy_document" "role_policy_devops_role" {
@@ -366,34 +410,4 @@ data "aws_iam_policy_document" "role_policy_ecs_task_role" {
     ]
     resources = ["*"]
   }
-}
-
-
-# TODO: REVIEW
-# IAM Policy for CodeDeploy Logging
-resource "aws_iam_policy" "codedeploy_logging_policy" {
-  name        = "codedeploy-logging-policy"
-  description = "Policy to allow CodeDeploy to log to CloudWatch Logs"
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Action = [
-          "logs:CreateLogGroup",
-          "logs:CreateLogStream",
-          "logs:PutLogEvents"
-        ],
-        Resource = "arn:aws:logs:*:*:*"
-      }
-    ]
-  })
-}
-
-# TODO: REVIEW
-# Attach the Logging Policy to the CodeDeploy Role
-resource "aws_iam_role_policy_attachment" "codedeploy_logging_attachment" {
-  role       = aws_iam_role.codedeploy_role[0].name
-  policy_arn = aws_iam_policy.codedeploy_logging_policy.arn
 }

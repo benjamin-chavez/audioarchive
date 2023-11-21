@@ -68,3 +68,10 @@ variable "s3_bucket_assets" {
   type        = list(string)
   default     = ["*"]
 }
+
+
+
+variable "environment_name" {
+  description = "The name of your environment"
+  type        = string
+}
