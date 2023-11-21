@@ -54,7 +54,6 @@ resource "aws_subnet" "private_subnets_server" {
   }
 }
 
-
 resource "aws_db_subnet_group" "database_subnet_group" {
   name       = "database-subnet-group2-${var.name}"
   subnet_ids = aws_subnet.private_subnets_server.*.id
@@ -63,7 +62,6 @@ resource "aws_db_subnet_group" "database_subnet_group" {
     Name = "database-subnet-group-${var.name}"
   }
 }
-
 
 # ------- Internet Gateway -------
 resource "aws_internet_gateway" "igw" {

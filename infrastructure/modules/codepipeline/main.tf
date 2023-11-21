@@ -33,26 +33,9 @@ resource "aws_codepipeline" "aws_codepipeline" {
     }
   }
 
-  # stage {
-  #   name = "BuildServer"
-
-  #   action {
-  #     name             = "Build_server"
-  #     category         = "Build"
-  #     owner            = "AWS"
-  #     provider         = "CodeBuild"
-  #     version          = "1"
-  #     input_artifacts  = ["SourceArtifact"]
-  #     output_artifacts = ["BuildArtifact_server"]
-  #     configuration = {
-  #       ProjectName = var.codebuild_project_server
-  #     }
-  #   }
-  # }
 
   stage {
     name = "Build"
-    # name = "BuildClient"
 
     action {
       name             = "Build_server"
