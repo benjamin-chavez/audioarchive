@@ -154,6 +154,7 @@ module "alb_client" {
 #   id = "Z03559123CZF1EZ8Q3C7O_audioarchive.benchavez.xyz_A"
 # }
 
+# ------- Creating Route 53 Subdomains -------
 resource "aws_route53_record" "subdomain_a_record" {
   zone_id = "Z03559123CZF1EZ8Q3C7O"
   name    = "audioarchive.benchavez.xyz"
@@ -166,6 +167,19 @@ resource "aws_route53_record" "subdomain_a_record" {
     evaluate_target_health = true
   }
 }
+
+# resource "aws_route53_record" "subdomain_a_record" {
+#   zone_id = "Z03559123CZF1EZ8Q3C7O"
+#   name    = "api.audioarchive.benchavez.xyz"
+#   type    = "A"
+
+#   alias {
+#     name    = module.alb_client.dns_alb
+#     zone_id = module.alb_client.alb_zone_id
+
+#     evaluate_target_health = true
+#   }
+# }
 
 # ------- ECS Role -------
 module "ecs_role" {

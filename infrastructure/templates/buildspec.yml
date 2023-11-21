@@ -18,9 +18,6 @@ phases:
       - |
         if expr "${FOLDER_PATH}" : ".*client*" ; then
           echo "Client build, embedding frontend layer file with ALB backend DNS"
-          echo "test"
-          echo $SERVER_ALB_URL
-          echo "${FOLDER_PATH}"
           sed -i "s|<SERVER_ALB_URL>|$SERVER_ALB_URL|g" ./apps/client/next.config.js
         else
           echo "Server build, adding ECS Task Role to the task definition file"

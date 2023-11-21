@@ -54,7 +54,7 @@ resource "aws_subnet" "private_subnets_server" {
   }
 }
 
-# TODO: I think you can delete this
+
 resource "aws_db_subnet_group" "database_subnet_group" {
   name       = "database-subnet-group2-${var.name}"
   subnet_ids = aws_subnet.private_subnets_server.*.id
@@ -89,49 +89,49 @@ resource "aws_default_route_table" "rt_public" {
 }
 
 # ------- Create EIP -------
-resource "aws_eip" "eip" {
-  vpc = true
-  tags = {
-    Name = "eip-${var.name}"
-  }
-}
+# resource "aws_eip" "eip" {
+#   vpc = true
+#   tags = {
+#     Name = "eip-${var.name}"
+#   }
+# }
 
 # ------- Attach EIP to Nat Gateway -------
-resource "aws_nat_gateway" "natgw" {
-  allocation_id = aws_eip.eip.id
-  subnet_id     = aws_subnet.public_subnets[0].id
-  tags = {
-    Name = "nat_${var.name}"
-  }
-}
+# resource "aws_nat_gateway" "natgw" {
+#   allocation_id = aws_eip.eip.id
+#   subnet_id     = aws_subnet.public_subnets[0].id
+#   tags = {
+#     Name = "nat_${var.name}"
+#   }
+# }
 
-# ------- Create Private Route Private Table -------
-resource "aws_route_table" "rt_private" {
-  vpc_id = aws_vpc.aws_vpc.id
+# # ------- Create Private Route Private Table -------
+# resource "aws_route_table" "rt_private" {
+#   vpc_id = aws_vpc.aws_vpc.id
 
-  # ------- Internet Route -------
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_nat_gateway.natgw.id
-  }
+#   # ------- Internet Route -------
+#   route {
+#     cidr_block = "0.0.0.0/0"
+#     gateway_id = aws_nat_gateway.natgw.id
+#   }
 
-  tags = {
-    Name = "private_rt_${var.name}"
-  }
-}
+#   tags = {
+#     Name = "private_rt_${var.name}"
+#   }
+# }
 
 # ------- Private Subnets Association -------
-resource "aws_route_table_association" "rt_assoc_priv_subnets_client" {
-  count          = 2
-  subnet_id      = aws_subnet.private_subnets_client[count.index].id
-  route_table_id = aws_route_table.rt_private.id
-}
+# resource "aws_route_table_association" "rt_assoc_priv_subnets_client" {
+#   count          = 2
+#   subnet_id      = aws_subnet.private_subnets_client[count.index].id
+#   route_table_id = aws_route_table.rt_private.id
+# }
 
-resource "aws_route_table_association" "rt_assoc_priv_subnets_server" {
-  count          = 2
-  subnet_id      = aws_subnet.private_subnets_server[count.index].id
-  route_table_id = aws_route_table.rt_private.id
-}
+# resource "aws_route_table_association" "rt_assoc_priv_subnets_server" {
+#   count          = 2
+#   subnet_id      = aws_subnet.private_subnets_server[count.index].id
+#   route_table_id = aws_route_table.rt_private.id
+# }
 
 # ------- Public Subnets Association -------
 resource "aws_route_table_association" "rt_assoc_pub_subnets" {
