@@ -7,3 +7,9 @@ repository_name  = ""
 repository_owner = ""
 
 # db_password      = ""
+
+
+## EC2 Bastion Host Variables
+ec2-bastion-public-key-path = ""
+ec2-bastion-private-key-path = ""
+ec2-bastion-ingress-ip-1 = ""

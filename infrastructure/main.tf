@@ -18,6 +18,8 @@ provider "aws" {
   # }
 }
 
+
+
 # ------- Random numbers intended to be used as unique identifiers for resources -------
 resource "random_id" "RANDOM_ID" {
   byte_length = "2"
@@ -551,3 +553,64 @@ module "psql_rds" {
   publicly_accessible    = true
   deletion_protection    = false
 }
+
+
+
+# ------- Creating Security Group for the Bastion Host -------
+# module "security_group_bastion" {
+#   source              = "./modules/security-group"
+#   name                = "bastion-sg${var.environment_name}"
+#   description         = "Controls access to the Bastion Host"
+#   vpc_id              = module.networking.aws_vpc
+#   cidr_blocks_ingress = ["0.0.0.0/0"]
+#   ingress_port        = 22
+#   egress_port         = 0
+
+#   count = var.include_bastion_host ? 1 : 0
+# }
+
+
+# # ------- Creating Security Group from RDS to the Bastion Host -------
+# module "security_group_bastion_to_rds" {
+#   source              = "./modules/security-group"
+#   name                = "bastion-to-rds-${var.environment_name}"
+#   description         = "Controls access to the Bastion Host"
+#   vpc_id              = module.networking.aws_vpc
+#   cidr_blocks_ingress = ["0.0.0.0/0"]
+#   ingress_port        = 5432
+#   egress_port         = 5432
+#   security_groups = [
+#     module.security_group_bastion.sg_id
+#   ]
+
+
+#   count = var.include_bastion_host ? 1 : 0
+# }
+
+
+# ------- Bastion Host Module -------
+module "bastion_host" {
+  source                       = "./modules/bastion-host"
+  ec2-bastion-public-key-path  = "./aws-key/aws-terraform-key.pem"
+  ec2-bastion-private-key-path = "./aws-key/aws-terraform-key.pem"
+  ec2-bastion-ingress-ip-1     = ""
+  vpc_id                       = module.networking.aws_vpc
+  public_subnet_id             = module.networking.public_subnets[0]
+
+
+  # count = var.include_bastion_host ? 1 : 0
+}
+
+# module "bastion_host" {
+#   source = "./modules/bastion-auto"
+
+#   count            = var.include_bastion_host ? 1 : 0
+#   vpc_id           = module.networking.aws_vpc
+#   public_subnet_id = module.networking.public_subnets[0]
+#   depends_on = [
+#     # module.ec2_bastion_instance,
+#     module.networking.aws_vpc
+#   ]
+
+#   # count = var.include_bastion_host ? 1 : 0
+# }

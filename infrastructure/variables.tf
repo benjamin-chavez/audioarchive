@@ -109,3 +109,17 @@ variable "node_env" {
   type        = string
   default     = "production"
 }
+
+variable "include_bastion_host" {
+  description = "Boolean dictating the creation of a boolean host"
+  type        = bool
+  default     = false
+}
+
+
+variable "remote_ip" {
+  description = "The IP address of the computer that will SSH into the Bastion Host"
+  type        = string
+}
+
+
