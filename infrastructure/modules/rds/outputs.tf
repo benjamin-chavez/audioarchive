@@ -17,7 +17,7 @@ output "rds_instance_port" {
 
 output "database_name" {
   description = "The database name of the RDS instance."
-  value       = aws_db_instance.psql_rds[0].name
+  value       = aws_db_instance.psql_rds[0].db_name
 }
 
 output "database_username" {

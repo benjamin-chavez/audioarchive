@@ -10,7 +10,9 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "tfi": "cd ./infrastructure && terraform init",
+    "tfp": "cd ./infrastructure && terraform plan -var-file=.tfvars",
     "tfa": "cd ./infrastructure && terraform apply -var-file=.tfvars",
+    "tfr": "cd ./infrastructure && terraform refresh -var-file=.tfvars",
     "tfd": "cd ./infrastructure && terraform destroy -var-file=.tfvars"
   },
   "devDependencies": {

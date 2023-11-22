@@ -19,6 +19,8 @@ dist/
 # misc
 .DS_Store
 *.pem
+**/ec2-bastion-key-pair
+**/ec2-bastion-key-pair.*
 
 # debug
 npm-debug.log*

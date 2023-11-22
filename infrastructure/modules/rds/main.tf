@@ -7,7 +7,7 @@
 resource "aws_db_instance" "psql_rds" {
   count = var.create ? 1 : 0
 
-  name              = var.db_name
+  db_name           = var.db_name
   engine            = "postgres"
   engine_version    = var.engine_version
   instance_class    = var.instance_class
