@@ -4,6 +4,7 @@ import express, { Router } from 'express';
 import asyncHandler from 'express-async-handler';
 import listEndpoints from 'express-list-endpoints';
 import { app } from '../app';
+import knex from '../config/database';
 
 // import S3Service from '../services/s3.service';
 // import appUserRoutes from './app-user.routes';
@@ -49,5 +50,20 @@ router.get('/routes', (req, res) => {
 //   // captureRawBody,
 //   webhookRoutes
 // );
+
+router.use(
+  '/app-users',
+  asyncHandler(async (req, res) => {
+    const appUsers = await knex('appUsers').select('*');
+
+    if (!appUsers.length) {
+      throw new Error('No app users found');
+    }
+
+    res
+      .status(200)
+      .json({ data: appUsers, message: 'AppUsers retrieved succesfully' });
+  })
+);
 
 export default router;

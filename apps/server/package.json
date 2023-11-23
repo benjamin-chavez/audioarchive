@@ -6,9 +6,11 @@
     "build": "tsc",
     "clean": "rm -rf dist",
     "dev": "nodemon --exec \"node -r esbuild-register ./src/server.ts\" -e .ts",
+    "dev:clean": "(dropdb audio_archive_development || true) && createdb audio_archive_development && knex migrate:latest && knex seed:run && NODE_ENV=development pnpm dev",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\"",
     "start": "node -r esbuild-register ./src/server.ts",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "db:migrate": "knex migrate:latest && node ./update-types"
   },
   "jest": {
     "preset": "jest-presets/jest/node"
@@ -20,7 +22,9 @@
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
     "express-list-endpoints": "^6.0.0",
+    "knex": "^3.0.1",
     "logger": "workspace:*",
+    "@shared": "workspace:*",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
@@ -38,6 +42,7 @@
     "eslint-config-custom-server": "workspace:*",
     "jest": "^29.7.0",
     "jest-presets": "workspace:*",
+    "knex-types": "^0.5.0",
     "nodemon": "^3.0.1",
     "supertest": "^6.3.3",
     "tsconfig": "workspace:*",
