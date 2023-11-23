@@ -21,6 +21,7 @@ dist/
 *.pem
 **/ec2-bastion-key-pair
 **/ec2-bastion-key-pair.*
+trash/
 
 # debug
 npm-debug.log*

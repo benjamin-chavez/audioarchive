@@ -98,14 +98,35 @@ variable "repository_branch" {
 }
 
 
+variable "node_env" {
+  description = "The environment to set for the Node.js application"
+  type        = string
+  default     = "production"
+}
+
+variable "create_bastion_host" {
+  description = "The environment to set for the Node.js application"
+  type        = bool
+  default     = false
+}
+
+variable "db_user" {
+  description = "The username for the RDS Postgres database instance"
+  type        = string
+}
+
 variable "db_password" {
   description = "The password for the RDS Postgres database instance"
   type        = string
 }
 
-
-variable "node_env" {
-  description = "The environment to set for the Node.js application"
+variable "db_password0" {
+  description = "The secondary password for the RDS Postgres database instance"
   type        = string
-  default     = "production"
+  sensitive   = true
+}
+
+variable "aws_key_path" {
+  description = "The file path to the AWS key (pem file) used for SSH access"
+  type        = string
 }

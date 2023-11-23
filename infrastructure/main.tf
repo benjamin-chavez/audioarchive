@@ -513,6 +513,70 @@ module "s3_assets" {
   bucket_name = "assets-${var.aws_region}-${random_id.RANDOM_ID.hex}"
 }
 
+# ------- Creating Security Group for EC2 Bastion Host -------
+resource "aws_security_group" "security_group_ec2_bastion" {
+  name        = "security_group_bastion_host"
+  description = "Controls access to the EC2 Bastion Host"
+  vpc_id      = module.networking.aws_vpc
+
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # ingress {
+  #   from_port   = 443
+  #   to_port     = 443
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  count = var.create_bastion_host ? 1 : 0
+}
+
+# ------- Creating EC2 Bastion Host -------
+resource "aws_instance" "ec2-bastion-host" {
+  ami                    = "ami-0e83be366243f524a"
+  instance_type          = "t2.micro"
+  key_name               = "us-east-2-key"
+  subnet_id              = module.networking.public_subnets[0]
+  vpc_security_group_ids = [aws_security_group.security_group_ec2_bastion[0].id]
+
+  associate_public_ip_address = true
+  # metadata_options {
+  #   http_endpoint               = "enabled"
+  #   http_put_response_hop_limit = 1
+  #   http_tokens                 = "required"
+  # }
+
+
+  depends_on = [
+    module.networking.public_subnets,
+    aws_security_group.security_group_ec2_bastion
+  ]
+  tags = {
+    Name = "ec2-bastion-${var.environment_name}"
+  }
+
+  count = var.create_bastion_host ? 1 : 0
+}
+
 
 # ------- Creating Security Group for the Database -------
 module "security_group_rds_db" {
@@ -522,18 +586,21 @@ module "security_group_rds_db" {
   vpc_id              = module.networking.aws_vpc
   cidr_blocks_ingress = ["0.0.0.0/0"]
   ingress_port        = 5432
-  security_groups = [
+
+  security_groups = concat([
     module.security_group_alb_server.sg_id,
     module.security_group_alb_client.sg_id,
     module.security_group_ecs_task_server.sg_id,
     module.security_group_ecs_task_client.sg_id
-  ]
+  ], var.create_bastion_host ? [aws_security_group.security_group_ec2_bastion[0].id] : [])
+
 }
+
 
 # ------- Database Module -------
 module "psql_rds" {
-  source                 = "./modules/rds"
-  depends_on             = [module.security_group_rds_db, module.networking]
+  source = "./modules/rds"
+
   create                 = true
   identifier             = "audio-archive-psql-db2"
   engine_version         = "15.4"
@@ -550,4 +617,10 @@ module "psql_rds" {
   parameter_group_name   = "default.postgres15"
   publicly_accessible    = true
   deletion_protection    = false
+
+  depends_on = [
+    # module.networking.aws_vpc,
+    module.security_group_rds_db,
+    module.networking.database_subnet_group_name,
+  ]
 }
