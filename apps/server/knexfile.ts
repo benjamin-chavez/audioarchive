@@ -98,9 +98,11 @@ const test = {
 const production = {
   client: 'postgresql',
   connection: {
-    database: 'audio_archive_production',
+    host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
+    database: 'postgres',
     user: 'postgres',
     password: 'postgres-secret',
+    port: 5432,
   },
   pool: {
     min: 2,
