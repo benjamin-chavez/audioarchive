@@ -586,6 +586,7 @@ module "security_group_rds_db" {
     module.security_group_ecs_task_server.sg_id,
     module.security_group_ecs_task_client.sg_id,
     aws_security_group.security_group_ec2_bastion.id
+  ])
   # ], var.create_bastion_host ? [aws_security_group.security_group_ec2_bastion.id] : [])
   # ], var.create_bastion_host ? [aws_security_group.security_group_ec2_bastion[0].id] : [])
 }
