@@ -28,21 +28,17 @@ output "rds_endpoint" {
 
 output "ssh_tunnel_command" {
   description = "Use this command to set up an SSH tunnel for secure connections."
-  value       = "ssh -L 5432:${module.psql_rds.rds_endpoint}:5432 ubuntu@${aws_instance.ec2-bastion-host[0].public_dns} -i ${var.aws_key_path}"
-
-  sensitive = true
+  value       = var.create_bastion_host ? "ssh -L 5432:${module.psql_rds.rds_endpoint} ubuntu@${aws_instance.ec2-bastion-host[0].public_dns} -i ${var.aws_key_path}" : ""
 }
 
 output "ssh_ec2_connect_command" {
-  value       = "ssh -i \"${var.aws_key_path}\" ubuntu@${aws_instance.ec2-bastion-host[0].public_dns}"
+  value       = var.create_bastion_host ? "ssh -i \"${var.aws_key_path}\" ubuntu@${aws_instance.ec2-bastion-host[0].public_dns}" : ""
   description = "Use this command to connect to the EC2 Instance."
-
-  sensitive = true
 }
 
-output "psql_connect_command" {
-  value       = "psql -h ${module.psql_rds.rds_endpoint} -U ${var.db_user} -d ${var.db_password0}"
-  description = "Use this command to connect to the RDS Database."
+# output "psql_connect_command" {
+#   value       = "psql -h ${module.psql_rds.rds_endpoint} -U ${var.db_user} -d ${var.db_password0}"
+#   description = "Use this command to connect to the RDS Database."
 
-  sensitive = true
-}
+#   sensitive = false
+# }
