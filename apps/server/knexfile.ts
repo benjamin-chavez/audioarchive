@@ -100,7 +100,7 @@ const production = {
   connection: {
     database: 'audio_archive_production',
     user: 'postgres',
-    password: 'postgres',
+    password: 'postgres-secret',
   },
   pool: {
     min: 2,
