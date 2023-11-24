@@ -24,14 +24,22 @@ const convertSnakeCaseToCamelCase = (obj: any): any => {
 
 const development = {
   client: 'postgresql',
+  // connection: {
+  //   // database: process.env.DEV_DB_DATABASE,
+  //   database: 'audio_archive_development',
+  //   // user: process.env.DEV_DB_USER,
+  //   // user: 'benchavez',
+  //   user: 'postgres',
+  //   // password: process.env.DEV_DB_PASSWORD,
+  //   password: 'postgres-secret',
+  // },
   connection: {
-    // database: process.env.DEV_DB_DATABASE,
-    database: 'audio_archive_development',
-    // user: process.env.DEV_DB_USER,
-    // user: 'benchavez',
+    host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
+    database: 'postgres',
     user: 'postgres',
-    // password: process.env.DEV_DB_PASSWORD,
     password: 'postgres-secret',
+    port: 5432,
+    ssl: { rejectUnauthorized: false },
   },
   pool: {
     min: 2,
@@ -103,6 +111,7 @@ const production = {
     user: 'postgres',
     password: 'postgres-secret',
     port: 5432,
+    ssl: { rejectUnauthorized: false },
   },
   pool: {
     min: 2,
@@ -129,7 +138,7 @@ const production = {
 
 const knexConfig = {
   development,
-  test,
+  // test,
   production,
 };
 
