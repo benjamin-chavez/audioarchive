@@ -34,12 +34,15 @@ const development = {
   //   password: 'postgres-secret',
   // },
   connection: {
-    host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
-    database: 'postgres',
+    // host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.
+    // com',
+    host: 'localhost',
+    database: 'audio_archive_development',
     user: 'postgres',
-    password: 'postgres-secret',
+    // password: 'postgres-secret',
+    password: 'postgres',
     port: 5432,
-    ssl: { rejectUnauthorized: false },
+    // ssl: { rejectUnauthorized: false },
   },
   pool: {
     min: 2,
@@ -69,12 +72,15 @@ const development = {
   },
 };
 
-// const test = {
+// const production = {
 //   client: 'postgresql',
 //   connection: {
-//     database: process.env.TEST_DB_DATABASE,
-//     user: process.env.TEST_DB_USER,
-//     password: process.env.TEST_DB_PASSWORD,
+//     host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
+//     database: 'postgres',
+//     user: 'postgres',
+//     password: 'postgres-secret',
+//     port: 5432,
+//     ssl: { rejectUnauthorized: false },
 //   },
 //   pool: {
 //     min: 2,
@@ -85,7 +91,7 @@ const development = {
 //     directory: './src/database/migrations',
 //   },
 //   seeds: {
-//     directory: 'src/database/seeds/test',
+//     directory: './src/database/seeds/development',
 //   },
 //   postProcessResponse: (result) => {
 //     if (Array.isArray(result)) {
@@ -94,52 +100,15 @@ const development = {
 //       return convertSnakeCaseToCamelCase(result);
 //     }
 //   },
-//   wrapIdentifier: (
-//     value,
-//     origImpl
-//     // queryContext,
-//   ) => {
+//   wrapIdentifier: (value, origImpl) => {
 //     return origImpl(convertCamelCaseToSnakeCase(value));
 //   },
 // };
 
-const production = {
-  client: 'postgresql',
-  connection: {
-    host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
-    database: 'postgres',
-    user: 'postgres',
-    password: 'postgres-secret',
-    port: 5432,
-    ssl: { rejectUnauthorized: false },
-  },
-  pool: {
-    min: 2,
-    max: 10,
-  },
-  migrations: {
-    tableName: 'knex_migrations',
-    directory: './src/database/migrations',
-  },
-  seeds: {
-    directory: './src/database/seeds/development',
-  },
-  postProcessResponse: (result) => {
-    if (Array.isArray(result)) {
-      return result.map((row) => convertSnakeCaseToCamelCase(row));
-    } else {
-      return convertSnakeCaseToCamelCase(result);
-    }
-  },
-  wrapIdentifier: (value, origImpl) => {
-    return origImpl(convertCamelCaseToSnakeCase(value));
-  },
-};
-
 const knexConfig = {
   development,
   // test,
-  production,
+  // production,
 };
 
 export default knexConfig;
