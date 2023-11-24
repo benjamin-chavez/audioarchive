@@ -72,38 +72,38 @@ const development = {
   },
 };
 
-// const production = {
-//   client: 'postgresql',
-//   connection: {
-//     host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
-//     database: 'postgres',
-//     user: 'postgres',
-//     password: 'postgres-secret',
-//     port: 5432,
-//     ssl: { rejectUnauthorized: false },
-//   },
-//   pool: {
-//     min: 2,
-//     max: 10,
-//   },
-//   migrations: {
-//     tableName: 'knex_migrations',
-//     directory: './src/database/migrations',
-//   },
-//   seeds: {
-//     directory: './src/database/seeds/development',
-//   },
-//   postProcessResponse: (result) => {
-//     if (Array.isArray(result)) {
-//       return result.map((row) => convertSnakeCaseToCamelCase(row));
-//     } else {
-//       return convertSnakeCaseToCamelCase(result);
-//     }
-//   },
-//   wrapIdentifier: (value, origImpl) => {
-//     return origImpl(convertCamelCaseToSnakeCase(value));
-//   },
-// };
+const production = {
+  client: 'postgresql',
+  connection: {
+    host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
+    database: 'postgres',
+    user: 'postgres',
+    password: 'postgres-secret',
+    port: 5432,
+    ssl: { rejectUnauthorized: false },
+  },
+  pool: {
+    min: 2,
+    max: 10,
+  },
+  migrations: {
+    tableName: 'knex_migrations',
+    directory: './src/database/migrations',
+  },
+  seeds: {
+    directory: './src/database/seeds/development',
+  },
+  postProcessResponse: (result) => {
+    if (Array.isArray(result)) {
+      return result.map((row) => convertSnakeCaseToCamelCase(row));
+    } else {
+      return convertSnakeCaseToCamelCase(result);
+    }
+  },
+  wrapIdentifier: (value, origImpl) => {
+    return origImpl(convertCamelCaseToSnakeCase(value));
+  },
+};
 
 const knexConfig = {
   development,
