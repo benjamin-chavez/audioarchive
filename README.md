@@ -60,3 +60,6 @@ This Turborepo has some additional tools already setup for you:
 - [Prettier](https://prettier.io) for code formatting
 
 -auto-approve
+
+https://stackoverflow.com/questions/76899023/rds-while-connection-error-no-pg-hba-conf-entry-for-host
+fully-working-ecs/FINAL WITH ALL ROUTING/express-api/knexfile.ts
