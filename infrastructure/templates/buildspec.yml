@@ -10,6 +10,10 @@ cache:
 phases:
   install:
     commands:
+      - echo Checking npm version...
+      - npm -v
+      - echo Updating npm to the latest version...
+      - npm install -g npm@latest
       - echo Installing source NPM dependencies...
       - npm install
   pre_build:
@@ -26,6 +30,7 @@ phases:
         else
           echo "Server build, adding ECS Task Role to the task definition file"
           sed -i "3i\"taskRoleArn\": \"arn:aws:iam::<AWS_ACCOUNT_ID>:role/<ECS_TASK_ROLE>\"," ./infrastructure/templates/taskdef.json
+
         fi
 
   build:
