@@ -34,15 +34,12 @@ const development = {
   //   password: 'postgres-secret',
   // },
   connection: {
-    // host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.
-    // com',
-    host: 'localhost',
-    database: 'audio_archive_development',
+    host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
+    database: 'postgres',
     user: 'postgres',
-    // password: 'postgres-secret',
-    password: 'postgres',
+    password: 'postgres-secret',
     port: 5432,
-    // ssl: { rejectUnauthorized: false },
+    ssl: { rejectUnauthorized: false },
   },
   pool: {
     min: 2,
