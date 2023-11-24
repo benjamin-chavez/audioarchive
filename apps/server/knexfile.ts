@@ -108,7 +108,7 @@ const production = {
 const knexConfig = {
   development,
   // test,
-  // production,
+  production,
 };
 
 export default knexConfig;
