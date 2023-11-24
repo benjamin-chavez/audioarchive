@@ -145,4 +145,4 @@ ENV NODE_ENV=production
 
 EXPOSE 5000
 
-CMD node apps/server/dist/server.js
+CMD node apps/server/dist/src/server.js
