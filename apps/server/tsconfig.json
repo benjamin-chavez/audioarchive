@@ -3,7 +3,7 @@
     "lib": ["ES2015"],
     "module": "CommonJS",
     "outDir": "./dist",
-    "rootDir": ".",
+    "rootDir": "./src",
     "strict": false
   },
   "exclude": ["node_modules"],

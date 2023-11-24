@@ -2,7 +2,7 @@
 
 import 'dotenv/config';
 import knexConstructor from 'knex';
-import knexConfig from '../../knexfile';
+import knexConfig from '../knexfile';
 // import updateTypes from 'knex-types';
 
 const environment = process.env.NODE_ENV || 'development';
