@@ -36,6 +36,11 @@ phases:
       - echo Pushing the Docker image...
       - echo $REPO_URL:$IMAGE_TAG
       - docker push $REPO_URL:$IMAGE_TAG
+      - echo Running database migrations...
+      - cd apps/server
+      - knex migrate:up
+      - cd ../..
+      - echo Database migration completed
       - echo Changing directory to templates directory
       - |
         cd ./infrastructure/templates
