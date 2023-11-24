@@ -12,13 +12,13 @@ phases:
     commands:
       - wget -qO- https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/10.1.0/flyway-commandline-10.1.0-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-10.1.0/flyway /usr/local/bin
       - wget -qO- https://get.pnpm.io/install.sh | sh -
-      - pnpm install knex
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
       - echo Pulling latest image for caching...
       - docker pull $REPO_URL:latest || true
+      - flyway -configFiles=./flyway.toml -environment=flyway migrate
       - echo Checking for build type...
       - |
         if expr "${FOLDER_PATH}" : ".*client*" ; then
