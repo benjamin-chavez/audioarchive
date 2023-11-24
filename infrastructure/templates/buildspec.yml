@@ -8,6 +8,10 @@ cache:
     - '/var/lib/docker/cache'
 
 phases:
+  install:
+    commands:
+      - echo Installing source NPM dependencies...
+      - npm install
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
