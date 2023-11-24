@@ -1,9 +1,11 @@
+// apps/server/tsconfig.json
+
 {
   "compilerOptions": {
     "lib": ["ES2015"],
     "module": "CommonJS",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "strict": false
   },
   "exclude": ["node_modules"],
