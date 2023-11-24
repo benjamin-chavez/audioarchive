@@ -1,17 +1,20 @@
 const path = require('path');
 let serverUrl;
 
-if (process.env.NODE_ENV === 'development') {
+if (
+  process.env.NODE_ENV === 'development' &&
+  process.env.DOCKER_ENV &&
+  process.env.DOCKER_ENV === 'true'
+) {
+  console.log('DOCKER+DEVELOPMENT');
+  serverUrl = 'server:5000';
+} else if (process.env.NODE_ENV === 'development') {
   console.log('DEVELOPMENT');
   serverUrl = 'localhost:5000';
-  // serverUrl = 'server:5000';
 } else {
   console.log('ELSE');
-  // serverUrl = '<SERVER_ALB_URL>';
   serverUrl = 'api.audioarchive.benchavez.xyz';
 }
-// let serverUrl =
-//   process.env.NODE_ENV === 'development' ? 'server:5000' : '<SERVER_ALB_URL>';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -30,13 +33,7 @@ const nextConfig = {
       },
       {
         source: '/api/:path*',
-        // destination: 'http://localhost:5000/api/:path*',
-        // destination: 'http://server:5000/api/:path*',
-        // destination: 'http://server:5000/api/:path*',
         destination: `http://${serverUrl}/api/:path*`,
-
-        // destination:
-        //   'http://alb-developmentenv-ser-151200939.us-east-2.elb.amazonaws.com/api/:path*',
       },
     ];
   },

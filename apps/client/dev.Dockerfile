@@ -81,5 +81,7 @@ WORKDIR /app
 COPY --from=installer /app .
 
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=development
+ENV DOCKER_ENV=true
 
 EXPOSE 3000

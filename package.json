@@ -6,6 +6,7 @@
     "build": "turbo run build",
     "clean": "turbo run clean",
     "dev": "turbo run dev",
+    "dev:clean": "turbo dev:clean",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "test": "turbo run test",
@@ -19,7 +20,7 @@
     "esbuild-register": "^3.5.0",
     "eslint-config-custom": "workspace:*",
     "prettier": "^3.1.0",
-    "turbo": "^1.10.16"
+    "turbo": "1.8.3"
   },
   "engines": {
     "node": ">=14.0.0",

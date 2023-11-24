@@ -53,7 +53,6 @@ export async function seed(knex: Knex): Promise<void> {
   ]);
 }
 
-
 // INSERT INTO app_users (authId, firstName, lastName, username, email, created_at, updated_at) VALUES
 //     ('google-oauth2|100469702973978516051', 'Ben', 'Chavez', 'benjamin-chavez', 'ben.m.chavez@gmail.com', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 //     ('auth0|650caf196371a502e0233912', 'Amin', 'Chavez', 'amin-chavez', 'aminchavez.music@gmail.com', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),

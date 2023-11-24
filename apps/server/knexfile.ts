@@ -34,12 +34,12 @@ const development = {
   //   password: 'postgres-secret',
   // },
   connection: {
-    host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
+    host: 'localhost',
     database: 'postgres',
     user: 'postgres',
-    password: 'postgres-secret',
+    password: 'postgres',
     port: 5432,
-    ssl: { rejectUnauthorized: false },
+    // ssl: { rejectUnauthorized: false },
   },
   pool: {
     min: 2,
@@ -104,7 +104,6 @@ const production = {
 
 const knexConfig = {
   development,
-  // test,
   production,
 };
 

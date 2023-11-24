@@ -12,6 +12,7 @@
     "build": "tsc",
     "clean": "rm -rf dist",
     "dev": "tsc -w",
+    "dev:clean": "tsc -w",
     "lint": "eslint \"src/**/*.ts*\"",
     "test": "jest"
   },
