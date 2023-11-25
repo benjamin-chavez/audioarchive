@@ -5,6 +5,12 @@ locations = ["filesystem:./database/migrations"]
 
 [environments.flyway]
 # url = "jdbc:postgresql://localhost/flyway_db"
-url = "jdbc:postgresql://audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com:5432/postgres?sslmode=prefer"
-user = "postgres"
-password = "postgres-secret"
+# url = "jdbc:postgresql://audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com:5432/postgres?sslmode=prefer"
+# user = "postgres"
+# password = "postgres-secret"
+
+flyway.url="jdbc:postgresql://audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com:5432/postgres"
+flyway.user="postgres"
+flyway.password="postgres-secret"
+# Additional Flyway configurations can be added as needed
+# flyway.url="jdbc:postgresql://audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com:5432/postgres?ssl=true&sslmode=verify-full"
