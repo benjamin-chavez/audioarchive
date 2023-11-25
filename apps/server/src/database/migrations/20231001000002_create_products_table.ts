@@ -12,13 +12,13 @@ exports.up = async function (knex: Knex): Promise<void> {
     t.increments('id').primary();
 
     // Foreign Key
-    t.integer('appUserId')
+    t.integer('app_user_id')
       .unsigned()
-      .references('appUsers.id')
+      .references('app_users.id')
       .notNullable()
       .onDelete('CASCADE');
 
-    t.integer('accountId')
+    t.integer('account_id')
       .unsigned()
       .references('id')
       .inTable('accounts')
@@ -39,10 +39,10 @@ exports.up = async function (knex: Knex): Promise<void> {
     //   .notNullable()
     //   .defaultTo('draft');
 
-    t.string('imgS3Key', 512).defaultTo('default-album-artwork-seed.webp');
+    t.string('img_s3_key', 512).defaultTo('default-album-artwork-seed.webp');
     t.string('imgS3Url', 512);
 
-    t.string('digitalFileS3Key', 512).defaultTo(
+    t.string('digital_file_s3_key', 512).defaultTo(
       'ableton-audio-archive-demo-file-project-seed.zip'
     );
     t.string('digitalFileS3Url', 512);
@@ -52,15 +52,15 @@ exports.up = async function (knex: Knex): Promise<void> {
     t.string('label'); // Optional column for a display label
     t.text('description'); // Optional column for a longer description. Using 'text' type for potentially longer content.
 
-    t.string('stripeProductId');
+    t.string('stripe_product_id');
 
     // Metadata Columns
     t.timestamps(true, true);
 
     // Composite Unique Constraint
-    t.unique(['appUserId', 'name']);
+    t.unique(['app_user_id', 'name']);
 
-    t.index('stripeProductId');
+    t.index('stripe_product_id');
   });
 };
 
