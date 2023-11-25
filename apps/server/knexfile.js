@@ -1,6 +1,7 @@
 // knexfile.js
 
 require('dotenv').config();
+// const SqlFileMigrationSource = require('./src/database/customMigrationSource');
 
 function convertCamelCaseToSnakeCase(str) {
   return str.replace(/([A-Z])/g, (match, letter) => `_${letter.toLowerCase()}`);
@@ -49,6 +50,7 @@ const development = {
     tableName: 'knex_migrations',
     directory: './src/database/migrations',
     // stub: './src/database/migration.stub.js',
+    // migrationSource: new SqlFileMigrationSource('./migrations'),
   },
   seeds: {
     directory: './src/database/seeds/development',
@@ -73,7 +75,7 @@ const production = {
   client: 'postgresql',
   connection: {
     host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
-    database: 'postgres',
+    database: 'audio_archive_production',
     user: 'postgres',
     password: 'postgres-secret',
     port: 5432,

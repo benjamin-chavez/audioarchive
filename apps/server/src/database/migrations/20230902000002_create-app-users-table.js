@@ -1,8 +1,18 @@
-// import { Knex } from 'knex';
+// apps/server/src/database/knex/20230902000002_create-app-users-table.js
+
+/**
+ * @typedef {import('knex')} Knex
+ */
 
 const TABLE_NAME = 'app_users';
 
-exports.up = async function (knex) {
+/**
+ * Create the 'app_users' table.
+ *
+ * @param {Knex} knex - The Knex connection object.
+ * @returns {Promise<void>}
+ */
+exports.up = function (knex) {
   return knex.schema.createTable(TABLE_NAME, (table) => {
     table.increments('id').primary();
     table.string('authId').unique().notNullable();
@@ -10,6 +20,7 @@ exports.up = async function (knex) {
     table.string('lastName').notNullable();
     table.string('username').unique();
     table.string('email').unique();
+    // Uncomment the following line if you want this field in your table
     // table.string('avatar').defaultTo('default-avatar-seed.jpg');
     table.string('avatarS3Key', 512).defaultTo('default-avatar-seed.webp');
     table.string('avatarS3Url', 512);
@@ -18,49 +29,12 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function (knex) {
+/**
+ * Drop the 'app_users' table if it exists.
+ *
+ * @param {Knex} knex - The Knex connection object.
+ * @returns {Promise<void>}
+ */
+exports.down = function (knex) {
   return knex.schema.dropTableIfExists(TABLE_NAME);
 };
-
-// CREATE TABLE app_users (
-//     id SERIAL PRIMARY KEY,
-//     authId VARCHAR(255) UNIQUE NOT NULL,
-//     firstName VARCHAR(255) NOT NULL,
-//     lastName VARCHAR(255) NOT NULL,
-//     username VARCHAR(255) UNIQUE,
-//     email VARCHAR(255) UNIQUE,
-//     -- Uncomment the following lines if you want these fields in your table
-//     -- avatar VARCHAR(255) DEFAULT 'default-avatar-seed.jpg',
-//     -- avatarS3Key VARCHAR(512) DEFAULT 'default-avatar-seed.webp',
-//     -- avatarS3Url VARCHAR(512),
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );
-
-// CREATE TABLE app_users (
-//     id SERIAL PRIMARY KEY,
-//     authId VARCHAR(255) UNIQUE NOT NULL,
-//     firstName VARCHAR(255) NOT NULL,
-//     lastName VARCHAR(255) NOT NULL,
-//     username VARCHAR(255) UNIQUE,
-//     email VARCHAR(255) UNIQUE,
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );
-
-// DROP TABLE IF EXISTS app_users;
-
-// CREATE TABLE app_users (
-//     id SERIAL PRIMARY KEY,
-//     authId VARCHAR(255) UNIQUE NOT NULL,
-//     firstName VARCHAR(255) NOT NULL,
-//     lastName VARCHAR(255) NOT NULL,
-//     username VARCHAR(255) UNIQUE,
-//     email VARCHAR(255) UNIQUE,
-//     Uncomment the following lines if you want these fields in your table
-//     avatar VARCHAR(255) DEFAULT 'default-avatar-seed.jpg',
-//     avatarS3Key VARCHAR(512) DEFAULT 'default-avatar-seed.webp',
-//     avatarS3Url VARCHAR(512),
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );

@@ -4,4 +4,4 @@ CREATE TYPE software AS ENUM(
     , 'Logic'
 );
 
--- DROP TYPE IF EXISTS software;
+DROP TYPE IF EXISTS software;
