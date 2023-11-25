@@ -1,6 +1,9 @@
 // knexfile.js
 
 require('dotenv').config();
+const CustomMigrationSource = require('./customMigrationSource');
+const fs = require('fs');
+const path = require('path');
 // const SqlFileMigrationSource = require('./src/database/customMigrationSource');
 
 function convertCamelCaseToSnakeCase(str) {
@@ -48,9 +51,13 @@ const development = {
   },
   migrations: {
     tableName: 'knex_migrations',
-    directory: './src/database/migrations',
+    directory: './dist/src/database/typescript/knex',
     // stub: './src/database/migration.stub.js',
     // migrationSource: new SqlFileMigrationSource('./migrations'),
+    migrationSource: new CustomMigrationSource(
+      // path.join(__dirname, 'migrations')
+      './dist/src/database/typescript/knex'
+    ),
   },
   seeds: {
     directory: './src/database/seeds/development',
@@ -85,9 +92,19 @@ const production = {
     min: 2,
     max: 10,
   },
+  // migrations: {
+  //   tableName: 'knex_migrations',
+  //   directory: './src/database/migrations',
+  // },
   migrations: {
     tableName: 'knex_migrations',
-    directory: './src/database/migrations',
+    directory: './dist/src/database/typescript/knex',
+    // stub: './src/database/migration.stub.js',
+    // migrationSource: new SqlFileMigrationSource('./migrations'),
+    migrationSource: new CustomMigrationSource(
+      // path.join(__dirname, 'migrations')
+      './dist/src/database/typescript/knex'
+    ),
   },
   seeds: {
     directory: './src/database/seeds/development',
