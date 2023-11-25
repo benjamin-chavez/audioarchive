@@ -1,5 +1,18 @@
-import { GENRE_ENUM_VALUES } from '@shared/src/constants';
 import { Knex } from 'knex';
+// import { GENRE_ENUM_VALUES } from '@shared/src/constants';
+
+export const GENRE_ENUM_VALUES = [
+  'Bass House',
+  'Breakbeat',
+  'Breaks',
+  'Deep House',
+  'UK Bass',
+  'dubstep',
+  'House',
+  'Pop',
+  'Techno',
+  'Trap',
+];
 
 const ENUM_NAME = 'genre';
 

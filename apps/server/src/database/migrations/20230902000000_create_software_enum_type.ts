@@ -1,7 +1,8 @@
 // apps/server/src/database/migrations/20230902000000_create_software_enum_type.ts
 
 import { Knex } from 'knex';
-import { SOFTWARE_ENUM_VALUES } from '@shared';
+// import { SOFTWARE_ENUM_VALUES } from '@shared';
+const SOFTWARE_ENUM_VALUES = ['Ableton', 'FL_Studio', 'Logic'];
 
 const ENUM_NAME = 'software';
 

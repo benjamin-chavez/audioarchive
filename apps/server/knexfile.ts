@@ -1,6 +1,8 @@
 // knexfile.ts
 
 import 'dotenv/config';
+import CustomMigrationSource from './src/database/customMigrationSource';
+import path from 'path';
 
 function convertCamelCaseToSnakeCase(str: string): string {
   return str.replace(/([A-Z])/g, (match, letter) => `_${letter.toLowerCase()}`);
@@ -49,6 +51,10 @@ const development = {
     tableName: 'knex_migrations',
     directory: './src/database/migrations',
     // stub: './src/database/migration.stub.js',
+    migrationSource: new CustomMigrationSource(
+      path.join(__dirname, 'migrations')
+      // './src/database/migrations'
+    ),
   },
   seeds: {
     directory: './src/database/seeds/development',
@@ -83,9 +89,18 @@ const production = {
     min: 2,
     max: 10,
   },
+  // migrations: {
+  //   tableName: 'knex_migrations',
+  //   directory: './src/database/migrations',
+  // },
   migrations: {
     tableName: 'knex_migrations',
     directory: './src/database/migrations',
+    // stub: './src/database/migration.stub.js',
+    migrationSource: new CustomMigrationSource(
+      path.join(__dirname, 'migrations')
+      // './src/database/migrations'
+    ),
   },
   seeds: {
     directory: './src/database/seeds/development',

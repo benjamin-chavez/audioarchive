@@ -6,7 +6,9 @@
     "module": "CommonJS",
     "outDir": "./dist",
     "rootDir": ".",
-    "strict": false
+    "strict": false,
+    "declaration": false,
+    "declarationMap": false
   },
   "exclude": ["node_modules"],
   "extends": "tsconfig/base.json",
