@@ -4,6 +4,8 @@ const fs = require('fs');
 const path = require('path');
 
 class CustomMigrationSource {
+  migrationDirectory: any;
+
   constructor(migrationDirectory) {
     this.migrationDirectory = migrationDirectory;
   }
