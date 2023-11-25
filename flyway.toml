@@ -4,15 +4,15 @@
 locations = ["filesystem:./database/migrations"]
 sqlMigrationPrefix=""
 sqlMigrationSeparator="_"
-sqlMigrationSuffixes=".sql"
+sqlMigrationSuffixes = ['.sql']
 
 [environments.flyway]
-# url = "jdbc:postgresql://localhost/flyway_db"
+url = "jdbc:postgresql://localhost/audio_archive_production"
 # url = "jdbc:postgresql://audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com:5432/postgres?sslmode=prefer"
 # user = "postgres"
 # password = "postgres-secret"
 
-url="jdbc:postgresql://audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com:5432/postgres"
+# url="jdbc:postgresql://audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com:5432/postgres"
 user="postgres"
 password="postgres-secret"
 # Additional Flyway configurations can be added as needed
