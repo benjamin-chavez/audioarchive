@@ -9,8 +9,8 @@ locations = ["filesystem:./database/migrations"]
 # user = "postgres"
 # password = "postgres-secret"
 
-flyway.url="jdbc:postgresql://audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com:5432/postgres"
-flyway.user="postgres"
-flyway.password="postgres-secret"
+url="jdbc:postgresql://audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com:5432/postgres"
+user="postgres"
+password="postgres-secret"
 # Additional Flyway configurations can be added as needed
 # flyway.url="jdbc:postgresql://audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com:5432/postgres?ssl=true&sslmode=verify-full"
