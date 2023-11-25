@@ -12,37 +12,32 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   execution_role_arn       = var.execution_role_arn
   task_role_arn            = var.task_role_arn
 
-  container_definitions = <<DEFINITION
-    [
-      {
-        "logConfiguration": {
-          "logDriver": "awslogs",
-          "options": {
-            "awslogs-group": "/ecs/task-definition-${var.name}",
-            "awslogs-region": "${var.region}",
-            "awslogs-stream-prefix": "ecs"
-          }
-        },
-        "cpu": 0,
-        "image": "${var.docker_repo}",
-        "name": "${var.container_name}",
-        "networkMode": "awsvpc",
-        "portMappings": [
-          {
-            "containerPort": ${var.container_port},
-            "hostPort": ${var.container_port}
-          }
-        ],
-        "environment": [
-          {
-            "name": "NODE_ENV",
-            "value": "${var.node_env}"
-          }
-        ]
+  container_definitions = jsonencode([{
+    name        = var.container_name
+    image       = var.docker_repo
+    cpu         = 0
+    essential   = true
+    command     = var.command
+    networkMode = "awsvpc"
+    portMappings = [{
+      containerPort = var.container_port
+      hostPort      = var.container_port
+    }]
+    environment = [{
+      name  = "NODE_ENV"
+      value = var.node_env
+    }]
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        "awslogs-group"         = "/ecs/task-definition-${var.name}"
+        "awslogs-region"        = var.region
+        "awslogs-stream-prefix" = "ecs"
       }
-    ]
-  DEFINITION
+    }
+  }])
 }
+
 
 # ------- CloudWatch Logs groups to store ecs-containers logs -------
 resource "aws_cloudwatch_log_group" "TaskDF-Log_Group" {

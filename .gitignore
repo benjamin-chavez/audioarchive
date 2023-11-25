@@ -39,3 +39,6 @@ yarn-error.log*
 
 # turbo
 .turbo
+
+infrastructure/templates/task-def-migrate-seed.json
+infrastructure/templates/task-definition-developmentenv-migrations-seeding.json

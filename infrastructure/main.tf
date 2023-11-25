@@ -239,6 +239,23 @@ module "ecs_task_definition_client" {
   node_env           = var.node_env
 }
 
+# ------- Creating ECS Task Definition for the Database Migrations -------
+module "ecs_task_definition_db_migrate_seed" {
+  source = "./modules/ecs/task-definition"
+  name   = "${var.environment_name}-db-migrate-seed"
+  # container_name     = var.container_name["server"]
+  container_name     = "Container-migrations-seed"
+  execution_role_arn = module.ecs_role.arn_role
+  task_role_arn      = module.ecs_role.arn_role_ecs_task_role
+  cpu                = 256
+  memory             = "512"
+  docker_repo        = module.ecr_server.ecr_repository_url
+  region             = var.aws_region
+  container_port     = var.port_app_server
+  node_env           = var.node_env
+  command            = ["/bin/sh", "-c", "cd /app/apps/server/dist && npx knex migrate:latest && npx knex seed:run"]
+}
+
 # ------- Creating Security Group for ECS TASKS (Server) -------
 module "security_group_ecs_task_server" {
   source       = "./modules/security-group"
@@ -327,7 +344,6 @@ module "ecs_autoscaling_client" {
   max_capacity = 10
 }
 
-
 # ------- ALB Listener Rules Module -------
 # HTTP Listener Rule for Client
 resource "aws_alb_listener_rule" "http_client_rule" {
@@ -363,8 +379,6 @@ resource "aws_alb_listener_rule" "http_server_rule" {
   }
 }
 
-
-
 # ------- CodePipeline -------
 
 # ------- Creating Bucket to store CodePipeline artifacts -------
@@ -378,7 +392,6 @@ module "s3_codebuild_cache" {
   source      = "./modules/s3"
   bucket_name = "codebuild-cache-${var.aws_region}-${random_id.RANDOM_ID.hex}"
 }
-
 
 # ------- Creating IAM roles used during the pipeline excecution -------
 module "devops_role" {
@@ -486,7 +499,6 @@ module "codedeploy_client" {
   codedeploy_role = module.codedeploy_role.arn_role_codedeploy
 }
 
-
 # ------- Creating CodePipeline -------
 module "codepipeline" {
   source                   = "./modules/codepipeline"
@@ -570,7 +582,6 @@ resource "aws_instance" "ec2-bastion-host" {
   count = var.create_bastion_host ? 1 : 0
 }
 
-
 # ------- Creating Security Group for the Database -------
 module "security_group_rds_db" {
   source              = "./modules/security-group"
@@ -590,7 +601,6 @@ module "security_group_rds_db" {
   # ], var.create_bastion_host ? [aws_security_group.security_group_ec2_bastion.id] : [])
   # ], var.create_bastion_host ? [aws_security_group.security_group_ec2_bastion[0].id] : [])
 }
-
 
 # ------- Database Module -------
 module "psql_rds" {

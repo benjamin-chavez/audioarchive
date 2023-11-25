@@ -49,3 +49,9 @@ variable "node_env" {
   description = "The environment to set for the Node.js application"
   type        = string
 }
+
+variable "command" {
+  description = "The command that is passed to the container"
+  type        = list(string)
+  default     = []
+}
