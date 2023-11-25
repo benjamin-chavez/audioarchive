@@ -38,11 +38,11 @@ phases:
       - echo Build started on `date`
       - echo "Building Docker image..."
       - docker build --build-arg NODE_ENV=production --cache-from $REPO_URL:latest -t $REPO_URL:$IMAGE_TAG -f $FOLDER_PATH/Dockerfile .
-      - |
-        if expr "${FOLDER_PATH}" : ".*server*" ; then
-          ls
-          docker run --rm -v $(pwd)/apps/server/database/migrations:/flyway/sql -v $(pwd)/apps/server/database:/flyway/conf flyway/flyway migrate
-        fi
+      # - |
+      #   if expr "${FOLDER_PATH}" : ".*server*" ; then
+      #     ls
+      #     docker run --rm -v $(pwd)/apps/server/database/migrations:/flyway/sql -v $(pwd)/apps/server/database:/flyway/conf flyway/flyway migrate
+      #   fi
 
   post_build:
     commands:
