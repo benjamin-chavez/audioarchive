@@ -12,8 +12,8 @@ phases:
   #   commands:
   #     - wget -qO- https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/10.1.0/flyway-commandline-10.1.0-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-10.1.0/flyway /usr/local/bin
   #     - wget -qO- https://get.pnpm.io/install.sh | sh -
-  db_build:
-    commands:
+  # db_build:
+  #   commands:
 
   pre_build:
     commands:
