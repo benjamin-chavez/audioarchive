@@ -4,7 +4,7 @@ import express, { Router } from 'express';
 import asyncHandler from 'express-async-handler';
 import listEndpoints from 'express-list-endpoints';
 import { app } from '../app';
-import knex from '../../../../database/knex/database';
+import knex from '../config/database';
 
 // import S3Service from '../services/s3.service';
 // import appUserRoutes from './app-user.routes';

@@ -1,0 +1,30 @@
+{
+  "family": "task-definition-developmentenv-migrations",
+  "containerDefinitions": [
+    {
+      "name": "Container-migrations",
+      "image": "369579651631.dkr.ecr.us-east-2.amazonaws.com/repo-server:latest",
+      "cpu": 0,
+      "command": [
+        "/bin/sh",
+        "-c",
+        "cd /app/apps/server && npx knex migrate:latest"
+      ],
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/task-definition-developmentenv-migrations",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ],
+  "taskRoleArn": "arn:aws:iam::369579651631:role/ECS-task-Role",
+  "executionRoleArn": "arn:aws:iam::369579651631:role/ECS-task-excecution-Role",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512"
+}
