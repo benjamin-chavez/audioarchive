@@ -109,6 +109,9 @@ RUN apk add --no-cache libc6-compat
 RUN apk update
 WORKDIR /app
 
+# Install ts-node and typescript globally
+RUN pnpm add -g ts-node typescript
+
 # First install the dependencies (as they change less often)
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
