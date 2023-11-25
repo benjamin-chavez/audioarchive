@@ -132,8 +132,10 @@ export async function seed(knex: Knex): Promise<void> {
   //   const stripeProductId = await StripeService.createProduct(seed);
   //   await knex(TABLE_NAME).insert({ ...seed, stripeProductId });
   // });
+
   for (const seed of productSeeds) {
     // const stripeProductId = await StripeService.createProduct(seed);
     // await knex(TABLE_NAME).insert({ ...seed, stripeProductId });
+    await knex(TABLE_NAME).insert({ ...seed });
   }
 }

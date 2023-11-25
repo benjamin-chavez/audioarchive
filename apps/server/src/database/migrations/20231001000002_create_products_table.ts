@@ -60,7 +60,7 @@ exports.up = async function (knex: Knex): Promise<void> {
     // Composite Unique Constraint
     t.unique(['appUserId', 'name']);
 
-    t.index('stripeProductId');
+    // t.index('stripeProductId');
   });
 };
 
