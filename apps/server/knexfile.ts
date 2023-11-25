@@ -35,7 +35,7 @@ const development = {
   // },
   connection: {
     host: 'localhost',
-    database: 'postgres',
+    database: 'audio_archive_development',
     user: 'postgres',
     password: 'postgres',
     port: 5432,
@@ -73,7 +73,7 @@ const production = {
   client: 'postgresql',
   connection: {
     host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
-    database: 'postgres',
+    database: 'audio_archive_production',
     user: 'postgres',
     password: 'postgres-secret',
     port: 5432,

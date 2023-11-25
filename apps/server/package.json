@@ -5,6 +5,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
+    "build:clean": "pnpm run clean && pnpm run build",
     "dev": "nodemon --exec \"node -r esbuild-register ./src/server.ts\" -e .ts",
     "dev:clean": "(dropdb audio_archive_development || true) && createdb audio_archive_development && knex migrate:latest && knex seed:run && NODE_ENV=development pnpm dev",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\"",
