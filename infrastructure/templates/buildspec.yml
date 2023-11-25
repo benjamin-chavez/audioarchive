@@ -14,7 +14,7 @@ phases:
   #     - wget -qO- https://get.pnpm.io/install.sh | sh -
   db-build:
     commands:
-      - docker run --rm -v $(pwd)/sql:/flyway/sql -v $(pwd)/conf:/flyway/conf flyway/flyway -enterprise migrate
+
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
@@ -28,6 +28,8 @@ phases:
           echo "Client build, embedding frontend layer file with ALB backend DNS"
           # sed -i "s|<SERVER_ALB_URL>|$SERVER_ALB_URL|g" ./apps/client/next.config.js
         else
+          pwd
+          docker run --rm -v $(pwd)/apps/server/database/migrations:/flyway/sql -v $(pwd)/apps/server/database:/flyway/conf flyway/flyway migrate
           echo "Server build, adding ECS Task Role to the task definition file"
           sed -i "3i\"taskRoleArn\": \"arn:aws:iam::<AWS_ACCOUNT_ID>:role/<ECS_TASK_ROLE>\"," ./infrastructure/templates/taskdef.json
 
