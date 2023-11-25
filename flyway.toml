@@ -2,6 +2,9 @@
 
 [flyway]
 locations = ["filesystem:./database/migrations"]
+sqlMigrationPrefix=""
+sqlMigrationSeparator="_"
+sqlMigrationSuffixes=".sql"
 
 [environments.flyway]
 # url = "jdbc:postgresql://localhost/flyway_db"

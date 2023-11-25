@@ -1,6 +1,6 @@
 // knexfile.ts
 
-import 'dotenv/config';
+// import 'dotenv/config';
 
 function convertCamelCaseToSnakeCase(str: string): string {
   return str.replace(/([A-Z])/g, (match, letter) => `_${letter.toLowerCase()}`);
