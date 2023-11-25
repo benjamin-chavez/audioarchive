@@ -53,11 +53,11 @@ const development = {
     // stub: './src/database/migration.stub.js',
     migrationSource: new CustomMigrationSource(
       path.join(__dirname, 'migrations')
-      // './src/database/migrations'
     ),
   },
   seeds: {
     directory: './src/database/seeds/development',
+    // directory: './src/database/migrations',
   },
   postProcessResponse: (result) => {
     if (Array.isArray(result)) {
