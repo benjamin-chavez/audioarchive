@@ -63,3 +63,6 @@ This Turborepo has some additional tools already setup for you:
 
 https://stackoverflow.com/questions/76899023/rds-while-connection-error-no-pg-hba-conf-entry-for-host
 fully-working-ecs/FINAL WITH ALL ROUTING/express-api/knexfile.ts
+
+https://danianepg.medium.com/building-a-continuous-delivery-pipeline-for-database-migrations-with-gitlab-and-aws-c81b47f1a56a
+https://www.thisdot.co/blog/how-to-automatically-deploy-your-full-stack-javascript-app-with-aws
