@@ -90,6 +90,8 @@ async function loadConfig() {
     throw error;
   }
 }
+
+loadConfig;
 console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
 console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
 console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
