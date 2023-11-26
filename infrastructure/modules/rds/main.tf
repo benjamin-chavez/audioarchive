@@ -15,7 +15,8 @@ resource "aws_db_instance" "psql_rds" {
   storage_type      = var.storage_type
 
   # manage_master_user_password = true
-  username = var.db_user
+  # username = var.db_user
+  username = "postgres"
   password = var.password
   port     = 5432
 
