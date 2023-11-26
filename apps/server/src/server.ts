@@ -67,7 +67,7 @@ async function loadConfig() {
       });
 
       // @ts-ignore
-      prameters = prameters.concat(res.Parameters);
+      parameters = parameters.concat(res.Parameters);
     }
 
     // const parameters = await ParameterStoreService.getParameters({
@@ -76,6 +76,7 @@ async function loadConfig() {
     // });
 
     parameters.forEach((param) => {
+      console.log(param);
       if (!param.Name || !param.Value) {
         return;
       }
