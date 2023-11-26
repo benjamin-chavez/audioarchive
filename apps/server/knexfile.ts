@@ -24,25 +24,8 @@ const convertSnakeCaseToCamelCase = (obj: any): any => {
   }, {});
 };
 
-const development = {
+const baseConfig = {
   client: 'postgresql',
-  // connection: {
-  //   // database: process.env.DEV_DB_DATABASE,
-  //   database: 'audio_archive_development',
-  //   // user: process.env.DEV_DB_USER,
-  //   // user: 'benchavez',
-  //   user: 'postgres',
-  //   // password: process.env.DEV_DB_PASSWORD,
-  //   password: 'postgres-secret',
-  // },
-  connection: {
-    host: 'localhost',
-    database: 'audio_archive_development',
-    user: 'postgres',
-    password: 'postgres',
-    port: 5432,
-    // ssl: { rejectUnauthorized: false },
-  },
   pool: {
     min: 2,
     max: 10,
@@ -75,49 +58,29 @@ const development = {
   },
 };
 
-const production = {
-  client: 'postgresql',
+const development = {
+  ...baseConfig,
   connection: {
-    // host: 'localhost',
-    host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
-    database: 'audio_archive_production',
-    user: 'postgres',
-    password: 'postgres-secret',
-    port: 5432,
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    port: process.env.DATABASE_PORT,
+    database: process.env.DATABASE_NAME,
+  },
+};
+
+const production = {
+  ...baseConfig,
+  connection: {
+    host:
+      process.env.USE_LOCAL_DB_TUNNEL === 'true'
+        ? 'localhost'
+        : process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    port: process.env.DATABASE_PORT,
+    database: process.env.DATABASE_NAME,
     ssl: { rejectUnauthorized: false },
-    // ssl: {
-    //   require: true,
-    // },
-  },
-  pool: {
-    min: 2,
-    max: 10,
-  },
-  // migrations: {
-  //   tableName: 'knex_migrations',
-  //   directory: './src/database/migrations',
-  // },
-  migrations: {
-    tableName: 'knex_migrations',
-    directory: './src/database/migrations',
-    // stub: './src/database/migration.stub.js',
-    migrationSource: new CustomMigrationSource(
-      path.join(__dirname, 'migrations')
-      // './src/database/migrations'
-    ),
-  },
-  seeds: {
-    directory: './src/database/seeds/development',
-  },
-  postProcessResponse: (result) => {
-    if (Array.isArray(result)) {
-      return result.map((row) => convertSnakeCaseToCamelCase(row));
-    } else {
-      return convertSnakeCaseToCamelCase(result);
-    }
-  },
-  wrapIdentifier: (value, origImpl) => {
-    return origImpl(convertCamelCaseToSnakeCase(value));
   },
 };
 
