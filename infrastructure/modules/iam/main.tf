@@ -367,4 +367,13 @@ data "aws_iam_policy_document" "role_policy_ecs_task_role" {
     ]
     resources = ["*"]
   }
+  statement {
+    sid    = "AllowSSMParameterActions"
+    effect = "Allow"
+    actions = [
+      "ssm:GetParameters",
+      "ssm:GetParameter"
+    ]
+    resources = ["*"]
+  }
 }
