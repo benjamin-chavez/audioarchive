@@ -3,17 +3,17 @@
 import 'dotenv/config';
 import CustomMigrationSource from './src/database/customMigrationSource';
 import path from 'path';
-console.log(process.env.DATABASE_HOST);
-console.log(process.env.DATABASE_HOST);
-console.log(process.env.DATABASE_HOST);
-console.log(process.env.DATABASE_HOST);
-console.log(process.env.DATABASE_HOST);
-console.log(process.env.DATABASE_HOST);
-console.log(process.env.DATABASE_HOST);
-console.log(process.env.DATABASE_HOST);
-console.log(process.env.DATABASE_HOST);
-console.log(process.env.DATABASE_HOST);
-console.log(process.env.DATABASE_HOST);
+console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
+console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
+console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
+console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
+console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
+console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
+console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
+console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
+console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
+console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
+console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
 
 function convertCamelCaseToSnakeCase(str: string): string {
   return str.replace(/([A-Z])/g, (match, letter) => `_${letter.toLowerCase()}`);
