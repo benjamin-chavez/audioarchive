@@ -63,3 +63,36 @@ This Turborepo has some additional tools already setup for you:
 
 https://stackoverflow.com/questions/76899023/rds-while-connection-error-no-pg-hba-conf-entry-for-host
 fully-working-ecs/FINAL WITH ALL ROUTING/express-api/knexfile.ts
+
+
+<!-- TODO: -->
+ - REVIEW TO SEE IF YOU ACTUALLY NEED THESE PACKAGES:
+    ```json
+    "dependencies": {
+      ...
+      "debug": "~4.3.4",
+      "cookie-parser": "~1.4.6",
+      "kysely-codegen": "^0.10.1",
+      "pg-to-ts": "^4.1.1",
+      "connect-session-knex": "^3.0.1",
+      "express-flash": "^0.0.2",
+      "express-jwt": "^8.4.1",
+      "express-oauth2-jwt-bearer": "^1.5.0",
+      "express-openid-connect": "^2.16.0",
+      "express-session": "^1.17.3",
+      "helmet": "^7.0.0",
+      "jwks-rsa": "^3.0.1",
+      "pg": "^8.11.3"
+    },
+    "devDependencies": {
+      ...
+      "@types/express-flash": "^0.0.2",
+      "@aws-sdk/types": "^3.425.0",
+      "@types/cookie-parser": "^1.4.3",
+      "@types/express-session": "^1.17.7",
+      "@types/pg": "^8.10.2",
+      "ts-jest": "^29.1.1",
+      "ts-node": "^10.9.1"
+    }
+  ```
+ - TODO
