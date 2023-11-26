@@ -57,11 +57,11 @@ variable "command" {
 }
 
 
-variable "environment_variables" {
-  description = "A list of environment variables for the container"
-  type = list(object({
-    name  = string
-    value = string
-  }))
-  default = []
-}
+# variable "environment_variables" {
+#   description = "A list of environment variables for the container"
+#   type = list(object({
+#     name  = string
+#     value = string
+#   }))
+#   default = []
+# }

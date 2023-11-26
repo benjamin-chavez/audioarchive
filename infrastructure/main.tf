@@ -26,9 +26,48 @@ resource "random_id" "RANDOM_ID" {
 # ------- Account ID -------
 data "aws_caller_identity" "id_current_account" {}
 
-module "ssm_parameters" {
-  source = "./modules/ssm-parameters"
-  # Pass any required variables if needed
+
+
+# module "ssm_parameters" {
+#   source = "./modules/ssm-parameters"
+#   # Pass any required variables if needed
+# }
+
+# -------  SSM GitHub Token -------
+data "aws_ssm_parameter" "github_token" {
+  name = "/${var.app_name}/github_token"
+}
+
+# -------  SSM NODE_ENV-------
+data "aws_ssm_parameter" "node_env" {
+  name = "/${var.app_name}/config/node_env"
+}
+
+
+# -------  SSM DATABASE_HOST-------
+# data "aws_ssm_parameter" "db_host" {
+#   name = "/audioarchive/production/server/DATABASE_HOST"
+# }
+
+# -------  SSM DATABASE_NAME-------
+# data "aws_ssm_parameter" "db_name" {
+#   name = "/audioarchive/production/server/DATABASE_NAME"
+#   # name = "postgres"
+# }
+
+# -------  SSM DATABASE_PASSWORD-------
+data "aws_ssm_parameter" "db_password" {
+  name = "/audioarchive/production/server/DATABASE_PASSWORD"
+}
+
+# -------  SSM DATABASE_PORT-------
+# data "aws_ssm_parameter" "db_port" {
+#   name = "/audioarchive/production/server/DATABASE_PORT"
+# }
+
+# -------  SSM DATABASE_USER-------
+data "aws_ssm_parameter" "db_user" {
+  name = "/audioarchive/production/server/DATABASE_USER"
 }
 
 # ------- Networking -------
@@ -217,108 +256,108 @@ module "ecs_task_definition_server" {
   region             = var.aws_region
   container_port     = var.port_app_server
   node_env           = var.node_env
-  environment_variables = [
-    {
-      name  = "GITHUB_TOKEN"
-      value = module.ssm_parameters.github_token
-    },
-    {
-      name  = "NODE_ENV"
-      value = module.ssm_parameters.node_env
-    },
-    {
-      name  = "DB_NAME"
-      value = module.ssm_parameters.db_name
-    },
-    {
-      name  = "DB_PASSWORD"
-      value = module.ssm_parameters.db_password
-    },
-    {
-      name  = "DB_USER"
-      value = module.ssm_parameters.db_user
-    },
-    {
-      name  = "AUTH0_AUDIENCE"
-      value = module.ssm_parameters.auth0_audience
-    },
-    {
-      name  = "AUTH0_BASE_URL"
-      value = module.ssm_parameters.auth0_base_url
-    }
-    ,
-    {
-      name  = "AUTH0_CLIENT_ID"
-      value = module.ssm_parameters.auth0_client_id
-    },
-    {
-      name  = "AUTH0_CLIENT_SECRET"
-      value = module.ssm_parameters.auth0_client_secret
-    },
-    {
-      name  = "AUTH0_ISSUER_BASE_URL"
-      value = module.ssm_parameters.auth0_issuer_base_url
-    },
-    {
-      name  = "AUTH0_SCOPE"
-      value = module.ssm_parameters.auth0_scope
-    },
-    {
-      name  = "AUTH0_SECRET"
-      value = module.ssm_parameters.auth0_secret
-    },
-    {
-      name  = "AWS_ACCESS_KEY"
-      value = module.ssm_parameters.aws_access_key
-    },
-    {
-      name  = "AWS_BUCKET_NAME"
-      value = module.ssm_parameters.aws_bucket_name
-    }
-    , {
-      name  = "AWS_BUCKET_REGION"
-      value = module.ssm_parameters.aws_bucket_region
-    },
-    {
-      name  = "AWS_SECRET_KEY"
-      value = module.ssm_parameters.aws_secret_key
-      }, {
-      name  = "DATABASE_HOST"
-      value = module.ssm_parameters.database_host
-    },
-    {
-      name  = "DATABASE_PASSWORD"
-      value = module.ssm_parameters.database_password
-    },
-    {
-      name  = "DATABASE_PORT"
-      value = module.ssm_parameters.database_port
-    },
-    {
-      name  = "DATABASE_PORT"
-      value = module.ssm_parameters.database_port
-    },
-    {
-      name  = "DATABASE_USER"
-      value = module.ssm_parameters.database_user
-    },
-    {
-      name  = "STRIPE_PUBLISHABLE_KEY"
-      value = module.ssm_parameters.stripe_publishable_key
-    },
-    {
-      name  = "STRIPE_SECRET_KEY"
-      value = module.ssm_parameters.stripe_secret_key
-    },
-    {
-      name  = "STRIPE_WEBHOOK_SECRET"
-      value = module.ssm_parameters.stripe_webhook_secret
-    },
-    {
-      name  = "USE_LOCAL_DB_TUNNEL"
-      value = module.ssm_parameters.use_local_db_tunnel
-    }
-  ]
+  # environment_variables = [
+  #   {
+  #     name  = "GITHUB_TOKEN"
+  #     value = module.ssm_parameters.github_token
+  #   },
+  #   {
+  #     name  = "NODE_ENV"
+  #     value = module.ssm_parameters.node_env
+  #   },
+  #   {
+  #     name  = "DB_NAME"
+  #     value = module.ssm_parameters.db_name
+  #   },
+  #   {
+  #     name  = "DB_PASSWORD"
+  #     value = module.ssm_parameters.db_password
+  #   },
+  #   {
+  #     name  = "DB_USER"
+  #     value = module.ssm_parameters.db_user
+  #   },
+  #   {
+  #     name  = "AUTH0_AUDIENCE"
+  #     value = module.ssm_parameters.auth0_audience
+  #   },
+  #   {
+  #     name  = "AUTH0_BASE_URL"
+  #     value = module.ssm_parameters.auth0_base_url
+  #   }
+  #   ,
+  #   {
+  #     name  = "AUTH0_CLIENT_ID"
+  #     value = module.ssm_parameters.auth0_client_id
+  #   },
+  #   {
+  #     name  = "AUTH0_CLIENT_SECRET"
+  #     value = module.ssm_parameters.auth0_client_secret
+  #   },
+  #   {
+  #     name  = "AUTH0_ISSUER_BASE_URL"
+  #     value = module.ssm_parameters.auth0_issuer_base_url
+  #   },
+  #   {
+  #     name  = "AUTH0_SCOPE"
+  #     value = module.ssm_parameters.auth0_scope
+  #   },
+  #   {
+  #     name  = "AUTH0_SECRET"
+  #     value = module.ssm_parameters.auth0_secret
+  #   },
+  #   {
+  #     name  = "AWS_ACCESS_KEY"
+  #     value = module.ssm_parameters.aws_access_key
+  #   },
+  #   {
+  #     name  = "AWS_BUCKET_NAME"
+  #     value = module.ssm_parameters.aws_bucket_name
+  #   }
+  #   , {
+  #     name  = "AWS_BUCKET_REGION"
+  #     value = module.ssm_parameters.aws_bucket_region
+  #   },
+  #   {
+  #     name  = "AWS_SECRET_KEY"
+  #     value = module.ssm_parameters.aws_secret_key
+  #     }, {
+  #     name  = "DATABASE_HOST"
+  #     value = module.ssm_parameters.database_host
+  #   },
+  #   {
+  #     name  = "DATABASE_PASSWORD"
+  #     value = module.ssm_parameters.database_password
+  #   },
+  #   {
+  #     name  = "DATABASE_PORT"
+  #     value = module.ssm_parameters.database_port
+  #   },
+  #   {
+  #     name  = "DATABASE_PORT"
+  #     value = module.ssm_parameters.database_port
+  #   },
+  #   {
+  #     name  = "DATABASE_USER"
+  #     value = module.ssm_parameters.database_user
+  #   },
+  #   {
+  #     name  = "STRIPE_PUBLISHABLE_KEY"
+  #     value = module.ssm_parameters.stripe_publishable_key
+  #   },
+  #   {
+  #     name  = "STRIPE_SECRET_KEY"
+  #     value = module.ssm_parameters.stripe_secret_key
+  #   },
+  #   {
+  #     name  = "STRIPE_WEBHOOK_SECRET"
+  #     value = module.ssm_parameters.stripe_webhook_secret
+  #   },
+  #   {
+  #     name  = "USE_LOCAL_DB_TUNNEL"
+  #     value = module.ssm_parameters.use_local_db_tunnel
+  #   }
+  # ]
 }
 
 # ------- Creating ECS Task Definition for the client -------
@@ -598,11 +637,12 @@ module "codedeploy_client" {
 
 # ------- Creating CodePipeline -------
 module "codepipeline" {
-  source                   = "./modules/codepipeline"
-  name                     = "pipeline-${var.environment_name}"
-  pipe_role                = module.devops_role.arn_role
-  s3_bucket                = module.s3_codepipeline.s3_bucket_id
-  github_token             = module.ssm_parameters.github_token
+  source    = "./modules/codepipeline"
+  name      = "pipeline-${var.environment_name}"
+  pipe_role = module.devops_role.arn_role
+  s3_bucket = module.s3_codepipeline.s3_bucket_id
+  # github_token             = module.ssm_parameters.github_token
+  github_token             = data.aws_ssm_parameter.github_token.value
   repo_owner               = var.repository_owner
   repo_name                = var.repository_name
   branch                   = var.repository_branch
@@ -703,24 +743,29 @@ module "security_group_rds_db" {
 module "psql_rds" {
   # db_name           = data.aws_ssm_parameter.db_name.value
   # password               = data.aws_ssm_parameter.db_password.value
-  source                 = "./modules/rds"
-  create                 = true
-  identifier             = "audio-archive-psql-db2"
-  engine_version         = "15.4"
-  instance_class         = "db.t3.micro"
-  allocated_storage      = 20
-  storage_type           = "gp2"
-  storage_encrypted      = false
-  kms_key_id             = "your-kms-key-id"
-  db_name                = module.ssm_parameters.db_name
-  password               = module.ssm_parameters.db_password
+  source            = "./modules/rds"
+  create            = true
+  identifier        = "audio-archive-psql-db2"
+  engine_version    = "15.4"
+  instance_class    = "db.t3.micro"
+  allocated_storage = 20
+  storage_type      = "gp2"
+  storage_encrypted = false
+  kms_key_id        = "your-kms-key-id"
+  # db_name                = module.ssm_parameters.db_name
+  # password               = module.ssm_parameters.db_password
+  db_name = "postgres"
+  # password               = var.db_password
+  # db_name                = data.aws_ssm_parameter.db_name.value
+  password               = data.aws_ssm_parameter.db_password.value
   vpc_id                 = module.networking.aws_vpc
   vpc_security_group_ids = [module.security_group_rds_db.sg_id]
   db_subnet_group_name   = module.networking.database_subnet_group_name
   parameter_group_name   = "default.postgres15"
   publicly_accessible    = true
   deletion_protection    = false
-  db_user                = module.ssm_parameters.db_user
+  db_user                = data.aws_ssm_parameter.db_user.value
+  # db_user                = module.ssm_parameters.db_user
 
   depends_on = [
     # module.networking.aws_vpc,
