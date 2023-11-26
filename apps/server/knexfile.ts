@@ -69,15 +69,17 @@ const baseConfig = {
 //   },
 // };
 
+// host:
+//   process.env.USE_LOCAL_DB_TUNNEL === 'true'
+//     ? 'localhost'
+//     : process.env.DATABASE_HOST,
 const production = {
   client: 'postgresql',
   connection: {
-    // host:
-    //   process.env.USE_LOCAL_DB_TUNNEL === 'true'
-    //     ? 'localhost'
-    //     : process.env.DATABASE_HOST,
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
+    // host: process.env.DATABASE_HOST,
+    host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
+    // user: process.env.DATABASE_USER,
+    user: 'postgres',
     password: 'pg-secret',
     port: process.env.DATABASE_PORT,
     database: 'audio_archive_production',
