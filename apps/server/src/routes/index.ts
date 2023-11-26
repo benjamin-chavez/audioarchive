@@ -7,7 +7,7 @@ import { app } from '../app';
 import S3Service from '../services/s3.service';
 import appUserRoutes from './app-user.routes';
 import productRoutes from './product.routes';
-import webhookRoutes from './webhook.routes';
+// import webhookRoutes from './webhook.routes';
 import knex from '../config/database';
 
 // TODO: Blog post: this error =>  import { knex } from 'knex';
@@ -46,11 +46,11 @@ router.use('/products', productRoutes);
 
 // router.use(express.raw({ type: 'application/json' }));
 // const captureRawBody = express.raw({ type: 'application/json' });
-router.use(
-  '/webhook',
-  // captureRawBody,
-  webhookRoutes
-);
+// router.use(
+//   '/webhook',
+//   // captureRawBody,
+//   webhookRoutes
+// );
 
 router.use(
   '/app-users',
