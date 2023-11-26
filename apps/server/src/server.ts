@@ -75,16 +75,19 @@ async function loadConfig() {
     // });
 
     parameters.forEach((param) => {
-      console.log(param);
-      if (!param.Name || !param.Value) {
+      if (!param?.Name || !param?.Value) {
         return;
       }
+
+      console.log('param.Name: ', param.Name, 'param.Value: ', param.Value);
 
       const name = param.Name.split('/').pop();
 
       if (name) {
         process.env[name] = param.Value;
       }
+
+      console.log(`process.env[name]: `, process.env[name]);
     });
   } catch (error) {
     console.error('Error fetching parameters:', error);
