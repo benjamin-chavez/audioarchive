@@ -15,11 +15,11 @@ class ProductService {
 
     const products = await ProductModel.getAllProductsWithUserDetails();
 
-    // const productsWithSignedUrls =
-    //   await S3Service.getSignedUrlsForProducts(products);
+    const productsWithSignedUrls =
+      await S3Service.getSignedUrlsForProducts(products);
 
-    // return productsWithSignedUrls;
-    return products;
+    return productsWithSignedUrls;
+    // return products;
   }
 
   static async getAllProductsByAppUser(appUserId: number): Promise<any> {
