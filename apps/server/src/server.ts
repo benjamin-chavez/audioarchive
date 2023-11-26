@@ -58,7 +58,7 @@ async function loadConfig() {
 
   ParameterStoreService.initialize(process.env.AWS_REGION || 'us-east-2');
   try {
-    const parameters = [];
+    let parameters = [];
 
     for (const key of Object.keys(paramUrls)) {
       const res = await ParameterStoreService.getParameters({
@@ -66,8 +66,7 @@ async function loadConfig() {
         WithDecryption: true,
       });
 
-      // @ts-ignore
-      parameters = parameters.concat(res.Parameters);
+      parameters = parameters.concat(res);
     }
 
     // const parameters = await ParameterStoreService.getParameters({
