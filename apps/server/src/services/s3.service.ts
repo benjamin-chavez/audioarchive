@@ -12,6 +12,7 @@ import 'dotenv/config';
 import { generateRandomBytes } from '../lib/utils';
 import { AppUser, Product } from '@shared/src';
 import { loadConfig } from '../server';
+import ParameterStoreService from './parameter-store.service';
 
 // if (
 //   !process.env.AWS_ACCESS_KEY ||
@@ -23,27 +24,47 @@ import { loadConfig } from '../server';
 // }
 async () => {
   await loadConfig();
+
+  if (!process.env.AWS_ACCESS_KEY) {
+    const param = await ParameterStoreService.getEncryptedParameterW(
+      '/audioarchive/production/server/AWS_ACCESS_KEY'
+    );
+    const AWS_ACCESS_KEY = param;
+
+    process.env[AWS_ACCESS_KEY] = AWS_ACCESS_KEY;
+    // throw new Error('AWS_BUCKET_NAME environment variable is not set');
+  }
+
+  if (!process.env.AWS_SECRET_KEY) {
+    const param = await ParameterStoreService.getEncryptedParameterW(
+      '/audioarchive/production/server/AWS_SECRET_KEY'
+    );
+    const AWS_SECRET_KEY = param;
+
+    process.env[AWS_SECRET_KEY] = AWS_SECRET_KEY;
+    // throw new Error('AWS_BUCKET_NAME environment variable is not set');
+  }
+
+  if (!process.env.AWS_BUCKET_NAME) {
+    const param = await ParameterStoreService.getEncryptedParameterW(
+      '/audioarchive/production/server/AWS_BUCKET_NAME'
+    );
+    const AWS_BUCKET_NAME = param;
+
+    process.env[AWS_BUCKET_NAME] = AWS_BUCKET_NAME;
+    // throw new Error('AWS_BUCKET_NAME environment variable is not set');
+  }
+
+  if (!process.env.AWS_BUCKET_REGION) {
+    const param = await ParameterStoreService.getEncryptedParameterW(
+      '/audioarchive/production/server/AWS_BUCKET_REGION'
+    );
+    const AWS_BUCKET_REGION = param;
+
+    process.env[AWS_BUCKET_REGION] = AWS_BUCKET_REGION;
+    // throw new Error('AWS_BUCKET_NAME environment variable is not set');
+  }
 };
-
-if (!process.env.AWS_BUCKET_NAME) {
-  throw new Error('AWS_BUCKET_NAME environment variable is not set');
-}
-
-if (!process.env.AWS_ACCESS_KEY) {
-  throw new Error('AWS_ACCESS_KEY environment variable is not set');
-}
-
-if (!process.env.AWS_SECRET_KEY) {
-  throw new Error('AWS_SECRET_KEY environment variable is not set');
-}
-
-// if (!process.env.AWS_BUCKET_NAME) {
-//   throw new Error('AWS_BUCKET_NAME environment variable is not set');
-// }
-
-if (!process.env.AWS_BUCKET_REGION) {
-  throw new Error('AWS_BUCKET_REGION environment variable is not set');
-}
 
 export const s3 = new S3Client({
   credentials: {

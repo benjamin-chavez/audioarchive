@@ -7,6 +7,7 @@ import {
   GetParametersCommandInput,
   Parameter,
 } from '@aws-sdk/client-ssm';
+import { SSM } from 'aws-sdk';
 
 // const ssmClient = new SSMClient({ region: 'us-east-2' });
 
@@ -54,6 +55,26 @@ class ParameterStoreService {
       throw error;
     }
   }
+
+  static getParameterWorker = async (
+    name: string,
+    decrypt: boolean
+  ): Promise<string> => {
+    const ssm = new SSM();
+    // const ssm = new SSMClient();
+    const result = await ssm
+      .getParameter({ Name: name, WithDecryption: decrypt })
+      .promise();
+    return result.Parameter.Value;
+  };
+
+  static getParameterW = async (name: string): Promise<string> => {
+    return this.getParameterWorker(name, false);
+  };
+
+  static getEncryptedParameterW = async (name: string): Promise<string> => {
+    return this.getParameterWorker(name, true);
+  };
 }
 
 export default ParameterStoreService;
