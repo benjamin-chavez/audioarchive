@@ -75,7 +75,7 @@ async function loadConfig() {
     // });
 
     parameters.forEach((param) => {
-      if (!param?.Name || !param?.Value) {
+      if (!param.Name || !param.Value) {
         return;
       }
 
