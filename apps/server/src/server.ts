@@ -13,7 +13,7 @@ import ParameterStoreService from './services/parameter-store.service';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-async function loadConfig() {
+export async function loadConfig() {
   if (!isProduction) {
     return;
   }

@@ -11,6 +11,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import 'dotenv/config';
 import { generateRandomBytes } from '../lib/utils';
 import { AppUser, Product } from '@shared/src';
+import { loadConfig } from '../server';
 
 // if (
 //   !process.env.AWS_ACCESS_KEY ||
@@ -20,6 +21,9 @@ import { AppUser, Product } from '@shared/src';
 // ) {
 //   throw new Error('One or more AWS Environment Variables are not set');
 // }
+async () => {
+  await loadConfig();
+};
 
 if (!process.env.AWS_ACCESS_KEY) {
   throw new Error('AWS_ACCESS_KEY environment variable is not set');
