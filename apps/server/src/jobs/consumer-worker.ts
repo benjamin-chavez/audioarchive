@@ -65,6 +65,7 @@ async function handleStripeEvent(event: Event) {
       // @ts-ignore
       const { cartId } = sessionWithLineItems.metadata;
 
+      // @ts-ignore
       await CartService.updateCartById(cartId, { status: 'purchased' });
 
       const lineItems = sessionWithLineItems.line_items?.data;

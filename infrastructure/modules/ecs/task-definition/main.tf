@@ -23,10 +23,11 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       containerPort = var.container_port
       hostPort      = var.container_port
     }]
-    environment = [{
-      name  = "NODE_ENV"
-      value = var.node_env
-    }]
+    # environment = [{
+    #   name  = "NODE_ENV"
+    #   value = var.node_env
+    # }]
+    environment = var.environment_variables
     logConfiguration = {
       logDriver = "awslogs"
       options = {
