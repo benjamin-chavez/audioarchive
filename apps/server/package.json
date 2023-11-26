@@ -11,7 +11,12 @@
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\"",
     "start": "node -r esbuild-register ./src/server.ts",
     "test": "jest --detectOpenHandles",
-    "db:migrate": "knex migrate:latest && node ./update-types"
+    "db:migrate": "knex migrate:latest && node ./update-types",
+    "db:reset:prod": "npm run db:drop:prod && npm run db:create:prod && pnpm run db:migrate:prod && pnpm run db:seed:prod",
+    "db:drop:prod": "dropdb -h localhost -p 5432 -U postgres audio_archive_production || true",
+    "db:create:prod": "createdb -h localhost -p 5432 -U postgres audio_archive_production || true",
+    "db:migrate:prod": "NODE_ENV=production knex migrate:latest",
+    "db:seed:prod": "NODE_ENV=production knex seed:run"
   },
   "jest": {
     "preset": "jest-presets/jest/node"

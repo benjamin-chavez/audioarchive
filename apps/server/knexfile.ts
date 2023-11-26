@@ -78,12 +78,16 @@ const development = {
 const production = {
   client: 'postgresql',
   connection: {
+    // host: 'localhost',
     host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
     database: 'audio_archive_production',
     user: 'postgres',
     password: 'postgres-secret',
     port: 5432,
     ssl: { rejectUnauthorized: false },
+    // ssl: {
+    //   require: true,
+    // },
   },
   pool: {
     min: 2,
