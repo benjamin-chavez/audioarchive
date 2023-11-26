@@ -120,11 +120,7 @@ variable "db_password" {
   type        = string
 }
 
-variable "db_password0" {
-  description = "The secondary password for the RDS Postgres database instance"
-  type        = string
-  sensitive   = true
-}
+
 
 variable "aws_key_path" {
   description = "The file path to the AWS key (pem file) used for SSH access"

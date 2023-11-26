@@ -37,7 +37,7 @@ output "ssh_ec2_connect_command" {
 }
 
 # output "psql_connect_command" {
-#   value       = "psql -h ${module.psql_rds.rds_endpoint} -U ${var.db_user} -d ${var.db_password0}"
+#   value       = "psql -h ${module.psql_rds.rds_endpoint} -U ${var.db_user} -d ${var.db_password}"
 #   description = "Use this command to connect to the RDS Database."
 
 #   sensitive = false
