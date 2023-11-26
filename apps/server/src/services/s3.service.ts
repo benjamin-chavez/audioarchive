@@ -25,6 +25,10 @@ async () => {
   await loadConfig();
 };
 
+if (!process.env.AWS_BUCKET_NAME) {
+  throw new Error('AWS_BUCKET_NAME environment variable is not set');
+}
+
 if (!process.env.AWS_ACCESS_KEY) {
   throw new Error('AWS_ACCESS_KEY environment variable is not set');
 }
@@ -33,9 +37,9 @@ if (!process.env.AWS_SECRET_KEY) {
   throw new Error('AWS_SECRET_KEY environment variable is not set');
 }
 
-if (!process.env.AWS_BUCKET_NAME) {
-  throw new Error('AWS_BUCKET_NAME environment variable is not set');
-}
+// if (!process.env.AWS_BUCKET_NAME) {
+//   throw new Error('AWS_BUCKET_NAME environment variable is not set');
+// }
 
 if (!process.env.AWS_BUCKET_REGION) {
   throw new Error('AWS_BUCKET_REGION environment variable is not set');
