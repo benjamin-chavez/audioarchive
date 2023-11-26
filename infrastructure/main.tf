@@ -36,6 +36,32 @@ data "aws_ssm_parameter" "node_env" {
   name = "/${var.app_name}/config/node_env"
 }
 
+
+# -------  SSM DATABASE_HOST-------
+# data "aws_ssm_parameter" "db_host" {
+#   name = "/audioarchive/production/server/DATABASE_HOST"
+# }
+
+# -------  SSM DATABASE_NAME-------
+data "aws_ssm_parameter" "db_name" {
+  name = "/audioarchive/production/server/DATABASE_NAME"
+}
+
+# -------  SSM DATABASE_PASSWORD-------
+data "aws_ssm_parameter" "db_password" {
+  name = "/audioarchive/production/server/DATABASE_PASSWORD"
+}
+
+# -------  SSM DATABASE_PORT-------
+# data "aws_ssm_parameter" "db_port" {
+#   name = "/audioarchive/production/server/DATABASE_PORT"
+# }
+
+# -------  SSM DATABASE_USER-------
+data "aws_ssm_parameter" "db_user" {
+  name = "/audioarchive/production/server/DATABASE_USER"
+}
+
 # ------- Networking -------
 module "networking" {
   source = "./modules/networking"
@@ -613,14 +639,15 @@ module "psql_rds" {
   storage_type           = "gp2"
   storage_encrypted      = false
   kms_key_id             = "your-kms-key-id"
-  db_name                = "postgres"
-  password               = var.db_password
+  db_name                = data.aws_ssm_parameter.db_name.value
+  password               = data.aws_ssm_parameter.db_password.value
   vpc_id                 = module.networking.aws_vpc
   vpc_security_group_ids = [module.security_group_rds_db.sg_id]
   db_subnet_group_name   = module.networking.database_subnet_group_name
   parameter_group_name   = "default.postgres15"
   publicly_accessible    = true
   deletion_protection    = false
+  db_user                = data.aws_ssm_parameter.db_user.value
 
   depends_on = [
     # module.networking.aws_vpc,

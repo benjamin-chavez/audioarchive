@@ -79,3 +79,8 @@ variable "deletion_protection" {
   description = "A boolean flag to enable or disable deletion protection for the RDS instance."
   type        = bool
 }
+
+variable "db_user" {
+  description = "Database user"
+  type        = string
+}
