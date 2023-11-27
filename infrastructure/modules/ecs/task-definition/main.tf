@@ -26,6 +26,9 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
     environment = [{
       name  = "NODE_ENV"
       value = var.node_env
+
+      name  = "DATABASE_HOST"
+      value = "audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com"
     }]
     # environment = var.environment_variables
     logConfiguration = {
