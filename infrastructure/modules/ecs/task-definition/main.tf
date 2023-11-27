@@ -1,3 +1,4 @@
+# infrastructure/modules/ecs/task-definition/main.tf
 
 /*====================================
       AWS ECS Task definition
@@ -23,6 +24,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       containerPort = var.container_port
       hostPort      = var.container_port
     }]
+    secrets = var.secrets
     environment = [
       {
         name  = "NODE_ENV"

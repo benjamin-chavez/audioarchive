@@ -372,8 +372,21 @@ data "aws_iam_policy_document" "role_policy_ecs_task_role" {
     effect = "Allow"
     actions = [
       "ssm:GetParameters",
-      "ssm:GetParameter"
+      "ssm:GetParameter",
+      "ssm:DescribeParameters",
     ]
+    resources = ["*"]
+  }
+
+  statement {
+    sid    = "AllowSecretsManagerAccess"
+    effect = "Allow"
+    actions = [
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret"
+    ]
+    # TODO: narrow this scope
+    #  resources = [data.aws_secretsmanager_secret.auth0_secret.arn]
     resources = ["*"]
   }
 }

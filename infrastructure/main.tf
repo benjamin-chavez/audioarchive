@@ -26,12 +26,48 @@ resource "random_id" "RANDOM_ID" {
 # ------- Account ID -------
 data "aws_caller_identity" "id_current_account" {}
 
-
-
-# module "ssm_parameters" {
-#   source = "./modules/ssm-parameters"
-#   # Pass any required variables if needed
+# resource "aws_secretsmanager_secret" "production_secret" {
+#   name = "my_production_secret"
 # }
+
+# resource "aws_secretsmanager_secret_version" "production_secret_version" {
+#   secret_id     = aws_secretsmanager_secret.production_secret.id
+#   secret_string = "{\"NEXT_PUBLIC_COMPANY_NAME\":\"value1\",\"NEXT_PUBLIC_API_URL\":\"value2\", ...}"
+# }
+
+data "aws_secretsmanager_secret" "auth0_secret" {
+  name = "AUTH0_SECRET"
+}
+
+data "aws_secretsmanager_secret" "next_public_api_url" {
+  name = "NEXT_PUBLIC_API_URL"
+}
+data "aws_secretsmanager_secret" "next_public_company_name" {
+  name = "NEXT_PUBLIC_COMPANY_NAME"
+}
+data "aws_secretsmanager_secret" "auth0_scope" {
+  name = "AUTH0_SCOPE"
+}
+data "aws_secretsmanager_secret" "auth0_audience" {
+  name = "AUTH0_AUDIENCE"
+}
+data "aws_secretsmanager_secret" "auth0_client_secret" {
+  name = "AUTH0_CLIENT_SECRET"
+}
+data "aws_secretsmanager_secret" "auth0_client_id" {
+  name = "AUTH0_CLIENT_ID"
+}
+data "aws_secretsmanager_secret" "auth0_issuer_base_url" {
+  name = "AUTH0_ISSUER_BASE_URL"
+}
+data "aws_secretsmanager_secret" "auth0_base_url" {
+  name = "AUTH0_BASE_URL"
+}
+
+module "ssm_parameters" {
+  source = "./modules/ssm-parameters"
+  # Pass any required variables if needed
+}
 
 # -------  SSM GitHub Token -------
 data "aws_ssm_parameter" "github_token" {
@@ -256,15 +292,24 @@ module "ecs_task_definition_server" {
   region             = var.aws_region
   container_port     = var.port_app_server
   node_env           = var.node_env
+
   # environment_variables = [
+  #   {
+  #     name  = "NODE_ENV"
+  #     value = var.node_env
+  #   },
+  #   {
+  #     name  = "DATABASE_HOST"
+  #     value = "audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com"
+  #   },
   #   {
   #     name  = "GITHUB_TOKEN"
   #     value = module.ssm_parameters.github_token
   #   },
-  #   {
-  #     name  = "NODE_ENV"
-  #     value = module.ssm_parameters.node_env
-  #   },
+  #   # {
+  #   #   name  = "NODE_ENV"
+  #   #   value = module.ssm_parameters.node_env
+  #   # },
   #   {
   #     name  = "DB_NAME"
   #     value = module.ssm_parameters.db_name
@@ -373,6 +418,109 @@ module "ecs_task_definition_client" {
   region             = var.aws_region
   container_port     = var.port_app_client
   node_env           = var.node_env
+  secrets = [
+    {
+      name      = "AUTH0_SECRET",
+      valueFrom = data.aws_secretsmanager_secret.auth0_secret.arn
+    },
+    {
+      name      = "NEXT_PUBLIC_API_URL",
+      valueFrom = data.aws_secretsmanager_secret.next_public_api_url.arn
+    },
+    {
+      name      = "NEXT_PUBLIC_COMPANY_NAME",
+      valueFrom = data.aws_secretsmanager_secret.next_public_company_name.arn
+    },
+    {
+      name      = "AUTH0_SCOPE",
+      valueFrom = data.aws_secretsmanager_secret.auth0_scope.arn
+    },
+    {
+      name      = "AUTH0_AUDIENCE",
+      valueFrom = data.aws_secretsmanager_secret.auth0_audience.arn
+    },
+    {
+      name      = "AUTH0_CLIENT_SECRET",
+      valueFrom = data.aws_secretsmanager_secret.auth0_client_secret.arn
+    },
+    {
+      name      = "AUTH0_CLIENT_ID",
+      valueFrom = data.aws_secretsmanager_secret.auth0_client_id.arn
+    },
+    {
+      name      = "AUTH0_ISSUER_BASE_URL",
+      valueFrom = data.aws_secretsmanager_secret.auth0_issuer_base_url.arn
+    },
+    {
+      name      = "AUTH0_BASE_URL",
+      valueFrom = data.aws_secretsmanager_secret.auth0_base_url.arn
+    }
+  ]
+
+  # environment_variables = [
+  #   {
+  #     name  = "NODE_ENV"
+  #     value = var.node_env
+  #   },
+  #   # {
+  #   #   name  = "NODE_ENV"
+  #   #   value = module.ssm_parameters.node_env
+  #   # },
+  #   {
+  #     name  = "NEXT_PUBLIC_COMPANY_NAME"
+  #     value = module.ssm_parameters.next_public_company_name
+
+  #   },
+  #   {
+  #     name  = "NEXT_PUBLIC_API_URL"
+  #     value = module.ssm_parameters.next_public_api_url
+  #   },
+  #   {
+  #     name  = "AUTH0_AUDIENCE"
+  #     value = module.ssm_parameters.auth0_audience
+  #   },
+  #   {
+  #     name  = "AUTH0_BASE_URL"
+  #     value = module.ssm_parameters.auth0_base_url
+  #   }
+  #   ,
+  #   {
+  #     name  = "AUTH0_CLIENT_ID"
+  #     value = module.ssm_parameters.auth0_client_id
+  #   },
+  #   {
+  #     name  = "AUTH0_CLIENT_SECRET"
+  #     value = module.ssm_parameters.auth0_client_secret
+  #   },
+  #   {
+  #     name  = "AUTH0_ISSUER_BASE_URL"
+  #     value = module.ssm_parameters.auth0_issuer_base_url
+  #   },
+  #   {
+  #     name  = "AUTH0_SCOPE"
+  #     value = module.ssm_parameters.auth0_scope
+  #   },
+  #   {
+  #     name  = "AUTH0_SECRET"
+  #     value = module.ssm_parameters.auth0_secret
+  #   },
+  #   {
+  #     name  = "AWS_ACCESS_KEY"
+  #     value = module.ssm_parameters.aws_access_key
+  #   },
+  #   {
+  #     name  = "AWS_BUCKET_NAME"
+  #     value = module.ssm_parameters.aws_bucket_name
+  #   }
+  #   , {
+  #     name  = "AWS_BUCKET_REGION"
+  #     value = module.ssm_parameters.aws_bucket_region
+  #   },
+  #   {
+  #     name  = "AWS_SECRET_KEY"
+  #     value = module.ssm_parameters.aws_secret_key
+  #   }
+  # ]
 }
 
 # ------- Creating ECS Task Definition for the Database Migrations -------
