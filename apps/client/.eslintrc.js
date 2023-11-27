@@ -5,15 +5,17 @@ module.exports = {
   // ...other ESLint rules,
   extends: [
     // 'custom',
-    // 'next/core-web-vitals',
-    // 'prettier',
-    // 'plugin:prettier/recommended',
+    // 'eslint-config-custom',
+    'next/core-web-vitals',
+    'prettier',
+    'plugin:prettier/recommended',
     // 'plugin:@tanstack/eslint-plugin-query/recommended',
   ],
   plugins: [
-    // 'prettier', '@tanstack/query'
+    'prettier',
+    // '@tanstack/query'
   ],
   rules: {
-    // 'prettier/prettier': 'error',
+    'prettier/prettier': 'error',
   },
 };
