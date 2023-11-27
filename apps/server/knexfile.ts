@@ -87,7 +87,8 @@ const convertSnakeCaseToCamelCase = (obj: any): any => {
 const production = {
   client: 'postgresql',
   connection: {
-    host: process.env.DATABASE_HOST,
+    // host: process.env.DATABASE_HOST,
+    host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
     // user: process.env.DATABASE_USER,
     user: 'postgres',
     password: 'pg-secret',
