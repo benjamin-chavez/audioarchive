@@ -12,6 +12,8 @@ class ProductService {
 
   static async getAllProductsWithUserDetails(): Promise<any> {
     // return ProductModel.getAllProductsWithUserDetails();
+    console.log('GET_PRODUCTS_DATABASE_HOST: ', process.env.DATABASE_HOST);
+    console.log('GET_PRODUCTS_DATABASE_HOST: ', process.env.DATABASE_HOST);
 
     const products = await ProductModel.getAllProductsWithUserDetails();
 
@@ -19,7 +21,6 @@ class ProductService {
       await S3Service.getSignedUrlsForProducts(products);
 
     return productsWithSignedUrls;
-    // return products;
   }
 
   static async getAllProductsByAppUser(appUserId: number): Promise<any> {
