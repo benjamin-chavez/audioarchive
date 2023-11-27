@@ -7,10 +7,10 @@ loadEnvVariables().catch((error) => {
 import 'dotenv/config';
 import CustomMigrationSource from './src/database/customMigrationSource';
 import path from 'path';
-import {
-  convertCamelCaseToSnakeCase,
-  convertSnakeCaseToCamelCase,
-} from './src/lib/utils';
+// import {
+//   convertCamelCaseToSnakeCase,
+//   convertSnakeCaseToCamelCase,
+// } from './src/lib/utils';
 console.log('DATABASE_HOST: ', process.env.DATABASE_USER);
 console.log('DATABASE_USER: ', process.env.DATABASE_USER);
 console.log('DATABASE_USER: ', process.env.DATABASE_USER);
@@ -22,6 +22,26 @@ console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
 console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
 console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
 console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
+
+function convertCamelCaseToSnakeCase(str: string): string {
+  return str.replace(/([A-Z])/g, (match, letter) => `_${letter.toLowerCase()}`);
+}
+
+const convertSnakeCaseToCamelCase = (obj: any): any => {
+  if (typeof obj !== 'object' || obj === null) {
+    return obj;
+  }
+
+  return Object.keys(obj).reduce((accumulator, key) => {
+    const camelCaseKey = key.replace(/_([a-z])/g, (match, letter) =>
+      letter.toUpperCase()
+    );
+
+    accumulator[camelCaseKey] = convertSnakeCaseToCamelCase(obj[key]);
+
+    return accumulator;
+  }, {});
+};
 
 const baseConfig = {
   client: 'postgresql',

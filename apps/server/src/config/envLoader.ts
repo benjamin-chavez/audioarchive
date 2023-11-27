@@ -19,12 +19,12 @@ export async function loadEnvVariables() {
 
   const paramUrls = {
     general: ['/audioarchive/config/node_env', '/audioarchive/github_token'],
-    // aws: [
-    //   '/audioarchive/production/server/AWS_ACCESS_KEY',
-    //   '/audioarchive/production/server/AWS_BUCKET_NAME',
-    //   '/audioarchive/production/server/AWS_BUCKET_REGION',
-    //   '/audioarchive/production/server/AWS_SECRET_KEY',
-    // ],
+    aws: [
+      '/audioarchive/production/server/AWS_ACCESS_KEY',
+      '/audioarchive/production/server/AWS_BUCKET_NAME',
+      '/audioarchive/production/server/AWS_BUCKET_REGION',
+      '/audioarchive/production/server/AWS_SECRET_KEY',
+    ],
     auth0: [
       '/audioarchive/production/server/AUTH0_AUDIENCE',
       '/audioarchive/production/server/AUTH0_BASE_URL',
