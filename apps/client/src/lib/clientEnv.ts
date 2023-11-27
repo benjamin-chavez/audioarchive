@@ -26,8 +26,8 @@ export async function loadEnvVariables() {
       '/audioarchive/production/server/CLIENT_URL',
     ],
   };
-  // ParameterStoreService.initialize('us-east-2');
-  ParameterStoreService.initialize(process.env.AWS_REGION || 'us-east-2');
+  ParameterStoreService.initialize('us-east-2');
+  // ParameterStoreService.initialize(process.env.AWS_REGION || 'us-east-2');
   try {
     let parameters = [];
 

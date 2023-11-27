@@ -6,7 +6,7 @@
     "build": {
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "public/dist/**"],
       "dependsOn": ["^build"],
-      "env": ["NEXT_PUBLIC_API_HOST"]
+      "env": ["NODE_ENV", "NEXT_PUBLIC_API_HOST", "NEXT_PUBLIC_COMPANY_NAME"]
     },
     "test": {
       "outputs": ["coverage/**"],
