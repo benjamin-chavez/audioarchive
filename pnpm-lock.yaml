@@ -29,6 +29,9 @@ importers:
       '@heroicons/react':
         specifier: ^2.0.18
         version: 2.0.18(react@18.2.0)
+      '@hookform/resolvers':
+        specifier: ^3.3.2
+        version: 3.3.2(react-hook-form@7.48.2)
       '@shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -44,6 +47,9 @@ importers:
       next:
         specifier: ^14.0.3
         version: 14.0.3(react-dom@18.2.0)(react@18.2.0)
+      parameter-store:
+        specifier: workspace:*
+        version: link:../../packages/parameter-store
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -53,9 +59,9 @@ importers:
       react-hook-form:
         specifier: ^7.48.2
         version: 7.48.2(react@18.2.0)
-      tailwind-merge:
-        specifier: ^2.0.0
-        version: 2.0.0
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
       ui:
         specifier: workspace:*
         version: link:../../packages/ui
@@ -99,12 +105,18 @@ importers:
       tailwind-config:
         specifier: workspace:*
         version: link:../../packages/tailwind-config
+      tailwind-merge:
+        specifier: ^2.0.0
+        version: 2.0.0
       tailwindcss:
         specifier: 3.3.3
-        version: 3.3.3
+        version: 3.3.3(ts-node@10.9.1)
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.3.3)
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@20.9.2)(typescript@5.2.2)
       tsconfig:
         specifier: workspace:*
         version: link:../../packages/tsconfig
@@ -349,6 +361,43 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2
 
+  packages/parameter-store:
+    dependencies:
+      '@aws-sdk/client-ssm':
+        specifier: ^3.454.0
+        version: 3.454.0
+      aws-sdk:
+        specifier: ^2.1502.0
+        version: 2.1502.0
+    devDependencies:
+      '@aws-sdk/types':
+        specifier: ^3.425.0
+        version: 3.451.0
+      '@types/jest':
+        specifier: ^29.5.8
+        version: 29.5.8
+      '@types/node':
+        specifier: ^20.9.2
+        version: 20.9.2
+      eslint:
+        specifier: ^8.54.0
+        version: 8.54.0
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@20.9.2)(ts-node@10.9.1)
+      jest-presets:
+        specifier: workspace:*
+        version: link:../jest-presets
+      tsconfig:
+        specifier: workspace:*
+        version: link:../tsconfig
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
   packages/shared:
     dependencies:
       zod:
@@ -370,7 +419,7 @@ importers:
     devDependencies:
       tailwindcss:
         specifier: 3.3.3
-        version: 3.3.3
+        version: 3.3.3(ts-node@10.9.1)
 
   packages/tsconfig: {}
 
@@ -1643,6 +1692,14 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@hookform/resolvers@3.3.2(react-hook-form@7.48.2):
+    resolution: {integrity: sha512-Tw+GGPnBp+5DOsSg4ek3LCPgkBOuOgS5DsDV7qsWNH9LZc433kgsWICjlsh2J9p04H2K66hsXPPb9qn9ILdUtA==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
+    dependencies:
+      react-hook-form: 7.48.2(react@18.2.0)
+    dev: false
+
   /@humanwhocodes/config-array@0.11.13:
     resolution: {integrity: sha512-JSBDMiDKSzQVngfRjOdFXgFfklaXI4K9nLF49Auh21lmBWRLIK3+xTErTWD4KU54pb6coM6ESE7Awz/FNU3zgQ==}
     engines: {node: '>=10.10.0'}
@@ -2538,7 +2595,7 @@ packages:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.3.3
+      tailwindcss: 3.3.3(ts-node@10.9.1)
 
   /@tsconfig/node10@1.0.9:
     resolution: {integrity: sha512-jNsYVVxU8v5g43Erja32laIDHXeoNvFEpX33OK4d6hljo3jDhCBDhx5dhCCTMWUojscpAagGiRkBKxpdl9fxqA==}
@@ -6777,7 +6834,7 @@ packages:
       camelcase-css: 2.0.1
       postcss: 8.4.31
 
-  /postcss-load-config@4.0.1(postcss@8.4.31):
+  /postcss-load-config@4.0.1(postcss@8.4.31)(ts-node@10.9.1):
     resolution: {integrity: sha512-vEJIc8RdiBRu3oRAI0ymerOn+7rPuMvRXslTvZUKZonDHFIczxztIyJ1urxM1x9JXEikvpWWTUUqal5j/8QgvA==}
     engines: {node: '>= 14'}
     peerDependencies:
@@ -6791,6 +6848,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.31
+      ts-node: 10.9.1(@types/node@20.9.2)(typescript@5.2.2)
       yaml: 2.3.4
 
   /postcss-nested@6.0.1(postcss@8.4.31):
@@ -7266,6 +7324,10 @@ packages:
       - supports-color
     dev: false
 
+  /server-only@0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
+    dev: false
+
   /set-function-length@1.1.1:
     resolution: {integrity: sha512-VoaqjbBJKiWtg4yRcKBQ7g7wnGnLV3M8oLvVWwOk2PdYY6PEFegR1vezXR0tw6fZGF9csVakIRjrJiy2veSBFQ==}
     engines: {node: '>= 0.4'}
@@ -7580,17 +7642,17 @@ packages:
     resolution: {integrity: sha512-WO8qghn9yhsldLSg80au+3/gY9E4hFxIvQ3qOmlpXnqpDKoMruKfi/56BbbMg6fHTQJ9QD3cc79PoWqlaQE4rw==}
     dependencies:
       '@babel/runtime': 7.23.2
-    dev: false
+    dev: true
 
   /tailwindcss-animate@1.0.7(tailwindcss@3.3.3):
     resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
     dependencies:
-      tailwindcss: 3.3.3
+      tailwindcss: 3.3.3(ts-node@10.9.1)
     dev: true
 
-  /tailwindcss@3.3.3:
+  /tailwindcss@3.3.3(ts-node@10.9.1):
     resolution: {integrity: sha512-A0KgSkef7eE4Mf+nKJ83i75TMyq8HqY3qmFIJSWy8bNt0v1lG7jUcpGpoTFxAwYcWOphcTBLPPJg+bDfhDf52w==}
     engines: {node: '>=14.0.0'}
     hasBin: true
@@ -7612,7 +7674,7 @@ packages:
       postcss: 8.4.31
       postcss-import: 15.1.0(postcss@8.4.31)
       postcss-js: 4.0.1(postcss@8.4.31)
-      postcss-load-config: 4.0.1(postcss@8.4.31)
+      postcss-load-config: 4.0.1(postcss@8.4.31)(ts-node@10.9.1)
       postcss-nested: 6.0.1(postcss@8.4.31)
       postcss-selector-parser: 6.0.13
       resolve: 1.22.8

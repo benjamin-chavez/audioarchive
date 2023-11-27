@@ -1,0 +1,36 @@
+{
+  "name": "parameter-store",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "dev": "tsc -w",
+    "lint": "eslint \"src/**/*.ts*\"",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "jest-presets/jest/node"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1502.0",
+    "@aws-sdk/client-ssm": "^3.454.0"
+  },
+  "devDependencies": {
+    "@aws-sdk/types": "^3.425.0",
+    "@types/jest": "^29.5.8",
+    "@types/node": "^20.9.2",
+    "eslint": "^8.54.0",
+    "eslint-config-custom": "workspace:*",
+    "jest": "^29.7.0",
+    "jest-presets": "workspace:*",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.2.2"
+  }
+}

@@ -21,7 +21,7 @@ serverUrl = 'api.audioarchive.benchavez.xyz';
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  transpilePackages: ['ui'],
+  transpilePackages: ['ui', 'parameter-store'],
   output: 'standalone',
   experimental: {
     outputFileTracingRoot: path.join(__dirname, '../../'),
