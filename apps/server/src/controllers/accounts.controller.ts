@@ -2,8 +2,8 @@
 
 import express, { RequestHandler, response } from 'express';
 import asyncHandler from 'express-async-handler';
-// import knex from '../config/database';
-import { getKnexInstance } from '../config/database';
+import knex from '../config/database';
+
 import Stripe from 'stripe';
 import MeService from '../services/me.service';
 // @ts-ignore
@@ -11,7 +11,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createStripeAccount: RequestHandler = asyncHandler(
   async (req, res) => {
-    const knex = getKnexInstance();
     // @ts-ignore
     const authId = req.auth.sub;
     const appUser = await MeService.getMe(authId);

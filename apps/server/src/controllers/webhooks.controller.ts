@@ -3,7 +3,7 @@
 // import { RequestHandler } from 'express';
 // import asyncHandler from 'express-async-handler';
 // import { publishToQueue } from '../jobs/rabbitmq';
-// import knex from '../config/database';
+import knex from '../config/database';
 // import Stripe from 'stripe';
 
 // // @ts-ignore

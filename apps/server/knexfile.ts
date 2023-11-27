@@ -35,50 +35,50 @@ const convertSnakeCaseToCamelCase = (obj: any): any => {
   }, {});
 };
 
-const baseConfig = {
-  client: 'postgresql',
-  pool: {
-    min: 2,
-    max: 10,
-  },
-  migrations: {
-    tableName: 'knex_migrations',
-    directory: './src/database/migrations',
-    // stub: './src/database/migration.stub.js',
-    migrationSource: new CustomMigrationSource(
-      path.join(__dirname, 'migrations')
-    ),
-  },
-  seeds: {
-    directory: './src/database/seeds/development',
-    // directory: './src/database/migrations',
-  },
-  postProcessResponse: (result) => {
-    if (Array.isArray(result)) {
-      return result.map((row) => convertSnakeCaseToCamelCase(row));
-    } else {
-      return convertSnakeCaseToCamelCase(result);
-    }
-  },
-  wrapIdentifier: (
-    value,
-    origImpl
-    // queryContext,
-  ) => {
-    return origImpl(convertCamelCaseToSnakeCase(value));
-  },
-};
+// const baseConfig = {
+//   client: 'postgresql',
+//   pool: {
+//     min: 2,
+//     max: 10,
+//   },
+//   migrations: {
+//     tableName: 'knex_migrations',
+//     directory: './src/database/migrations',
+//     // stub: './src/database/migration.stub.js',
+//     migrationSource: new CustomMigrationSource(
+//       path.join(__dirname, 'migrations')
+//     ),
+//   },
+//   seeds: {
+//     directory: './src/database/seeds/development',
+//     // directory: './src/database/migrations',
+//   },
+//   postProcessResponse: (result) => {
+//     if (Array.isArray(result)) {
+//       return result.map((row) => convertSnakeCaseToCamelCase(row));
+//     } else {
+//       return convertSnakeCaseToCamelCase(result);
+//     }
+//   },
+//   wrapIdentifier: (
+//     value,
+//     origImpl
+//     // queryContext,
+//   ) => {
+//     return origImpl(convertCamelCaseToSnakeCase(value));
+//   },
+// };
 
-const development = {
-  ...baseConfig,
-  connection: {
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    port: process.env.DATABASE_PORT,
-    database: process.env.DATABASE_NAME,
-  },
-};
+// const development = {
+//   ...baseConfig,
+//   connection: {
+//     host: process.env.DATABASE_HOST,
+//     user: process.env.DATABASE_USER,
+//     password: process.env.DATABASE_PASSWORD,
+//     port: process.env.DATABASE_PORT,
+//     database: process.env.DATABASE_NAME,
+//   },
+// };
 
 // host:
 //   process.env.USE_LOCAL_DB_TUNNEL === 'true'
@@ -129,7 +129,7 @@ const production = {
 };
 
 const knexConfig = {
-  development,
+  // development,
   production,
 };
 

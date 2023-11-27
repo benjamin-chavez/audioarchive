@@ -1,8 +1,8 @@
 // apps/server/src/models/order.model.ts
 
 import { Order } from '@shared/src';
-import { getKnexInstance } from '../config/database';
-// import knex from '../config/database';
+
+import knex from '../config/database';
 
 class OrderModel {
   private static tableName = 'orders';
@@ -11,7 +11,6 @@ class OrderModel {
     field: keyof Order,
     value: unknown
   ): Promise<Order | null> {
-    const knex = getKnexInstance();
     const order: Order | undefined = await knex(this.tableName)
       .where({ [field]: value })
       .first();
@@ -20,7 +19,6 @@ class OrderModel {
   }
 
   static async create(orderData: Partial<Order>): Promise<Order> {
-    const knex = getKnexInstance();
     const results: Order[] = await knex(this.tableName)
       .insert(orderData)
       .returning('*');
@@ -40,7 +38,6 @@ class OrderModel {
     value: unknown,
     orderData: Partial<Order>
   ): Promise<Order> {
-    const knex = getKnexInstance();
     const updatedOrders = await knex(this.tableName)
       .where({ [field]: value })
       .update(orderData)

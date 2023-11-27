@@ -7,15 +7,13 @@ import {
   CartStatusEnum,
   CartWithCartItems,
 } from '@shared/src';
-// import knex from '../config/database';
+import knex from '../config/database';
 import { sanitize } from '../lib/utils';
-import { getKnexInstance } from '../config/database';
 
 class CartModel {
   private static tableName = 'carts';
 
   static async create(appUserId: number): Promise<Cart> {
-    const knex = getKnexInstance();
     const newCart: Cart[] = await knex(this.tableName)
       .insert({ appUserId })
       .returning('*');
@@ -29,7 +27,7 @@ class CartModel {
     cartStatus: CartStatusEnum = 'active'
   ): Promise<Cart | null> {
     // ): Promise<Cart> {
-    const knex = getKnexInstance();
+
     const cart: Cart = await knex(this.tableName)
       .where({
         [field]: value,
@@ -45,7 +43,7 @@ class CartModel {
     appUserId: number
   ): Promise<CartWithCartItems | null | any> {
     // TODO: Update to use the `apps/server/src/database/queries/get-cart-with-items-and-products.sql` file instead
-    const knex = getKnexInstance();
+
     const cartWithItems = await knex('carts')
       .select('carts.*')
       .select(
@@ -97,7 +95,6 @@ class CartModel {
     cartId: number,
     cartData: Partial<Cart>
   ): Promise<Cart | null> {
-    const knex = getKnexInstance();
     return knex(this.tableName).where({ id: cartId }).update(cartData);
   }
 
@@ -105,7 +102,6 @@ class CartModel {
     appUserId: number,
     cartData: Partial<Cart>
   ): Promise<Cart | null> {
-    const knex = getKnexInstance();
     const updatedCarts: Cart[] = await knex(this.tableName)
       .where({ appUserId, status: 'active' })
       .update(cartData)
