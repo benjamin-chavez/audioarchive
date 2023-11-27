@@ -26,6 +26,50 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   // await loadEnvVariables();
+  console.log(
+    'NEXT_PUBLIC_COMPANY_NAME: ',
+    process.env.NEXT_PUBLIC_COMPANY_NAME,
+  );
+  console.log(
+    'NEXT_PUBLIC_COMPANY_NAME: ',
+    process.env.NEXT_PUBLIC_COMPANY_NAME,
+  );
+  console.log(
+    'NEXT_PUBLIC_COMPANY_NAME: ',
+    process.env.NEXT_PUBLIC_COMPANY_NAME,
+  );
+  console.log(
+    'NEXT_PUBLIC_COMPANY_NAME: ',
+    process.env.NEXT_PUBLIC_COMPANY_NAME,
+  );
+  console.log(
+    'NEXT_PUBLIC_COMPANY_NAME: ',
+    process.env.NEXT_PUBLIC_COMPANY_NAME,
+  );
+  console.log(
+    'NEXT_PUBLIC_COMPANY_NAME: ',
+    process.env.NEXT_PUBLIC_COMPANY_NAME,
+  );
+  console.log(
+    'NEXT_PUBLIC_COMPANY_NAME: ',
+    process.env.NEXT_PUBLIC_COMPANY_NAME,
+  );
+  console.log(
+    'NEXT_PUBLIC_COMPANY_NAME: ',
+    process.env.NEXT_PUBLIC_COMPANY_NAME,
+  );
+  console.log(
+    'NEXT_PUBLIC_COMPANY_NAME: ',
+    process.env.NEXT_PUBLIC_COMPANY_NAME,
+  );
+  console.log(
+    'NEXT_PUBLIC_COMPANY_NAME: ',
+    process.env.NEXT_PUBLIC_COMPANY_NAME,
+  );
+  console.log(
+    'NEXT_PUBLIC_COMPANY_NAME: ',
+    process.env.NEXT_PUBLIC_COMPANY_NAME,
+  );
   return (
     <html
       lang="en"
