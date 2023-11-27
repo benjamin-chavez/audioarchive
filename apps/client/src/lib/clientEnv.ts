@@ -1,11 +1,10 @@
-// apps/server/src/config/envLoader.ts
+// apps/client/src/lib/clientEnv.ts
 import ParameterStoreService from 'parameter-store';
-ParameterStoreService.initialize('us-east-2');
-
-const isProduction = process.env.NODE_ENV === 'production';
 
 // Load environment variables here
 export async function loadEnvVariables() {
+  const isProduction = process.env.NODE_ENV === 'production';
+
   if (!isProduction) {
     return;
   }
@@ -27,7 +26,7 @@ export async function loadEnvVariables() {
       '/audioarchive/production/server/CLIENT_URL',
     ],
   };
-
+  // ParameterStoreService.initialize('us-east-2');
   ParameterStoreService.initialize(process.env.AWS_REGION || 'us-east-2');
   try {
     let parameters = [];
