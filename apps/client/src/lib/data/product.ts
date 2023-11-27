@@ -1,9 +1,9 @@
 // apps/client/src/data/products.ts
-// import 'server-only';
+import 'server-only';
 
 export async function getProductDetails(integerId: number) {
   // const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
-  const BASE_URL = `http://localhost:5000/api`;
+  const BASE_URL = `http://localhost:3000/api`;
 
   const res = await fetch(`${BASE_URL}/products/${integerId}`);
 
@@ -14,3 +14,5 @@ export async function getProductDetails(integerId: number) {
 
   return res.json();
 }
+
+export const dynamic = 'force-dynamic';
