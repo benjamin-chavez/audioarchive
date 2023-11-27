@@ -3,17 +3,17 @@
 import 'dotenv/config';
 import CustomMigrationSource from './src/database/customMigrationSource';
 import path from 'path';
-console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
-console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
-console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
-console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
-console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
-console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
-console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
-console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
-console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
-console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
-console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
+console.log('DATABASE_HOST: ', process.env.DATABASE_USER);
+console.log('DATABASE_USER: ', process.env.DATABASE_USER);
+console.log('DATABASE_USER: ', process.env.DATABASE_USER);
+console.log('DATABASE_USER: ', process.env.DATABASE_USER);
+console.log('DATABASE_USER: ', process.env.DATABASE_USER);
+console.log('DATABASE_USER: ', process.env.DATABASE_USER);
+console.log('DATABASE_USER: ', process.env.DATABASE_USER);
+console.log('DATABASE_USER: ', process.env.DATABASE_USER);
+console.log('DATABASE_USER: ', process.env.DATABASE_USER);
+console.log('DATABASE_USER: ', process.env.DATABASE_USER);
+console.log('DATABASE_USER: ', process.env.DATABASE_USER);
 
 function convertCamelCaseToSnakeCase(str: string): string {
   return str.replace(/([A-Z])/g, (match, letter) => `_${letter.toLowerCase()}`);
@@ -87,8 +87,7 @@ const baseConfig = {
 const production = {
   client: 'postgresql',
   connection: {
-    // host: process.env.DATABASE_HOST,
-    host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
+    host: process.env.DATABASE_HOST,
     // user: process.env.DATABASE_USER,
     user: 'postgres',
     password: 'pg-secret',
