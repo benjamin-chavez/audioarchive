@@ -1,5 +1,5 @@
 // apps/client/src/data/products.ts
-import 'server-only';
+// import 'server-only';
 
 export async function getProductDetails(integerId: number) {
   // const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
