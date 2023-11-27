@@ -7,7 +7,10 @@
 // dotenv.config({ path: `.env` });
 
 import { loadEnvVariables } from './config/envLoader';
-loadEnvVariables();
+loadEnvVariables().catch((error) => {
+  console.error('Failed to start server:', error);
+  process.exit(1);
+});
 
 import 'dotenv/config';
 import { app } from './app';
