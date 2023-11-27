@@ -7,8 +7,9 @@ import { app } from '../app';
 import S3Service from '../services/s3.service';
 import appUserRoutes from './app-user.routes';
 import productRoutes from './product.routes';
+import { getKnexInstance } from '../config/database';
 // import webhookRoutes from './webhook.routes';
-import knex from '../config/database';
+// import knex from '../config/database';
 
 // TODO: Blog post: this error =>  import { knex } from 'knex';
 
@@ -55,6 +56,7 @@ router.use('/products', productRoutes);
 router.use(
   '/app-users2',
   asyncHandler(async (req, res) => {
+    const knex = getKnexInstance();
     const appUsers = await knex('appUsers').select('*');
 
     if (!appUsers.length) {

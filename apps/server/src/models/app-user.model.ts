@@ -1,7 +1,8 @@
 // apps/backend/src/models/appUser.ts
 
 import { AppUser, AppUserWithProducts, Product } from '@shared/src/schemas';
-import knex from '../config/database';
+// import knex from '../config/database';
+import { getKnexInstance } from '../config/database';
 
 class AppUserModel {
   public id: number;
@@ -26,6 +27,7 @@ class AppUserModel {
   }
 
   static async findAll(): Promise<AppUser[]> {
+    const knex = getKnexInstance();
     return knex(this.tableName).select('*');
   }
 
@@ -33,6 +35,7 @@ class AppUserModel {
     field: keyof AppUser,
     value: unknown
   ): Promise<AppUser | null> {
+    const knex = getKnexInstance();
     const appUser: AppUser | undefined = await knex(this.tableName)
       .where({ [field]: value })
       .first();
@@ -118,7 +121,7 @@ class AppUserModel {
     if (!appUser) {
       return null;
     }
-
+    const knex = getKnexInstance();
     const products: Product = await knex('products')
       .where('id', productId)
       .first();
@@ -148,6 +151,7 @@ class AppUserModel {
   // }
 
   static async create(appUserData: Omit<AppUser, 'id'>): Promise<AppUser> {
+    const knex = getKnexInstance();
     const results: AppUser[] = await knex(this.tableName)
       .insert(appUserData)
       .returning('*');
@@ -180,6 +184,7 @@ class AppUserModel {
     authId: string,
     appUser: Partial<AppUser>
   ): Promise<AppUser | null> {
+    const knex = getKnexInstance();
     const results = await knex(this.tableName)
       .where({ authId: authId })
       .update(appUser)
@@ -198,6 +203,7 @@ class AppUserModel {
   // }
 
   static async deleteByAuthId(authId: string): Promise<boolean> {
+    const knex = getKnexInstance();
     const deletedRows = await knex(this.tableName)
       .where({ auth_id: authId })
       .del();
@@ -210,6 +216,7 @@ class AppUserModel {
     // value: unknown
     appUserid: number
   ): Promise<any> {
+    const knex = getKnexInstance();
     const subQueryAvatar = knex('appUsers')
       .where('id', appUserid)
       .select('avatarS3Key');

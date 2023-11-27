@@ -1,12 +1,14 @@
 // apps/server/src/models/cart-item.model.ts
 
 import { AppUser, Cart, CartItem, CartStatusEnum } from '@shared/src';
-import knex from '../config/database';
+import { getKnexInstance } from '../config/database';
+// import knex from '../config/database';
 
 class CartItemModel {
   private static tableName = 'cartItems';
 
   static async create(cartId: number, productId: number): Promise<CartItem> {
+    const knex = getKnexInstance();
     const newCartItem: CartItem[] = await knex(this.tableName)
       .insert({ cartId, productId })
       .returning('*');
@@ -51,6 +53,7 @@ class CartItemModel {
   // }
 
   static async delete(cartItemId: number): Promise<boolean> {
+    const knex = getKnexInstance();
     const deletedRows = await knex(this.tableName)
       .where({ id: cartItemId })
       .del();

@@ -1,16 +1,19 @@
 // apps/server/src/models/product.model.ts
 
 import { Product } from '@shared/src/schemas';
-import knex from '../config/database';
+// import knex from '../config/database';
+import { getKnexInstance } from '../config/database';
 
 class ProductModel {
   private static tableName = 'products';
 
   static async getAll(): Promise<Product[]> {
+    const knex = getKnexInstance();
     return knex(this.tableName).select('*');
   }
 
   static async getAllProductsWithUserDetails(): Promise<any> {
+    const knex = getKnexInstance();
     const products = await knex(this.tableName)
       .join('appUsers', 'products.appUserId', '=', 'appUsers.id')
       .select('products.*', 'appUsers.username', 'appUsers.auth_id');
@@ -19,6 +22,7 @@ class ProductModel {
   }
 
   static async getAllProductsByAppUser(appUserId: number): Promise<any> {
+    const knex = getKnexInstance();
     const products = await knex(this.tableName)
       .where('appUserId', appUserId)
       .select('*');
@@ -27,6 +31,7 @@ class ProductModel {
   }
 
   static async findById(id: number): Promise<Product | null> {
+    const knex = getKnexInstance();
     const products = await knex(this.tableName)
       .join('appUsers', 'products.appUserId', '=', 'appUsers.id')
       .where('products.id', id)
@@ -35,6 +40,7 @@ class ProductModel {
   }
 
   static async create(product: Omit<Product, 'id'>): Promise<Product> {
+    const knex = getKnexInstance();
     const results: Product[] = await knex(this.tableName)
       .insert(product)
       .returning('*');
@@ -49,10 +55,12 @@ class ProductModel {
   }
 
   static async update(id: number, product: Partial<Product>): Promise<number> {
+    const knex = getKnexInstance();
     return knex(this.tableName).where({ id }).update(product);
   }
 
   static async delete(id: number): Promise<boolean> {
+    const knex = getKnexInstance();
     const deletedRows = await knex(this.tableName).where({ id }).del();
 
     return deletedRows > 0;

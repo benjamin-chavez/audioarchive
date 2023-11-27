@@ -6,7 +6,7 @@ import MeService from '../services/me.service';
 import CartService from '../services/cart.service';
 import { CartWithCartItems } from '@shared/src';
 import { Knex } from 'knex';
-import knex from '../config/database';
+// import knex from '../config/database';
 
 export const createMyCart: RequestHandler = asyncHandler(async (req, res) => {
   // @ts-ignore

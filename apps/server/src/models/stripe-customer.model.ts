@@ -1,7 +1,8 @@
 // apps/server/src/models/customer.model.ts
 
 import { StripeCustomer } from '@shared/src';
-import knex from '../config/database';
+import { getKnexInstance } from '../config/database';
+// import knex from '../config/database';
 
 class StripeCustomerModel {
   // public id: number;
@@ -18,6 +19,7 @@ class StripeCustomerModel {
   static async create(
     customerData: Pick<StripeCustomer, 'appUserId' | 'stripeCustomerId'>
   ): Promise<StripeCustomer> {
+    const knex = getKnexInstance();
     const results: StripeCustomer[] = await knex(this.tableName)
       .insert(customerData)
       .returning('*');
@@ -35,6 +37,7 @@ class StripeCustomerModel {
     field: keyof StripeCustomer,
     value: unknown
   ): Promise<StripeCustomer | null> {
+    const knex = getKnexInstance();
     const customer: StripeCustomer | undefined = await knex(this.tableName)
       .where({ [field]: value })
       .first();
