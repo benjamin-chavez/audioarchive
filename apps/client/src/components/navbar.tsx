@@ -94,7 +94,8 @@ export default function Navbar() {
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link href="/" className="flex items-center">
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              {process.env.NEXT_PUBLIC_COMPANY_NAME}
+              {/* {process.env.NEXT_PUBLIC_COMPANY_NAME} */}
+              {'process.env.NEXT_PUBLIC_COMPANY_NAME'}
             </span>
           </Link>
 

@@ -2,7 +2,8 @@
 import 'server-only';
 
 export async function getProductDetails(integerId: number) {
-  const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
+  // const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
+  const BASE_URL = `http://localhost:5000/api`;
 
   const res = await fetch(`${BASE_URL}/products/${integerId}`);
 

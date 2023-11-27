@@ -29,7 +29,7 @@ export default withPageAuthRequired(
       </>
     );
   },
-  { returnTo: '/settings/products-overview' }
+  { returnTo: '/settings/products-overview' },
 );
 
 function ProductsHeader() {

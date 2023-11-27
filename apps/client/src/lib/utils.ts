@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function generateRandomString(length: number) {
   return Array.from({ length }, () =>
-    Math.floor(Math.random() * 36).toString(36)
+    Math.floor(Math.random() * 36).toString(36),
   ).join('');
 }
 

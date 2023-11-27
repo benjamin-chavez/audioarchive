@@ -17,10 +17,9 @@
     "tfd": "cd ./infrastructure && terraform destroy -var-file=.tfvars"
   },
   "devDependencies": {
-    "esbuild-register": "^3.5.0",
     "eslint-config-custom": "workspace:*",
     "prettier": "^3.1.0",
-    "turbo": "1.8.3"
+    "turbo": "^1.10.16"
   },
   "engines": {
     "node": ">=14.0.0",

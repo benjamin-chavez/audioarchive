@@ -18,6 +18,7 @@ export async function revalidateCart() {
 }
 
 function calculatePriceSubtotal(cartItems: any): number {
+  // @ts-ignore
   const subtotal = cartItems?.reduce((sum, cartItem) => {
     return sum + cartItem.product.price;
   }, 0);
