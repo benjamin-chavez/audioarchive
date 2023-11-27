@@ -6,8 +6,8 @@ import { AppUser } from '@shared/src';
 import Link from 'next/link';
 
 async function getAppUsers() {
-  const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
-
+  // const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
+  const BASE_URL = `http://api.audioarchive.benchavez.xyz/api`;
   const res = await fetch(`${BASE_URL}/app-users/profiles`);
 
   if (!res.ok) {
@@ -18,7 +18,7 @@ async function getAppUsers() {
   return res.json();
 }
 
-export function AppUserCard({ appUser }: { appUser: AppUser }) {
+function AppUserCard({ appUser }: { appUser: AppUser }) {
   return (
     <>
       <div className="group relative flex flex-col overflow-hidden rounded-lg h-80 w-72">
@@ -54,7 +54,7 @@ export function AppUserCard({ appUser }: { appUser: AppUser }) {
   );
 }
 
-export function AppUsersGrid({ appUsers }: { appUsers: AppUser[] }) {
+function AppUsersGrid({ appUsers }: { appUsers: AppUser[] }) {
   if (appUsers) {
     return (
       <div className="pt-20">
@@ -82,3 +82,4 @@ export default async function SearchPage() {
     </div>
   );
 }
+export const dynamic = 'force-dynamic';

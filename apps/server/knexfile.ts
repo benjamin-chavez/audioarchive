@@ -92,7 +92,7 @@ const development = {
 //     ? 'localhost'
 //     : process.env.DATABASE_HOST,
 const production = {
-  ...baseConfig,
+  client: 'postgresql',
   connection: {
     // host: process.env.DATABASE_HOST,
     host: 'audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com',
@@ -102,6 +102,35 @@ const production = {
     port: parseInt(process.env.DATABASE_PORT || '5432'),
     database: 'audio_archive_production',
     ssl: { rejectUnauthorized: false },
+  },
+  pool: {
+    min: 2,
+    max: 10,
+  },
+  migrations: {
+    tableName: 'knex_migrations',
+    directory: './src/database/migrations',
+    // stub: './src/database/migration.stub.js',
+    migrationSource: new CustomMigrationSource(
+      path.join(__dirname, 'migrations')
+    ),
+  },
+  seeds: {
+    directory: './src/database/seeds/development',
+  },
+  postProcessResponse: (result) => {
+    if (Array.isArray(result)) {
+      return result.map((row) => convertSnakeCaseToCamelCase(row));
+    } else {
+      return convertSnakeCaseToCamelCase(result);
+    }
+  },
+  wrapIdentifier: (
+    value,
+    origImpl
+    // queryContext,
+  ) => {
+    return origImpl(convertCamelCaseToSnakeCase(value));
   },
 };
 
