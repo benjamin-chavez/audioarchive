@@ -1,8 +1,14 @@
+// apps/client/src/app/dashboard/products/page.tsx
+
 // apps/client/src/app/(app-users)/settings/components/products-overview.tsx
 import 'server-only';
 
 import React from 'react';
-import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import {
+  getAccessToken,
+  getSession,
+  withPageAuthRequired,
+} from '@auth0/nextjs-auth0';
 // import { getAppUserWithProducts } from '@/lib/data/app-user';
 import {
   Table,
@@ -12,25 +18,38 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Product, ProductWithAppUser } from '@shared/src';
+import { Product, ProductWithAppUser, User } from '@shared/src';
 import Link from 'next/link';
+import { revalidatePath, revalidateTag } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { getMyProducts } from '@/lib/data/me';
 
-export default withPageAuthRequired(
-  // @ts-ignore
-  async function ProductsOverview({ products }: { products: Product[] }) {
-    // const { user } = await getSession();
-    // const res = await getAppUserWithProducts(parseInt(user.id));
-    // const { appUser, products } = res.data;
+export async function revalidateListings() {
+  'use server';
+  revalidatePath('/dashboard/products');
+  redirect('/dashboard/products');
+}
 
+export default async function MyProductsPage() {
+  const session = await getSession();
+  const user = session ? session.user : null;
+
+  const res = await getMyProducts();
+  const { appUser, products } = res.data;
+
+  if (products) {
     return (
       <>
+        <h1>{user?.username} Listings</h1>
+        <Link href={'/dashboard/'}>Back to Dashboard</Link>
         <TwTable products={products} />
         {/* <ShadcnTable products={products} /> */}
       </>
     );
-  },
-  { returnTo: '/settings/products-overview' },
-);
+  } else {
+    return <div>{user?.username}</div>;
+  }
+}
 
 function ProductsHeader() {
   return (
@@ -44,74 +63,13 @@ function ProductsHeader() {
         </p>
       </div>
       <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-        <button
-          type="button"
+        <Link
+          href="/dashboard/products/new"
+          // type="button"
           className="block rounded-md bg-indigo-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
         >
           Add product
-        </button>
-      </div>
-    </div>
-  );
-}
-
-export function ShadcnTable({ products }: { products: Product[] }) {
-  return (
-    <div className="bg-gray-900">
-      <div className="mx-auto max-w-7xl">
-        <div className="bg-gray-900 py-10">
-          <div className="px-4 sm:px-6 lg:px-8">
-            <ProductsHeader />
-
-            <div className="mt-8 flow-root">
-              <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">
-                          Name
-                        </TableHead>
-                        <TableHead>Software</TableHead>
-                        <TableHead>Genre</TableHead>
-                        <TableHead>Price</TableHead>
-                      </TableRow>
-                    </TableHeader>
-
-                    <TableBody>
-                      {products.map((product) => {
-                        return (
-                          <TableRow key={product.id}>
-                            <TableCell
-                              className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0"
-                              // className="font-medium"
-                            >
-                              {product.name}
-                            </TableCell>
-                            <TableCell>{product.software}</TableCell>
-                            <TableCell>{product.genre}</TableCell>
-                            <TableCell>{product.price}</TableCell>
-                            <TableCell className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                              <a
-                                href="#"
-                                className="text-indigo-400 hover:text-indigo-300"
-                              >
-                                Edit
-                                <span className="sr-only">
-                                  , {product.name}
-                                </span>
-                              </a>
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </Link>
       </div>
     </div>
   );
@@ -180,7 +138,7 @@ function TwTable({ products }: { products: Product[] }) {
                           </td>
                           <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                             <Link
-                              href="#"
+                              href={`/dashboard/products/edit/${product.id}`}
                               className="text-indigo-400 hover:text-indigo-300"
                             >
                               Edit
@@ -191,6 +149,68 @@ function TwTable({ products }: { products: Product[] }) {
                       ))}
                     </tbody>
                   </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function ShadcnTable({ products }: { products: Product[] }) {
+  return (
+    <div className="bg-gray-900">
+      <div className="mx-auto max-w-7xl">
+        <div className="bg-gray-900 py-10">
+          <div className="px-4 sm:px-6 lg:px-8">
+            <ProductsHeader />
+
+            <div className="mt-8 flow-root">
+              <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">
+                          Name
+                        </TableHead>
+                        <TableHead>Software</TableHead>
+                        <TableHead>Genre</TableHead>
+                        <TableHead>Price</TableHead>
+                      </TableRow>
+                    </TableHeader>
+
+                    <TableBody>
+                      {products.map((product) => {
+                        return (
+                          <TableRow key={product.name}>
+                            <TableCell
+                              className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0"
+                              // className="font-medium"
+                            >
+                              {product.name}
+                            </TableCell>
+                            <TableCell>{product.software}</TableCell>
+                            <TableCell>{product.genre}</TableCell>
+                            <TableCell>{product.price}</TableCell>
+                            <TableCell className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                              <a
+                                href="#"
+                                className="text-indigo-400 hover:text-indigo-300"
+                              >
+                                Edit
+                                <span className="sr-only">
+                                  , {product.name}
+                                </span>
+                              </a>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
                 </div>
               </div>
             </div>

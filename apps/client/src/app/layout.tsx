@@ -1,5 +1,5 @@
 import 'server-only';
-import { loadEnvVariables } from '@/lib/clientEnv';
+// import { loadEnvVariables } from '@/lib/clientEnv';
 
 import '@/styles/globals.css';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
@@ -25,7 +25,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  await loadEnvVariables();
+  // await loadEnvVariables();
   return (
     <html
       lang="en"
