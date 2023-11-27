@@ -1,11 +1,14 @@
 # src Dockerfile: https://github.com/vercel/turbo/blob/main/examples/with-docker/apps/client/Dockerfile
-# FROM node:18-alpine AS alpine
-FROM public.ecr.aws/docker/library/node:20.10.0-alpine AS apline
+FROM node:18-alpine AS alpine
+# FROM public.ecr.aws/docker/library/node:lts-slim AS alpine
+# FROM public.ecr.aws/docker/library/node:18 AS Alpine
+# FROM public.ecr.aws/docker/library/node:18-alpine AS apline
 
 # setup pnpm on the alpine base
 FROM alpine as base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+# RUN pnpm install corepack --global
 RUN corepack enable
 RUN pnpm install turbo --global
 
