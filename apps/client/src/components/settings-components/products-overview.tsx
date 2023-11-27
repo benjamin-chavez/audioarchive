@@ -16,6 +16,7 @@ import { Product, ProductWithAppUser } from '@shared/src';
 import Link from 'next/link';
 
 export default withPageAuthRequired(
+  // @ts-ignore
   async function ProductsOverview({ products }: { products: Product[] }) {
     // const { user } = await getSession();
     // const res = await getAppUserWithProducts(parseInt(user.id));
@@ -28,7 +29,7 @@ export default withPageAuthRequired(
       </>
     );
   },
-  { returnTo: '/settings/products-overview' },
+  { returnTo: '/settings/products-overview' }
 );
 
 function ProductsHeader() {
@@ -80,7 +81,7 @@ export function ShadcnTable({ products }: { products: Product[] }) {
                     <TableBody>
                       {products.map((product) => {
                         return (
-                          <TableRow key={product}>
+                          <TableRow key={product.id}>
                             <TableCell
                               className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0"
                               // className="font-medium"

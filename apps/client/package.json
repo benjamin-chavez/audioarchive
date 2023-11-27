@@ -11,12 +11,16 @@
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.3.0",
+    "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@shared": "workspace:*",
+    "clsx": "^2.0.0",
     "geist": "^1.1.0",
     "next": "^14.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.48.2",
+    "tailwind-merge": "^2.0.0",
     "ui": "workspace:*"
   },
   "devDependencies": {

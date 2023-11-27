@@ -69,16 +69,16 @@ const baseConfig = {
   },
 };
 
-// const development = {
-//   ...baseConfig,
-//   connection: {
-//     host: process.env.DATABASE_HOST,
-//     user: process.env.DATABASE_USER,
-//     password: process.env.DATABASE_PASSWORD,
-//     port: process.env.DATABASE_PORT,
-//     database: process.env.DATABASE_NAME,
-//   },
-// };
+const development = {
+  ...baseConfig,
+  connection: {
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    port: process.env.DATABASE_PORT,
+    database: process.env.DATABASE_NAME,
+  },
+};
 
 // host:
 //   process.env.USE_LOCAL_DB_TUNNEL === 'true'
@@ -129,7 +129,7 @@ const production = {
 };
 
 const knexConfig = {
-  // development,
+  development,
   production,
 };
 

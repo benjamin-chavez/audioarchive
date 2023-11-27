@@ -3,7 +3,9 @@ import 'server-only';
 import ProductsGrid from '../../components/products-grid';
 
 async function getProducts() {
-  const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
+  // const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
+  const BASE_URL = `http://localhost:5000/api`;
+  // const BASE_URL = `http://api.audioarchive.benchavez.xyz/api`;
 
   const res = await fetch(`${BASE_URL}/products`);
 
