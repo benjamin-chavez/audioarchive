@@ -85,11 +85,7 @@
 
 # src Dockerfile: https://github.com/vercel/turbo/blob/main/examples/with-docker/apps/server/Dockerfile
 # FROM node:18-alpine AS alpine
-# FROM public.ecr.aws/docker/library/node:20.10.0-alpine AS apline
 FROM public.ecr.aws/docker/library/node:18-alpine AS Alpine
-# FROM public.ecr.aws/turbosoft/turbo:latest AS apline
-
-# FROM node:18-alpine AS alpine
 
 # setup pnpm on the alpine base
 FROM alpine as base
@@ -103,8 +99,6 @@ FROM base AS builder
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 RUN apk update
-# RUN apt-get update && apt-get install -y libc6-compat
-# RUN apt-get update
 
 # Set working directory
 WORKDIR /app
@@ -113,8 +107,6 @@ RUN turbo prune --scope=server --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
-# RUN apt-get update
-# RUN apt-get update && apt-get install -y libc6-compat
 RUN apk add --no-cache libc6-compat
 RUN apk update
 WORKDIR /app
