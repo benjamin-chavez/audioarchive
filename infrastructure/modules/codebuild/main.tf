@@ -81,7 +81,8 @@ resource "aws_codebuild_project" "aws_codebuild" {
 
     environment_variable {
       name  = "NEXT_PUBLIC_COMPANY_NAME_PS"
-      value = var.next_public_company_name_ps
+      value = "testing"
+      # value = var.next_public_company_name_ps
     }
 
     environment_variable {
