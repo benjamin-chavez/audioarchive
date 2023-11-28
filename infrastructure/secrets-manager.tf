@@ -1,11 +1,11 @@
 # infrastructure/secrets-manager.tf
 
-resource "aws_secretsmanager_secret" "database_password_secret" {
-  name = "/production/database/password/master"
+resource "aws_secretsmanager_secret" "database_password_secret2" {
+  name = "/production/database/password/master2"
 }
 
-resource "aws_secretsmanager_secret_version" "database_password_secret_version" {
-  secret_id     = aws_secretsmanager_secret.database_password_secret.id
+resource "aws_secretsmanager_secret_version" "database_password_secret2_version" {
+  secret_id     = aws_secretsmanager_secret.database_password_secret2.id
   secret_string = random_password.database_password.result
 }
 
@@ -23,7 +23,7 @@ resource "aws_iam_role_policy" "password_policy_secretsmanager" {
         ],
         "Effect": "Allow",
         "Resource": [
-          "${aws_secretsmanager_secret.database_password_secret.arn}"
+          "${aws_secretsmanager_secret.database_password_secret2.arn}"
         ]
       }
     ]
@@ -37,7 +37,7 @@ data "template_file" "task_template_secretsmanager" {
   vars = {
     app_cpu           = var.cpu
     app_memory        = var.memory
-    database_password = aws_secretsmanager_secret.database_password_secret.arn
+    database_password = aws_secretsmanager_secret.database_password_secret2.arn
   }
 }
 

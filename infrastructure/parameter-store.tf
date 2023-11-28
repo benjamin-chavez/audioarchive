@@ -1,7 +1,7 @@
 # infrastructure/modules/parameter-store.tf
 
-resource "aws_ssm_parameter" "database_password_parameter" {
-  name        = "/production/database/password/master"
+resource "aws_ssm_parameter" "database_password_parameter2" {
+  name        = "/production/database/password/master2"
   description = "Production environment database password"
   type        = "SecureString"
   value       = random_password.database_password.result
@@ -35,7 +35,7 @@ data "template_file" "task_template_parameterstore" {
   vars = {
     app_cpu           = var.cpu
     app_memory        = var.memory
-    database_password = aws_ssm_parameter.database_password_parameter.arn
+    database_password = aws_ssm_parameter.database_password_parameter2.arn
   }
 }
 
