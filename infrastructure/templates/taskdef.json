@@ -14,6 +14,11 @@
           "awslogs-stream-prefix": "ecs"
         }
       },
+      "secrets": [
+        {
+          "name": 
+        }
+      ]
       "portMappings": [
         {
           "hostPort": <SERVICE_PORT>,

@@ -80,3 +80,29 @@ variable "s3_bucket_build_cache" {
 #   description = "S3 bucket used for the artifact store"
 #   type        = string
 # }
+
+variable "secrets" {
+  description = "A list of secret objects that include name and valueFrom keys"
+  type = list(object({
+    name      = string
+    valueFrom = string
+  }))
+  default = []
+}
+
+variable "next_public_company_name" {
+  description = "TODO:"
+  type        = string
+}
+
+
+variable "next_public_company_name_ps" {
+  description = "TODO:"
+  type        = string
+}
+
+
+variable "next_public_company_name_ps_from" {
+  description = "TODO:"
+  type        = string
+}

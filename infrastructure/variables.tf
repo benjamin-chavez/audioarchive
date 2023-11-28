@@ -126,3 +126,15 @@ variable "aws_key_path" {
   description = "The file path to the AWS key (pem file) used for SSH access"
   type        = string
 }
+
+
+# ###############################################
+variable "cpu" {
+  default     = "1024"
+  description = "Task CPU"
+}
+
+variable "memory" {
+  default     = "1024"
+  description = "Task Memory"
+}

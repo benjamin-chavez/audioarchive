@@ -22,6 +22,38 @@ provider "aws" {
 resource "random_id" "RANDOM_ID" {
   byte_length = "2"
 }
+# ECS Task Execution IAM Role
+data "aws_iam_policy_document" "ecs_task_execution_assume_role_policy2" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "ecs_task_execution_role2" {
+  name               = "ecs-task-execution2"
+  assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_assume_role_policy2.json
+  path               = "/"
+}
+
+data "aws_iam_policy" "ecs_task_execution2" {
+  arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_execution2" {
+  role       = aws_iam_role.ecs_task_execution_role2.name
+  policy_arn = data.aws_iam_policy.ecs_task_execution2.arn
+}
+
+# Random password
+resource "random_password" "database_password" {
+  length  = 16
+  special = false
+}
 
 # ------- Account ID -------
 data "aws_caller_identity" "id_current_account" {}
@@ -81,6 +113,13 @@ module "ssm_parameters" {
   source = "./modules/ssm-parameters"
   # Pass any required variables if needed
 }
+
+
+# -------  SSM GitHub Token -------
+data "aws_ssm_parameter" "next_public_company_name" {
+  name = "/audioarchive/production/client/NEXT_PUBLIC_COMPANY_NAME"
+}
+
 
 # -------  SSM GitHub Token -------
 data "aws_ssm_parameter" "github_token" {
@@ -747,36 +786,42 @@ module "sns" {
 
 # ------- Creating the server CodeBuild project -------
 module "codebuild_server" {
-  source                 = "./modules/codebuild"
-  name                   = "codebuild-${var.environment_name}-server"
-  iam_role               = module.devops_role.arn_role
-  region                 = var.aws_region
-  account_id             = data.aws_caller_identity.id_current_account.account_id
-  ecr_repo_url           = module.ecr_server.ecr_repository_url
-  folder_path            = var.folder_path_server
-  buildspec_path         = var.buildspec_path
-  task_definition_family = module.ecs_task_definition_server.task_definition_family
-  container_name         = var.container_name["server"]
-  service_port           = var.port_app_server
-  ecs_role               = var.iam_role_name["ecs"]
-  ecs_task_role          = var.iam_role_name["ecs_task_role"]
-  s3_bucket_build_cache  = module.s3_codebuild_cache.s3_bucket_id
+  source                           = "./modules/codebuild"
+  name                             = "codebuild-${var.environment_name}-server"
+  iam_role                         = module.devops_role.arn_role
+  region                           = var.aws_region
+  account_id                       = data.aws_caller_identity.id_current_account.account_id
+  ecr_repo_url                     = module.ecr_server.ecr_repository_url
+  folder_path                      = var.folder_path_server
+  buildspec_path                   = var.buildspec_path
+  task_definition_family           = module.ecs_task_definition_server.task_definition_family
+  container_name                   = var.container_name["server"]
+  next_public_company_name         = "Audio Archive"
+  next_public_company_name_ps      = data.aws_ssm_parameter.next_public_company_name.name
+  next_public_company_name_ps_from = data.aws_ssm_parameter.next_public_company_name.arn
+  service_port                     = var.port_app_server
+  ecs_role                         = var.iam_role_name["ecs"]
+  ecs_task_role                    = var.iam_role_name["ecs_task_role"]
+  s3_bucket_build_cache            = module.s3_codebuild_cache.s3_bucket_id
 }
 
 # ------- Creating the client CodeBuild project -------
 module "codebuild_client" {
-  source                 = "./modules/codebuild"
-  name                   = "codebuild-${var.environment_name}-client"
-  iam_role               = module.devops_role.arn_role
-  region                 = var.aws_region
-  account_id             = data.aws_caller_identity.id_current_account.account_id
-  ecr_repo_url           = module.ecr_client.ecr_repository_url
-  folder_path            = var.folder_path_client
-  buildspec_path         = var.buildspec_path
-  task_definition_family = module.ecs_task_definition_client.task_definition_family
-  container_name         = var.container_name["client"]
-  service_port           = var.port_app_client
-  ecs_role               = var.iam_role_name["ecs"]
+  source                           = "./modules/codebuild"
+  name                             = "codebuild-${var.environment_name}-client"
+  iam_role                         = module.devops_role.arn_role
+  region                           = var.aws_region
+  account_id                       = data.aws_caller_identity.id_current_account.account_id
+  ecr_repo_url                     = module.ecr_client.ecr_repository_url
+  folder_path                      = var.folder_path_client
+  buildspec_path                   = var.buildspec_path
+  task_definition_family           = module.ecs_task_definition_client.task_definition_family
+  container_name                   = var.container_name["client"]
+  next_public_company_name         = "Audio Archive"
+  next_public_company_name_ps      = data.aws_ssm_parameter.next_public_company_name.name
+  next_public_company_name_ps_from = data.aws_ssm_parameter.next_public_company_name.arn
+  service_port                     = var.port_app_client
+  ecs_role                         = var.iam_role_name["ecs"]
   # server_alb_url         = module.alb_server.dns_alb
   server_alb_url        = module.alb_client.dns_alb
   s3_bucket_build_cache = module.s3_codebuild_cache.s3_bucket_id
