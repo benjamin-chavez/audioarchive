@@ -14,18 +14,10 @@
           "awslogs-stream-prefix": "ecs"
         }
       },
-      "secrets": [
+     "secrets": [
         {
-          "name": "NEXT_PUBLIC_COMPANY_NAME_PS",
-          "valueFrom": "<NEXT_PUBLIC_COMPANY_NAME_PS>"
-        },
-        {
-          "name": "NEXT_PUBLIC_COMPANY_NAME2",
-          "valueFrom": "<NEXT_PUBLIC_COMPANY_NAME2>"
-        },
-        {
-          "name": "NEXT_PUBLIC_COMPANY_NAME_PS_FROM",
-          "valueFrom": "<NEXT_PUBLIC_COMPANY_NAME_PS_FROM>"
+          "name": "PASSWORD",
+          "valueFrom": "12345"
         }
       ],
       "portMappings": [
