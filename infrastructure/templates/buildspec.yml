@@ -54,6 +54,9 @@ phases:
         sed -i "s|<REPO_URL>|$REPO_URL|g" taskdef.json
         sed -i "s|<AWS_ACCOUNT_ID>|$AWS_ACCOUNT_ID|g" taskdef.json
         sed -i "s|<AWS_REGION>|$AWS_REGION|g" taskdef.json
+        sed -i "s|<NEXT_PUBLIC_COMPANY_NAME_PS>|$NEXT_PUBLIC_COMPANY_NAME_PS|g" taskdef.json
+        sed -i "s|<NEXT_PUBLIC_COMPANY_NAME_PS_FROM>|$NEXT_PUBLIC_COMPANY_NAME_PS_FROM|g" taskdef.json
+        sed -i "s|<NEXT_PUBLIC_COMPANY_NAME2>|$NEXT_PUBLIC_COMPANY_NAME2|g" taskdef.json
 
 artifacts:
   files:
