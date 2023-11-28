@@ -11,15 +11,17 @@
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.3.0",
+    "@aws-sdk/client-ssm": "^3.454.0",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.2",
     "@shared": "workspace:*",
-    "parameter-store": "workspace:*",
+    "aws-sdk": "^2.1502.0",
     "clsx": "^2.0.0",
     "eslint-plugin-prettier": "^5.0.1",
     "geist": "^1.1.0",
     "next": "^14.0.3",
+    "parameter-store": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
@@ -27,6 +29,7 @@
     "ui": "workspace:*"
   },
   "devDependencies": {
+    "@aws-sdk/types": "^3.425.0",
     "@next/bundle-analyzer": "^14.0.3",
     "@tailwindcss/forms": "^0.5.6",
     "@types/node": "^20.9.2",

@@ -11,17 +11,32 @@ import path from 'path';
 //   convertCamelCaseToSnakeCase,
 //   convertSnakeCaseToCamelCase,
 // } from './src/lib/utils';
-console.log('DATABASE_HOST: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
+// console.log('DATABASE_HOST: ', process.env.DATABASE_USER);
+// console.log('DATABASE_USER: ', process.env.DATABASE_USER);
+// console.log('DATABASE_USER: ', process.env.DATABASE_USER);
+// console.log('DATABASE_USER: ', process.env.DATABASE_USER);
+// console.log('DATABASE_USER: ', process.env.DATABASE_USER);
+// console.log('DATABASE_USER: ', process.env.DATABASE_USER);
+// console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
+// console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
+// console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
+// console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
+// console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
+console.log('NODE_ENV: ', process.env.NODE_ENV);
+console.log('DATABASE_HOST: ', process.env.DATABASE_HOST);
+console.log('NEXT_PUBLIC_COMPANY_NAME: ', process.env.NEXT_PUBLIC_COMPANY_NAME);
+console.log('AUTH0_SCOPE: ', process.env.AUTH0_SCOPE);
+console.log('NEXT_PUBLIC_COMPANY_NAME: ', process.env.NEXT_PUBLIC_COMPANY_NAME);
+console.log('NEXT_PUBLIC_COMPANY_NAME: ', process.env.NEXT_PUBLIC_COMPANY_NAME);
+console.log('NEXT_PUBLIC_COMPANY_NAME: ', process.env.NEXT_PUBLIC_COMPANY_NAME);
+console.log('NEXT_PUBLIC_COMPANY_NAME: ', process.env.NEXT_PUBLIC_COMPANY_NAME);
+console.log('NEXT_PUBLIC_COMPANY_NAME: ', process.env.NEXT_PUBLIC_COMPANY_NAME);
+console.log('NEXT_PUBLIC_COMPANY_NAME: ', process.env.NEXT_PUBLIC_COMPANY_NAME);
+console.log('NEXT_PUBLIC_COMPANY_NAME: ', process.env.NEXT_PUBLIC_COMPANY_NAME);
+console.log('NEXT_PUBLIC_COMPANY_NAME: ', process.env.NEXT_PUBLIC_COMPANY_NAME);
+console.log('NEXT_PUBLIC_COMPANY_NAME: ', process.env.NEXT_PUBLIC_COMPANY_NAME);
+console.log('NEXT_PUBLIC_COMPANY_NAME: ', process.env.NEXT_PUBLIC_COMPANY_NAME);
+console.log('NEXT_PUBLIC_COMPANY_NAME: ', process.env.NEXT_PUBLIC_COMPANY_NAME);
 
 function convertCamelCaseToSnakeCase(str: string): string {
   return str.replace(/([A-Z])/g, (match, letter) => `_${letter.toLowerCase()}`);

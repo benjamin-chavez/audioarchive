@@ -66,15 +66,6 @@ variable "environment_variables" {
   default = []
 }
 
-# variable "secrets" {
-#   description = "A list of environment variables for the container"
-#   type = list(object({
-#     name  = string
-#     value = string
-#   }))
-#   default = []
-# }
-
 
 variable "secrets" {
   description = "A list of secret objects that include name and valueFrom keys"
@@ -83,4 +74,10 @@ variable "secrets" {
     valueFrom = string
   }))
   default = []
+}
+
+variable "secret_val" {
+  description = ""
+  type        = string
+  default     = ""
 }

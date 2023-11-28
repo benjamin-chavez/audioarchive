@@ -7,8 +7,9 @@ services:
     container_name: client
     build:
       context: .
-      dockerfile: ./apps/client/dev.Dockerfile
-      target: dev
+      # dockerfile: ./apps/client/dev.Dockerfile
+      dockerfile: ./apps/client/Dockerfile
+      # target: dev
     restart: always
     command: pnpm dev
     environment:

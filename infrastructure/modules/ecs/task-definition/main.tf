@@ -24,7 +24,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       containerPort = var.container_port
       hostPort      = var.container_port
     }]
-    secrets = var.secrets
+    # secrets = var.secrets
     environment = [
       {
         name  = "NODE_ENV"
@@ -33,7 +33,23 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       {
         name  = "DATABASE_HOST"
         value = "audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com"
-      }
+      },
+      {
+        name  = "NEXT_PUBLIC_COMPANY_NAME"
+        value = "Audio Archive"
+      },
+      {
+        name  = "Audio Archive"
+        value = "NEXT_PUBLIC_COMPANY_NAME"
+      },
+      {
+        name  = "AUTH0_SCOPE"
+        value = var.secret_val
+      },
+      {
+        name  = var.secret_val
+        value = "AUTH0_SCOPE"
+      },
     ]
     # environment = var.environment_variables
     logConfiguration = {

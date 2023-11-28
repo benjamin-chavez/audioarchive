@@ -35,34 +35,47 @@ data "aws_caller_identity" "id_current_account" {}
 #   secret_string = "{\"NEXT_PUBLIC_COMPANY_NAME\":\"value1\",\"NEXT_PUBLIC_API_URL\":\"value2\", ...}"
 # }
 
-data "aws_secretsmanager_secret" "auth0_secret" {
-  name = "AUTH0_SECRET"
-}
 
-data "aws_secretsmanager_secret" "next_public_api_url" {
-  name = "NEXT_PUBLIC_API_URL"
-}
-data "aws_secretsmanager_secret" "next_public_company_name" {
-  name = "NEXT_PUBLIC_COMPANY_NAME"
-}
-data "aws_secretsmanager_secret" "auth0_scope" {
-  name = "AUTH0_SCOPE"
-}
-data "aws_secretsmanager_secret" "auth0_audience" {
-  name = "AUTH0_AUDIENCE"
-}
-data "aws_secretsmanager_secret" "auth0_client_secret" {
-  name = "AUTH0_CLIENT_SECRET"
-}
-data "aws_secretsmanager_secret" "auth0_client_id" {
-  name = "AUTH0_CLIENT_ID"
-}
-data "aws_secretsmanager_secret" "auth0_issuer_base_url" {
-  name = "AUTH0_ISSUER_BASE_URL"
-}
-data "aws_secretsmanager_secret" "auth0_base_url" {
-  name = "AUTH0_BASE_URL"
-}
+
+
+
+
+# import "aws_secretsmanager_secret" "auth0_secret" {
+#   name = "AUTH0_SECRET"
+# }
+
+# import {
+#   to = aws_secretsmanager_secret.example
+#   id = "arn:aws:secretsmanager:us-east-2:369579651631:secret:NEXT_PUBLIC_API_URL-A5J3m3"
+# }
+
+# terraform import aws_secretsmanager_secret.example
+
+
+# import "aws_secretsmanager_secret" "next_public_api_url" {
+#   name = "NEXT_PUBLIC_API_URL"
+# }
+# import "aws_secretsmanager_secret" "next_public_company_name" {
+#   name = "NEXT_PUBLIC_COMPANY_NAME"
+# }
+# import "aws_secretsmanager_secret" "auth0_scope" {
+#   name = "AUTH0_SCOPE"
+# }
+# import "aws_secretsmanager_secret" "auth0_audience" {
+#   name = "AUTH0_AUDIENCE"
+# }
+# import "aws_secretsmanager_secret" "auth0_client_secret" {
+#   name = "AUTH0_CLIENT_SECRET"
+# }
+# import "aws_secretsmanager_secret" "auth0_client_id" {
+#   name = "AUTH0_CLIENT_ID"
+# }
+# import "aws_secretsmanager_secret" "auth0_issuer_base_url" {
+#   name = "AUTH0_ISSUER_BASE_URL"
+# }
+# import "aws_secretsmanager_secret" "auth0_base_url" {
+#   name = "AUTH0_BASE_URL"
+# }
 
 module "ssm_parameters" {
   source = "./modules/ssm-parameters"
@@ -279,6 +292,16 @@ module "ecr_client" {
   name   = "repo-client"
 }
 
+
+
+data "aws_secretsmanager_secret" "auth0_scope" {
+  arn = "arn:aws:secretsmanager:us-east-2:369579651631:secret:AUTH0_SCOPE-cy0ooz"
+}
+
+data "aws_secretsmanager_secret_version" "auth0_scope" {
+  secret_id = data.aws_secretsmanager_secret.auth0_scope.id
+}
+
 # ------- Creating ECS Task Definition for the server -------
 module "ecs_task_definition_server" {
   source             = "./modules/ecs/task-definition"
@@ -292,6 +315,7 @@ module "ecs_task_definition_server" {
   region             = var.aws_region
   container_port     = var.port_app_server
   node_env           = var.node_env
+  secret_val         = data.aws_secretsmanager_secret_version.auth0_scope.secret_string
 
   # environment_variables = [
   #   {
@@ -418,44 +442,46 @@ module "ecs_task_definition_client" {
   region             = var.aws_region
   container_port     = var.port_app_client
   node_env           = var.node_env
-  secrets = [
-    {
-      name      = "AUTH0_SECRET",
-      valueFrom = data.aws_secretsmanager_secret.auth0_secret.arn
-    },
-    {
-      name      = "NEXT_PUBLIC_API_URL",
-      valueFrom = data.aws_secretsmanager_secret.next_public_api_url.arn
-    },
-    {
-      name      = "NEXT_PUBLIC_COMPANY_NAME",
-      valueFrom = data.aws_secretsmanager_secret.next_public_company_name.arn
-    },
-    {
-      name      = "AUTH0_SCOPE",
-      valueFrom = data.aws_secretsmanager_secret.auth0_scope.arn
-    },
-    {
-      name      = "AUTH0_AUDIENCE",
-      valueFrom = data.aws_secretsmanager_secret.auth0_audience.arn
-    },
-    {
-      name      = "AUTH0_CLIENT_SECRET",
-      valueFrom = data.aws_secretsmanager_secret.auth0_client_secret.arn
-    },
-    {
-      name      = "AUTH0_CLIENT_ID",
-      valueFrom = data.aws_secretsmanager_secret.auth0_client_id.arn
-    },
-    {
-      name      = "AUTH0_ISSUER_BASE_URL",
-      valueFrom = data.aws_secretsmanager_secret.auth0_issuer_base_url.arn
-    },
-    {
-      name      = "AUTH0_BASE_URL",
-      valueFrom = data.aws_secretsmanager_secret.auth0_base_url.arn
-    }
-  ]
+
+  secret_val = data.aws_secretsmanager_secret_version.auth0_scope.secret_string
+  # secrets = [
+  #   {
+  #     name      = "AUTH0_SECRET",
+  #     valueFrom = data.aws_secretsmanager_secret.auth0_secret.arn
+  #   },
+  #   {
+  #     name      = "NEXT_PUBLIC_API_URL",
+  #     valueFrom = data.aws_secretsmanager_secret.next_public_api_url.arn
+  #   },
+  #   {
+  #     name      = "NEXT_PUBLIC_COMPANY_NAME",
+  #     valueFrom = data.aws_secretsmanager_secret.next_public_company_name.arn
+  #   },
+  #   {
+  #     name      = "AUTH0_SCOPE",
+  #     valueFrom = data.aws_secretsmanager_secret.auth0_scope.arn
+  #   },
+  #   {
+  #     name      = "AUTH0_AUDIENCE",
+  #     valueFrom = data.aws_secretsmanager_secret.auth0_audience.arn
+  #   },
+  #   {
+  #     name      = "AUTH0_CLIENT_SECRET",
+  #     valueFrom = data.aws_secretsmanager_secret.auth0_client_secret.arn
+  #   },
+  #   {
+  #     name      = "AUTH0_CLIENT_ID",
+  #     valueFrom = data.aws_secretsmanager_secret.auth0_client_id.arn
+  #   },
+  #   {
+  #     name      = "AUTH0_ISSUER_BASE_URL",
+  #     valueFrom = data.aws_secretsmanager_secret.auth0_issuer_base_url.arn
+  #   },
+  #   {
+  #     name      = "AUTH0_BASE_URL",
+  #     valueFrom = data.aws_secretsmanager_secret.auth0_base_url.arn
+  #   }
+  # ]
 
   # environment_variables = [
   #   {
@@ -524,21 +550,21 @@ module "ecs_task_definition_client" {
 }
 
 # ------- Creating ECS Task Definition for the Database Migrations -------
-module "ecs_task_definition_db_migrate_seed" {
-  source = "./modules/ecs/task-definition"
-  name   = "${var.environment_name}-db-migrate-seed"
-  # container_name     = var.container_name["server"]
-  container_name     = "Container-migrations-seed"
-  execution_role_arn = module.ecs_role.arn_role
-  task_role_arn      = module.ecs_role.arn_role_ecs_task_role
-  cpu                = 256
-  memory             = "512"
-  docker_repo        = module.ecr_server.ecr_repository_url
-  region             = var.aws_region
-  container_port     = var.port_app_server
-  node_env           = var.node_env
-  command            = ["/bin/sh", "-c", "cd /app/apps/server/dist && npx knex migrate:latest && npx knex seed:run"]
-}
+# module "ecs_task_definition_db_migrate_seed" {
+#   source = "./modules/ecs/task-definition"
+#   name   = "${var.environment_name}-db-migrate-seed"
+#   # container_name     = var.container_name["server"]
+#   container_name     = "Container-migrations-seed"
+#   execution_role_arn = module.ecs_role.arn_role
+#   task_role_arn      = module.ecs_role.arn_role_ecs_task_role
+#   cpu                = 256
+#   memory             = "512"
+#   docker_repo        = module.ecr_server.ecr_repository_url
+#   region             = var.aws_region
+#   container_port     = var.port_app_server
+#   node_env           = var.node_env
+#   command            = ["/bin/sh", "-c", "cd /app/apps/server/dist && npx knex migrate:latest && npx knex seed:run"]
+# }
 
 # ------- Creating Security Group for ECS TASKS (Server) -------
 module "security_group_ecs_task_server" {

@@ -97,3 +97,6 @@ fully-working-ecs/FINAL WITH ALL ROUTING/express-api/knexfile.ts
   ```
  - https://alto9.com/2020/05/21/aws-ssm-parameters-as-ecs-environment-variables/
 https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+fargate+ssm+parameter+store&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCTE3NDQxajBqNKgCALACAA&sourceid=chrome&ie=UTF-8#ip=1
+ - TFA blue/green deployment bug:
+    - https://www.google.com/search?q=The+ELB+could+not+be+updated+due+to+the+following+error%3A+Primary+taskset+target+group+must+be+behind+listener+a&oq=The+ELB+could+not+be+updated+due+to+the+following+error%3A+Primary+taskset+target+group+must+be+behind+listener+a&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQRRg7MgYIAhBFGDwyBggDEC4YQNIBBzI0MGowajGoAgCwAgA&sourceid=chrome&ie=UTF-8
+    - https://devops.stackexchange.com/questions/15070/aws-ecs-green-blue-with-codepipeline-the-elb-could-not-be-updated-due-to-the-fo
