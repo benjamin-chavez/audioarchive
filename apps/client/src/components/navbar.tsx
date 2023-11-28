@@ -96,6 +96,7 @@ export default function Navbar() {
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               {/* {process.env.NEXT_PUBLIC_COMPANY_NAME} */}
               {/* {'process.env.NEXT_PUBLIC_COMPANY_NAME'} */}
+              {'process.env.NEXT_PUBLIC_COMPANY_NAME_PS_FROM'}
             </span>
           </Link>
 
