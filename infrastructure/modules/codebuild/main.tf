@@ -74,10 +74,10 @@ resource "aws_codebuild_project" "aws_codebuild" {
       name  = "SERVER_ALB_URL"
       value = var.server_alb_url
     }
-    environment_variable {
-      name  = "NEXT_PUBLIC_COMPANY_NAME"
-      value = var.next_public_company_name
-    }
+    # environment_variable {
+    #   name  = "NEXT_PUBLIC_COMPANY_NAME"
+    #   value = var.next_public_company_name
+    # }
 
     environment_variable {
       name  = "NEXT_PUBLIC_COMPANY_NAME_PS"

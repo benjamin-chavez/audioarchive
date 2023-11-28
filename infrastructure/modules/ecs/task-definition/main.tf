@@ -34,12 +34,12 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
         name  = "DATABASE_HOST"
         value = "audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com"
       },
+      # {
+      #   name  = "NEXT_PUBLIC_COMPANY_NAME"
+      #   value = "Audio Archive"
+      # },
       {
-        name  = "NEXT_PUBLIC_COMPANY_NAME"
-        value = "Audio Archive"
-      },
-      {
-        name  = "Audio Archive"
+        name  = "Audio--Archive"
         value = "NEXT_PUBLIC_COMPANY_NAME"
       },
       {

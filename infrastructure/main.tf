@@ -115,7 +115,7 @@ module "ssm_parameters" {
 }
 
 
-# -------  SSM GitHub Token -------
+# ------- -------
 data "aws_ssm_parameter" "next_public_company_name" {
   name = "/audioarchive/production/client/NEXT_PUBLIC_COMPANY_NAME"
 }
@@ -786,17 +786,17 @@ module "sns" {
 
 # ------- Creating the server CodeBuild project -------
 module "codebuild_server" {
-  source                           = "./modules/codebuild"
-  name                             = "codebuild-${var.environment_name}-server"
-  iam_role                         = module.devops_role.arn_role
-  region                           = var.aws_region
-  account_id                       = data.aws_caller_identity.id_current_account.account_id
-  ecr_repo_url                     = module.ecr_server.ecr_repository_url
-  folder_path                      = var.folder_path_server
-  buildspec_path                   = var.buildspec_path
-  task_definition_family           = module.ecs_task_definition_server.task_definition_family
-  container_name                   = var.container_name["server"]
-  next_public_company_name         = "Audio__Archive"
+  source                 = "./modules/codebuild"
+  name                   = "codebuild-${var.environment_name}-server"
+  iam_role               = module.devops_role.arn_role
+  region                 = var.aws_region
+  account_id             = data.aws_caller_identity.id_current_account.account_id
+  ecr_repo_url           = module.ecr_server.ecr_repository_url
+  folder_path            = var.folder_path_server
+  buildspec_path         = var.buildspec_path
+  task_definition_family = module.ecs_task_definition_server.task_definition_family
+  container_name         = var.container_name["server"]
+  # next_public_company_name         = "Audio__Archive"
   next_public_company_name_ps      = data.aws_ssm_parameter.next_public_company_name.name
   next_public_company_name_ps_from = data.aws_ssm_parameter.next_public_company_name.arn
   service_port                     = var.port_app_server
@@ -807,17 +807,17 @@ module "codebuild_server" {
 
 # ------- Creating the client CodeBuild project -------
 module "codebuild_client" {
-  source                           = "./modules/codebuild"
-  name                             = "codebuild-${var.environment_name}-client"
-  iam_role                         = module.devops_role.arn_role
-  region                           = var.aws_region
-  account_id                       = data.aws_caller_identity.id_current_account.account_id
-  ecr_repo_url                     = module.ecr_client.ecr_repository_url
-  folder_path                      = var.folder_path_client
-  buildspec_path                   = var.buildspec_path
-  task_definition_family           = module.ecs_task_definition_client.task_definition_family
-  container_name                   = var.container_name["client"]
-  next_public_company_name         = "Audio Archive"
+  source                 = "./modules/codebuild"
+  name                   = "codebuild-${var.environment_name}-client"
+  iam_role               = module.devops_role.arn_role
+  region                 = var.aws_region
+  account_id             = data.aws_caller_identity.id_current_account.account_id
+  ecr_repo_url           = module.ecr_client.ecr_repository_url
+  folder_path            = var.folder_path_client
+  buildspec_path         = var.buildspec_path
+  task_definition_family = module.ecs_task_definition_client.task_definition_family
+  container_name         = var.container_name["client"]
+  # next_public_company_name         = "Audio Archive"
   next_public_company_name_ps      = data.aws_ssm_parameter.next_public_company_name.name
   next_public_company_name_ps_from = data.aws_ssm_parameter.next_public_company_name.arn
   service_port                     = var.port_app_client
