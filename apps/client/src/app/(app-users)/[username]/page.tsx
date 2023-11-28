@@ -69,3 +69,5 @@ export default async function UserDetail({ params }: AppUserProps) {
     </>
   );
 }
+
+export const dynamic = 'force-dynamic';

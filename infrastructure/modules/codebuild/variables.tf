@@ -90,22 +90,53 @@ variable "secrets" {
   default = []
 }
 
-variable "next_public_company_name2" {
+variable "next_public_company_name" {
   description = "TODO"
   type        = string
-  default     = ""
 }
 
-
-variable "next_public_company_name_ps" {
+variable "next_public_api_url" {
   description = "TODO"
   type        = string
-  default     = ""
 }
-
-
-variable "next_public_company_name_ps_from" {
+variable "auth0_audience" {
   description = "TODO"
   type        = string
-  default     = ""
 }
+variable "auth0_base_url" {
+  description = "TODO"
+  type        = string
+}
+variable "auth0_client_id" {
+  description = "TODO"
+  type        = string
+}
+variable "auth0_client_secret" {
+  description = "TODO"
+  type        = string
+}
+variable "auth0_issuer_base_url" {
+  description = "TODO"
+  type        = string
+}
+variable "auth0_scope" {
+  description = "TODO"
+  type        = string
+}
+variable "auth0_secret" {
+  description = "TODO"
+  type        = string
+}
+
+# variable "next_public_company_name_ps" {
+#   description = "TODO"
+#   type        = string
+#   default     = ""
+# }
+
+
+# variable "next_public_company_name_ps_from" {
+#   description = "TODO"
+#   type        = string
+#   default     = ""
+# }

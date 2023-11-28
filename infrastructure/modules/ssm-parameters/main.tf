@@ -32,42 +32,42 @@ data "aws_ssm_parameter" "db_user" {
   name = "/audioarchive/production/server/DATABASE_USER"
 }
 
-# -------  SSM AUTH0_AUDIENCE -------
-data "aws_ssm_parameter" "auth0_audience" {
-  name = "/audioarchive/production/server/AUTH0_AUDIENCE"
-}
+# # -------  SSM AUTH0_AUDIENCE -------
+# data "aws_ssm_parameter" "auth0_audience" {
+#   name = "/audioarchive/production/server/AUTH0_AUDIENCE"
+# }
 
-# -------  SSM AUTH0_BASE_URL -------
-data "aws_ssm_parameter" "auth0_base_url" {
-  name = "/audioarchive/production/server/AUTH0_BASE_URL"
-}
+# # -------  SSM AUTH0_BASE_URL -------
+# data "aws_ssm_parameter" "auth0_base_url" {
+#   name = "/audioarchive/production/server/AUTH0_BASE_URL"
+# }
 
-# -------  SSM AUTH0_CLIENT_ID -------
-data "aws_ssm_parameter" "auth0_client_id" {
-  name = "/audioarchive/production/server/AUTH0_CLIENT_ID"
-}
+# # -------  SSM AUTH0_CLIENT_ID -------
+# data "aws_ssm_parameter" "auth0_client_id" {
+#   name = "/audioarchive/production/server/AUTH0_CLIENT_ID"
+# }
 
-# -------  SSM AUTH0_CLIENT_SECRET -------
-data "aws_ssm_parameter" "auth0_client_secret" {
-  name            = "/audioarchive/production/server/AUTH0_CLIENT_SECRET"
-  with_decryption = true
-}
+# # -------  SSM AUTH0_CLIENT_SECRET -------
+# data "aws_ssm_parameter" "auth0_client_secret" {
+#   name            = "/audioarchive/production/server/AUTH0_CLIENT_SECRET"
+#   with_decryption = true
+# }
 
-# -------  SSM AUTH0_ISSUER_BASE_URL -------
-data "aws_ssm_parameter" "auth0_issuer_base_url" {
-  name = "/audioarchive/production/server/AUTH0_ISSUER_BASE_URL"
-}
+# # -------  SSM AUTH0_ISSUER_BASE_URL -------
+# data "aws_ssm_parameter" "auth0_issuer_base_url" {
+#   name = "/audioarchive/production/server/AUTH0_ISSUER_BASE_URL"
+# }
 
-# -------  SSM AUTH0_SCOPE -------
-data "aws_ssm_parameter" "auth0_scope" {
-  name = "/audioarchive/production/server/AUTH0_SCOPE"
-}
+# # -------  SSM AUTH0_SCOPE -------
+# data "aws_ssm_parameter" "auth0_scope" {
+#   name = "/audioarchive/production/server/AUTH0_SCOPE"
+# }
 
-# -------  SSM AUTH0_SECRET -------
-data "aws_ssm_parameter" "auth0_secret" {
-  name            = "/audioarchive/production/server/AUTH0_SECRET"
-  with_decryption = true
-}
+# # -------  SSM AUTH0_SECRET -------
+# data "aws_ssm_parameter" "auth0_secret" {
+#   name            = "/audioarchive/production/server/AUTH0_SECRET"
+#   with_decryption = true
+# }
 
 # -------  SSM AWS_ACCESS_KEY -------
 data "aws_ssm_parameter" "aws_access_key" {
@@ -142,6 +142,6 @@ data "aws_ssm_parameter" "use_local_db_tunnel" {
 # }
 
 # -------  SSM NEXT_PUBLIC_API_URL -------
-data "aws_ssm_parameter" "next_public_api_url" {
-  name = "/audioarchive/production/client/NEXT_PUBLIC_API_URL"
-}
+# data "aws_ssm_parameter" "next_public_api_url" {
+#   name = "/audioarchive/production/client/NEXT_PUBLIC_API_URL"
+# }
