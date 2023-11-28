@@ -796,7 +796,7 @@ module "codebuild_server" {
   buildspec_path                   = var.buildspec_path
   task_definition_family           = module.ecs_task_definition_server.task_definition_family
   container_name                   = var.container_name["server"]
-  next_public_company_name         = "Audio Archive"
+  next_public_company_name         = "Audio__Archive"
   next_public_company_name_ps      = data.aws_ssm_parameter.next_public_company_name.name
   next_public_company_name_ps_from = data.aws_ssm_parameter.next_public_company_name.arn
   service_port                     = var.port_app_server
