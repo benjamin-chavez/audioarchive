@@ -34,8 +34,8 @@ data "aws_iam_policy_document" "ecs_task_execution_assume_role_policy2" {
   }
 }
 
-resource "aws_iam_role" "ecs_task_execution_role2" {
-  name               = "ecs-task-execution2"
+resource "aws_iam_role" "ecs_task_execution_role3" {
+  name               = "ecs-task-execution3"
   assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_assume_role_policy2.json
   path               = "/"
 }
@@ -45,7 +45,7 @@ data "aws_iam_policy" "ecs_task_execution2" {
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution2" {
-  role       = aws_iam_role.ecs_task_execution_role2.name
+  role       = aws_iam_role.ecs_task_execution_role3.name
   policy_arn = data.aws_iam_policy.ecs_task_execution2.arn
 }
 
@@ -109,21 +109,24 @@ data "aws_caller_identity" "id_current_account" {}
 #   name = "AUTH0_BASE_URL"
 # }
 
-module "ssm_parameters" {
-  source = "./modules/ssm-parameters"
-  # Pass any required variables if needed
-}
+# module "ssm_parameters" {
+#   source = "./modules/ssm-parameters"
+#   # Pass any required variables if needed
+# }
 
 
-# ------- -------
-data "aws_ssm_parameter" "next_public_company_name" {
-  name = "/audioarchive/production/client/NEXT_PUBLIC_COMPANY_NAME"
+# # ------- -------
+# data "aws_ssm_parameter" "next_public_company_name" {
+#   name = "/audioarchive/production/client/NEXT_PUBLIC_COMPANY_NAME"
+# }
+
+data "aws_ssm_parameter" "next_public_company_name2" {
+  name = "/audioarchive/production/client/NEXT_PUBLIC_COMPANY_NAME2"
 }
 
 data "aws_ssm_parameter" "next_public_api_url" {
   name = "/audioarchive/production/client/NEXT_PUBLIC_API_URL"
 }
-
 
 # -------  SSM AUTH0_AUDIENCE -------
 data "aws_ssm_parameter" "auth0_audience" {
@@ -840,7 +843,7 @@ module "codebuild_server" {
   task_definition_family = module.ecs_task_definition_server.task_definition_family
   container_name         = var.container_name["server"]
   # next_public_company_name = data.aws_ssm_parameter.next_public_company_name.arn
-  next_public_company_name = data.aws_ssm_paramater.next_public_company_name.arn
+  next_public_company_name = data.aws_ssm_paramater.next_public_company_name2.arn
   next_public_api_url      = data.aws_ssm_paramater.next_public_api_url.arn
   auth0_audience           = data.aws_ssm_paramater.auth0_audience.arn
   auth0_base_url           = data.aws_ssm_paramater.auth0_base_url.arn
@@ -858,17 +861,16 @@ module "codebuild_server" {
 
 # ------- Creating the client CodeBuild project -------
 module "codebuild_client" {
-  source                 = "./modules/codebuild"
-  name                   = "codebuild-${var.environment_name}-client"
-  iam_role               = module.devops_role.arn_role
-  region                 = var.aws_region
-  account_id             = data.aws_caller_identity.id_current_account.account_id
-  ecr_repo_url           = module.ecr_client.ecr_repository_url
-  folder_path            = var.folder_path_client
-  buildspec_path         = var.buildspec_path
-  task_definition_family = module.ecs_task_definition_client.task_definition_family
-  container_name         = var.container_name["client"]
-
+  source                   = "./modules/codebuild"
+  name                     = "codebuild-${var.environment_name}-client"
+  iam_role                 = module.devops_role.arn_role
+  region                   = var.aws_region
+  account_id               = data.aws_caller_identity.id_current_account.account_id
+  ecr_repo_url             = module.ecr_client.ecr_repository_url
+  folder_path              = var.folder_path_client
+  buildspec_path           = var.buildspec_path
+  task_definition_family   = module.ecs_task_definition_client.task_definition_family
+  container_name           = var.container_name["client"]
   next_public_company_name = data.aws_ssm_parameter.next_public_company_name.arn
   next_public_api_url      = data.aws_ssm_paramater.next_public_api_url.arn
   auth0_audience           = data.aws_ssm_paramater.auth0_audience.arn

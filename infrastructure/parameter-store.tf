@@ -9,7 +9,7 @@ resource "aws_ssm_parameter" "database_password_parameter2" {
 
 resource "aws_iam_role_policy" "password_policy_parameterstore" {
   name = "password-policy-parameterstore"
-  role = aws_iam_role.ecs_task_execution_role2.id
+  role = aws_iam_role.ecs_task_execution_role3.id
 
   policy = <<-EOF
   {
@@ -41,7 +41,7 @@ data "template_file" "task_template_parameterstore" {
 
 resource "aws_ecs_task_definition" "task_definition_parameterstore" {
   family                   = "task-parameterstore"
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role2.arn
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role3.arn
   requires_compatibilities = ["EC2"]
   cpu                      = var.cpu
   memory                   = var.memory
