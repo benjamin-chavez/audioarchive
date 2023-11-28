@@ -129,10 +129,10 @@ output "use_local_db_tunnel" {
   description = "Flag for Using Local DB Tunnel from SSM"
 }
 
-output "next_public_company_name" {
-  value       = data.aws_ssm_parameter.next_public_company_name.value
-  description = "Public Company/Application name for Next.js"
-}
+# output "next_public_company_name" {
+#   value       = data.aws_ssm_parameter.next_public_company_name.value
+#   description = "Public Company/Application name for Next.js"
+# }
 
 # -------  SSM NEXT_PUBLIC_API_URL -------
 output "next_public_api_url" {

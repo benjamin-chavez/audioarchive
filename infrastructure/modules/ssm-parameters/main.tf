@@ -137,9 +137,9 @@ data "aws_ssm_parameter" "use_local_db_tunnel" {
 # ----------------------------------------------------------------------
 
 # -------  SSM NEXT_PUBLIC_COMPANY_NAME -------
-data "aws_ssm_parameter" "next_public_company_name" {
-  name = "/audioarchive/production/client/NEXT_PUBLIC_COMPANY_NAME"
-}
+# data "aws_ssm_parameter" "next_public_company_name" {
+#   name = "/audioarchive/production/client/NEXT_PUBLIC_COMPANY_NAME"
+# }
 
 # -------  SSM NEXT_PUBLIC_API_URL -------
 data "aws_ssm_parameter" "next_public_api_url" {

@@ -90,19 +90,22 @@ variable "secrets" {
   default = []
 }
 
-# variable "next_public_company_name" {
-#   description = "TODO:"
-#   type        = string
-# }
+variable "next_public_company_name2" {
+  description = "TODO"
+  type        = string
+  default     = ""
+}
 
 
 variable "next_public_company_name_ps" {
-  description = "TODO:"
+  description = "TODO"
   type        = string
+  default     = ""
 }
 
 
 variable "next_public_company_name_ps_from" {
-  description = "TODO:"
+  description = "TODO"
   type        = string
+  default     = ""
 }

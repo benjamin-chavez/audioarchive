@@ -40,7 +40,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       # },
       {
         name  = "Audio--Archive"
-        value = "NEXT_PUBLIC_COMPANY_NAME"
+        value = "VALNEXT_PUBLIC_COMPANY_NAME"
       },
       {
         name  = "AUTH0_SCOPE"
