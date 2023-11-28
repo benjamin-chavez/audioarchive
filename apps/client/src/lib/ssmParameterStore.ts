@@ -1,12 +1,9 @@
-// apps/client/src/app/api/config/route.ts
+// apps/client/src/lib/ssmParameterStore.ts
 
-// pages/api/config.js
+import 'server-only';
 import AWS from 'aws-sdk';
 
-export async function GET(req: Request) {
-  const { paramName, withDecryption } = await req.json();
-  console.log('testing123');
-
+export async function getEnvVariable(parameterName: string) {
   try {
     const ssmClient = new AWS.SSM({
       credentials: {
@@ -14,17 +11,16 @@ export async function GET(req: Request) {
         secretAccessKey: process.env.AWS_SECRET_KEY,
       },
       region: 'us-east-2',
-      // region: process.env.AWS_REGION,
     });
 
     const params = {
-      Name: paramName,
-      WithDecryption: withDecryption,
+      Name: `/audioarchive/production/server/${parameterName}`,
+      WithDecryption: true,
     };
 
     const res = await ssmClient.getParameter(params).promise();
-    console.log(res);
-    return Response.json({ res });
+    // console.log(res.Parameter);
+    return res.Parameter.Value;
   } catch (error) {
     return Response.json({ error: error.message });
   }

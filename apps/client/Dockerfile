@@ -72,5 +72,7 @@ EXPOSE 80
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 ENV NODE_ENV=production
+ENV NEXT_PUBLIC_COMPANY_NAME="Audio Archive"
+ENV NEXT_PUBLIC_API_URL=`http://api.audioarchive.benchavez.xyz/api`
 
 CMD node apps/client/server.js

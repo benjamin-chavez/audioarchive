@@ -1,6 +1,7 @@
 {
   "extends": "tsconfig/nextjs.json",
   "compilerOptions": {
+    "target": "es2017",
     "plugins": [{ "name": "next" }],
     "baseUrl": ".",
     "paths": {
