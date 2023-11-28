@@ -6,10 +6,10 @@ import AWS from 'aws-sdk';
 export async function getEnvVariable(parameterName: string) {
   try {
     const ssmClient = new AWS.SSM({
-      credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY,
-        secretAccessKey: process.env.AWS_SECRET_KEY,
-      },
+      // credentials: {
+      //   accessKeyId: process.env.AWS_ACCESS_KEY,
+      //   secretAccessKey: process.env.AWS_SECRET_KEY,
+      // },
       region: 'us-east-2',
     });
 
