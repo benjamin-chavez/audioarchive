@@ -24,8 +24,9 @@ router.post('/register', appUserController.createAppUser);
 // router.get('/profiles/:username', appUserController.getAppUserByUsername);
 // router.get('/profiles/:username/products', appUserController.getAppUserWithProducts);
 
-router.get('/u/:username/products', appUserController.getAppUserWithProducts);
-router.get('/u/:username', appUserController.getAppUserByUsername);
+// TODO: uncomment the next two lines
+// router.get('/u/:username/products', appUserController.getAppUserWithProducts);
+// router.get('/u/:username', appUserController.getAppUserByUsername);
 
 router.get('/me/products/:productId', checkJwt, meController.getMyProductById);
 router.get('/me/products', checkJwt, meController.getMeWithProducts);
