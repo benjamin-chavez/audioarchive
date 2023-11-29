@@ -74,6 +74,23 @@ resource "aws_codebuild_project" "aws_codebuild" {
       name  = "SERVER_ALB_URL"
       value = var.server_alb_url
     }
+    environment_variable {
+      name  = "SERVER_ALB_URL"
+      value = var.server_alb_url
+    }
+
+    # -------  SSM AUTH0_SCOPE -------
+    environment_variable {
+      name  = "AUTH0_SCOPE"
+      value = var.auth0_scope
+    }
+
+    # -------  SSM AUTH0_SECRET -------
+    environment_variable {
+      name  = "AUTH0_SECRET"
+      value = var.auth0_secret
+    }
+
   }
 
   logs_config {

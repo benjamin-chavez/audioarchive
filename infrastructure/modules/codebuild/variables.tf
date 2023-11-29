@@ -80,3 +80,13 @@ variable "s3_bucket_build_cache" {
 #   description = "S3 bucket used for the artifact store"
 #   type        = string
 # }
+
+variable "auth0_scope" {
+  description = "TODO"
+  type        = string
+}
+
+variable "auth0_secret" {
+  description = "TODO"
+  type        = string
+}

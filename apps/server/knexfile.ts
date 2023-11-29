@@ -11,17 +11,9 @@ import path from 'path';
 //   convertCamelCaseToSnakeCase,
 //   convertSnakeCaseToCamelCase,
 // } from './src/lib/utils';
-console.log('DATABASE_HOST: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
+
+console.log('Server-AUTH0_SCOPE: ', process.env.AUTH0_SCOPE);
+console.log('Server-AUTH0_SECRET: ', process.env.AUTH0_SECRET);
 
 function convertCamelCaseToSnakeCase(str: string): string {
   return str.replace(/([A-Z])/g, (match, letter) => `_${letter.toLowerCase()}`);
