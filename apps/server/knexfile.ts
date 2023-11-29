@@ -1,9 +1,9 @@
 // knexfile.ts
-import { loadEnvVariables } from './src/config/envLoader';
-loadEnvVariables().catch((error) => {
-  console.error('Failed to start server:', error);
-  process.exit(1);
-});
+// import { loadEnvVariables } from './src/config/envLoader';
+// loadEnvVariables().catch((error) => {
+//   console.error('Failed to start server:', error);
+//   process.exit(1);
+// });
 import 'dotenv/config';
 import CustomMigrationSource from './src/database/customMigrationSource';
 import path from 'path';

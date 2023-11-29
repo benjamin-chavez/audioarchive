@@ -14,6 +14,16 @@
           "awslogs-stream-prefix": "ecs"
         }
       },
+      "secrets": [
+              {
+          "name": "AUTH0_SCOPE",
+          "valueFrom": "<AUTH0_SCOPE>"
+        },
+        {
+          "name": "AUTH0_SECRET",
+          "valueFrom": "<AUTH0_SECRET>"
+        }
+      ],
       "portMappings": [
         {
           "hostPort": <SERVICE_PORT>,

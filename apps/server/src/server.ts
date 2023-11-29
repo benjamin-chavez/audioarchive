@@ -6,11 +6,11 @@
 // dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 // dotenv.config({ path: `.env` });
 
-import { loadEnvVariables } from './config/envLoader';
-loadEnvVariables().catch((error) => {
-  console.error('Failed to start server:', error);
-  process.exit(1);
-});
+// import { loadEnvVariables } from './config/envLoader';
+// loadEnvVariables().catch((error) => {
+//   console.error('Failed to start server:', error);
+//   process.exit(1);
+// });
 
 import 'dotenv/config';
 import { app } from './app';

@@ -74,10 +74,6 @@ resource "aws_codebuild_project" "aws_codebuild" {
       name  = "SERVER_ALB_URL"
       value = var.server_alb_url
     }
-    environment_variable {
-      name  = "SERVER_ALB_URL"
-      value = var.server_alb_url
-    }
 
     # -------  SSM AUTH0_SCOPE -------
     environment_variable {
