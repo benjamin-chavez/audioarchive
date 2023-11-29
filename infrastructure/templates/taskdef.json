@@ -15,7 +15,27 @@
         }
       },
       "secrets": [
-              {
+         {
+          "name": "AUTH0_AUDIENCE",
+          "valueFrom": "<AUTH0_AUDIENCE>"
+        },
+        {
+          "name": "AUTH0_BASE_URL",
+          "valueFrom": "<AUTH0_BASE_URL>"
+        },
+        {
+          "name": "AUTH0_CLIENT_ID",
+          "valueFrom": "<AUTH0_CLIENT_ID>"
+        },
+        {
+          "name": "AUTH0_CLIENT_SECRET",
+          "valueFrom": "<AUTH0_CLIENT_SECRET>"
+        },
+        {
+          "name": "AUTH0_ISSUER_BASE_URL",
+          "valueFrom": "<AUTH0_ISSUER_BASE_URL>"
+        },
+        {
           "name": "AUTH0_SCOPE",
           "valueFrom": "<AUTH0_SCOPE>"
         },

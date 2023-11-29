@@ -75,6 +75,36 @@ resource "aws_codebuild_project" "aws_codebuild" {
       value = var.server_alb_url
     }
 
+    # -------  SSM AUTH0_AUDIENCE -------
+    environment_variable {
+      name  = "AUTH0_AUDIENCE"
+      value = var.auth0_audience
+    }
+
+    # -------  SSM AUTH0_BASE_URL -------
+    environment_variable {
+      name  = "AUTH0_BASE_URL"
+      value = var.auth0_base_url
+    }
+
+    # -------  SSM AUTH0_CLIENT_ID -------
+    environment_variable {
+      name  = "AUTH0_CLIENT_ID"
+      value = var.auth0_client_id
+    }
+
+    # -------  SSM AUTH0_CLIENT_SECRET -------
+    environment_variable {
+      name  = "AUTH0_CLIENT_SECRET"
+      value = var.auth0_client_secret
+    }
+
+    # -------  SSM AUTH0_ISSUER_BASE_URL -------
+    environment_variable {
+      name  = "AUTH0_ISSUER_BASE_URL"
+      value = var.auth0_issuer_base_url
+    }
+
     # -------  SSM AUTH0_SCOPE -------
     environment_variable {
       name  = "AUTH0_SCOPE"
@@ -86,7 +116,6 @@ resource "aws_codebuild_project" "aws_codebuild" {
       name  = "AUTH0_SECRET"
       value = var.auth0_secret
     }
-
   }
 
   logs_config {

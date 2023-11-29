@@ -81,6 +81,26 @@ variable "s3_bucket_build_cache" {
 #   type        = string
 # }
 
+variable "auth0_audience" {
+  description = "TODO"
+  type        = string
+}
+variable "auth0_base_url" {
+  description = "TODO"
+  type        = string
+}
+variable "auth0_client_id" {
+  description = "TODO"
+  type        = string
+}
+variable "auth0_client_secret" {
+  description = "TODO"
+  type        = string
+}
+variable "auth0_issuer_base_url" {
+  description = "TODO"
+  type        = string
+}
 variable "auth0_scope" {
   description = "TODO"
   type        = string
@@ -90,3 +110,7 @@ variable "auth0_secret" {
   description = "TODO"
   type        = string
 }
+
+
+
+

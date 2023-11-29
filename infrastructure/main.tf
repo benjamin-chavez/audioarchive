@@ -49,6 +49,37 @@ data "aws_secretsmanager_secret" "auth0_scope" {
   name = "AUTH0_SCOPE"
 }
 
+# -------  SSM AUTH0_AUDIENCE -------
+data "aws_ssm_parameter" "auth0_audience" {
+  name = "/audioarchive/production/server/AUTH0_AUDIENCE"
+}
+
+# -------  SSM AUTH0_BASE_URL -------
+data "aws_ssm_parameter" "auth0_base_url" {
+  name = "/audioarchive/production/server/AUTH0_BASE_URL"
+}
+
+# -------  SSM AUTH0_CLIENT_ID -------
+data "aws_ssm_parameter" "auth0_client_id" {
+  name = "/audioarchive/production/server/AUTH0_CLIENT_ID"
+}
+
+# -------  SSM AUTH0_CLIENT_SECRET -------
+data "aws_ssm_parameter" "auth0_client_secret" {
+  name            = "/audioarchive/production/server/AUTH0_CLIENT_SECRET"
+  with_decryption = true
+}
+
+# -------  SSM AUTH0_ISSUER_BASE_URL -------
+data "aws_ssm_parameter" "auth0_issuer_base_url" {
+  name = "/audioarchive/production/server/AUTH0_ISSUER_BASE_URL"
+}
+
+# -------  SSM AUTH0_SCOPE -------
+# data "aws_ssm_parameter" "auth0_scope" {
+#   name = "/audioarchive/production/server/AUTH0_SCOPE"
+# }
+
 # -------  SSM AUTH0_SECRET -------
 data "aws_ssm_parameter" "auth0_secret" {
   name            = "/audioarchive/production/server/AUTH0_SECRET"
@@ -562,11 +593,17 @@ module "codebuild_server" {
   task_definition_family = module.ecs_task_definition_server.task_definition_family
   container_name         = var.container_name["server"]
   auth0_scope            = data.aws_secretsmanager_secret.auth0_scope.arn
-  auth0_secret           = data.aws_ssm_parameter.auth0_secret.arn
-  service_port           = var.port_app_server
-  ecs_role               = var.iam_role_name["ecs"]
-  ecs_task_role          = var.iam_role_name["ecs_task_role"]
-  s3_bucket_build_cache  = module.s3_codebuild_cache.s3_bucket_id
+  auth0_audience         = data.aws_ssm_parameter.auth0_audience.arn
+  auth0_base_url         = data.aws_ssm_parameter.auth0_base_url.arn
+  auth0_client_id        = data.aws_ssm_parameter.auth0_client_id.arn
+  auth0_client_secret    = data.aws_ssm_parameter.auth0_client_secret.arn
+  auth0_issuer_base_url  = data.aws_ssm_parameter.auth0_issuer_base_url.arn
+  # auth0_scope            = data.aws_ssm_parameter.auth0_scope.arn
+  auth0_secret          = data.aws_ssm_parameter.auth0_secret.arn
+  service_port          = var.port_app_server
+  ecs_role              = var.iam_role_name["ecs"]
+  ecs_task_role         = var.iam_role_name["ecs_task_role"]
+  s3_bucket_build_cache = module.s3_codebuild_cache.s3_bucket_id
 }
 
 # ------- Creating the client CodeBuild project -------
@@ -582,9 +619,15 @@ module "codebuild_client" {
   task_definition_family = module.ecs_task_definition_client.task_definition_family
   container_name         = var.container_name["client"]
   auth0_scope            = data.aws_secretsmanager_secret.auth0_scope.arn
-  auth0_secret           = data.aws_ssm_parameter.auth0_secret.arn
-  service_port           = var.port_app_client
-  ecs_role               = var.iam_role_name["ecs"]
+  auth0_audience         = data.aws_ssm_parameter.auth0_audience.arn
+  auth0_base_url         = data.aws_ssm_parameter.auth0_base_url.arn
+  auth0_client_id        = data.aws_ssm_parameter.auth0_client_id.arn
+  auth0_client_secret    = data.aws_ssm_parameter.auth0_client_secret.arn
+  auth0_issuer_base_url  = data.aws_ssm_parameter.auth0_issuer_base_url.arn
+  # auth0_scope            = data.aws_ssm_parameter.auth0_scope.arn
+  auth0_secret = data.aws_ssm_parameter.auth0_secret.arn
+  service_port = var.port_app_client
+  ecs_role     = var.iam_role_name["ecs"]
   # server_alb_url         = module.alb_server.dns_alb
   server_alb_url        = module.alb_client.dns_alb
   s3_bucket_build_cache = module.s3_codebuild_cache.s3_bucket_id
