@@ -134,7 +134,7 @@ resource "aws_iam_policy" "policy_for_ecs_task_role" {
 }
 
 # resource "aws_iam_policy" "secrets_and_parameters_access_policy" {
-#   name        = "SecretsAndParametersAccessPolicy"
+#   name        = "secrets_and_parameters_access_policy"
 #   path        = "/"
 #   description = "Policy that allows access to Secrets Manager and SSM Parameters"
 
@@ -186,8 +186,13 @@ resource "aws_iam_role_policy_attachment" "attachment" {
 
 
 # resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_attachment" {
-#   role       = "ECS-task-execution-Role"
+#   count      = length(aws_iam_role.ecs_task_excecution_role) > 0 ? 1 : 0
 #   policy_arn = aws_iam_policy.secrets_and_parameters_access_policy.arn
+#   role       = aws_iam_role.ecs_task_excecution_role[0].name
+
+#   lifecycle {
+#     create_before_destroy = true
+#   }
 # }
 
 
