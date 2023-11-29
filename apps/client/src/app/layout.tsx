@@ -73,10 +73,10 @@ export default async function RootLayout({
   //   'NEXT_PUBLIC_COMPANY_NAME: ',
   //   process.env.NEXT_PUBLIC_COMPANY_NAME,
   // );
-  console.log(
-    'NEXT_PUBLIC_COMPANY_NAME_PS_FROM: ',
-    process.env.NEXT_PUBLIC_COMPANY_NAME_PS_FROM,
-  );
+  // console.log(
+  //   'NEXT_PUBLIC_COMPANY_NAME_PS_FROM: ',
+  //   process.env.NEXT_PUBLIC_COMPANY_NAME_PS_FROM,
+  // );
   return (
     <html
       lang="en"

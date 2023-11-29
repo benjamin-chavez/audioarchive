@@ -7,16 +7,17 @@ type AppUserProps = {
   params: { username: string };
 };
 
-import ProductsGrid from '../../../components/products-grid';
-import { getAppUserWProducts } from '@/lib/data/app-user';
+// import ProductsGrid from '../../../components/products-grid';
+// import { getAppUserWProducts } from '@/lib/data/app-user';
 
 export default async function UserDetail({ params }: AppUserProps) {
-  let res = await getAppUserWProducts(params.username);
-  const { appUser, products } = res.data;
+  // let res = await getAppUserWProducts(params.username);
+  // const { appUser, products } = res.data;
 
   return (
     <>
-      <div>
+      <h1>User Detail Page - Delete this H1</h1>
+      {/* <div>
         <div>
           <img
             className="h-64 w-full object-cover lg:h-48"
@@ -65,7 +66,7 @@ export default async function UserDetail({ params }: AppUserProps) {
         <div className="pt-20">
           <h3>No Products</h3>
         </div>
-      )}
+      )} */}
     </>
   );
 }
