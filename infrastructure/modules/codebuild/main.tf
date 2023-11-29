@@ -75,6 +75,60 @@ resource "aws_codebuild_project" "aws_codebuild" {
       value = var.server_alb_url
     }
 
+    # -------  SSM NEXT_PUBLIC_COMPANY_NAME -------
+    environment_variable {
+      name  = "NEXT_PUBLIC_COMPANY_NAME"
+      value = var.next_public_company_name
+    }
+
+    # -------  SSM NEXT_PUBLIC_API_URL -------
+    environment_variable {
+      name  = "NEXT_PUBLIC_API_URL"
+      value = var.next_public_api_url
+    }
+
+    # -------  SSM CLIENT_URL -------
+    environment_variable {
+      name  = "CLIENT_URL"
+      value = var.client_url
+    }
+
+    # -------  SSM USE_LOCAL_DB_TUNNEL -------
+    environment_variable {
+      name  = "USE_LOCAL_DB_TUNNEL"
+      value = var.use_local_db_tunnel
+    }
+
+    # -------  SSM DB_USER -------
+    environment_variable {
+      name  = "DATABASE_USER"
+      value = var.db_user
+    }
+
+    # -------  SSM DB_PASSWORD -------
+    environment_variable {
+      name  = "DATABASE_PASSWORD"
+      value = var.db_password
+    }
+
+    # -------  SSM DB_HOST -------
+    environment_variable {
+      name  = "DATABASE_HOST"
+      value = var.db_host
+    }
+
+    # -------  SSM DB_PORT -------
+    environment_variable {
+      name  = "DATABASE_PORT"
+      value = var.db_port
+    }
+
+    # -------  SSM DB_NAME -------
+    environment_variable {
+      name  = "DATABASE_NAME"
+      value = var.db_name
+    }
+
     # -------  SSM AUTH0_AUDIENCE -------
     environment_variable {
       name  = "AUTH0_AUDIENCE"

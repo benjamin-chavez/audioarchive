@@ -80,6 +80,42 @@ variable "s3_bucket_build_cache" {
 #   description = "S3 bucket used for the artifact store"
 #   type        = string
 # }
+variable "next_public_company_name" {
+  description = "TODO"
+  type        = string
+}
+variable "next_public_api_url" {
+  description = "TODO"
+  type        = string
+}
+variable "client_url" {
+  description = "TODO"
+  type        = string
+}
+variable "use_local_db_tunnel" {
+  description = "TODO"
+  type        = string
+}
+variable "db_user" {
+  description = "TODO"
+  type        = string
+}
+variable "db_password" {
+  description = "TODO"
+  type        = string
+}
+variable "db_host" {
+  description = "TODO"
+  type        = string
+}
+variable "db_port" {
+  description = "TODO"
+  type        = string
+}
+variable "db_name" {
+  description = "TODO"
+  type        = string
+}
 
 variable "auth0_audience" {
   description = "TODO"
@@ -110,7 +146,3 @@ variable "auth0_secret" {
   description = "TODO"
   type        = string
 }
-
-
-
-

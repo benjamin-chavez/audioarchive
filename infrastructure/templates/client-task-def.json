@@ -24,34 +24,6 @@
           "valueFrom": "<NEXT_PUBLIC_API_URL>"
         },
         {
-          "name": "CLIENT_URL",
-          "valueFrom": "CLIENT_URL"
-        },
-        {
-          "name": "USE_LOCAL_DB_TUNNEL",
-          "valueFrom": "USE_LOCAL_DB_TUNNEL"
-        },
-        {
-          "name": "DATABASE_USER",
-          "valueFrom": "DATABASE_USER"
-        },
-        {
-          "name": "DATABASE_PASSWORD",
-          "valueFrom": "DATABASE_PASSWORD"
-        },
-        {
-          "name": "DATABASE_HOST",
-          "valueFrom": "DATABASE_HOST"
-        },
-        {
-          "name": "DATABASE_PORT",
-          "valueFrom": "DATABASE_PORT"
-        },
-        {
-          "name": "DATABASE_NAME",
-          "valueFrom": "DATABASE_NAME"
-        },
-        {
           "name": "AUTH0_AUDIENCE",
           "valueFrom": "<AUTH0_AUDIENCE>"
         },

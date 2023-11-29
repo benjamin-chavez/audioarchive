@@ -16,14 +16,6 @@
       },
       "secrets": [
         {
-          "name": "NEXT_PUBLIC_COMPANY_NAME",
-          "valueFrom": "<NEXT_PUBLIC_COMPANY_NAME>"
-        },
-        {
-          "name": "NEXT_PUBLIC_API_URL",
-          "valueFrom": "<NEXT_PUBLIC_API_URL>"
-        },
-        {
           "name": "CLIENT_URL",
           "valueFrom": "CLIENT_URL"
         },
@@ -32,16 +24,16 @@
           "valueFrom": "USE_LOCAL_DB_TUNNEL"
         },
         {
+          "name": "DATABASE_HOST",
+          "valueFrom": "DATABASE_HOST"
+        },
+        {
           "name": "DATABASE_USER",
           "valueFrom": "DATABASE_USER"
         },
         {
           "name": "DATABASE_PASSWORD",
           "valueFrom": "DATABASE_PASSWORD"
-        },
-        {
-          "name": "DATABASE_HOST",
-          "valueFrom": "DATABASE_HOST"
         },
         {
           "name": "DATABASE_PORT",

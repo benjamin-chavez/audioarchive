@@ -54,6 +54,15 @@ phases:
         sed -i "s|<REPO_URL>|$REPO_URL|g" taskdef.json
         sed -i "s|<AWS_ACCOUNT_ID>|$AWS_ACCOUNT_ID|g" taskdef.json
         sed -i "s|<AWS_REGION>|$AWS_REGION|g" taskdef.json
+        sed -i "s|<NEXT_PUBLIC_COMPANY_NAME>|$NEXT_PUBLIC_COMPANY_NAME|g" taskdef.json
+        sed -i "s|<NEXT_PUBLIC_API_URL>|$NEXT_PUBLIC_API_URL|g" taskdef.json
+        sed -i "s|<CLIENT_URL>|$CLIENT_URL|g" taskdef.json
+        sed -i "s|<USE_LOCAL_DB_TUNNEL>|$USE_LOCAL_DB_TUNNEL|g" taskdef.json
+        sed -i "s|<DATABASE_USER>|$DATABASE_USER|g" taskdef.json
+        sed -i "s|<DATABASE_PASSWORD>|$DATABASE_PASSWORD|g" taskdef.json
+        sed -i "s|<DATABASE_HOST>|$DATABASE_HOST|g" taskdef.json
+        sed -i "s|<DATABASE_PORT>|$DATABASE_PORT|g" taskdef.json
+        sed -i "s|<DATABASE_NAME>|$DATABASE_NAME|g" taskdef.json
         sed -i "s|<AUTH0_AUDIENCE>|$AUTH0_AUDIENCE|g" taskdef.json
         sed -i "s|<AUTH0_BASE_URL>|$AUTH0_BASE_URL|g" taskdef.json
         sed -i "s|<AUTH0_CLIENT_ID>|$AUTH0_CLIENT_ID|g" taskdef.json
