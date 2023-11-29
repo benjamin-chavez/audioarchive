@@ -133,6 +133,36 @@ resource "aws_iam_policy" "policy_for_ecs_task_role" {
   }
 }
 
+# resource "aws_iam_policy" "secrets_and_parameters_access_policy" {
+#   name        = "SecretsAndParametersAccessPolicy"
+#   path        = "/"
+#   description = "Policy that allows access to Secrets Manager and SSM Parameters"
+
+#   policy = jsonencode({
+#     Version = "2012-10-17",
+#     Statement = [
+#       {
+#         Sid    = "GetSecretValues",
+#         Effect = "Allow",
+#         Action = "secretsmanager:GetSecretValue",
+#         Resource = [
+#           "arn:aws:secretsmanager:us-east-2:369579651631:secret:AUTH0_SCOPE-cy0ooz",
+#           "*"
+#         ]
+#       },
+#       {
+#         Sid = "SSMGetParameters",
+#         Action = [
+#           "ssm:GetParameters"
+#         ],
+#         Effect   = "Allow",
+#         Resource = ["*"]
+#       }
+#     ]
+#   })
+# }
+
+
 # ------- IAM Policies Attachments -------
 resource "aws_iam_role_policy_attachment" "ecs_attachment" {
   count      = var.create_ecs_role == true ? 1 : 0
@@ -153,6 +183,13 @@ resource "aws_iam_role_policy_attachment" "attachment" {
     create_before_destroy = true
   }
 }
+
+
+# resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_attachment" {
+#   role       = "ECS-task-execution-Role"
+#   policy_arn = aws_iam_policy.secrets_and_parameters_access_policy.arn
+# }
+
 
 resource "aws_iam_role_policy_attachment" "attachment2" {
   count      = var.create_devops_policy == true ? 1 : 0
