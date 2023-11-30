@@ -12,6 +12,7 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
   const imgFile = req.files['imgFile'][0];
   // @ts-ignore
   const digitalFile = req.files['digitalFile'][0];
+  console.log(digitalFile);
 
   const product = req.body;
 
