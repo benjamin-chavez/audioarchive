@@ -13,7 +13,7 @@ services:
     command: pnpm dev
     environment:
       - NODE_ENV=development
-      - NEXT_PUBLIC_API_URL=http://server:5000/api
+      - NEXT_PUBLIC_API_URL="http://server:5000/api"
     volumes:
       - ./apps/client/src/:/app/apps/client/src
       - ./apps/client/public:/app/apps/client/public

@@ -13,13 +13,13 @@
 // });
 
 import 'dotenv/config';
-import { app } from './app';
+import app from './app';
 // import ParameterStoreService from './services/parameter-store.service';
 // import { log } from 'logger';
 
 async function startServer() {
   try {
-    const port = process.env.PORT || 5000;
+    const port = parseInt(process.env.PORT) || 5000;
 
     app.listen(port, () => {
       console.log(`api running on ${port}`);
