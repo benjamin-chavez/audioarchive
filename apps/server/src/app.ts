@@ -170,6 +170,10 @@ if (!audience) {
   process.exit(1);
 }
 
+console.log('baseUrl: ', baseUrl);
+console.log('issuerBaseUrl: ', issuerBaseUrl);
+console.log('audience: ', audience);
+
 app
   // .disable('x-powered-by')
   .use(morgan('dev'))
