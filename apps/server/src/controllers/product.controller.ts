@@ -17,7 +17,7 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
 
   product.imgS3Key = await S3Service.uploadFile(imgFile);
   product.digitalFileS3Key = await S3Service.uploadFile(digitalFile);
-  // product.imgS3Url = await S3Service.getObjectSignedUrl(product.imgS3Key);
+  product.imgS3Url = await S3Service.getObjectSignedUrl(product.imgS3Key);
   // TODO: Refactor this to make fewer db calls
   const stripeAccount =
     await StripeAccountService.getAllStripeAccountsByAppUser(product.appUserId);
@@ -25,12 +25,7 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
 
   const newProduct = await ProductService.addNewProduct(product);
   newProduct.imgS3Url = await S3Service.getObjectSignedUrl(product.imgS3Key);
-
-  // newProduct.stripeProductId = await StripeService.createProduct(newProduct);
-
-  delete newProduct.updated_at;
-  delete newProduct.created_at;
-  // console.log(newProduct);
+  newProduct.stripeProductId = await StripeService.createProduct(newProduct);
   await ProductService.updateProduct(newProduct.id, newProduct);
 
   res
@@ -50,7 +45,7 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
 export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
   async (req, res) => {
     const products = await ProductService.getAllProductsWithUserDetails();
-    console.log('products: ', products);
+
     res.status(200).json({
       // data: productsWithSignedUrls,
       data: products,
@@ -87,7 +82,6 @@ export const updateProduct: RequestHandler = asyncHandler(async (req, res) => {
 
   // const id: number = BigInt(req.params.id);
   const id = parseInt(req.params.id, 10);
-  console.log('productData: ', productData);
   const updatedProduct = await ProductService.updateProduct(id, productData);
   productData.imgS3Url = imgS3Url;
   res

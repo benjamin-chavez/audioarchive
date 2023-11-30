@@ -183,20 +183,20 @@ app
       origin: '*',
     })
   )
-  // .use(json())
-  .use(
-    json({
-      // We need the raw body to verify webhook signatures.
-      // Let's compute it only when hitting the Stripe webhook endpoint.
-      verify: (req, res, buf) => {
-        // @ts-ignore
-        if (req.originalUrl.startsWith('/api/webhook')) {
-          // @ts-ignore
-          req.rawBody = buf.toString();
-        }
-      },
-    })
-  ) // .use(urlencoded({ extended: true }))
+  .use(json())
+  // .use(
+  //   json({
+  //     // We need the raw body to verify webhook signatures.
+  //     // Let's compute it only when hitting the Stripe webhook endpoint.
+  //     verify: (req, res, buf) => {
+  //       // @ts-ignore
+  //       if (req.originalUrl.startsWith('/api/webhook')) {
+  //         // @ts-ignore
+  //         req.rawBody = buf.toString();
+  //       }
+  //     },
+  //   })
+  // ) // .use(urlencoded({ extended: true }))
   .use(urlencoded({ extended: false }))
   .use(cookieParser())
   .use(flash())
