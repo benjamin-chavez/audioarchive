@@ -16,14 +16,6 @@
       },
       "secrets": [
         {
-          "name": "NEXT_PUBLIC_COMPANY_NAME",
-          "valueFrom": "<NEXT_PUBLIC_COMPANY_NAME>"
-        },
-        {
-          "name": "NEXT_PUBLIC_API_URL",
-          "valueFrom": "<NEXT_PUBLIC_API_URL>"
-        },
-        {
           "name": "CLIENT_URL",
           "valueFrom": "<CLIENT_URL>"
         },
@@ -78,6 +70,22 @@
         {
           "name": "AUTH0_SECRET",
           "valueFrom": "<AUTH0_SECRET>"
+        },
+        {
+          "name": "AWS_BUCKET_NAME",
+          "valueFrom": "audio-archive-initial-dev-setup"
+        },
+        {
+          "name": "STRIPE_PUBLISHABLE_KEY",
+          "valueFrom": "<STRIPE_PUBLISHABLE_KEY>"
+        },
+        {
+          "name": "STRIPE_SECRET_KEY",
+          "valueFrom": "<STRIPE_SECRET_KEY>"
+        },
+        {
+          "name": "STRIPE_WEBHOOK_SECRET",
+          "valueFrom": "<STRIPE_WEBHOOK_SECRET>"
         }
       ],
       "portMappings": [

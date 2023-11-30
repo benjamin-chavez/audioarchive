@@ -80,9 +80,9 @@ data "aws_ssm_parameter" "aws_bucket_name" {
   name = "/audioarchive/production/server/AWS_BUCKET_NAME"
 }
 
-# -------  SSM AWS_BUCKET_REGION -------
-data "aws_ssm_parameter" "aws_bucket_region" {
-  name = "/audioarchive/production/server/AWS_BUCKET_REGION"
+# -------  SSM AWS_REGION -------
+data "aws_ssm_parameter" "aws_region" {
+  name = "/audioarchive/production/server/AWS_REGION"
 }
 
 # -------  SSM AWS_SECRET_KEY -------
@@ -132,16 +132,4 @@ data "aws_ssm_parameter" "stripe_webhook_secret" {
 # -------  SSM USE_LOCAL_DB_TUNNEL -------
 data "aws_ssm_parameter" "use_local_db_tunnel" {
   name = "/audioarchive/production/server/USE_LOCAL_DB_TUNNEL"
-}
-
-# ----------------------------------------------------------------------
-
-# -------  SSM NEXT_PUBLIC_COMPANY_NAME -------
-data "aws_ssm_parameter" "next_public_company_name" {
-  name = "/audioarchive/production/client/NEXT_PUBLIC_COMPANY_NAME"
-}
-
-# -------  SSM NEXT_PUBLIC_API_URL -------
-data "aws_ssm_parameter" "next_public_api_url" {
-  name = "/audioarchive/production/client/NEXT_PUBLIC_API_URL"
 }

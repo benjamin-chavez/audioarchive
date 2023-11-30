@@ -11,14 +11,12 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import 'dotenv/config';
 import { generateRandomBytes } from '../lib/utils';
 import { AppUser, Product } from '@shared/src';
-// import { loadConfig } from '../server';
-import ParameterStoreService from './parameter-store.service';
 
 // if (
 //   !process.env.AWS_ACCESS_KEY ||
 //   !process.env.AWS_SECRET_KEY ||
 //   !process.env.AWS_BUCKET_NAME ||
-//   !process.env.AWS_BUCKET_REGION
+//   !process.env.AWS_REGION
 // ) {
 //   throw new Error('One or more AWS Environment Variables are not set');
 // }
@@ -55,13 +53,13 @@ import ParameterStoreService from './parameter-store.service';
 //     // throw new Error('AWS_BUCKET_NAME environment variable is not set');
 //   }
 
-//   if (!process.env.AWS_BUCKET_REGION) {
+//   if (!process.env.AWS_REGION) {
 //     const param = await ParameterStoreService.getEncryptedParameterW(
-//       '/audioarchive/production/server/AWS_BUCKET_REGION'
+//       '/audioarchive/production/server/AWS_REGION'
 //     );
-//     const AWS_BUCKET_REGION = param;
+//     const AWS_REGION = param;
 
-//     process.env[AWS_BUCKET_REGION] = AWS_BUCKET_REGION;
+//     process.env[AWS_REGION] = AWS_REGION;
 //     // throw new Error('AWS_BUCKET_NAME environment variable is not set');
 //   }
 // };
@@ -71,12 +69,11 @@ import ParameterStoreService from './parameter-store.service';
 //     accessKeyId: process.env.AWS_ACCESS_KEY,
 //     secretAccessKey: process.env.AWS_SECRET_KEY,
 //   },
-//   region: process.env.AWS_BUCKET_REGION,
+//   region: process.env.AWS_REGION,
 // });
 
 export const s3 = new S3Client({
-  // region: process.env.AWS_BUCKET_REGION,
-  region: 'us-east-2',
+  region: process.env.AWS_REGION,
 });
 
 class S3Service {
@@ -86,8 +83,7 @@ class S3Service {
     contentDisposition?: string
   ): Promise<string> {
     const params: any = {
-      // Bucket: process.env.AWS_BUCKET_NAME,
-      Bucket: 'audio-archive-initial-dev-setup',
+      Bucket: process.env.AWS_BUCKET_NAME,
       Key: key,
     };
 
@@ -223,8 +219,7 @@ class S3Service {
 
   static async deleteFile(fileName: string) {
     const deleteParams = {
-      // Bucket: process.env.AWS_BUCKET_NAME,
-      Bucket: 'audio-archive-initial-dev-setup',
+      Bucket: process.env.AWS_BUCKET_NAME,
       Key: fileName,
     };
 
@@ -235,8 +230,7 @@ class S3Service {
     const keysToDelete = s3Keys.filter((key) => !key.includes('seed'));
 
     const deleteParams = {
-      // Bucket: process.env.AWS_BUCKET_NAME,
-      Bucket: 'audio-archive-initial-dev-setup',
+      Bucket: process.env.AWS_BUCKET_NAME,
       Delete: {
         Objects: keysToDelete.map((key) => ({ Key: key })),
       },

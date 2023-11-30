@@ -44,16 +44,6 @@ data "aws_ssm_parameter" "node_env" {
 }
 
 
-# ------- ENVIRONMENT VARIABLE NEXT_PUBLIC_COMPANY_NAME -------
-data "aws_ssm_parameter" "next_public_company_name" {
-  name = "/audioarchive/production/client/NEXT_PUBLIC_COMPANY_NAME"
-}
-
-# ------- ENVIRONMENT VARIABLE NEXT_PUBLIC_API_URL -------
-data "aws_ssm_parameter" "next_public_api_url" {
-  name = "/audioarchive/production/client/NEXT_PUBLIC_API_URL"
-}
-
 # ------- ENVIRONMENT VARIABLE CLIENT_URL -------
 data "aws_ssm_parameter" "client_url" {
   name = "/audioarchive/production/server/CLIENT_URL"
@@ -63,12 +53,6 @@ data "aws_ssm_parameter" "client_url" {
 data "aws_ssm_parameter" "use_local_db_tunnel" {
   name = "/audioarchive/production/server/USE_LOCAL_DB_TUNNEL"
 }
-
-# # ------- ENVIRONMENT VARIABLE DATABASE_HOST -------
-# data "aws_ssm_parameter" "database_host" {
-#   name = "/audioarchive/production/server/DATABASE_HOST"
-# }
-
 
 # -------  SSM DATABASE_USER-------
 data "aws_ssm_parameter" "db_user" {
@@ -87,11 +71,6 @@ data "aws_ssm_parameter" "db_password" {
 data "aws_ssm_parameter" "db_host" {
   name = "/audioarchive/production/server/DATABASE_HOST"
 }
-
-# # ------- ENVIRONMENT VARIABLE DATABASE_PORT -------
-# data "aws_ssm_parameter" "database_port" {
-#   name = "/audioarchive/production/server/DATABASE_PORT"
-# }
 
 # -------  SSM DATABASE_PORT-------
 data "aws_ssm_parameter" "db_port" {
@@ -141,6 +120,24 @@ data "aws_ssm_parameter" "auth0_secret" {
   name            = "/audioarchive/production/server/AUTH0_SECRET"
   with_decryption = true
 }
+
+# -------  SSM STRIPE_PUBLISHABLE_KEY -------
+data "aws_ssm_parameter" "stripe_publishable_key" {
+  name = "/audioarchive/production/server/STRIPE_PUBLISHABLE_KEY"
+}
+
+# -------  SSM STRIPE_SECRET_KEY -------
+data "aws_ssm_parameter" "stripe_secret_key" {
+  name = "/audioarchive/production/server/STRIPE_SECRET_KEY"
+}
+
+# -------  SSM STRIPE_WEBHOOK_SECRET -------
+data "aws_ssm_parameter" "stripe_webhook_secret" {
+  name            = "/audioarchive/production/server/STRIPE_WEBHOOK_SECRET"
+  with_decryption = true
+}
+
+
 
 # ------- Networking -------
 module "networking" {
@@ -343,44 +340,6 @@ module "ecs_task_definition_client" {
   region             = var.aws_region
   container_port     = var.port_app_client
   node_env           = var.node_env
-  secrets = [
-    # {
-    #   name      = "AUTH0_SECRET",
-    #   valueFrom = data.aws_secretsmanager_secret.auth0_secret.arn
-    # },
-    # {
-    #   name      = "NEXT_PUBLIC_API_URL",
-    #   valueFrom = data.aws_secretsmanager_secret.next_public_api_url.arn
-    # },
-    # {
-    #   name      = "NEXT_PUBLIC_COMPANY_NAME",
-    #   valueFrom = data.aws_secretsmanager_secret.next_public_company_name.arn
-    # },
-    # {
-    #   name      = "AUTH0_SCOPE",
-    #   valueFrom = data.aws_secretsmanager_secret.auth0_scope.arn
-    # },
-    # {
-    #   name      = "AUTH0_AUDIENCE",
-    #   valueFrom = data.aws_secretsmanager_secret.auth0_audience.arn
-    # },
-    # {
-    #   name      = "AUTH0_CLIENT_SECRET",
-    #   valueFrom = data.aws_secretsmanager_secret.auth0_client_secret.arn
-    # },
-    # {
-    #   name      = "AUTH0_CLIENT_ID",
-    #   valueFrom = data.aws_secretsmanager_secret.auth0_client_id.arn
-    # },
-    # {
-    #   name      = "AUTH0_ISSUER_BASE_URL",
-    #   valueFrom = data.aws_secretsmanager_secret.auth0_issuer_base_url.arn
-    # },
-    # {
-    #   name      = "AUTH0_BASE_URL",
-    #   valueFrom = data.aws_secretsmanager_secret.auth0_base_url.arn
-    # }
-  ]
 }
 
 # ------- Creating ECS Task Definition for the Database Migrations -------
@@ -591,27 +550,27 @@ module "codebuild_server" {
   buildspec_path         = var.buildspec_path
   task_definition_family = module.ecs_task_definition_server.task_definition_family
   container_name         = var.container_name["server"]
-  # auth0_scope            = data.aws_secretsmanager_secret.auth0_scope.arn
-  next_public_company_name = data.aws_ssm_parameter.next_public_company_name.arn
-  next_public_api_url      = data.aws_ssm_parameter.next_public_api_url.arn
-  client_url               = data.aws_ssm_parameter.client_url.arn
-  use_local_db_tunnel      = data.aws_ssm_parameter.use_local_db_tunnel.arn
-  db_user                  = data.aws_ssm_parameter.db_user.arn
-  db_password              = data.aws_ssm_parameter.db_password.arn
-  db_host                  = data.aws_ssm_parameter.db_host.arn
-  db_port                  = data.aws_ssm_parameter.db_port.arn
-  db_name                  = data.aws_ssm_parameter.db_name.arn
-  auth0_audience           = data.aws_ssm_parameter.auth0_audience.arn
-  auth0_base_url           = data.aws_ssm_parameter.auth0_base_url.arn
-  auth0_client_id          = data.aws_ssm_parameter.auth0_client_id.arn
-  auth0_client_secret      = data.aws_ssm_parameter.auth0_client_secret.arn
-  auth0_issuer_base_url    = data.aws_ssm_parameter.auth0_issuer_base_url.arn
-  auth0_scope              = data.aws_ssm_parameter.auth0_scope.arn
-  auth0_secret             = data.aws_ssm_parameter.auth0_secret.arn
-  service_port             = var.port_app_server
-  ecs_role                 = var.iam_role_name["ecs"]
-  ecs_task_role            = var.iam_role_name["ecs_task_role"]
-  s3_bucket_build_cache    = module.s3_codebuild_cache.s3_bucket_id
+  client_url             = data.aws_ssm_parameter.client_url.arn
+  use_local_db_tunnel    = data.aws_ssm_parameter.use_local_db_tunnel.arn
+  db_user                = data.aws_ssm_parameter.db_user.arn
+  db_password            = data.aws_ssm_parameter.db_password.arn
+  db_host                = data.aws_ssm_parameter.db_host.arn
+  db_port                = data.aws_ssm_parameter.db_port.arn
+  db_name                = data.aws_ssm_parameter.db_name.arn
+  auth0_audience         = data.aws_ssm_parameter.auth0_audience.arn
+  auth0_base_url         = data.aws_ssm_parameter.auth0_base_url.arn
+  auth0_client_id        = data.aws_ssm_parameter.auth0_client_id.arn
+  auth0_client_secret    = data.aws_ssm_parameter.auth0_client_secret.arn
+  auth0_issuer_base_url  = data.aws_ssm_parameter.auth0_issuer_base_url.arn
+  auth0_scope            = data.aws_ssm_parameter.auth0_scope.arn
+  auth0_secret           = data.aws_ssm_parameter.auth0_secret.arn
+  stripe_publishable_key = data.aws_ssm_parameter.stripe_publishable_key.arn
+  stripe_secret_key      = data.aws_ssm_parameter.stripe_secret_key.arn
+  stripe_webhook_secret  = data.aws_ssm_parameter.stripe_webhook_secret.arn
+  service_port           = var.port_app_server
+  ecs_role               = var.iam_role_name["ecs"]
+  ecs_task_role          = var.iam_role_name["ecs_task_role"]
+  s3_bucket_build_cache  = module.s3_codebuild_cache.s3_bucket_id
 }
 
 # ------- Creating the client CodeBuild project -------
@@ -626,25 +585,25 @@ module "codebuild_client" {
   buildspec_path         = var.buildspec_path
   task_definition_family = module.ecs_task_definition_client.task_definition_family
   container_name         = var.container_name["client"]
-  # auth0_scope            = data.aws_secretsmanager_secret.auth0_scope.arn
-  next_public_company_name = data.aws_ssm_parameter.next_public_company_name.arn
-  next_public_api_url      = data.aws_ssm_parameter.next_public_api_url.arn
-  client_url               = data.aws_ssm_parameter.client_url.arn
-  use_local_db_tunnel      = data.aws_ssm_parameter.use_local_db_tunnel.arn
-  db_user                  = data.aws_ssm_parameter.db_user.arn
-  db_password              = data.aws_ssm_parameter.db_password.arn
-  db_host                  = data.aws_ssm_parameter.db_host.arn
-  db_port                  = data.aws_ssm_parameter.db_port.arn
-  db_name                  = data.aws_ssm_parameter.db_name.arn
-  auth0_audience           = data.aws_ssm_parameter.auth0_audience.arn
-  auth0_base_url           = data.aws_ssm_parameter.auth0_base_url.arn
-  auth0_client_id          = data.aws_ssm_parameter.auth0_client_id.arn
-  auth0_client_secret      = data.aws_ssm_parameter.auth0_client_secret.arn
-  auth0_issuer_base_url    = data.aws_ssm_parameter.auth0_issuer_base_url.arn
-  auth0_scope              = data.aws_ssm_parameter.auth0_scope.arn
-  auth0_secret             = data.aws_ssm_parameter.auth0_secret.arn
-  service_port             = var.port_app_client
-  ecs_role                 = var.iam_role_name["ecs"]
+  client_url             = data.aws_ssm_parameter.client_url.arn
+  use_local_db_tunnel    = data.aws_ssm_parameter.use_local_db_tunnel.arn
+  db_user                = data.aws_ssm_parameter.db_user.arn
+  db_password            = data.aws_ssm_parameter.db_password.arn
+  db_host                = data.aws_ssm_parameter.db_host.arn
+  db_port                = data.aws_ssm_parameter.db_port.arn
+  db_name                = data.aws_ssm_parameter.db_name.arn
+  auth0_audience         = data.aws_ssm_parameter.auth0_audience.arn
+  auth0_base_url         = data.aws_ssm_parameter.auth0_base_url.arn
+  auth0_client_id        = data.aws_ssm_parameter.auth0_client_id.arn
+  auth0_client_secret    = data.aws_ssm_parameter.auth0_client_secret.arn
+  auth0_issuer_base_url  = data.aws_ssm_parameter.auth0_issuer_base_url.arn
+  auth0_scope            = data.aws_ssm_parameter.auth0_scope.arn
+  auth0_secret           = data.aws_ssm_parameter.auth0_secret.arn
+  stripe_publishable_key = data.aws_ssm_parameter.stripe_publishable_key.arn
+  stripe_secret_key      = data.aws_ssm_parameter.stripe_secret_key.arn
+  stripe_webhook_secret  = data.aws_ssm_parameter.stripe_webhook_secret.arn
+  service_port           = var.port_app_client
+  ecs_role               = var.iam_role_name["ecs"]
   # server_alb_url         = module.alb_server.dns_alb
   server_alb_url        = module.alb_client.dns_alb
   s3_bucket_build_cache = module.s3_codebuild_cache.s3_bucket_id
@@ -730,8 +689,6 @@ resource "aws_security_group" "security_group_ec2_bastion" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  # count = var.create_bastion_host ? 1 : 0
 }
 
 # ------- Creating EC2 Bastion Host -------
@@ -777,8 +734,6 @@ module "security_group_rds_db" {
     module.security_group_ecs_task_client.sg_id,
     aws_security_group.security_group_ec2_bastion.id
   ])
-  # ], var.create_bastion_host ? [aws_security_group.security_group_ec2_bastion.id] : [])
-  # ], var.create_bastion_host ? [aws_security_group.security_group_ec2_bastion[0].id] : [])
 }
 
 # ------- Database Module -------

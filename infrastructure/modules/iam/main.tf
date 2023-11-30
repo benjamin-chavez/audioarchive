@@ -133,34 +133,34 @@ resource "aws_iam_policy" "policy_for_ecs_task_role" {
   }
 }
 
-# resource "aws_iam_policy" "secrets_and_parameters_access_policy" {
-#   name        = "secrets_and_parameters_access_policy"
-#   path        = "/"
-#   description = "Policy that allows access to Secrets Manager and SSM Parameters"
+resource "aws_iam_policy" "secrets_and_parameters_access_policy" {
+  name        = "secrets_and_parameters_access_policy"
+  path        = "/"
+  description = "Policy that allows access to Secrets Manager and SSM Parameters"
 
-#   policy = jsonencode({
-#     Version = "2012-10-17",
-#     Statement = [
-#       {
-#         Sid    = "GetSecretValues",
-#         Effect = "Allow",
-#         Action = "secretsmanager:GetSecretValue",
-#         Resource = [
-#           "arn:aws:secretsmanager:us-east-2:369579651631:secret:AUTH0_SCOPE-cy0ooz",
-#           "*"
-#         ]
-#       },
-#       {
-#         Sid = "SSMGetParameters",
-#         Action = [
-#           "ssm:GetParameters"
-#         ],
-#         Effect   = "Allow",
-#         Resource = ["*"]
-#       }
-#     ]
-#   })
-# }
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Sid    = "GetSecretValues",
+        Effect = "Allow",
+        Action = "secretsmanager:GetSecretValue",
+        Resource = [
+          "arn:aws:secretsmanager:us-east-2:369579651631:secret:AUTH0_SCOPE-cy0ooz",
+          "*"
+        ]
+      },
+      {
+        Sid = "SSMGetParameters",
+        Action = [
+          "ssm:GetParameters"
+        ],
+        Effect   = "Allow",
+        Resource = ["*"]
+      }
+    ]
+  })
+}
 
 
 # ------- IAM Policies Attachments -------
@@ -185,15 +185,15 @@ resource "aws_iam_role_policy_attachment" "attachment" {
 }
 
 
-# resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_attachment" {
-#   count      = length(aws_iam_role.ecs_task_excecution_role) > 0 ? 1 : 0
-#   policy_arn = aws_iam_policy.secrets_and_parameters_access_policy.arn
-#   role       = aws_iam_role.ecs_task_excecution_role[0].name
+resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_attachment" {
+  count      = length(aws_iam_role.ecs_task_excecution_role) > 0 ? 1 : 0
+  policy_arn = aws_iam_policy.secrets_and_parameters_access_policy.arn
+  role       = aws_iam_role.ecs_task_excecution_role[0].name
 
-#   lifecycle {
-#     create_before_destroy = true
-#   }
-# }
+  lifecycle {
+    create_before_destroy = true
+  }
+}
 
 
 resource "aws_iam_role_policy_attachment" "attachment2" {

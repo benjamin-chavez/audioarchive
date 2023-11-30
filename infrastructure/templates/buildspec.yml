@@ -54,8 +54,6 @@ phases:
         sed -i "s|<REPO_URL>|$REPO_URL|g" taskdef.json
         sed -i "s|<AWS_ACCOUNT_ID>|$AWS_ACCOUNT_ID|g" taskdef.json
         sed -i "s|<AWS_REGION>|$AWS_REGION|g" taskdef.json
-        sed -i "s|<NEXT_PUBLIC_COMPANY_NAME>|$NEXT_PUBLIC_COMPANY_NAME|g" taskdef.json
-        sed -i "s|<NEXT_PUBLIC_API_URL>|$NEXT_PUBLIC_API_URL|g" taskdef.json
         sed -i "s|<CLIENT_URL>|$CLIENT_URL|g" taskdef.json
         sed -i "s|<USE_LOCAL_DB_TUNNEL>|$USE_LOCAL_DB_TUNNEL|g" taskdef.json
         sed -i "s|<DATABASE_USER>|$DATABASE_USER|g" taskdef.json
@@ -70,6 +68,9 @@ phases:
         sed -i "s|<AUTH0_ISSUER_BASE_URL>|$AUTH0_ISSUER_BASE_URL|g" taskdef.json
         sed -i "s|<AUTH0_SCOPE>|$AUTH0_SCOPE|g" taskdef.json
         sed -i "s|<AUTH0_SECRET>|$AUTH0_SECRET|g" taskdef.json
+        sed -i "s|<STRIPE_PUBLISHABLE_KEY>|$STRIPE_PUBLISHABLE_KEY|g" taskdef.json
+        sed -i "s|<STRIPE_SECRET_KEY>|$STRIPE_SECRET_KEY|g" taskdef.json
+        sed -i "s|<STRIPE_WEBHOOK_SECRET>|$STRIPE_WEBHOOK_SECRET|g" taskdef.json
 
 artifacts:
   files:

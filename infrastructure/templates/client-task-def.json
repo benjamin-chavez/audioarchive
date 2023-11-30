@@ -16,14 +16,6 @@
       },
       "secrets": [
         {
-          "name": "NEXT_PUBLIC_COMPANY_NAME",
-          "valueFrom": "<NEXT_PUBLIC_COMPANY_NAME>"
-        },
-        {
-          "name": "NEXT_PUBLIC_API_URL",
-          "valueFrom": "<NEXT_PUBLIC_API_URL>"
-        },
-        {
           "name": "AUTH0_AUDIENCE",
           "valueFrom": "<AUTH0_AUDIENCE>"
         },

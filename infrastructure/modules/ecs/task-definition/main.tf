@@ -24,7 +24,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       containerPort = var.container_port
       hostPort      = var.container_port
     }]
-    # secrets = var.secrets
+    # TODO:Review if you need this environmnent field
     environment = [
       {
         name  = "NODE_ENV"
@@ -35,7 +35,6 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
         value = "audio-archive-psql-db2.cxq8xikgucfb.us-east-2.rds.amazonaws.com"
       }
     ]
-    # environment = var.environment_variables
     logConfiguration = {
       logDriver = "awslogs"
       options = {

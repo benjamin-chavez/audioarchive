@@ -75,18 +75,6 @@ resource "aws_codebuild_project" "aws_codebuild" {
       value = var.server_alb_url
     }
 
-    # -------  SSM NEXT_PUBLIC_COMPANY_NAME -------
-    environment_variable {
-      name  = "NEXT_PUBLIC_COMPANY_NAME"
-      value = var.next_public_company_name
-    }
-
-    # -------  SSM NEXT_PUBLIC_API_URL -------
-    environment_variable {
-      name  = "NEXT_PUBLIC_API_URL"
-      value = var.next_public_api_url
-    }
-
     # -------  SSM CLIENT_URL -------
     environment_variable {
       name  = "CLIENT_URL"
@@ -169,6 +157,24 @@ resource "aws_codebuild_project" "aws_codebuild" {
     environment_variable {
       name  = "AUTH0_SECRET"
       value = var.auth0_secret
+    }
+
+    # -------  SSM STRIPE_PUBLISHABLE_KEY -------
+    environment_variable {
+      name  = "STRIPE_PUBLISHABLE_KEY"
+      value = var.stripe_publishable_key
+    }
+
+    # -------  SSM STRIPE_SECRET_KEY -------
+    environment_variable {
+      name  = "STRIPE_SECRET_KEY"
+      value = var.stripe_secret_key
+    }
+
+    # -------  SSM STRIPE_WEBHOOK_SECRET -------
+    environment_variable {
+      name  = "STRIPE_WEBHOOK_SECRET"
+      value = var.stripe_webhook_secret
     }
   }
 

@@ -75,8 +75,8 @@ output "aws_bucket_name" {
   description = "AWS Bucket Name from SSM"
 }
 
-output "aws_bucket_region" {
-  value       = data.aws_ssm_parameter.aws_bucket_region.value
+output "aws_region" {
+  value       = data.aws_ssm_parameter.aws_region.value
   description = "AWS Bucket Region from SSM"
 }
 
@@ -127,15 +127,4 @@ output "stripe_webhook_secret" {
 output "use_local_db_tunnel" {
   value       = data.aws_ssm_parameter.use_local_db_tunnel.value
   description = "Flag for Using Local DB Tunnel from SSM"
-}
-
-output "next_public_company_name" {
-  value       = data.aws_ssm_parameter.next_public_company_name.value
-  description = "Public Company/Application name for Next.js"
-}
-
-# -------  SSM NEXT_PUBLIC_API_URL -------
-output "next_public_api_url" {
-  value       = data.aws_ssm_parameter.next_public_api_url.value
-  description = "Public API URL for Next.js"
 }

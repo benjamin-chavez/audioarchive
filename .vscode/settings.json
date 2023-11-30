@@ -3,5 +3,15 @@
     {
       "mode": "auto"
     }
-  ]
+  ],
+  "search.include": {
+    "**.env": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/dist": true,
+    "**/pnpm-lock.yaml": true,
+    "**/.next/**": true
+  }
 }

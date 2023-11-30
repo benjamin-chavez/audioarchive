@@ -80,14 +80,7 @@ variable "s3_bucket_build_cache" {
 #   description = "S3 bucket used for the artifact store"
 #   type        = string
 # }
-variable "next_public_company_name" {
-  description = "TODO"
-  type        = string
-}
-variable "next_public_api_url" {
-  description = "TODO"
-  type        = string
-}
+
 variable "client_url" {
   description = "TODO"
   type        = string
@@ -143,6 +136,19 @@ variable "auth0_scope" {
 }
 
 variable "auth0_secret" {
+  description = "TODO"
+  type        = string
+}
+
+variable "stripe_publishable_key" {
+  description = "TODO"
+  type        = string
+}
+variable "stripe_secret_key" {
+  description = "TODO"
+  type        = string
+}
+variable "stripe_webhook_secret" {
   description = "TODO"
   type        = string
 }
