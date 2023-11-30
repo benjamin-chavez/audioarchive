@@ -22,65 +22,64 @@ import ParameterStoreService from './parameter-store.service';
 //   throw new Error('One or more AWS Environment Variables are not set');
 // }
 
-async () => {
-  if (!process.env.AWS_ACCESS_KEY) {
-    const param = await ParameterStoreService.getEncryptedParameterW(
-      '/audioarchive/production/server/AWS_ACCESS_KEY'
-    );
-    const AWS_ACCESS_KEY = param;
+// async () => {
+//   if (!process.env.AWS_ACCESS_KEY) {
+//     const param = await ParameterStoreService.getEncryptedParameterW(
+//       '/audioarchive/production/server/AWS_ACCESS_KEY'
+//     );
+//     const AWS_ACCESS_KEY = param;
 
-    process.env[AWS_ACCESS_KEY] = AWS_ACCESS_KEY;
-    // throw new Error('AWS_BUCKET_NAME environment variable is not set');
-  }
+//     process.env[AWS_ACCESS_KEY] = AWS_ACCESS_KEY;
+//     // throw new Error('AWS_BUCKET_NAME environment variable is not set');
+//   }
 
-  if (!process.env.AWS_SECRET_KEY) {
-    const param = await ParameterStoreService.getEncryptedParameterW(
-      '/audioarchive/production/server/AWS_SECRET_KEY'
-    );
-    const AWS_SECRET_KEY = param;
+//   if (!process.env.AWS_SECRET_KEY) {
+//     const param = await ParameterStoreService.getEncryptedParameterW(
+//       '/audioarchive/production/server/AWS_SECRET_KEY'
+//     );
+//     const AWS_SECRET_KEY = param;
 
-    process.env[AWS_SECRET_KEY] = AWS_SECRET_KEY;
-    // throw new Error('AWS_BUCKET_NAME environment variable is not set');
-  }
+//     process.env[AWS_SECRET_KEY] = AWS_SECRET_KEY;
+//     // throw new Error('AWS_BUCKET_NAME environment variable is not set');
+//   }
 
-  if (!process.env.AWS_BUCKET_NAME) {
-    const param = await ParameterStoreService.getEncryptedParameterW(
-      '/audioarchive/production/server/AWS_BUCKET_NAME'
-    );
-    const AWS_BUCKET_NAME = param;
+//   if (!process.env.AWS_BUCKET_NAME) {
+//     const param = await ParameterStoreService.getEncryptedParameterW(
+//       '/audioarchive/production/server/AWS_BUCKET_NAME'
+//     );
+//     const AWS_BUCKET_NAME = param;
 
-    process.env[AWS_BUCKET_NAME] = AWS_BUCKET_NAME;
-    // throw new Error('AWS_BUCKET_NAME environment variable is not set');
-  }
+//     process.env[AWS_BUCKET_NAME] = AWS_BUCKET_NAME;
+//     // throw new Error('AWS_BUCKET_NAME environment variable is not set');
+//   }
 
-  if (!process.env.AWS_REGION) {
-    const param = await ParameterStoreService.getEncryptedParameterW(
-      '/audioarchive/production/server/AWS_REGION'
-    );
-    const AWS_REGION = param;
+//   if (!process.env.AWS_REGION) {
+//     const param = await ParameterStoreService.getEncryptedParameterW(
+//       '/audioarchive/production/server/AWS_REGION'
+//     );
+//     const AWS_REGION = param;
 
-    process.env[AWS_REGION] = AWS_REGION;
-    // throw new Error('AWS_BUCKET_NAME environment variable is not set');
-  }
-};
+//     process.env[AWS_REGION] = AWS_REGION;
+//     // throw new Error('AWS_BUCKET_NAME environment variable is not set');
+//   }
+// };
 
-console.log('process.env.AWS_REGION: ', process.env.AWS_REGION);
-console.log('process.env.AWS_ACCESS_KEY: ', process.env.AWS_ACCESS_KEY);
-console.log('process.env.AWS_SECRET_KEY: ', process.env.AWS_SECRET_KEY);
+// console.log('process.env.AWS_REGION: ', process.env.AWS_REGION);
+// console.log('process.env.AWS_ACCESS_KEY: ', process.env.AWS_ACCESS_KEY);
+// console.log('process.env.AWS_SECRET_KEY: ', process.env.AWS_SECRET_KEY);
+
+// export const s3 = new S3Client({
+//   credentials: {
+//     accessKeyId: process.env.AWS_ACCESS_KEY,
+//     secretAccessKey: process.env.AWS_SECRET_KEY,
+//   },
+//   region: process.env.AWS_REGION,
+// });
 
 export const s3 = new S3Client({
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_KEY,
-  },
   // region: process.env.AWS_REGION,
   region: 'us-east-2',
 });
-
-// export const s3 = new S3Client({
-//   // region: process.env.AWS_REGION,
-//   region: 'us-east-2',
-// });
 
 class S3Service {
   // FOR ONLY ONE - TODO: CONSIDER RENAMING
