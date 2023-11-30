@@ -64,19 +64,21 @@ import { AppUser, Product } from '@shared/src';
 //   }
 // };
 
-// export const s3 = new S3Client({
-//   credentials: {
-//     accessKeyId: process.env.AWS_ACCESS_KEY,
-//     secretAccessKey: process.env.AWS_SECRET_KEY,
-//   },
-//   region: process.env.AWS_REGION,
-// });
-
 console.log('process.env.AWS_REGION: ', process.env.AWS_REGION);
+console.log('process.env.AWS_ACCESS_KEY: ', process.env.AWS_ACCESS_KEY);
+console.log('process.env.AWS_SECRET_KEY: ', process.env.AWS_SECRET_KEY);
 
 export const s3 = new S3Client({
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+  },
   region: process.env.AWS_REGION,
 });
+
+// export const s3 = new S3Client({
+//   region: process.env.AWS_REGION,
+// });
 
 class S3Service {
   // FOR ONLY ONE - TODO: CONSIDER RENAMING
