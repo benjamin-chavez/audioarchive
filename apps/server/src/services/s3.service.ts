@@ -72,6 +72,8 @@ import { AppUser, Product } from '@shared/src';
 //   region: process.env.AWS_REGION,
 // });
 
+console.log('process.env.AWS_REGION: ', process.env.AWS_REGION);
+
 export const s3 = new S3Client({
   region: process.env.AWS_REGION,
 });

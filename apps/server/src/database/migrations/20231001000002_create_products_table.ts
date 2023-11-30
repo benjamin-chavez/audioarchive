@@ -1,4 +1,9 @@
 import { Knex } from 'knex';
+// import {
+//   createOnUpdateTimestampFunction,
+//   dropOnUpdateTimestampFunction,
+//   onUpdateTrigger,
+// } from '../../../knexfile';
 
 const TABLE_NAME = 'products';
 
@@ -6,6 +11,7 @@ exports.up = async function (knex: Knex): Promise<void> {
   // await knex.schema.raw(
   //   "CREATE TYPE productStatusType AS ENUM ('draft', 'published', 'archived')"
   // );
+  // await createOnUpdateTimestampFunction(knex);
 
   return knex.schema.createTable(TABLE_NAME, (t) => {
     // Primary Key
@@ -54,17 +60,39 @@ exports.up = async function (knex: Knex): Promise<void> {
 
     t.string('stripeProductId');
 
-    // Metadata Columns
-    t.timestamps(true, true);
+    // t.timestamps(true, true);
+    t.timestamp('created_at').defaultTo(knex.fn.now());
+    t.timestamp('updated_at').defaultTo(knex.fn.now());
+
+    // t.timestamps(true, true);
+    // t.timestamp('updated_at').defaultTo(
+    //   knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+    // );
+
+    // t.dateTime('created_on')
+    //   .notNullable()
+    //   .defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+
+    // t.dateTime('updated_on')
+    //   .notNullable()
+    //   .defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+    // t.timestamps(false, true);
+    // t.timestamp('created_at').defaultTo(knex.fn.now());
+    // t.timestamp('updated_at').defaultTo(knex.fn.now());
+    // t.timestamp('deleted_at').defaultTo(knex.fn.now());
 
     // Composite Unique Constraint
     t.unique(['appUserId', 'name']);
 
     // t.index('stripeProductId');
   });
+  // .then(() => knex.raw(onUpdateTrigger(TABLE_NAME)));
 };
 
 exports.down = function (knex: Knex): Promise<void> {
+  // exports.down = async function (knex: Knex): Promise<void> {
+  // await knex.schema.dropTableIfExists(TABLE_NAME);
+  // await dropOnUpdateTimestampFunction(knex);
   return knex.schema.dropTableIfExists(TABLE_NAME);
 };
 

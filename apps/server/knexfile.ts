@@ -7,6 +7,7 @@
 import 'dotenv/config';
 import CustomMigrationSource from './src/database/customMigrationSource';
 import path from 'path';
+// import { Knex } from 'knex';
 
 console.log('process.env.DATABASE_HOST: ', process.env.DATABASE_HOST);
 console.log('process.env.DATABASE_USER: ', process.env.DATABASE_USER);
@@ -124,6 +125,31 @@ const production = {
     return origImpl(convertCamelCaseToSnakeCase(value));
   },
 };
+
+// export const createOnUpdateTimestampFunction = async (knex: Knex) => {
+//   await knex.raw(`
+//     CREATE OR REPLACE FUNCTION on_update_timestamp()
+//     RETURNS trigger AS $$
+//     BEGIN
+//       NEW.updated_at = now();
+//       RETURN NEW;
+//     END;
+//     $$ language 'plpgsql';
+//   `);
+// };
+
+// export const dropOnUpdateTimestampFunction = async (knex: Knex) => {
+//   await knex.raw(`DROP FUNCTION IF EXISTS on_update_timestamp`);
+// };
+
+// export const onUpdateTrigger = (table: string) => {
+//   return `
+//     CREATE TRIGGER ${table}_update_at
+//     BEFORE UPDATE ON ${table}
+//     FOR EACH ROW
+//     EXECUTE PROCEDURE on_update_timestamp();
+//   `;
+// };
 
 const knexConfig = {
   development,
