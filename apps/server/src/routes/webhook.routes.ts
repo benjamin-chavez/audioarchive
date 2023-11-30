@@ -4,7 +4,7 @@ import express, { Router } from 'express';
 import asyncHandler from 'express-async-handler';
 import Stripe from 'stripe';
 // import { publishToQueue } from '../jobs/rabbitmq';
-import * as webhooksController from '../controllers/webhooks.controller';
+// import * as webhooksController from '../controllers/webhooks.controller';
 
 // @ts-ignore
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
