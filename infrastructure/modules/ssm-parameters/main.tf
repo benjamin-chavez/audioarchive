@@ -75,16 +75,6 @@ data "aws_ssm_parameter" "aws_access_key" {
   with_decryption = true
 }
 
-# -------  SSM AWS_BUCKET_NAME -------
-data "aws_ssm_parameter" "aws_bucket_name" {
-  name = "/audioarchive/production/server/AWS_BUCKET_NAME"
-}
-
-# -------  SSM AWS_REGION -------
-data "aws_ssm_parameter" "aws_region" {
-  name = "/audioarchive/production/server/AWS_REGION"
-}
-
 # -------  SSM AWS_SECRET_KEY -------
 data "aws_ssm_parameter" "aws_secret_key" {
   name            = "/audioarchive/production/server/AWS_SECRET_KEY"

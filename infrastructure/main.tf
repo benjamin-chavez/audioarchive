@@ -604,6 +604,7 @@ module "codebuild_client" {
   stripe_webhook_secret  = data.aws_ssm_parameter.stripe_webhook_secret.arn
   service_port           = var.port_app_client
   ecs_role               = var.iam_role_name["ecs"]
+  #  ecs_task_role          = var.iam_role_name["ecs_task_role"] ?????????
   # server_alb_url         = module.alb_server.dns_alb
   server_alb_url        = module.alb_client.dns_alb
   s3_bucket_build_cache = module.s3_codebuild_cache.s3_bucket_id

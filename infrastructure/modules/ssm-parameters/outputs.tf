@@ -70,16 +70,6 @@ output "aws_access_key" {
   sensitive   = true
 }
 
-output "aws_bucket_name" {
-  value       = data.aws_ssm_parameter.aws_bucket_name.value
-  description = "AWS Bucket Name from SSM"
-}
-
-output "aws_region" {
-  value       = data.aws_ssm_parameter.aws_region.value
-  description = "AWS Bucket Region from SSM"
-}
-
 output "aws_secret_key" {
   value       = data.aws_ssm_parameter.aws_secret_key.value
   description = "AWS Secret Key from SSM"
