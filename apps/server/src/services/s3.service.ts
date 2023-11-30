@@ -83,7 +83,8 @@ class S3Service {
     contentDisposition?: string
   ): Promise<string> {
     const params: any = {
-      Bucket: process.env.AWS_BUCKET_NAME,
+      // Bucket: process.env.AWS_BUCKET_NAME,
+      Bucket: 'audio-archive-initial-dev-setup',
       Key: key,
     };
 
@@ -219,7 +220,8 @@ class S3Service {
 
   static async deleteFile(fileName: string) {
     const deleteParams = {
-      Bucket: process.env.AWS_BUCKET_NAME,
+      // Bucket: process.env.AWS_BUCKET_NAME,
+      Bucket: 'audio-archive-initial-dev-setup',
       Key: fileName,
     };
 
@@ -230,7 +232,8 @@ class S3Service {
     const keysToDelete = s3Keys.filter((key) => !key.includes('seed'));
 
     const deleteParams = {
-      Bucket: process.env.AWS_BUCKET_NAME,
+      // Bucket: process.env.AWS_BUCKET_NAME,
+      Bucket: 'audio-archive-initial-dev-setup',
       Delete: {
         Objects: keysToDelete.map((key) => ({ Key: key })),
       },

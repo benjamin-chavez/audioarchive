@@ -72,10 +72,6 @@
           "valueFrom": "<AUTH0_SECRET>"
         },
         {
-          "name": "AWS_BUCKET_NAME",
-          "valueFrom": "audio-archive-initial-dev-setup"
-        },
-        {
           "name": "STRIPE_PUBLISHABLE_KEY",
           "value": "<STRIPE_PUBLISHABLE_KEY>"
         },
