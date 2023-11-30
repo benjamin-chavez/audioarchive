@@ -77,7 +77,7 @@
         },
         {
           "name": "STRIPE_PUBLISHABLE_KEY",
-          "valueFrom": "<STRIPE_PUBLISHABLE_KEY>"
+          "value": "<STRIPE_PUBLISHABLE_KEY>"
         },
         {
           "name": "STRIPE_SECRET_KEY",

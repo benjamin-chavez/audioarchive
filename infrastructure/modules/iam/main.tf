@@ -121,6 +121,15 @@ resource "aws_iam_policy" "policy_for_role" {
   }
 }
 
+resource "aws_iam_policy" "ecs_task_execution_policy" {
+  # count       = var.create_ecs_task_execution_role == true ? 1 : 0
+  count       = var.create_ecs_role == true ? 1 : 0
+  name        = "ecs-task-execution-policy"
+  description = "Policy for ECS Task Execution Role"
+  # policy      = data.aws_iam_policy_document.ecs_task_execution_policy.json
+  policy = data.aws_iam_policy_document.role_policy_ecs_task_excecution_role.json
+}
+
 resource "aws_iam_policy" "policy_for_ecs_task_role" {
   count       = var.create_ecs_role == true ? 1 : 0
   name        = "Policy-${var.name_ecs_task_role}"
@@ -132,36 +141,17 @@ resource "aws_iam_policy" "policy_for_ecs_task_role" {
   }
 }
 
-# resource "aws_iam_policy" "secrets_and_parameters_access_policy" {
-#   name        = "secrets_and_parameters_access_policy"
-#   path        = "/"
-#   description = "Policy that allows access to Secrets Manager and SSM Parameters"
-
-#   policy = jsonencode({
-#     Version = "2012-10-17",
-#     Statement = [
-#       {
-#         Sid    = "GetSecretValues",
-#         Effect = "Allow",
-#         Action = "secretsmanager:GetSecretValue",
-#         Resource = [
-#           "arn:aws:secretsmanager:us-east-2:369579651631:secret:AUTH0_SCOPE-cy0ooz",
-#           "*"
-#         ]
-#       },
-#       {
-#         Sid = "SSMGetParameters",
-#         Action = [
-#           "ssm:GetParameters"
-#         ],
-#         Effect   = "Allow",
-#         Resource = ["*"]
-#       }
-#     ]
-#   })
-# }
-
 # ------- IAM Policies Attachments -------
+resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy_attachment" {
+  count      = var.create_ecs_role == true ? 1 : 0
+  policy_arn = aws_iam_policy.ecs_task_execution_policy[0].arn
+  role       = aws_iam_role.ecs_task_excecution_role[0].name
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 resource "aws_iam_role_policy_attachment" "ecs_attachment" {
   count      = var.create_ecs_role == true ? 1 : 0
   policy_arn = aws_iam_policy.policy_for_ecs_task_role[0].arn
@@ -181,16 +171,6 @@ resource "aws_iam_role_policy_attachment" "attachment" {
     create_before_destroy = true
   }
 }
-
-# resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_attachment" {
-#   count      = length(aws_iam_role.ecs_task_excecution_role) > 0 ? 1 : 0
-#   policy_arn = aws_iam_policy.secrets_and_parameters_access_policy.arn
-#   role       = aws_iam_role.ecs_task_excecution_role[0].name
-
-#   lifecycle {
-#     create_before_destroy = true
-#   }
-# }
 
 resource "aws_iam_role_policy_attachment" "attachment2" {
   count      = var.create_devops_policy == true ? 1 : 0
@@ -431,7 +411,7 @@ data "aws_iam_policy_document" "role_policy_ecs_task_excecution_role" {
   statement {
     sid     = "GetSecretValues"
     effect  = "Allow"
-    actions = "secretsmanager:GetSecretValue"
+    actions = ["secretsmanager:GetSecretValue"]
     resources = [
       "arn:aws:secretsmanager:us-east-2:369579651631:secret:AUTH0_SCOPE-cy0ooz",
       "*"
