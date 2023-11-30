@@ -1,6 +1,5 @@
 // apps/server/src/services/s3.service.ts
 
-
 import {
   DeleteObjectCommand,
   DeleteObjectsCommand,
@@ -23,8 +22,8 @@ import ParameterStoreService from './parameter-store.service';
 // ) {
 //   throw new Error('One or more AWS Environment Variables are not set');
 // }
-async () => {
-  // await loadConfig();
+// async () => {
+// await loadConfig();
 
 //   if (!process.env.AWS_ACCESS_KEY) {
 //     const param = await ParameterStoreService.getEncryptedParameterW(
@@ -77,7 +76,7 @@ async () => {
 
 export const s3 = new S3Client({
   // region: process.env.AWS_BUCKET_REGION,
-  region: "us-east-2"
+  region: 'us-east-2',
 });
 
 class S3Service {
@@ -205,7 +204,7 @@ class S3Service {
     // console.log('file: ', file);
     const imgS3Key = generateRandomBytes();
     // const bucketName = process.env.AWS_BUCKET_NAME;
-    const bucketName =  'audio-archive-initial-dev-setup',
+    const bucketName = 'audio-archive-initial-dev-setup';
     const mimetype = file.mimetype;
     const buffer = file.buffer;
 
