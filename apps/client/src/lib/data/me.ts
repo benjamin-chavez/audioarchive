@@ -2,9 +2,7 @@
 import 'server-only';
 
 import { getAccessToken } from '@auth0/nextjs-auth0';
-// const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
-// const BASE_URL = `http://localhost:5000/api`;
-const BASE_URL = `http://api.audioarchive.benchavez.xyz/api`;
+const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 
 // export async function getMyProducts({ accessToken }: { accessToken: any }) {
 // @ts-ignore

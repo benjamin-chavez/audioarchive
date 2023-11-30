@@ -2,8 +2,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-
-// import router from 'next/router';
 import { useForm } from 'react-hook-form';
 
 type FormData = {

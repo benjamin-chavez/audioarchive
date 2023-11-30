@@ -1,21 +1,4 @@
 const path = require('path');
-let serverUrl;
-
-// if (
-//   process.env.NODE_ENV === 'development' &&
-//   process.env.DOCKER_ENV &&
-//   process.env.DOCKER_ENV === 'true'
-// ) {
-//   console.log('DOCKER+DEVELOPMENT');
-//   serverUrl = 'server:5000';
-// } else if (process.env.NODE_ENV === 'development') {
-//   console.log('DEVELOPMENT');
-//   serverUrl = 'localhost:5000';
-// } else {
-//   console.log('ELSE');
-//   serverUrl = 'api.audioarchive.benchavez.xyz';
-// }
-serverUrl = 'api.audioarchive.benchavez.xyz';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -34,7 +17,7 @@ const nextConfig = {
       },
       {
         source: '/api/:path*',
-        destination: `http://${serverUrl}/api/:path*`,
+        destination: `http://${process.env.NEXT_PUBLIC_API_URL}/:path*`,
       },
     ];
   },
