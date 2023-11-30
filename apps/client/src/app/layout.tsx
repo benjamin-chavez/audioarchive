@@ -25,9 +25,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // await loadEnvVariables();
-  console.log('Client-AUTH0_SCOPE: ', process.env.AUTH0_SCOPE);
-  console.log('Client-AUTH0_SECRET: ', process.env.AUTH0_SECRET);
   return (
     <html
       lang="en"

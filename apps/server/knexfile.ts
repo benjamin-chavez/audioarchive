@@ -12,9 +12,6 @@ import path from 'path';
 //   convertSnakeCaseToCamelCase,
 // } from './src/lib/utils';
 
-console.log('Server-AUTH0_SCOPE: ', process.env.AUTH0_SCOPE);
-console.log('Server-AUTH0_SECRET: ', process.env.AUTH0_SECRET);
-
 function convertCamelCaseToSnakeCase(str: string): string {
   return str.replace(/([A-Z])/g, (match, letter) => `_${letter.toLowerCase()}`);
 }
