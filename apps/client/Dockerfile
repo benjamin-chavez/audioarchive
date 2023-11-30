@@ -48,6 +48,9 @@ COPY turbo.json turbo.json
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
+ENV NEXT_PUBLIC_COMPANY_NAME="Audio Archive"
+ENV NEXT_PUBLIC_API_URL="http://api.audioarchive.benchavez.xyz/api"
+
 RUN turbo run build --filter=client
 
 # use alpine as the thinest image
@@ -72,7 +75,6 @@ EXPOSE 80
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 ENV NODE_ENV=production
-ENV NEXT_PUBLIC_COMPANY_NAME="Audio Archive"
-ENV NEXT_PUBLIC_API_URL="http://api.audioarchive.benchavez.xyz/api"
+
 
 CMD node apps/client/server.js
