@@ -1,5 +1,9 @@
 // // apps/server/src/routes/consumer-worker.ts
-// require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
+// /*******************
+//       CONSUMER
+// *******************/
+// // require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
+// import 'dotenv/config';
 // import { Event } from '@shared/src';
 // import { Channel, Connection, connect } from 'amqplib';
 // import Stripe from 'stripe';
@@ -10,7 +14,19 @@
 // // @ts-ignore
 // const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// const CONN = 'amqp://localhost';
+// const AWS_MQ_USERNAME = process.env.AWS_MQ_USERNAME;
+// console.log(process.env.AWS_MQ_USERNAME);
+// const AWS_MQ_PASSWORD = process.env.AWS_MQ_PASSWORD;
+// const AWS_MQ_BROKER_URL = process.env.AWS_MQ_BROKER_URL;
+// console.log(process.env.AWS_MQ_BROKER_URL);
+// const AWS_MQ_PORT = process.env.AWS_MQ_PORT;
+// console.log(process.env.AWS_MQ_PORT);
+
+// const CONN =
+//   process.env.Node_ENV === 'production'
+//     ? `amqps://${AWS_MQ_USERNAME}:${AWS_MQ_PASSWORD}@${AWS_MQ_BROKER_URL}:${AWS_MQ_PORT}`
+//     : 'amqp://localhost';
+
 // let channel: Channel | null = null;
 // let connection: Connection | null = null;
 
@@ -65,7 +81,10 @@
 //       // @ts-ignore
 //       const { cartId } = sessionWithLineItems.metadata;
 
-//       await CartService.updateCartById(cartId, { status: 'purchased' });
+//       // TODO: REVIEW THE `parseInt()`
+//       await CartService.updateCartById(parseInt(cartId), {
+//         status: 'purchased',
+//       });
 
 //       const lineItems = sessionWithLineItems.line_items?.data;
 

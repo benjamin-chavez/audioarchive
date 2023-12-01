@@ -7,7 +7,7 @@ import app from '../app';
 import S3Service from '../services/s3.service';
 import appUserRoutes from './app-user.routes';
 import productRoutes from './product.routes';
-// import webhookRoutes from './webhook.routes';
+import webhookRoutes from './webhook.routes';
 
 const router: Router = express.Router();
 
@@ -41,12 +41,13 @@ router.get('/download', async (req, res) => {
 router.use('/app-users', appUserRoutes);
 router.use('/products', productRoutes);
 
-// router.use(express.raw({ type: 'application/json' }));
-// const captureRawBody = express.raw({ type: 'application/json' });
-// router.use(
-//   '/webhook',
-//   // captureRawBody,
-//   webhookRoutes
-// );
+router.use(express.raw({ type: 'application/json' }));
+const captureRawBody = express.raw({ type: 'application/json' });
+
+router.use(
+  '/webhook',
+  // captureRawBody,
+  webhookRoutes
+);
 
 export default router;

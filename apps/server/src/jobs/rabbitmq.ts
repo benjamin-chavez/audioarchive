@@ -1,14 +1,20 @@
 // // apps/server/src/jobs/rabbitmq.ts
-// import 'server-only';
+// /*******************
+//       SENDER
+// *******************/
+// // import 'server-only';
 
 // // import * as amqp from 'amqplib/callback_api';
 // import { connect, Channel, Connection } from 'amqplib';
 // import { MqClient, ListBrokersCommand } from '@aws-sdk/client-mq';
 
 // const AWS_MQ_USERNAME = process.env.AWS_MQ_USERNAME;
+// console.log(process.env.AWS_MQ_USERNAME);
 // const AWS_MQ_PASSWORD = process.env.AWS_MQ_PASSWORD;
 // const AWS_MQ_BROKER_URL = process.env.AWS_MQ_BROKER_URL;
+// console.log(process.env.AWS_MQ_BROKER_URL);
 // const AWS_MQ_PORT = process.env.AWS_MQ_PORT;
+// console.log(process.env.AWS_MQ_PORT);
 
 // const CONN =
 //   process.env.Node_ENV === 'production'
@@ -41,6 +47,8 @@
 //   if (channel) {
 //     channel.sendToQueue(queueName, Buffer.from(JSON.stringify(data)), {
 //       persistent: true,
+//       // messageId: uuidv4(),
+//       // correlationId: correlationId,
 //     });
 //   } else {
 //     throw new Error('Channel is not initialized.');

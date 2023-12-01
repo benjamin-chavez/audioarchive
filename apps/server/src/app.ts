@@ -174,8 +174,8 @@ console.log('audience: ', audience);
 app
   .disable('x-powered-by')
   .use(
-    // morgan('dev')
-    morgan('combined')
+    morgan('dev')
+    // morgan('combined')
   )
   .use(helmet())
   .use(
