@@ -121,9 +121,6 @@
 // // process.on('SIGINT', () => server.close());
 
 import { json, urlencoded } from 'body-parser';
-// import express from 'express';
-// import morgan from 'morgan';
-// import routes from './routes';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Express } from 'express';
@@ -175,7 +172,7 @@ console.log('issuerBaseUrl: ', issuerBaseUrl);
 console.log('audience: ', audience);
 
 app
-  // .disable('x-powered-by')
+  .disable('x-powered-by')
   .use(morgan('dev'))
   .use(helmet())
   .use(
@@ -213,27 +210,3 @@ app
   .use(errorHandler);
 
 export default app;
-
-// // @ts-nocheck
-// import { json, urlencoded } from 'body-parser';
-// import express from 'express';
-// import morgan from 'morgan';
-// import cors from 'cors';
-
-// export const createServer: any = () => {
-//   const app = express();
-//   app
-//     .disable('x-powered-by')
-//     .use(morgan('dev'))
-//     .use(urlencoded({ extended: true }))
-//     .use(json())
-//     .use(cors('*'))
-//     .get('/message/:name', (req, res) => {
-//       return res.json({ message: `hello ${req.params.name}` });
-//     })
-//     .get('/healthz', (req, res) => {
-//       return res.json({ ok: true });
-//     });
-
-//   return app;
-// };

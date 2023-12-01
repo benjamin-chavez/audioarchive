@@ -1,9 +1,4 @@
 import { Knex } from 'knex';
-// import {
-//   createOnUpdateTimestampFunction,
-//   dropOnUpdateTimestampFunction,
-//   onUpdateTrigger,
-// } from '../../../knexfile';
 
 const TABLE_NAME = 'products';
 
@@ -24,12 +19,12 @@ exports.up = async function (knex: Knex): Promise<void> {
       .notNullable()
       .onDelete('CASCADE');
 
-    t.integer('accountId')
-      .unsigned()
-      .references('id')
-      .inTable('accounts')
-      .notNullable()
-      .onDelete('CASCADE');
+    // t.integer('accountId')
+    //   .unsigned()
+    //   .references('id')
+    //   .inTable('accounts')
+    //   .notNullable()
+    //   .onDelete('CASCADE');
 
     // Essential Columns
     t.string('name').notNullable();
@@ -54,49 +49,23 @@ exports.up = async function (knex: Knex): Promise<void> {
     t.string('digitalFileS3Url', 512);
 
     // New Optional Columns
-    t.string('key'); // Optional column for a unique key or identifier
-    t.string('label'); // Optional column for a display label
-    t.text('description'); // Optional column for a longer description. Using 'text' type for potentially longer content.
+    t.string('key');
+    t.string('label');
+    t.text('description');
 
-    t.string('stripeProductId');
+    // t.string('stripeProductId');
 
-    // t.timestamps(true, true);
-    t.timestamp('created_at').defaultTo(knex.fn.now());
-    t.timestamp('updated_at').defaultTo(knex.fn.now());
-
-    // t.timestamps(true, true);
-    // t.timestamp('updated_at').defaultTo(
-    //   knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
-    // );
-
-    // t.dateTime('created_on')
-    //   .notNullable()
-    //   .defaultTo(knex.raw('CURRENT_TIMESTAMP'));
-
-    // t.dateTime('updated_on')
-    //   .notNullable()
-    //   .defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
-    // t.timestamps(false, true);
+    t.timestamps(true, true);
     // t.timestamp('created_at').defaultTo(knex.fn.now());
     // t.timestamp('updated_at').defaultTo(knex.fn.now());
-    // t.timestamp('deleted_at').defaultTo(knex.fn.now());
 
     // Composite Unique Constraint
     t.unique(['appUserId', 'name']);
 
     // t.index('stripeProductId');
   });
-  // .then(() => knex.raw(onUpdateTrigger(TABLE_NAME)));
 };
 
 exports.down = function (knex: Knex): Promise<void> {
-  // exports.down = async function (knex: Knex): Promise<void> {
-  // await knex.schema.dropTableIfExists(TABLE_NAME);
-  // await dropOnUpdateTimestampFunction(knex);
   return knex.schema.dropTableIfExists(TABLE_NAME);
 };
-
-//     // t.enu('column', ['dubstep', 'house', 'pop', 'trap'], {
-//   useNative: true,
-//   enumName: 'genre',
-// });

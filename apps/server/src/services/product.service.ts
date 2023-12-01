@@ -5,6 +5,8 @@ import { BadRequestError, NotFoundError } from '../middleware/customErrors';
 import ProductModel from '../models/product.model';
 import S3Service from './s3.service';
 
+const CONTEXT = 'ProductService';
+
 class ProductService {
   static async getAllProducts(): Promise<Product[]> {
     return ProductModel.getAll();
@@ -46,18 +48,29 @@ class ProductService {
   static async addNewProduct(
     // productData: Omit<Product, 'id'>
     productData: any
-  ): Promise<Product> {
-    if (!productData.name || !productData.software || !productData.appUserId) {
-      throw new BadRequestError('Invalid product data provided');
+    // ): Promise<Product> {
+  ): Promise<any> {
+    try {
+      if (
+        !productData.name ||
+        !productData.software ||
+        !productData.appUserId
+      ) {
+        throw new BadRequestError('Invalid product data provided');
+      }
+
+      // TODO: need to add uniqueness checks
+      productData.imgFile && delete productData.imgFile;
+      productData.id && delete productData.id;
+
+      const newProduct = await ProductModel.create(productData);
+
+      console.log(`${CONTEXT}::addNewProduct - success`);
+      return newProduct;
+    } catch (error) {
+      console.log('Errer: ', error);
+      throw error;
     }
-
-    // TODO: neew to add uniqueness checks
-    productData.imgFile && delete productData.imgFile;
-    productData.id && delete productData.id;
-
-    const newProduct = await ProductModel.create(productData);
-
-    return newProduct;
   }
 
   static async updateProduct(

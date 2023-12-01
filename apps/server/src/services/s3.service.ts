@@ -13,6 +13,8 @@ import { generateRandomBytes } from '../lib/utils';
 import { AppUser, Product } from '@shared/src';
 import ParameterStoreService from './parameter-store.service';
 
+const CONTEXT = 'S3Service';
+
 // if (
 //   !process.env.AWS_ACCESS_KEY ||
 //   !process.env.AWS_SECRET_KEY ||
@@ -99,7 +101,8 @@ class S3Service {
 
     // https://aws.amazon.com/blogs/developer/generate-presigned-url-modular-aws-sdk-javascript/
     const command = new GetObjectCommand(params);
-    const seconds = 86400;
+    // const seconds = 86400;
+    const seconds = 60;
 
     const url = await getSignedUrl(s3, command, { expiresIn: seconds });
 
@@ -203,24 +206,27 @@ class S3Service {
 
   // static async uploadFile({ fileBuffer, fileName, mimetype }): Promise<any> {
   static async uploadFile(file): Promise<any> {
-    // console.log('file: ', file);
-    const imgS3Key = generateRandomBytes();
-    // const bucketName = process.env.AWS_BUCKET_NAME;
-    const bucketName = 'audio-archive-initial-dev-setup';
-    const mimetype = file.mimetype;
-    const buffer = file.buffer;
+    try {
+      const imgS3Key = generateRandomBytes();
+      const bucketName =
+        process.env.AWS_BUCKET_NAME || 'audio-archive-initial-dev-setup';
+      const mimetype = file.mimetype;
+      const buffer = file.buffer;
 
-    // console.log('imgS3Key', imgS3Key);
+      const uploadParams = {
+        Bucket: bucketName,
+        Key: imgS3Key,
+        ContentType: mimetype,
+        Body: buffer,
+      };
 
-    const uploadParams = {
-      Bucket: bucketName,
-      Key: imgS3Key,
-      ContentType: mimetype,
-      Body: buffer,
-    };
-    await s3.send(new PutObjectCommand(uploadParams));
+      await s3.send(new PutObjectCommand(uploadParams));
 
-    return imgS3Key;
+      console.log(`${CONTEXT}::uploadFile - success`);
+      return imgS3Key;
+    } catch (error) {
+      return error;
+    }
   }
 
   static async deleteFile(fileName: string) {

@@ -7,32 +7,30 @@ import S3Service from '../services/s3.service';
 import StripeService from '../services/stripe.service';
 import StripeAccountService from '../services/stripe-account.service';
 
+const CONTEXT = 'ProductController';
+
 export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
-  // @ts-ignore
   const imgFile = req.files['imgFile'][0];
-  // @ts-ignore
   const digitalFile = req.files['digitalFile'][0];
 
   const product = req.body;
 
   product.imgS3Key = await S3Service.uploadFile(imgFile);
   product.digitalFileS3Key = await S3Service.uploadFile(digitalFile);
-  // product.imgS3Url = await S3Service.getObjectSignedUrl(product.imgS3Key);
+
   // TODO: Refactor this to make fewer db calls
-  const stripeAccount =
-    await StripeAccountService.getAllStripeAccountsByAppUser(product.appUserId);
-  product.accountId = stripeAccount[0].id;
+  // const stripeAccount =
+  //   await StripeAccountService.getAllStripeAccountsByAppUser(product.appUserId);
+  // product.accountId = stripeAccount[0].id;
 
   const newProduct = await ProductService.addNewProduct(product);
   newProduct.imgS3Url = await S3Service.getObjectSignedUrl(product.imgS3Key);
 
   // newProduct.stripeProductId = await StripeService.createProduct(newProduct);
 
-  delete newProduct.updated_at;
-  delete newProduct.created_at;
-  // console.log(newProduct);
-  await ProductService.updateProduct(newProduct.id, newProduct);
+  // await ProductService.updateProduct(newProduct.id, newProduct);
 
+  console.log(`${CONTEXT}::createProduct() - success`);
   res
     .status(201)
     .json({ data: newProduct, message: 'Product created successfully' });
@@ -50,7 +48,7 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
 export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
   async (req, res) => {
     const products = await ProductService.getAllProductsWithUserDetails();
-    console.log('products: ', products);
+    // console.log('products: ', products);
     res.status(200).json({
       // data: productsWithSignedUrls,
       data: products,
@@ -72,8 +70,9 @@ export const getProductById: RequestHandler = asyncHandler(async (req, res) => {
 });
 
 export const updateProduct: RequestHandler = asyncHandler(async (req, res) => {
-  // TODO:
-  const imgFile = req.file;
+  const imgFile = req.files['imgFile'][0];
+  const digitalFile = req.files['digitalFile'][0];
+
   const productData = req.body;
 
   let imgS3Url;
@@ -87,9 +86,10 @@ export const updateProduct: RequestHandler = asyncHandler(async (req, res) => {
 
   // const id: number = BigInt(req.params.id);
   const id = parseInt(req.params.id, 10);
-  console.log('productData: ', productData);
   const updatedProduct = await ProductService.updateProduct(id, productData);
-  productData.imgS3Url = imgS3Url;
+  updatedProduct.imgS3Url = imgS3Url;
+
+  console.log(`${CONTEXT}::updateProduct() - success`);
   res
     .status(200)
     .json({ data: updatedProduct, message: 'Product updated successfully' });
