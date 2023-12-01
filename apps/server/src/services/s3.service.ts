@@ -11,7 +11,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import 'dotenv/config';
 import { generateRandomBytes } from '../lib/utils';
 import { AppUser, Product } from '@shared/src';
-import ParameterStoreService from './parameter-store.service';
+// import ParameterStoreService from './parameter-store.service';
 
 const CONTEXT = 'S3Service';
 
