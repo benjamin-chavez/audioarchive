@@ -176,6 +176,22 @@ resource "aws_codebuild_project" "aws_codebuild" {
       name  = "STRIPE_WEBHOOK_SECRET"
       value = var.stripe_webhook_secret
     }
+    environment_variable {
+      name  = "AWS_MQ_USERNAME"
+      value = var.aws_mq_username
+    }
+    environment_variable {
+      name  = "AWS_MQ_PASSWORD"
+      value = var.aws_mq_password
+    }
+    environment_variable {
+      name  = "AWS_MQ_BROKER_URL"
+      value = var.aws_mq_broker_url
+    }
+    environment_variable {
+      name  = "AWS_MQ_PORT"
+      value = var.aws_mq_port
+    }
   }
 
   logs_config {

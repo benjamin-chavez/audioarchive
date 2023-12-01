@@ -152,3 +152,19 @@ variable "stripe_webhook_secret" {
   description = "TODO"
   type        = string
 }
+variable "aws_mq_username" {
+  description = "TODO"
+  type        = string
+}
+variable "aws_mq_password" {
+  description = "TODO"
+  type        = string
+}
+variable "aws_mq_broker_url" {
+  description = "TODO"
+  type        = string
+}
+variable "aws_mq_port" {
+  description = "TODO"
+  type        = string
+}

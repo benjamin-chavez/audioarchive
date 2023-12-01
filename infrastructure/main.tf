@@ -27,117 +27,10 @@ resource "random_id" "RANDOM_ID" {
 data "aws_caller_identity" "id_current_account" {}
 
 
-
+# ------- SSM Parameter Store & Environent Variables -------
 module "ssm_parameters" {
   source = "./modules/ssm-parameters"
-  # Pass any required variables if needed
 }
-
-# -------  SSM GitHub Token -------
-data "aws_ssm_parameter" "github_token" {
-  name = "/${var.app_name}/github_token"
-}
-
-# -------  SSM NODE_ENV-------
-data "aws_ssm_parameter" "node_env" {
-  name = "/${var.app_name}/config/node_env"
-}
-
-
-# ------- ENVIRONMENT VARIABLE CLIENT_URL -------
-data "aws_ssm_parameter" "client_url" {
-  name = "/audioarchive/production/server/CLIENT_URL"
-}
-
-# ------- ENVIRONMENT VARIABLE USE_LOCAL_DB_TUNNEL -------
-data "aws_ssm_parameter" "use_local_db_tunnel" {
-  name = "/audioarchive/production/server/USE_LOCAL_DB_TUNNEL"
-}
-
-# -------  SSM DATABASE_USER-------
-data "aws_ssm_parameter" "db_user" {
-  name = "/audioarchive/production/server/DATABASE_USER"
-}
-
-# -------  SSM DATABASE_PASSWORD-------
-data "aws_ssm_parameter" "db_password" {
-  # ------- ENVIRONMENT VARIABLE DATABASE_PASSWORD -------
-  # data "aws_ssm_parameter" "database_password" {
-  name            = "/audioarchive/production/server/DATABASE_PASSWORD"
-  with_decryption = true
-}
-
-# -------  SSM DATABASE_HOST-------
-data "aws_ssm_parameter" "db_host" {
-  name = "/audioarchive/production/server/DATABASE_HOST"
-}
-
-# -------  SSM DATABASE_PORT-------
-data "aws_ssm_parameter" "db_port" {
-  name = "/audioarchive/production/server/DATABASE_PORT"
-}
-
-# -------  SSM DATABASE_NAME-------
-data "aws_ssm_parameter" "db_name" {
-  name = "/audioarchive/production/server/DATABASE_NAME"
-  # name = "postgres"
-}
-
-
-# -------  SSM AUTH0_AUDIENCE -------
-data "aws_ssm_parameter" "auth0_audience" {
-  name = "/audioarchive/production/server/AUTH0_AUDIENCE"
-}
-
-# -------  SSM AUTH0_BASE_URL -------
-data "aws_ssm_parameter" "auth0_base_url" {
-  name = "/audioarchive/production/server/AUTH0_BASE_URL"
-}
-
-# -------  SSM AUTH0_CLIENT_ID -------
-data "aws_ssm_parameter" "auth0_client_id" {
-  name = "/audioarchive/production/server/AUTH0_CLIENT_ID"
-}
-
-# -------  SSM AUTH0_CLIENT_SECRET -------
-data "aws_ssm_parameter" "auth0_client_secret" {
-  name            = "/audioarchive/production/server/AUTH0_CLIENT_SECRET"
-  with_decryption = true
-}
-
-# -------  SSM AUTH0_ISSUER_BASE_URL -------
-data "aws_ssm_parameter" "auth0_issuer_base_url" {
-  name = "/audioarchive/production/server/AUTH0_ISSUER_BASE_URL"
-}
-
-# -------  SSM AUTH0_SCOPE -------
-data "aws_ssm_parameter" "auth0_scope" {
-  name = "/audioarchive/production/server/AUTH0_SCOPE"
-}
-
-# -------  SSM AUTH0_SECRET -------
-data "aws_ssm_parameter" "auth0_secret" {
-  name            = "/audioarchive/production/server/AUTH0_SECRET"
-  with_decryption = true
-}
-
-# -------  SSM STRIPE_PUBLISHABLE_KEY -------
-data "aws_ssm_parameter" "stripe_publishable_key" {
-  name = "/audioarchive/production/server/STRIPE_PUBLISHABLE_KEY"
-}
-
-# -------  SSM STRIPE_SECRET_KEY -------
-data "aws_ssm_parameter" "stripe_secret_key" {
-  name = "/audioarchive/production/server/STRIPE_SECRET_KEY"
-}
-
-# -------  SSM STRIPE_WEBHOOK_SECRET -------
-data "aws_ssm_parameter" "stripe_webhook_secret" {
-  name            = "/audioarchive/production/server/STRIPE_WEBHOOK_SECRET"
-  with_decryption = true
-}
-
-
 
 # ------- Networking -------
 module "networking" {
@@ -550,23 +443,27 @@ module "codebuild_server" {
   buildspec_path         = var.buildspec_path
   task_definition_family = module.ecs_task_definition_server.task_definition_family
   container_name         = var.container_name["server"]
-  client_url             = data.aws_ssm_parameter.client_url.arn
-  use_local_db_tunnel    = data.aws_ssm_parameter.use_local_db_tunnel.arn
-  db_user                = data.aws_ssm_parameter.db_user.arn
-  db_password            = data.aws_ssm_parameter.db_password.arn
-  db_host                = data.aws_ssm_parameter.db_host.arn
-  db_port                = data.aws_ssm_parameter.db_port.arn
-  db_name                = data.aws_ssm_parameter.db_name.arn
-  auth0_audience         = data.aws_ssm_parameter.auth0_audience.arn
-  auth0_base_url         = data.aws_ssm_parameter.auth0_base_url.arn
-  auth0_client_id        = data.aws_ssm_parameter.auth0_client_id.arn
-  auth0_client_secret    = data.aws_ssm_parameter.auth0_client_secret.arn
-  auth0_issuer_base_url  = data.aws_ssm_parameter.auth0_issuer_base_url.arn
-  auth0_scope            = data.aws_ssm_parameter.auth0_scope.arn
-  auth0_secret           = data.aws_ssm_parameter.auth0_secret.arn
-  stripe_publishable_key = data.aws_ssm_parameter.stripe_publishable_key.arn
-  stripe_secret_key      = data.aws_ssm_parameter.stripe_secret_key.arn
-  stripe_webhook_secret  = data.aws_ssm_parameter.stripe_webhook_secret.arn
+  client_url             = module.ssm_parameters.client_url.arn
+  use_local_db_tunnel    = module.ssm_parameters.use_local_db_tunnel.arn
+  db_user                = module.ssm_parameters.db_user.arn
+  db_password            = module.ssm_parameters.db_password.arn
+  db_host                = module.ssm_parameters.db_host.arn
+  db_port                = module.ssm_parameters.db_port.arn
+  db_name                = module.ssm_parameters.db_name.arn
+  auth0_audience         = module.ssm_parameters.auth0_audience.arn
+  auth0_base_url         = module.ssm_parameters.auth0_base_url.arn
+  auth0_client_id        = module.ssm_parameters.auth0_client_id.arn
+  auth0_client_secret    = module.ssm_parameters.auth0_client_secret.arn
+  auth0_issuer_base_url  = module.ssm_parameters.auth0_issuer_base_url.arn
+  auth0_scope            = module.ssm_parameters.auth0_scope.arn
+  auth0_secret           = module.ssm_parameters.auth0_secret.arn
+  stripe_publishable_key = module.ssm_parameters.stripe_publishable_key.arn
+  stripe_secret_key      = module.ssm_parameters.stripe_secret_key.arn
+  stripe_webhook_secret  = module.ssm_parameters.stripe_webhook_secret.arn
+  aws_mq_username        = module.ssm_parameters.aws_mq_username.arn
+  aws_mq_password        = module.ssm_parameters.aws_mq_password.arn
+  aws_mq_broker_url      = module.ssm_parameters.aws_mq_broker_url.arn
+  aws_mq_port            = module.ssm_parameters.aws_mq_port.arn
   service_port           = var.port_app_server
   ecs_role               = var.iam_role_name["ecs"]
   ecs_task_role          = var.iam_role_name["ecs_task_role"]
@@ -585,23 +482,27 @@ module "codebuild_client" {
   buildspec_path         = var.buildspec_path
   task_definition_family = module.ecs_task_definition_client.task_definition_family
   container_name         = var.container_name["client"]
-  client_url             = data.aws_ssm_parameter.client_url.arn
-  use_local_db_tunnel    = data.aws_ssm_parameter.use_local_db_tunnel.arn
-  db_user                = data.aws_ssm_parameter.db_user.arn
-  db_password            = data.aws_ssm_parameter.db_password.arn
-  db_host                = data.aws_ssm_parameter.db_host.arn
-  db_port                = data.aws_ssm_parameter.db_port.arn
-  db_name                = data.aws_ssm_parameter.db_name.arn
-  auth0_audience         = data.aws_ssm_parameter.auth0_audience.arn
-  auth0_base_url         = data.aws_ssm_parameter.auth0_base_url.arn
-  auth0_client_id        = data.aws_ssm_parameter.auth0_client_id.arn
-  auth0_client_secret    = data.aws_ssm_parameter.auth0_client_secret.arn
-  auth0_issuer_base_url  = data.aws_ssm_parameter.auth0_issuer_base_url.arn
-  auth0_scope            = data.aws_ssm_parameter.auth0_scope.arn
-  auth0_secret           = data.aws_ssm_parameter.auth0_secret.arn
-  stripe_publishable_key = data.aws_ssm_parameter.stripe_publishable_key.arn
-  stripe_secret_key      = data.aws_ssm_parameter.stripe_secret_key.arn
-  stripe_webhook_secret  = data.aws_ssm_parameter.stripe_webhook_secret.arn
+  client_url             = module.ssm_parameters.client_url.arn
+  use_local_db_tunnel    = module.ssm_parameters.use_local_db_tunnel.arn
+  db_user                = module.ssm_parameters.db_user.arn
+  db_password            = module.ssm_parameters.db_password.arn
+  db_host                = module.ssm_parameters.db_host.arn
+  db_port                = module.ssm_parameters.db_port.arn
+  db_name                = module.ssm_parameters.db_name.arn
+  auth0_audience         = module.ssm_parameters.auth0_audience.arn
+  auth0_base_url         = module.ssm_parameters.auth0_base_url.arn
+  auth0_client_id        = module.ssm_parameters.auth0_client_id.arn
+  auth0_client_secret    = module.ssm_parameters.auth0_client_secret.arn
+  auth0_issuer_base_url  = module.ssm_parameters.auth0_issuer_base_url.arn
+  auth0_scope            = module.ssm_parameters.auth0_scope.arn
+  auth0_secret           = module.ssm_parameters.auth0_secret.arn
+  stripe_publishable_key = module.ssm_parameters.stripe_publishable_key.arn
+  stripe_secret_key      = module.ssm_parameters.stripe_secret_key.arn
+  stripe_webhook_secret  = module.ssm_parameters.stripe_webhook_secret.arn
+  aws_mq_username        = module.ssm_parameters.aws_mq_username.arn
+  aws_mq_password        = module.ssm_parameters.aws_mq_password.arn
+  aws_mq_broker_url      = module.ssm_parameters.aws_mq_broker_url.arn
+  aws_mq_port            = module.ssm_parameters.aws_mq_port.arn
   service_port           = var.port_app_client
   ecs_role               = var.iam_role_name["ecs"]
   #  ecs_task_role          = var.iam_role_name["ecs_task_role"] ?????????
@@ -644,7 +545,7 @@ module "codepipeline" {
   pipe_role = module.devops_role.arn_role
   s3_bucket = module.s3_codepipeline.s3_bucket_id
   # github_token             = module.ssm_parameters.github_token
-  github_token             = data.aws_ssm_parameter.github_token.value
+  github_token             = module.ssm_parameters.github_token.value
   repo_owner               = var.repository_owner
   repo_name                = var.repository_name
   branch                   = var.repository_branch
@@ -739,8 +640,8 @@ module "security_group_rds_db" {
 
 # ------- Database Module -------
 module "psql_rds" {
-  # db_name           = data.aws_ssm_parameter.db_name.value
-  # password               = data.aws_ssm_parameter.db_password.value
+  # db_name           = module.ssm_parameters.db_name.value
+  # password               = module.ssm_parameters.db_password.value
   source            = "./modules/rds"
   create            = true
   identifier        = "audio-archive-psql-db2"
@@ -754,8 +655,8 @@ module "psql_rds" {
   # password               = module.ssm_parameters.db_password
   db_name = "postgres"
   # password               = var.db_password
-  # db_name                = data.aws_ssm_parameter.db_name.value
-  password               = data.aws_ssm_parameter.db_password.value
+  # db_name                = module.ssm_parameters.db_name.value
+  password               = module.ssm_parameters.db_password.value
   vpc_id                 = module.networking.aws_vpc
   vpc_security_group_ids = [module.security_group_rds_db.sg_id]
   db_subnet_group_name   = module.networking.database_subnet_group_name
@@ -763,7 +664,7 @@ module "psql_rds" {
   # TODO: review this `publicly_accessible`, I think it should be set to false
   publicly_accessible = true
   deletion_protection = false
-  db_user             = data.aws_ssm_parameter.db_user.value
+  db_user             = module.ssm_parameters.db_user.value
   # db_user                = module.ssm_parameters.db_user
 
   depends_on = [

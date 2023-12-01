@@ -82,6 +82,22 @@
         {
           "name": "STRIPE_WEBHOOK_SECRET",
           "valueFrom": "<STRIPE_WEBHOOK_SECRET>"
+        },
+        {
+          "name": "AWS_MQ_USERNAME",
+          "valueFrom": "<AWS_MQ_USERNAME>"
+        },
+        {
+          "name": "AWS_MQ_PASSWORD",
+          "valueFrom": "<AWS_MQ_PASSWORD>"
+        },
+        {
+          "name": "AWS_MQ_BROKER_URL",
+          "valueFrom": "<AWS_MQ_BROKER_URL>"
+        },
+        {
+          "name": "AWS_MQ_PORT",
+          "valueFrom": "<AWS_MQ_PORT>"
         }
       ],
       "portMappings": [

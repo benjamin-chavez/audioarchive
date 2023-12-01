@@ -71,6 +71,10 @@ phases:
         sed -i "s|<STRIPE_PUBLISHABLE_KEY>|$STRIPE_PUBLISHABLE_KEY|g" taskdef.json
         sed -i "s|<STRIPE_SECRET_KEY>|$STRIPE_SECRET_KEY|g" taskdef.json
         sed -i "s|<STRIPE_WEBHOOK_SECRET>|$STRIPE_WEBHOOK_SECRET|g" taskdef.json
+        sed -i "s|<AWS_MQ_USERNAME>|$AWS_MQ_USERNAME|g" taskdef.json
+        sed -i "s|<AWS_MQ_PASSWORD>|$AWS_MQ_PASSWORD|g" taskdef.json
+        sed -i "s|<AWS_MQ_BROKER_URL>|$AWS_MQ_BROKER_URL|g" taskdef.json
+        sed -i "s|<AWS_MQ_PORT>|$AWS_MQ_PORT|g" taskdef.json
 
 artifacts:
   files:
