@@ -2,15 +2,16 @@
 
 import express, { Router } from 'express';
 import asyncHandler from 'express-async-handler';
-// import Stripe from 'stripe';
-// import { publishToQueue } from '../jobs/rabbitmq';
-// import * as webhooksController from '../controllers/webhooks.controller';
-import { consumeFromQueue } from '../jobs/consumer';
-import { publishToQueue } from '../jobs/publisher';
+import Stripe from 'stripe';
+import { publishToQueue } from '../jobs/rabbitmq';
+import * as webhooksController from '../controllers/webhooks.controller';
+import { consumeFromQueue } from '../jobs/consumer-worker';
+// import { consumeFromQueue } from '../jobs/consumer';
+// import { publishToQueue } from '../jobs/publisher';
 
-// @ts-ignore
-// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-const CNTX = 'webhook.routes';
+console.log('process.env.STRIPE_SECRET_KEY: ', process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 const router: Router = express.Router();
 
 // // TODO: Review if you need this to verify signatures?
@@ -30,8 +31,9 @@ const router: Router = express.Router();
 // router.get('/stripe', <type>Controller.<method>)
 
 // curl -X POST -H "Content-Type: application/json" -d '{"event": "user_signup", "userId": "12345"}' http://localhost:5000/api/webhook
-// router.post('/:source', webhooksController.createEvent);
+router.post('/:source', webhooksController.createEvent);
 
+const CNTX = 'webhook.routes';
 router.get(
   '/publish',
   asyncHandler(async (req, res) => {

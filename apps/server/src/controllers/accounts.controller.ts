@@ -6,7 +6,7 @@ import knex from '../config/database';
 
 import Stripe from 'stripe';
 import MeService from '../services/me.service';
-// @ts-ignore
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createStripeAccount: RequestHandler = asyncHandler(

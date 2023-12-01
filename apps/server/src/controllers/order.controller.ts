@@ -8,7 +8,6 @@ import CustomerService from '../services/stripe-customer.service';
 import OrderService from '../services/order.service';
 import { Order } from '@shared/src';
 
-// @ts-ignore
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // export const createOrder: RequestHandler = asyncHandler(async (req, res) => {

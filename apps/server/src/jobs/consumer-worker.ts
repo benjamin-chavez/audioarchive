@@ -1,216 +1,245 @@
-// // apps/server/src/routes/consumer-worker.ts
-// /*******************
-//       CONSUMER
-// *******************/
-// // require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
-// import 'dotenv/config';
-// import { Event } from '@shared/src';
-// import { Channel, Connection, connect } from 'amqplib';
-// import Stripe from 'stripe';
-// import knex from '../config/database';
-// import CartService from '../services/cart.service';
-// import OrderService from '../services/order.service';
+// apps/server/src/routes/consumer-worker.ts
+/*******************
+      CONSUMER
+*******************/
+// require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
+import 'dotenv/config';
+import { Event } from '@shared/src';
+import { Channel, Connection, connect } from 'amqplib';
+import Stripe from 'stripe';
+import knex from '../config/database';
+import CartService from '../services/cart.service';
+import OrderService from '../services/order.service';
 
-// // @ts-ignore
-// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// const AWS_MQ_USERNAME = process.env.AWS_MQ_USERNAME;
-// console.log(process.env.AWS_MQ_USERNAME);
-// const AWS_MQ_PASSWORD = process.env.AWS_MQ_PASSWORD;
-// const AWS_MQ_BROKER_URL = process.env.AWS_MQ_BROKER_URL;
-// console.log(process.env.AWS_MQ_BROKER_URL);
-// const AWS_MQ_PORT = process.env.AWS_MQ_PORT;
-// console.log(process.env.AWS_MQ_PORT);
+let aws_mq_username;
+let aws_mq_password;
+let aws_mq_broker_url;
+let aws_mq_port;
 
+// if (process.env.NODE_ENV === 'production') {
+try {
+  aws_mq_username = process.env.AWS_MQ_USERNAME;
+  console.log('process.env.AWS_MQ_USERNAME:', process.env.AWS_MQ_USERNAME);
+} catch (error) {
+  console.log('ERROR, MISSING: process.env.AWS_MQ_USERNAME');
+}
+
+try {
+  aws_mq_password = process.env.AWS_MQ_PASSWORD;
+} catch (error) {
+  console.log('ERROR, MISSING: process.env.AWS_MQ_PASSWORD');
+}
+try {
+  aws_mq_broker_url = process.env.AWS_MQ_BROKER_URL;
+  console.log('process.env.AWS_MQ_BROKER_URL:', process.env.AWS_MQ_BROKER_URL);
+} catch (error) {
+  console.log('ERROR, MISSING: process.env.AWS_MQ_BROKER_URL');
+}
+
+try {
+  aws_mq_port = process.env.AWS_MQ_PORT;
+  console.log('process.env.AWS_MQ_PORT:', process.env.AWS_MQ_PORT);
+} catch (error) {
+  console.log('ERROR, MISSING: process.env.AWS_MQ_PORT');
+}
+// }
 // const CONN =
 //   process.env.Node_ENV === 'production'
-//     ? `amqps://${AWS_MQ_USERNAME}:${AWS_MQ_PASSWORD}@${AWS_MQ_BROKER_URL}:${AWS_MQ_PORT}`
+//     ? `amqps://${aws_mq_username}:${aws_mq_password}@${aws_mq_broker_url}:${aws_mq_port}`
 //     : 'amqp://localhost';
+const CONN = `amqps://${aws_mq_username}:${aws_mq_password}@${aws_mq_broker_url}:${aws_mq_port}`;
 
-// let channel: Channel | null = null;
-// let connection: Connection | null = null;
+console.log('process.env.Node_ENV:', process.env.Node_ENV);
+console.log('RabbitMQ Connection String:', CONN);
 
-// async function handleStripeEvent(event: Event) {
-//   console.log('Handling Stripe Event');
+let channel: Channel | null = null;
+let connection: Connection | null = null;
 
-//   switch (event.type) {
-//     case 'account.updated':
-//       console.log('ACCOUNT UPDATED EVENT PROCESSING');
+async function handleStripeEvent(event: Event) {
+  console.log('Handling Stripe Event');
 
-//       const {
-//         id: stripeAccountId,
-//         chargesEnabled,
-//         payoutsEnabled,
-//         detailsSubmitted,
-//       } = event.data.object;
+  switch (event.type) {
+    case 'account.updated':
+      console.log('ACCOUNT UPDATED EVENT PROCESSING');
 
-//       const newAccountData = {
-//         chargesEnabled,
-//         payoutsEnabled,
-//         detailsSubmitted,
-//       };
+      const {
+        id: stripeAccountId,
+        chargesEnabled,
+        payoutsEnabled,
+        detailsSubmitted,
+      } = event.data.object;
 
-//       // const stripeAccountId = event.data.object.id;
-//       const updatedAccount = await knex('accounts')
-//         .where({ stripeAccountId })
-//         .update(newAccountData);
+      const newAccountData = {
+        chargesEnabled,
+        payoutsEnabled,
+        detailsSubmitted,
+      };
 
-//       // TODO: SEE IF YOU CAN SEND A MESSAGE TO THE FRONTEND TO INVALIDATE THE ACCOUNTS CACHE
-//       break;
+      // const stripeAccountId = event.data.object.id;
+      const updatedAccount = await knex('accounts')
+        .where({ stripeAccountId })
+        .update(newAccountData);
 
-//     case 'customer.created':
-//       console.log('CUSTOMER CREATED EVENT PROCESSING');
-//       break;
+      // TODO: SEE IF YOU CAN SEND A MESSAGE TO THE FRONTEND TO INVALIDATE THE ACCOUNTS CACHE
+      break;
 
-//     case 'checkout.session.completed':
-//       console.log('CHECKOUT.SESSION.COMPLETED');
-//       const checkoutSession = event.data.object;
+    case 'customer.created':
+      console.log('CUSTOMER CREATED EVENT PROCESSING');
+      break;
 
-//       await OrderService.updateByCheckoutSessionId(checkoutSession.id, {
-//         stripePaymentIntentId: checkoutSession.paymentIntent,
-//         paymentStatus: checkoutSession.paymentStatus,
-//       });
+    case 'checkout.session.completed':
+      console.log('CHECKOUT.SESSION.COMPLETED');
+      const checkoutSession = event.data.object;
 
-//       // TODO: Sending the customer/seller receipt emails <= i think this is handled by stripe?
+      await OrderService.updateByCheckoutSessionId(checkoutSession.id, {
+        stripePaymentIntentId: checkoutSession.paymentIntent,
+        paymentStatus: checkoutSession.paymentStatus,
+      });
 
-//       // TODO: Payout/transfer payment percentage to seller account.
-//       const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
-//         event.data.object.id,
-//         { expand: ['line_items.data.price.product'] } // <= review this. might not need all of that data
-//       );
-//       // @ts-ignore
-//       const { cartId } = sessionWithLineItems.metadata;
+      // TODO: Sending the customer/seller receipt emails <= i think this is handled by stripe?
 
-//       // TODO: REVIEW THE `parseInt()`
-//       await CartService.updateCartById(parseInt(cartId), {
-//         status: 'purchased',
-//       });
+      // TODO: Payout/transfer payment percentage to seller account.
+      const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
+        event.data.object.id,
+        { expand: ['line_items.data.price.product'] } // <= review this. might not need all of that data
+      );
+      // @ts-ignore
+      const { cartId } = sessionWithLineItems.metadata;
 
-//       const lineItems = sessionWithLineItems.line_items?.data;
+      // TODO: REVIEW THE `parseInt()`
+      await CartService.updateCartById(parseInt(cartId), {
+        status: 'purchased',
+      });
 
-//       const paymentIntent = await stripe.paymentIntents.retrieve(
-//         checkoutSession.paymentIntent
-//       );
-//       const chargeId = paymentIntent.latest_charge;
+      const lineItems = sessionWithLineItems.line_items?.data;
 
-//       if (!lineItems || paymentIntent.status !== 'succeeded') {
-//         break;
-//       }
+      const paymentIntent = await stripe.paymentIntents.retrieve(
+        checkoutSession.paymentIntent
+      );
+      const chargeId = paymentIntent.latest_charge;
 
-//       // TODO: IT IS IMPORTANT THAT YOU ADD ROBUST ERROR HANDLING AND RETRY LOGIC HERE
-//       //  YOU COULD POTENTIALLY LISTEN FOR THE payment.created EVENT OR WHATEVER THE CORRECT EVENT IS
-//       for (const item of lineItems) {
-//         const stripeAccountId =
-//           // @ts-ignore
-//           item.price?.product.metadata.stripe_account_id;
+      if (!lineItems || paymentIntent.status !== 'succeeded') {
+        break;
+      }
 
-//         if (item.price?.unit_amount && stripeAccountId) {
-//           try {
-//             const transfer = await stripe.transfers.create({
-//               amount: item.price.unit_amount - 1000,
-//               currency: 'usd',
-//               // @ts-ignore
-//               source_transaction: chargeId,
-//               destination: stripeAccountId,
-//             });
-//           } catch (error) {
-//             // TODO: Handle individual transfer error
-//             console.error('Transfer creation failed:', error);
-//           }
-//         }
-//       }
+      // TODO: IT IS IMPORTANT THAT YOU ADD ROBUST ERROR HANDLING AND RETRY LOGIC HERE
+      //  YOU COULD POTENTIALLY LISTEN FOR THE payment.created EVENT OR WHATEVER THE CORRECT EVENT IS
+      for (const item of lineItems) {
+        const stripeAccountId =
+          // @ts-ignore
+          item.price?.product.metadata.stripe_account_id;
 
-//       break;
+        if (item.price?.unit_amount && stripeAccountId) {
+          try {
+            const transfer = await stripe.transfers.create({
+              amount: item.price.unit_amount - 1000,
+              currency: 'usd',
+              // @ts-ignore
+              source_transaction: chargeId,
+              destination: stripeAccountId,
+            });
+          } catch (error) {
+            // TODO: Handle individual transfer error
+            console.error('Transfer creation failed:', error);
+          }
+        }
+      }
 
-//     case 'checkout.session.expired':
-//       console.log('CHECKOUT.SESSION.EXPIRED: ');
-//       break;
+      break;
 
-//     // TODO: NOT SURE IF I NEED THE FOLLOWING CASE OR NOT:
-//     case 'payment_intent.created':
-//       console.log('PAYMENT_INTENT.CREATED: ');
-//       break;
+    case 'checkout.session.expired':
+      console.log('CHECKOUT.SESSION.EXPIRED: ');
+      break;
 
-//     case 'payment_intent.succeeded': {
-//       // TODO: Payout/transfer payment percentage to seller account.
-//       console.log(`PAYMENT INTENT SUCCEEDED`);
+    // TODO: NOT SURE IF I NEED THE FOLLOWING CASE OR NOT:
+    case 'payment_intent.created':
+      console.log('PAYMENT_INTENT.CREATED: ');
+      break;
 
-//       break;
-//     }
-//     case 'payment_intent.payment_failed': {
-//       const paymentIntent = event.data.object;
-//       console.log(
-//         `❌ PAYMENT FAILED: ${paymentIntent.last_payment_error?.message}`
-//       );
-//       break;
-//     }
-//     case 'payment_intent.canceled': {
-//       const paymentIntent = event.data.object;
-//       console.log('PAYMENT_INTENT.CANCELED');
-//       break;
-//     }
+    case 'payment_intent.succeeded': {
+      // TODO: Payout/transfer payment percentage to seller account.
+      console.log(`PAYMENT INTENT SUCCEEDED`);
 
-//     case 'transfer.created':
-//       console.log('TRANSFER.CREATED');
-//       break;
+      break;
+    }
+    case 'payment_intent.payment_failed': {
+      const paymentIntent = event.data.object;
+      console.log(
+        `❌ PAYMENT FAILED: ${paymentIntent.last_payment_error?.message}`
+      );
+      break;
+    }
+    case 'payment_intent.canceled': {
+      const paymentIntent = event.data.object;
+      console.log('PAYMENT_INTENT.CANCELED');
+      break;
+    }
 
-//     default:
-//       // console.warn(`Unhandled event type: ${event.type}`);
-//       console.log(`Unhandled event type: ${event.type}`);
-//   }
-// }
+    case 'transfer.created':
+      console.log('TRANSFER.CREATED');
+      break;
 
-// //  sudo systemctl status rabbitmq-server
-// const consumeFromQueue = async () => {
-//   console.log('consumerfromq()');
+    default:
+      // console.warn(`Unhandled event type: ${event.type}`);
+      console.log(`Unhandled event type: ${event.type}`);
+  }
+}
 
-//   // event.status = 'processing'
+//  sudo systemctl status rabbitmq-server
+const consumeFromQueue = async () => {
+  console.log('consumerfromq()');
 
-//   try {
-//     connection = await connect(CONN);
-//     channel = await connection.createChannel();
+  // event.status = 'processing'
 
-//     const queue = 'webhook_queue';
-//     await channel.assertQueue(queue, { durable: true });
+  try {
+    connection = await connect(CONN);
+    channel = await connection.createChannel();
 
-//     console.log(`Waiting for messages in ${queue}. To exit press CTRL+C`);
+    const queue = 'webhook_queue';
+    await channel.assertQueue(queue, { durable: true });
 
-//     channel.consume(
-//       queue,
-//       (msg) => {
-//         if (msg) {
-//           const rawContent = msg.content.toString();
-//           try {
-//             const events = JSON.parse(rawContent);
-//             const event = events[0];
+    console.log(`Waiting for messages in ${queue}. To exit press CTRL+C`);
 
-//             if (event.source === 'stripe') {
-//               handleStripeEvent(event);
-//             }
+    channel.consume(
+      queue,
+      (msg) => {
+        if (msg) {
+          const rawContent = msg.content.toString();
+          try {
+            const events = JSON.parse(rawContent);
+            const event = events[0];
 
-//             // TODO: not sure if this is the right place to update the status
-//             // event.status = 'processed'
-//           } catch (error) {
-//             console.error('Error parsing message:', error);
-//           }
+            if (event.source === 'stripe') {
+              handleStripeEvent(event);
+            }
 
-//           channel?.ack(msg);
-//         }
-//       },
-//       { noAck: false }
-//     );
-//   } catch (error) {
-//     // event.processingErrors += error
-//     // event.status = 'failed'
-//     console.error('Error in consumer:', error);
-//   }
-// };
+            // TODO: not sure if this is the right place to update the status
+            // event.status = 'processed'
+          } catch (error) {
+            console.error('Error parsing message:', error);
+          }
 
-// // Graceful shutdown
-// process.on('exit', () => {
-//   console.log('Closing RabbitMQ Channel and Connection...');
-//   channel?.close();
-//   connection?.close();
-// });
+          channel?.ack(msg);
+        }
+      },
+      { noAck: false }
+    );
+  } catch (error) {
+    // event.processingErrors += error
+    // event.status = 'failed'
+    console.error('Error in consumer:', error);
+  }
+};
 
-// consumeFromQueue();
+// Graceful shutdown
+process.on('exit', () => {
+  console.log('Closing RabbitMQ Channel and Connection...');
+  channel?.close();
+  connection?.close();
+});
+
+consumeFromQueue();
+
+export { consumeFromQueue };
