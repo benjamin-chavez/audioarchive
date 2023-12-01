@@ -48,7 +48,7 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
 export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
   async (req, res) => {
     const products = await ProductService.getAllProductsWithUserDetails();
-    // console.log('products: ', products);
+
     res.status(200).json({
       // data: productsWithSignedUrls,
       data: products,
