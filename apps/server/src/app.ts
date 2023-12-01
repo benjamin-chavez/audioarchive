@@ -173,7 +173,10 @@ console.log('audience: ', audience);
 
 app
   .disable('x-powered-by')
-  .use(morgan('dev'))
+  .use(
+    // morgan('dev')
+    morgan('combined')
+  )
   .use(helmet())
   .use(
     cors({

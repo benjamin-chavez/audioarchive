@@ -27,6 +27,11 @@ const nextConfig = {
   //   outputFileTracingRoot: path.join(__dirname, '../../'),
   // },
   // https://nextjs.org/docs/app/api-reference/next-config-js/output
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
   async rewrites() {
     return [
       {

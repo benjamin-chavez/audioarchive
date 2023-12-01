@@ -222,10 +222,11 @@ class S3Service {
 
       await s3.send(new PutObjectCommand(uploadParams));
 
-      console.log(`${CONTEXT}::uploadFile - success`);
+      console.log(`${CONTEXT}::uploadFile - SUCCESS`);
       return imgS3Key;
     } catch (error) {
-      return error;
+      console.log(`${CONTEXT}::uploadFile - FAILED`);
+      throw new Error(error);
     }
   }
 
