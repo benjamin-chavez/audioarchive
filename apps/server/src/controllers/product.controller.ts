@@ -24,6 +24,7 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
   // product.accountId = stripeAccount[0].id;
 
   const newProduct = await ProductService.addNewProduct(product);
+  console.log('product.imgS3Key: ', product.imgS3Key);
   newProduct.imgS3Url = await S3Service.getObjectSignedUrl(product.imgS3Key);
 
   // newProduct.stripeProductId = await StripeService.createProduct(newProduct);
@@ -31,6 +32,7 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
   // await ProductService.updateProduct(newProduct.id, newProduct);
 
   console.log(`${CONTEXT}::createProduct() - success`);
+
   res
     .status(201)
     .json({ data: newProduct, message: 'Product created successfully' });
