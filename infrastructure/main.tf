@@ -700,7 +700,7 @@ resource "aws_instance" "ec2-bastion-host" {
   subnet_id     = module.networking.public_subnets[0]
   # vpc_security_group_ids = [aws_security_group.security_group_ec2_bastion[0].id]
   vpc_security_group_ids = [aws_security_group.security_group_ec2_bastion.id]
-
+  # user_data = file("./scripts/setup-psql-on-ec2.sh")
   associate_public_ip_address = true
   # metadata_options {
   #   http_endpoint               = "enabled"
@@ -760,9 +760,10 @@ module "psql_rds" {
   vpc_security_group_ids = [module.security_group_rds_db.sg_id]
   db_subnet_group_name   = module.networking.database_subnet_group_name
   parameter_group_name   = "default.postgres15"
-  publicly_accessible    = true
-  deletion_protection    = false
-  db_user                = data.aws_ssm_parameter.db_user.value
+  # TODO: review this `publicly_accessible`, I think it should be set to false
+  publicly_accessible = true
+  deletion_protection = false
+  db_user             = data.aws_ssm_parameter.db_user.value
   # db_user                = module.ssm_parameters.db_user
 
   depends_on = [
