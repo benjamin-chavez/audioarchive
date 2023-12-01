@@ -3,12 +3,13 @@
 
 import 'server-only';
 
+import ProductsGrid from '../../../components/products-grid';
+import { getAppUserWProducts } from '@/lib/data/app-user';
+import Image from 'next/image';
+
 type AppUserProps = {
   params: { username: string };
 };
-
-import ProductsGrid from '../../../components/products-grid';
-import { getAppUserWProducts } from '@/lib/data/app-user';
 
 export default async function UserDetail({ params }: AppUserProps) {
   let res = await getAppUserWProducts(params.username);
@@ -29,8 +30,11 @@ export default async function UserDetail({ params }: AppUserProps) {
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
             <div className="flex">
-              <img
-                className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
+              <Image
+                className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56 object-cover ring-4 ring-white"
+                width={500}
+                height={500}
+                quality={100}
                 src={appUser.avatarS3Url}
                 alt=""
               />
