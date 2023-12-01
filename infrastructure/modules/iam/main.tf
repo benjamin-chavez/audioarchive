@@ -371,8 +371,10 @@ data "aws_iam_policy_document" "role_policy_ecs_task_role" {
     sid    = "AllowS3Actions"
     effect = "Allow"
     actions = [
+      "s3:PutObject",
       "s3:GetObject",
-      "s3:ListBucket"
+      "s3:ListBucket",
+      "s3:DeleteObject"
     ]
     resources = var.s3_bucket_assets
   }
