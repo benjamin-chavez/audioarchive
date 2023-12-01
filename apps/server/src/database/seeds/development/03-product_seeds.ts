@@ -12,7 +12,7 @@ export async function seed(knex: Knex): Promise<void> {
   const productSeeds = [
     {
       appUserId: 2,
-      // accountId: 1,
+      accountId: 1,
       name: 'The Look',
       genre: 'Bass House',
       software: 'Ableton',
@@ -28,7 +28,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       appUserId: 2,
-      // accountId: 1,
+      accountId: 1,
       name: 'Booty',
       genre: 'Bass House',
       software: 'Ableton',
@@ -44,7 +44,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       appUserId: 3,
-      // accountId: 2,
+      accountId: 2,
       name: 'Dred 84',
       // genre: 'Breaks / Breakbeat / UK Bass'
       genre: 'Breaks',
@@ -61,7 +61,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       appUserId: 3,
-      // accountId: 2,
+      accountId: 2,
       name: 'Friction',
       // genre: 'Techno (Raw / Deep / Hypnotic)',
       genre: 'Techno',
@@ -78,7 +78,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       appUserId: 3,
-      // accountId: 2,
+      accountId: 2,
       name: 'Let Me - KEEFE Roller Mix',
       genre: 'House',
       software: 'Ableton',
@@ -94,7 +94,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       appUserId: 4,
-      // accountId: 3,
+      accountId: 3,
       name: 'Translation',
       genre: 'Deep House',
       software: 'Ableton',
@@ -110,7 +110,7 @@ export async function seed(knex: Knex): Promise<void> {
     },
     {
       appUserId: 4,
-      // accountId: 3,
+      accountId: 3,
       name: 'Division',
       genre: 'Deep House',
       software: 'Ableton',

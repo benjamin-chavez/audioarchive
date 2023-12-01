@@ -19,12 +19,12 @@ exports.up = async function (knex: Knex): Promise<void> {
       .notNullable()
       .onDelete('CASCADE');
 
-    // t.integer('accountId')
-    //   .unsigned()
-    //   .references('id')
-    //   .inTable('accounts')
-    //   .notNullable()
-    //   .onDelete('CASCADE');
+    t.integer('account_id')
+      .unsigned()
+      .references('id')
+      .inTable('accounts')
+      .notNullable()
+      .onDelete('CASCADE');
 
     // Essential Columns
     t.string('name').notNullable();
@@ -53,7 +53,7 @@ exports.up = async function (knex: Knex): Promise<void> {
     t.string('label');
     t.text('description');
 
-    // t.string('stripeProductId');
+    t.string('stripeProductId');
 
     t.timestamps(true, true);
     // t.timestamp('created_at').defaultTo(knex.fn.now());
