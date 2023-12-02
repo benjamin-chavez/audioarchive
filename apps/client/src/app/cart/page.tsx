@@ -200,6 +200,8 @@ function CartItem({
 export default async function CartPage() {
   const res = await getMyCart();
 
+  console.log(res);
+
   const { items: cartItems } = res.data;
   const subtotal = calculatePriceSubtotal(cartItems);
   const estimatedTax = calculateTaxEstimate();
