@@ -19,18 +19,21 @@ try {
   console.log('process.env.AWS_MQ_USERNAME:', process.env.AWS_MQ_USERNAME);
 } catch (error) {
   console.log('ERROR, MISSING: process.env.AWS_MQ_USERNAME');
+  throw Error('ERROR, MISSING: process.env.AWS_MQ_USERNAME');
 }
 
 try {
   aws_mq_password = process.env.AWS_MQ_PASSWORD;
 } catch (error) {
   console.log('ERROR, MISSING: process.env.AWS_MQ_PASSWORD');
+  throw Error('ERROR, MISSING: process.env.AWS_MQ_PASSWORD');
 }
 try {
   aws_mq_broker_url = process.env.AWS_MQ_BROKER_URL;
   console.log('process.env.AWS_MQ_BROKER_URL:', process.env.AWS_MQ_BROKER_URL);
 } catch (error) {
   console.log('ERROR, MISSING: process.env.AWS_MQ_BROKER_URL');
+  throw Error('ERROR, MISSING: process.env.AWS_MQ_BROKER_URL');
 }
 
 try {
@@ -38,12 +41,17 @@ try {
   console.log('process.env.AWS_MQ_PORT:', process.env.AWS_MQ_PORT);
 } catch (error) {
   console.log('ERROR, MISSING: process.env.AWS_MQ_PORT');
+  throw Error('ERROR, MISSING: process.env.AWS_MQ_PORT');
 }
 // }
+// const CONN = 'amqp://rabbitmq';
+// const CONN = 'amqp://localhost';
+
 // const CONN =
 //   process.env.Node_ENV === 'production'
 //     ? `amqps://${aws_mq_username}:${aws_mq_password}@${aws_mq_broker_url}:${aws_mq_port}`
 //     : 'amqp://localhost';
+
 const CONN = `amqps://${aws_mq_username}:${aws_mq_password}@${aws_mq_broker_url}:${aws_mq_port}`;
 
 console.log('process.env.Node_ENV:', process.env.Node_ENV);
@@ -56,9 +64,12 @@ let connection: Connection | null = null;
 
 const initRabbitMQ = async () => {
   try {
-    const sslOptions = {};
+    // const sslOptions = {};
 
-    connection = await connect(CONN, sslOptions);
+    connection = await connect(
+      CONN
+      // , sslOptions
+    );
     channel = await connection.createChannel();
 
     // Ensure queue is declared with durability set to true

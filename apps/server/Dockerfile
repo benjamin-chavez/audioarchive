@@ -143,7 +143,7 @@ COPY --from=installer /app .
 
 # ARG NODE_ENV
 # ENV NODE_ENV=${NODE_ENV}
-ENV NODE_ENV=production
+ENV NODE_ENV=development
 
 EXPOSE 5000
 

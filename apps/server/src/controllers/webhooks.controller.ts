@@ -40,7 +40,7 @@ export const createEvent: RequestHandler = asyncHandler(async (req, res) => {
     })
     .returning('*');
 
-  console.log('newEvent: ', newEvent);
+  console.log('NEW EVENT!: ', newEvent);
 
   // await publishToQueue('webhook_queue', event);
   await publishToQueue('webhook_queue', newEvent);
