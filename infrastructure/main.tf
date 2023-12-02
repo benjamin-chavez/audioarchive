@@ -653,7 +653,8 @@ module "psql_rds" {
   kms_key_id        = "your-kms-key-id"
   # db_name                = module.ssm_parameters.db_name
   # password               = module.ssm_parameters.db_password
-  db_name = "postgres"
+  # db_name = "postgres"
+  db_name = "audio_archive_production"
   # password               = var.db_password
   # db_name                = module.ssm_parameters.db_name.value
   password               = module.ssm_parameters.db_password.value
