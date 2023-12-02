@@ -4,7 +4,7 @@ import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
 import Stripe from 'stripe';
 import knex from '../config/database';
-import { publishToQueue } from '../jobs/rabbitmq';
+import { publishToQueue } from '../jobs/publisher';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createEvent: RequestHandler = asyncHandler(async (req, res) => {

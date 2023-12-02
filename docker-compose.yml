@@ -7,7 +7,7 @@ services:
     image: 'rabbitmq:3-management'
     ports:
       - '15672:15672' # Management interface
-      - '5672:5672' # RabbitMQ service
+      # - '5672:5672'
     volumes:
       - 'rabbitmq_data:/var/lib/rabbitmq'
     networks:
@@ -36,7 +36,7 @@ services:
     command: pnpm dev
     environment:
       - DOCKER_ENV=true
-      - NODE_ENV=development
+      - NODE_ENV=docker_development
       - NEXT_PUBLIC_API_URL="http://server:5000/api"
     env_file:
       - ./apps/client/.env.local
@@ -61,7 +61,7 @@ services:
       - ./apps/server/.env
     environment:
       - DOCKER_ENV=true
-      - NODE_ENV=development
+      - NODE_ENV=docker_development
       # - RABBITMQ_URL=amqp://rabbitmq:5672
     volumes:
       - ./apps/server/src:/app/apps/server/src
