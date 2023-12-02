@@ -1,6 +1,4 @@
 // apps/client/src/app/dashboard/accounts/page.tsx
-
-// apps/client/src/app/(app-users)/settings/components/accounts-overview.tsx
 import 'server-only';
 
 import { getMyStripeAccounts } from '@/lib/data/me';

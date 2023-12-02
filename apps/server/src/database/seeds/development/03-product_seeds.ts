@@ -23,8 +23,8 @@ export async function seed(knex: Knex): Promise<void> {
       price: 29.99,
       imgS3Key: 'amin-chavez-the-look-seed.jpg',
       digitalFileS3Key: 'ableton-audio-archive-demo-file-project-seed.zip',
-      created_at: currentTimestamp,
-      updated_at: currentTimestamp,
+      // created_at: currentTimestamp,
+      // updated_at: currentTimestamp,
     },
     {
       appUserId: 2,
@@ -39,8 +39,8 @@ export async function seed(knex: Knex): Promise<void> {
       price: 29.99,
       imgS3Key: 'amin-chavez-Booty-seed.png',
       digitalFileS3Key: 'ableton-audio-archive-demo-file-project-seed.zip',
-      created_at: currentTimestamp,
-      updated_at: currentTimestamp,
+      // created_at: currentTimestamp,
+      // updated_at: currentTimestamp,
     },
     {
       appUserId: 3,
@@ -56,8 +56,8 @@ export async function seed(knex: Knex): Promise<void> {
       price: 29.99,
       imgS3Key: 'keefe-dred-84-seed.webp',
       digitalFileS3Key: 'ableton-audio-archive-demo-file-project-seed.zip',
-      created_at: currentTimestamp,
-      updated_at: currentTimestamp,
+      // created_at: currentTimestamp,
+      // updated_at: currentTimestamp,
     },
     {
       appUserId: 3,
@@ -73,8 +73,8 @@ export async function seed(knex: Knex): Promise<void> {
       price: 29.99,
       imgS3Key: 'keefe-friction-seed.webp',
       digitalFileS3Key: 'ableton-audio-archive-demo-file-project-seed.zip',
-      created_at: currentTimestamp,
-      updated_at: currentTimestamp,
+      // created_at: currentTimestamp,
+      // updated_at: currentTimestamp,
     },
     {
       appUserId: 3,
@@ -89,8 +89,8 @@ export async function seed(knex: Knex): Promise<void> {
       price: 29.99,
       imgS3Key: 'Keefe-let-me-seed.webp',
       digitalFileS3Key: 'ableton-audio-archive-demo-file-project-seed.zip',
-      created_at: currentTimestamp,
-      updated_at: currentTimestamp,
+      // created_at: currentTimestamp,
+      // updated_at: currentTimestamp,
     },
     {
       appUserId: 4,
@@ -105,8 +105,8 @@ export async function seed(knex: Knex): Promise<void> {
       price: 29.99,
       imgS3Key: 'safety-or-numbers-cohesionep-seed.jpg',
       digitalFileS3Key: 'ableton-audio-archive-demo-file-project-seed.zip',
-      created_at: currentTimestamp,
-      updated_at: currentTimestamp,
+      // created_at: currentTimestamp,
+      // updated_at: currentTimestamp,
     },
     {
       appUserId: 4,
@@ -121,8 +121,8 @@ export async function seed(knex: Knex): Promise<void> {
       price: 29.99,
       imgS3Key: 'safety-or-numbers-cohesionep-seed.jpg',
       digitalFileS3Key: 'ableton-audio-archive-demo-file-project-seed.zip',
-      created_at: currentTimestamp,
-      updated_at: currentTimestamp,
+      // created_at: currentTimestamp,
+      // updated_at: currentTimestamp,
     },
   ];
 

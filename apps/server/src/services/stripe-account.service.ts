@@ -20,7 +20,7 @@ class StripeAccountService {
           account.accountLink = await stripe.accountLinks.create({
             account: account.stripeAccountId,
             refresh_url: 'https://example.com/reauth',
-            return_url: 'http://localhost:3000/dashboard/accounts',
+            return_url: `${process.env.CLIENT_URL}/dashboard/accounts`,
             type: 'account_onboarding',
             collect: 'eventually_due',
           });

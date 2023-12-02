@@ -80,7 +80,8 @@ FROM base AS dev
 WORKDIR /app
 COPY --from=installer /app .
 
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_PUBLIC_API_HOST='http://client:3000'
 ENV NODE_ENV=development
 ENV DOCKER_ENV=true
 

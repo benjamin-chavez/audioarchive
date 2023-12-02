@@ -54,6 +54,27 @@ phases:
         sed -i "s|<REPO_URL>|$REPO_URL|g" taskdef.json
         sed -i "s|<AWS_ACCOUNT_ID>|$AWS_ACCOUNT_ID|g" taskdef.json
         sed -i "s|<AWS_REGION>|$AWS_REGION|g" taskdef.json
+        sed -i "s|<CLIENT_URL>|$CLIENT_URL|g" taskdef.json
+        sed -i "s|<USE_LOCAL_DB_TUNNEL>|$USE_LOCAL_DB_TUNNEL|g" taskdef.json
+        sed -i "s|<DATABASE_USER>|$DATABASE_USER|g" taskdef.json
+        sed -i "s|<DATABASE_PASSWORD>|$DATABASE_PASSWORD|g" taskdef.json
+        sed -i "s|<DATABASE_HOST>|$DATABASE_HOST|g" taskdef.json
+        sed -i "s|<DATABASE_PORT>|$DATABASE_PORT|g" taskdef.json
+        sed -i "s|<DATABASE_NAME>|$DATABASE_NAME|g" taskdef.json
+        sed -i "s|<AUTH0_AUDIENCE>|$AUTH0_AUDIENCE|g" taskdef.json
+        sed -i "s|<AUTH0_BASE_URL>|$AUTH0_BASE_URL|g" taskdef.json
+        sed -i "s|<AUTH0_CLIENT_ID>|$AUTH0_CLIENT_ID|g" taskdef.json
+        sed -i "s|<AUTH0_CLIENT_SECRET>|$AUTH0_CLIENT_SECRET|g" taskdef.json
+        sed -i "s|<AUTH0_ISSUER_BASE_URL>|$AUTH0_ISSUER_BASE_URL|g" taskdef.json
+        sed -i "s|<AUTH0_SCOPE>|$AUTH0_SCOPE|g" taskdef.json
+        sed -i "s|<AUTH0_SECRET>|$AUTH0_SECRET|g" taskdef.json
+        sed -i "s|<STRIPE_PUBLISHABLE_KEY>|$STRIPE_PUBLISHABLE_KEY|g" taskdef.json
+        sed -i "s|<STRIPE_SECRET_KEY>|$STRIPE_SECRET_KEY|g" taskdef.json
+        sed -i "s|<STRIPE_WEBHOOK_SECRET>|$STRIPE_WEBHOOK_SECRET|g" taskdef.json
+        sed -i "s|<AWS_MQ_USERNAME>|$AWS_MQ_USERNAME|g" taskdef.json
+        sed -i "s|<AWS_MQ_PASSWORD>|$AWS_MQ_PASSWORD|g" taskdef.json
+        sed -i "s|<AWS_MQ_BROKER_URL>|$AWS_MQ_BROKER_URL|g" taskdef.json
+        sed -i "s|<AWS_MQ_PORT>|$AWS_MQ_PORT|g" taskdef.json
 
 artifacts:
   files:

@@ -94,7 +94,8 @@ variable "repository_name" {
 variable "repository_branch" {
   description = "The name of branch the Github repository, which is going to trigger a new CodePipeline excecution"
   type        = string
-  default     = "master"
+  # default     = "master"
+  default = "clean-up-docker-files-commit-as-branch"
 }
 
 

@@ -6,6 +6,7 @@ exports.up = async function (knex: Knex): Promise<void> {
   // await knex.schema.raw(
   //   "CREATE TYPE productStatusType AS ENUM ('draft', 'published', 'archived')"
   // );
+  // await createOnUpdateTimestampFunction(knex);
 
   return knex.schema.createTable(TABLE_NAME, (t) => {
     // Primary Key
@@ -18,7 +19,7 @@ exports.up = async function (knex: Knex): Promise<void> {
       .notNullable()
       .onDelete('CASCADE');
 
-    t.integer('accountId')
+    t.integer('account_id')
       .unsigned()
       .references('id')
       .inTable('accounts')
@@ -48,14 +49,15 @@ exports.up = async function (knex: Knex): Promise<void> {
     t.string('digitalFileS3Url', 512);
 
     // New Optional Columns
-    t.string('key'); // Optional column for a unique key or identifier
-    t.string('label'); // Optional column for a display label
-    t.text('description'); // Optional column for a longer description. Using 'text' type for potentially longer content.
+    t.string('key');
+    t.string('label');
+    t.text('description');
 
     t.string('stripeProductId');
 
-    // Metadata Columns
     t.timestamps(true, true);
+    // t.timestamp('created_at').defaultTo(knex.fn.now());
+    // t.timestamp('updated_at').defaultTo(knex.fn.now());
 
     // Composite Unique Constraint
     t.unique(['appUserId', 'name']);
@@ -67,8 +69,3 @@ exports.up = async function (knex: Knex): Promise<void> {
 exports.down = function (knex: Knex): Promise<void> {
   return knex.schema.dropTableIfExists(TABLE_NAME);
 };
-
-//     // t.enu('column', ['dubstep', 'house', 'pop', 'trap'], {
-//   useNative: true,
-//   enumName: 'genre',
-// });

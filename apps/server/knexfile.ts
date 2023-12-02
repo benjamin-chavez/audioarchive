@@ -1,27 +1,20 @@
 // knexfile.ts
-import { loadEnvVariables } from './src/config/envLoader';
-loadEnvVariables().catch((error) => {
-  console.error('Failed to start server:', error);
-  process.exit(1);
-});
-import 'dotenv/config';
+// import { loadEnvVariables } from './src/config/envLoader';
+// loadEnvVariables().catch((error) => {
+//   console.error('Failed to start server:', error);
+//   process.exit(1);
+// });
+import dotenv from 'dotenv';
+dotenv.config();
 import CustomMigrationSource from './src/database/customMigrationSource';
 import path from 'path';
-// import {
-//   convertCamelCaseToSnakeCase,
-//   convertSnakeCaseToCamelCase,
-// } from './src/lib/utils';
-console.log('DATABASE_HOST: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
-console.log('DATABASE_USER: ', process.env.DATABASE_HOST);
+// import { Knex } from 'knex';
+
+console.log('process.env.DATABASE_HOST: ', process.env.DATABASE_HOST);
+console.log('process.env.DATABASE_USER: ', process.env.DATABASE_USER);
+console.log('process.env.DATABASE_PASSWORD: ', process.env.DATABASE_PASSWORD);
+console.log('process.env.DATABASE_PORT: ', process.env.DATABASE_PORT);
+console.log('process.env.DATABASE_NAME: ', process.env.DATABASE_NAME);
 
 function convertCamelCaseToSnakeCase(str: string): string {
   return str.replace(/([A-Z])/g, (match, letter) => `_${letter.toLowerCase()}`);
@@ -133,6 +126,31 @@ const production = {
     return origImpl(convertCamelCaseToSnakeCase(value));
   },
 };
+
+// export const createOnUpdateTimestampFunction = async (knex: Knex) => {
+//   await knex.raw(`
+//     CREATE OR REPLACE FUNCTION on_update_timestamp()
+//     RETURNS trigger AS $$
+//     BEGIN
+//       NEW.updated_at = now();
+//       RETURN NEW;
+//     END;
+//     $$ language 'plpgsql';
+//   `);
+// };
+
+// export const dropOnUpdateTimestampFunction = async (knex: Knex) => {
+//   await knex.raw(`DROP FUNCTION IF EXISTS on_update_timestamp`);
+// };
+
+// export const onUpdateTrigger = (table: string) => {
+//   return `
+//     CREATE TRIGGER ${table}_update_at
+//     BEFORE UPDATE ON ${table}
+//     FOR EACH ROW
+//     EXECUTE PROCEDURE on_update_timestamp();
+//   `;
+// };
 
 const knexConfig = {
   development,

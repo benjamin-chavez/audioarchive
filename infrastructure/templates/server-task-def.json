@@ -17,31 +17,31 @@
       "secrets": [
         {
           "name": "CLIENT_URL",
-          "valueFrom": "<CLIENT_URL>"
+          "valueFrom": "CLIENT_URL"
         },
         {
           "name": "USE_LOCAL_DB_TUNNEL",
-          "valueFrom": "<USE_LOCAL_DB_TUNNEL>"
-        },
-        {
-          "name": "DATABASE_USER",
-          "valueFrom": "<DATABASE_USER>"
-        },
-        {
-          "name": "DATABASE_PASSWORD",
-          "valueFrom": "<DATABASE_PASSWORD>"
+          "valueFrom": "USE_LOCAL_DB_TUNNEL"
         },
         {
           "name": "DATABASE_HOST",
-          "valueFrom": "<DATABASE_HOST>"
+          "valueFrom": "DATABASE_HOST"
+        },
+        {
+          "name": "DATABASE_USER",
+          "valueFrom": "DATABASE_USER"
+        },
+        {
+          "name": "DATABASE_PASSWORD",
+          "valueFrom": "DATABASE_PASSWORD"
         },
         {
           "name": "DATABASE_PORT",
-          "valueFrom": "<DATABASE_PORT>"
+          "valueFrom": "DATABASE_PORT"
         },
         {
           "name": "DATABASE_NAME",
-          "valueFrom": "<DATABASE_NAME>"
+          "valueFrom": "DATABASE_NAME"
         },
         {
           "name": "AUTH0_AUDIENCE",
@@ -70,34 +70,6 @@
         {
           "name": "AUTH0_SECRET",
           "valueFrom": "<AUTH0_SECRET>"
-        },
-        {
-          "name": "STRIPE_PUBLISHABLE_KEY",
-          "valueFrom": "<STRIPE_PUBLISHABLE_KEY>"
-        },
-        {
-          "name": "STRIPE_SECRET_KEY",
-          "valueFrom": "<STRIPE_SECRET_KEY>"
-        },
-        {
-          "name": "STRIPE_WEBHOOK_SECRET",
-          "valueFrom": "<STRIPE_WEBHOOK_SECRET>"
-        },
-        {
-          "name": "AWS_MQ_USERNAME",
-          "valueFrom": "<AWS_MQ_USERNAME>"
-        },
-        {
-          "name": "AWS_MQ_PASSWORD",
-          "valueFrom": "<AWS_MQ_PASSWORD>"
-        },
-        {
-          "name": "AWS_MQ_BROKER_URL",
-          "valueFrom": "<AWS_MQ_BROKER_URL>"
-        },
-        {
-          "name": "AWS_MQ_PORT",
-          "valueFrom": "<AWS_MQ_PORT>"
         }
       ],
       "portMappings": [

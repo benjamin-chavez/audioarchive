@@ -54,6 +54,7 @@ USER expressjs
 COPY --from=installer /app .
 
 ENV NODE_ENV=development
+ENV RABBITMQ_URL=amqp://rabbitmq:5672
 
 EXPOSE 5000
 

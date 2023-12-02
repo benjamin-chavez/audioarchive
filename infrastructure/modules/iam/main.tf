@@ -59,7 +59,6 @@ EOF
   }
 }
 
-
 resource "aws_iam_role" "devops_role" {
   count              = var.create_devops_role == true ? 1 : 0
   name               = var.name
@@ -122,6 +121,15 @@ resource "aws_iam_policy" "policy_for_role" {
   }
 }
 
+resource "aws_iam_policy" "ecs_task_execution_policy" {
+  # count       = var.create_ecs_task_execution_role == true ? 1 : 0
+  count       = var.create_ecs_role == true ? 1 : 0
+  name        = "ecs-task-execution-policy"
+  description = "Policy for ECS Task Execution Role"
+  # policy      = data.aws_iam_policy_document.ecs_task_execution_policy.json
+  policy = data.aws_iam_policy_document.role_policy_ecs_task_excecution_role.json
+}
+
 resource "aws_iam_policy" "policy_for_ecs_task_role" {
   count       = var.create_ecs_role == true ? 1 : 0
   name        = "Policy-${var.name_ecs_task_role}"
@@ -134,6 +142,16 @@ resource "aws_iam_policy" "policy_for_ecs_task_role" {
 }
 
 # ------- IAM Policies Attachments -------
+resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy_attachment" {
+  count      = var.create_ecs_role == true ? 1 : 0
+  policy_arn = aws_iam_policy.ecs_task_execution_policy[0].arn
+  role       = aws_iam_role.ecs_task_excecution_role[0].name
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 resource "aws_iam_role_policy_attachment" "ecs_attachment" {
   count      = var.create_ecs_role == true ? 1 : 0
   policy_arn = aws_iam_policy.policy_for_ecs_task_role[0].arn
@@ -300,7 +318,6 @@ data "aws_iam_policy_document" "role_policy_devops_role" {
     ]
     resources = ["*"]
   }
-
   statement {
     sid    = "AllowRDSActions"
     effect = "Allow"
@@ -354,8 +371,10 @@ data "aws_iam_policy_document" "role_policy_ecs_task_role" {
     sid    = "AllowS3Actions"
     effect = "Allow"
     actions = [
+      "s3:PutObject",
       "s3:GetObject",
-      "s3:ListBucket"
+      "s3:ListBucket",
+      "s3:DeleteObject"
     ]
     resources = var.s3_bucket_assets
   }
@@ -377,7 +396,6 @@ data "aws_iam_policy_document" "role_policy_ecs_task_role" {
     ]
     resources = ["*"]
   }
-
   statement {
     sid    = "AllowSecretsManagerAccess"
     effect = "Allow"
@@ -387,6 +405,27 @@ data "aws_iam_policy_document" "role_policy_ecs_task_role" {
     ]
     # TODO: narrow this scope
     #  resources = [data.aws_secretsmanager_secret.auth0_secret.arn]
+    resources = ["*"]
+  }
+}
+
+data "aws_iam_policy_document" "role_policy_ecs_task_excecution_role" {
+  statement {
+    sid     = "GetSecretValues"
+    effect  = "Allow"
+    actions = ["secretsmanager:GetSecretValue"]
+    resources = [
+      "arn:aws:secretsmanager:us-east-2:369579651631:secret:AUTH0_SCOPE-cy0ooz",
+      "*"
+    ]
+  }
+
+  statement {
+    sid    = "SSMGetParameters"
+    effect = "Allow"
+    actions = [
+      "ssm:GetParameters"
+    ]
     resources = ["*"]
   }
 }

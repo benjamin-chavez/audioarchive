@@ -6,7 +6,7 @@ import knex from '../config/database';
 
 import Stripe from 'stripe';
 import MeService from '../services/me.service';
-// @ts-ignore
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createStripeAccount: RequestHandler = asyncHandler(
@@ -44,8 +44,8 @@ export const createStripeAccount: RequestHandler = asyncHandler(
 
     const accountLink = await stripe.accountLinks.create({
       account: account.id,
-      refresh_url: 'http://localhost:3000/dashboard/accounts',
-      return_url: 'http://localhost:3000/dashboard/accounts',
+      refresh_url: `${process.env.CLIENT_URL}/dashboard/accounts`,
+      return_url: `${process.env.CLIENT_URL}/dashboard/accounts`,
       type: 'account_onboarding',
       collect: 'eventually_due',
     });

@@ -2,9 +2,7 @@
 import 'server-only';
 
 import { getAccessToken } from '@auth0/nextjs-auth0';
-// const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
-// const BASE_URL = `http://localhost:5000/api`;
-const BASE_URL = `http://api.audioarchive.benchavez.xyz/api`;
+const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 
 // export async function getMyProducts({ accessToken }: { accessToken: any }) {
 // @ts-ignore
@@ -90,21 +88,27 @@ export async function getMe() {
 }
 
 export async function getMyCart() {
-  const { accessToken } = await getAccessToken();
+  try {
+    const { accessToken } = await getAccessToken();
 
-  const res = await fetch(`${BASE_URL}/app-users/me/cart`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    },
-  });
+    const res = await fetch(`${BASE_URL}/app-users/me/cart`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch Shopping Cart');
+    if (!res.ok) {
+      throw new Error('Failed to fetch Shopping Cart');
+    }
+
+    return res.json();
+  } catch (error) {
+    // TODO: FINISH HANDLING ERRORS HERE
+    // PROBABLY SHOULD REDIRECT TO LOGIN?
+    return {};
   }
-
-  return res.json();
 }
 
 //

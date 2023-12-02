@@ -1,7 +1,6 @@
 // apps/server/src/database/seeds/development/03-stripe-accounts.ts
 
 import { Knex } from 'knex';
-// import argon2 from 'argon2';
 
 const TABLE_NAME = 'accounts';
 

@@ -80,3 +80,91 @@ variable "s3_bucket_build_cache" {
 #   description = "S3 bucket used for the artifact store"
 #   type        = string
 # }
+
+variable "client_url" {
+  description = "TODO"
+  type        = string
+}
+variable "use_local_db_tunnel" {
+  description = "TODO"
+  type        = string
+}
+variable "db_user" {
+  description = "TODO"
+  type        = string
+}
+variable "db_password" {
+  description = "TODO"
+  type        = string
+}
+variable "db_host" {
+  description = "TODO"
+  type        = string
+}
+variable "db_port" {
+  description = "TODO"
+  type        = string
+}
+variable "db_name" {
+  description = "TODO"
+  type        = string
+}
+
+variable "auth0_audience" {
+  description = "TODO"
+  type        = string
+}
+variable "auth0_base_url" {
+  description = "TODO"
+  type        = string
+}
+variable "auth0_client_id" {
+  description = "TODO"
+  type        = string
+}
+variable "auth0_client_secret" {
+  description = "TODO"
+  type        = string
+}
+variable "auth0_issuer_base_url" {
+  description = "TODO"
+  type        = string
+}
+variable "auth0_scope" {
+  description = "TODO"
+  type        = string
+}
+
+variable "auth0_secret" {
+  description = "TODO"
+  type        = string
+}
+
+variable "stripe_publishable_key" {
+  description = "TODO"
+  type        = string
+}
+variable "stripe_secret_key" {
+  description = "TODO"
+  type        = string
+}
+variable "stripe_webhook_secret" {
+  description = "TODO"
+  type        = string
+}
+variable "aws_mq_username" {
+  description = "TODO"
+  type        = string
+}
+variable "aws_mq_password" {
+  description = "TODO"
+  type        = string
+}
+variable "aws_mq_broker_url" {
+  description = "TODO"
+  type        = string
+}
+variable "aws_mq_port" {
+  description = "TODO"
+  type        = string
+}

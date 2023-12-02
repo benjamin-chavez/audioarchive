@@ -1,4 +1,5 @@
 // apps/client/src/data/app-user.ts
+import 'server-only';
 
 // export async function getAppUserWithProducts(integerId: number) {
 //   const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
@@ -14,9 +15,9 @@
 // }
 
 export async function getAppUserWProducts(username: string) {
-  // const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
-  // const BASE_URL = `http://localhost:5000/api`;
-  const BASE_URL = `http://api.audioarchive.benchavez.xyz/api`;
+  const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
+
+  console.log(`URL: ${BASE_URL}/app-users/u/${username}/products`);
 
   const res = await fetch(`${BASE_URL}/app-users/u/${username}/products`);
 

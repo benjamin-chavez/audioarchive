@@ -11,71 +11,76 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import 'dotenv/config';
 import { generateRandomBytes } from '../lib/utils';
 import { AppUser, Product } from '@shared/src';
-// import { loadConfig } from '../server';
-import ParameterStoreService from './parameter-store.service';
+// import ParameterStoreService from './parameter-store.service';
+
+const CONTEXT = 'S3Service';
 
 // if (
 //   !process.env.AWS_ACCESS_KEY ||
 //   !process.env.AWS_SECRET_KEY ||
 //   !process.env.AWS_BUCKET_NAME ||
-//   !process.env.AWS_BUCKET_REGION
+//   !process.env.AWS_REGION
 // ) {
 //   throw new Error('One or more AWS Environment Variables are not set');
 // }
-async () => {
-  // await loadConfig();
 
-  if (!process.env.AWS_ACCESS_KEY) {
-    const param = await ParameterStoreService.getEncryptedParameterW(
-      '/audioarchive/production/server/AWS_ACCESS_KEY'
-    );
-    const AWS_ACCESS_KEY = param;
+// async () => {
+//   if (!process.env.AWS_ACCESS_KEY) {
+//     const param = await ParameterStoreService.getEncryptedParameterW(
+//       '/audioarchive/production/server/AWS_ACCESS_KEY'
+//     );
+//     const AWS_ACCESS_KEY = param;
 
-    process.env[AWS_ACCESS_KEY] = AWS_ACCESS_KEY;
-    // throw new Error('AWS_BUCKET_NAME environment variable is not set');
-  }
+//     process.env[AWS_ACCESS_KEY] = AWS_ACCESS_KEY;
+//     // throw new Error('AWS_BUCKET_NAME environment variable is not set');
+//   }
 
-  if (!process.env.AWS_SECRET_KEY) {
-    const param = await ParameterStoreService.getEncryptedParameterW(
-      '/audioarchive/production/server/AWS_SECRET_KEY'
-    );
-    const AWS_SECRET_KEY = param;
+//   if (!process.env.AWS_SECRET_KEY) {
+//     const param = await ParameterStoreService.getEncryptedParameterW(
+//       '/audioarchive/production/server/AWS_SECRET_KEY'
+//     );
+//     const AWS_SECRET_KEY = param;
 
-    process.env[AWS_SECRET_KEY] = AWS_SECRET_KEY;
-    // throw new Error('AWS_BUCKET_NAME environment variable is not set');
-  }
+//     process.env[AWS_SECRET_KEY] = AWS_SECRET_KEY;
+//     // throw new Error('AWS_BUCKET_NAME environment variable is not set');
+//   }
 
-  if (!process.env.AWS_BUCKET_NAME) {
-    const param = await ParameterStoreService.getEncryptedParameterW(
-      '/audioarchive/production/server/AWS_BUCKET_NAME'
-    );
-    const AWS_BUCKET_NAME = param;
+//   if (!process.env.AWS_BUCKET_NAME) {
+//     const param = await ParameterStoreService.getEncryptedParameterW(
+//       '/audioarchive/production/server/AWS_BUCKET_NAME'
+//     );
+//     const AWS_BUCKET_NAME = param;
 
-    process.env[AWS_BUCKET_NAME] = AWS_BUCKET_NAME;
-    // throw new Error('AWS_BUCKET_NAME environment variable is not set');
-  }
+//     process.env[AWS_BUCKET_NAME] = AWS_BUCKET_NAME;
+//     // throw new Error('AWS_BUCKET_NAME environment variable is not set');
+//   }
 
-  if (!process.env.AWS_BUCKET_REGION) {
-    const param = await ParameterStoreService.getEncryptedParameterW(
-      '/audioarchive/production/server/AWS_BUCKET_REGION'
-    );
-    const AWS_BUCKET_REGION = param;
+//   if (!process.env.AWS_REGION) {
+//     const param = await ParameterStoreService.getEncryptedParameterW(
+//       '/audioarchive/production/server/AWS_REGION'
+//     );
+//     const AWS_REGION = param;
 
-    process.env[AWS_BUCKET_REGION] = AWS_BUCKET_REGION;
-    // throw new Error('AWS_BUCKET_NAME environment variable is not set');
-  }
-};
+//     process.env[AWS_REGION] = AWS_REGION;
+//     // throw new Error('AWS_BUCKET_NAME environment variable is not set');
+//   }
+// };
+
+// console.log('process.env.AWS_REGION: ', process.env.AWS_REGION);
+// console.log('process.env.AWS_ACCESS_KEY: ', process.env.AWS_ACCESS_KEY);
+// console.log('process.env.AWS_SECRET_KEY: ', process.env.AWS_SECRET_KEY);
 
 // export const s3 = new S3Client({
 //   credentials: {
 //     accessKeyId: process.env.AWS_ACCESS_KEY,
 //     secretAccessKey: process.env.AWS_SECRET_KEY,
 //   },
-//   region: process.env.AWS_BUCKET_REGION,
+//   region: process.env.AWS_REGION,
 // });
 
 export const s3 = new S3Client({
-  region: process.env.AWS_BUCKET_REGION,
+  // region: process.env.AWS_REGION,
+  region: 'us-east-2',
 });
 
 class S3Service {
@@ -85,7 +90,8 @@ class S3Service {
     contentDisposition?: string
   ): Promise<string> {
     const params: any = {
-      Bucket: process.env.AWS_BUCKET_NAME,
+      // Bucket: process.env.AWS_BUCKET_NAME,
+      Bucket: 'audio-archive-initial-dev-setup',
       Key: key,
     };
 
@@ -95,7 +101,8 @@ class S3Service {
 
     // https://aws.amazon.com/blogs/developer/generate-presigned-url-modular-aws-sdk-javascript/
     const command = new GetObjectCommand(params);
-    const seconds = 86400;
+    // const seconds = 86400;
+    const seconds = 60;
 
     const url = await getSignedUrl(s3, command, { expiresIn: seconds });
 
@@ -199,28 +206,34 @@ class S3Service {
 
   // static async uploadFile({ fileBuffer, fileName, mimetype }): Promise<any> {
   static async uploadFile(file): Promise<any> {
-    // console.log('file: ', file);
-    const imgS3Key = generateRandomBytes();
-    const bucketName = process.env.AWS_BUCKET_NAME;
-    const mimetype = file.mimetype;
-    const buffer = file.buffer;
+    try {
+      const imgS3Key = generateRandomBytes();
+      const bucketName =
+        process.env.AWS_BUCKET_NAME || 'audio-archive-initial-dev-setup';
+      const mimetype = file.mimetype;
+      const buffer = file.buffer;
 
-    // console.log('imgS3Key', imgS3Key);
+      const uploadParams = {
+        Bucket: bucketName,
+        Key: imgS3Key,
+        ContentType: mimetype,
+        Body: buffer,
+      };
 
-    const uploadParams = {
-      Bucket: bucketName,
-      Key: imgS3Key,
-      ContentType: mimetype,
-      Body: buffer,
-    };
-    await s3.send(new PutObjectCommand(uploadParams));
+      await s3.send(new PutObjectCommand(uploadParams));
 
-    return imgS3Key;
+      console.log(`${CONTEXT}::uploadFile - SUCCESS`);
+      return imgS3Key;
+    } catch (error) {
+      console.log(`${CONTEXT}::uploadFile - FAILED`);
+      throw new Error(error);
+    }
   }
 
   static async deleteFile(fileName: string) {
     const deleteParams = {
-      Bucket: process.env.AWS_BUCKET_NAME,
+      // Bucket: process.env.AWS_BUCKET_NAME,
+      Bucket: 'audio-archive-initial-dev-setup',
       Key: fileName,
     };
 
@@ -231,7 +244,8 @@ class S3Service {
     const keysToDelete = s3Keys.filter((key) => !key.includes('seed'));
 
     const deleteParams = {
-      Bucket: process.env.AWS_BUCKET_NAME,
+      // Bucket: process.env.AWS_BUCKET_NAME,
+      Bucket: 'audio-archive-initial-dev-setup',
       Delete: {
         Objects: keysToDelete.map((key) => ({ Key: key })),
       },

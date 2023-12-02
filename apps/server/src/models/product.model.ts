@@ -48,7 +48,36 @@ class ProductModel {
     return newProduct;
   }
 
-  static async update(id: number, product: Partial<Product>): Promise<number> {
+  // static async update(id: number, product: Partial<Product>): Promise<number> {
+  //   const updatedProduct = {
+  //     ...product,
+  //     updated_at: new Date(),
+  //   };
+
+  //   return knex(this.tableName).where({ id }).update(updatedProduct);
+  //   // return knex(this.tableName).where({ id }).update(product);
+  // }
+
+  static async update(id: number, product: any): Promise<number> {
+    // Log the product object to debug
+    // console.log(product);
+
+    // Check if the product object contains createdAt or updatedAt fields
+    if (product.createdAt || product.updatedAt) {
+      console.log('Removing createdAt and updatedAt fields from update object');
+
+      // Remove createdAt and updatedAt fields from the update object
+      const { createdAt, updatedAt, ...updateData } = product;
+      // const updateUpdated = await knex(this.tableName)
+      //   .where({ id })
+      //   .update(updateData)
+      //   .returning('*');
+      // console.log('updateUpdated: ', updateUpdated);
+      // return 1;
+      return knex(this.tableName).where({ id }).update(updateData);
+    }
+
+    // Proceed with the update if createdAt and updatedAt fields are not present
     return knex(this.tableName).where({ id }).update(product);
   }
 

@@ -8,7 +8,6 @@ import CustomerService from '../services/stripe-customer.service';
 import OrderService from '../services/order.service';
 import { Order } from '@shared/src';
 
-// @ts-ignore
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // export const createOrder: RequestHandler = asyncHandler(async (req, res) => {
@@ -37,8 +36,7 @@ export const createCheckout: RequestHandler = asyncHandler(async (req, res) => {
           // description: item.description,
           metadata: {
             id: item.product.id,
-            stripe_product_id: item.product.stripeProductId,
-            stripe_account_id: item.product.stripeAccountId,
+            // stripe_product_id: item.product.stripeProductId,
           },
         },
         unit_amount: item.product.price * 100,

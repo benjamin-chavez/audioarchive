@@ -11,7 +11,7 @@
     "build": "tsc",
     "clean": "rm -rf dist",
     "build:clean": "pnpm run clean && pnpm run build",
-    "dev": "nodemon --exec \"node -r esbuild-register ./src/server.ts\" -e .ts",
+    "dev": "nodemon  src/server.ts",
     "dev:clean": "(dropdb audio_archive_development || true) && createdb audio_archive_development && knex migrate:latest && knex seed:run && NODE_ENV=development pnpm dev",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\"",
     "start": "node -r esbuild-register ./src/server.ts",
@@ -21,12 +21,14 @@
     "db:drop:prod": "dropdb -h localhost -p 5432 -U postgres audio_archive_production || true",
     "db:create:prod": "createdb -h localhost -p 5432 -U postgres audio_archive_production || true",
     "db:migrate:prod": "NODE_ENV=production knex migrate:latest",
-    "db:seed:prod": "NODE_ENV=production knex seed:run"
+    "db:seed:prod": "NODE_ENV=production knex seed:run",
+    "start:consumer": "nodemon src/jobs/consumer-worker.ts"
   },
   "jest": {
     "preset": "jest-presets/jest/node"
   },
   "dependencies": {
+    "@aws-sdk/client-mq": "^3.462.0",
     "@aws-sdk/client-s3": "^3.427.0",
     "@aws-sdk/client-ssm": "^3.454.0",
     "@aws-sdk/s3-request-presigner": "^3.427.0",

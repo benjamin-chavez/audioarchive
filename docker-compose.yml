@@ -3,6 +3,29 @@
 version: '3'
 
 services:
+  rabbitmq:
+    image: 'rabbitmq:3-management'
+    ports:
+      - '15672:15672' # Management interface
+      # - '5672:5672'
+    volumes:
+      - 'rabbitmq_data:/var/lib/rabbitmq'
+    networks:
+      - app_network
+
+    # docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
+
+  postgres:
+    image: postgres:15.4
+    environment:
+      POSTGRES_DB: audio_archive_docker_development
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
   client:
     container_name: client
     build:
@@ -12,7 +35,11 @@ services:
     restart: always
     command: pnpm dev
     environment:
-      - NODE_ENV=development
+      - DOCKER_ENV=true
+      - NODE_ENV=docker_development
+      - NEXT_PUBLIC_API_URL="http://server:5000/api"
+    env_file:
+      - ./apps/client/.env.local
     volumes:
       - ./apps/client/src/:/app/apps/client/src
       - ./apps/client/public:/app/apps/client/public
@@ -30,12 +57,20 @@ services:
     restart: always
     ports:
       - 5000:5000
+    env_file:
+      - ./apps/server/.env
     environment:
-      - NODE_ENV=development
+      - DOCKER_ENV=true
+      - NODE_ENV=docker_development
+      # - RABBITMQ_URL=amqp://rabbitmq:5672
     volumes:
       - ./apps/server/src:/app/apps/server/src
     networks:
       - app_network
+
+volumes:
+  rabbitmq_data:
+  postgres_data:
 
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname
