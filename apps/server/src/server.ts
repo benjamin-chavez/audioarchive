@@ -12,8 +12,10 @@
 //   process.exit(1);
 // });
 
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config();
 import app from './app';
+import { startConsumer } from './jobs/consumer-worker';
 // import ParameterStoreService from './services/parameter-store.service';
 // import { log } from 'logger';
 
@@ -30,4 +32,5 @@ async function startServer() {
   }
 }
 
+startConsumer().catch((err) => console.error('Consumer error:', err));
 startServer();
