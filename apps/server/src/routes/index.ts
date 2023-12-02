@@ -41,8 +41,8 @@ router.get('/download', async (req, res) => {
 router.use('/app-users', appUserRoutes);
 router.use('/products', productRoutes);
 
-router.use(express.raw({ type: 'application/json' }));
-const captureRawBody = express.raw({ type: 'application/json' });
+// router.use(express.raw({ type: 'application/json' }));
+// const captureRawBody = express.raw({ type: 'application/json' });
 
 router.use(
   '/webhook',

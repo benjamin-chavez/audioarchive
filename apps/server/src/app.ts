@@ -119,7 +119,8 @@
 // // });
 
 // // process.on('SIGINT', () => server.close());
-
+// import dotenv from 'dotenv';
+// dotenv.config();
 import { json, urlencoded } from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -183,9 +184,9 @@ app
       origin: '*',
     })
   )
-  .use(json())
+  // .use(json())
   .use(
-    json({
+    express.json({
       // We need the raw body to verify webhook signatures.
       // Let's compute it only when hitting the Stripe webhook endpoint.
       verify: (req, res, buf) => {
@@ -196,7 +197,8 @@ app
         }
       },
     })
-  ) // .use(urlencoded({ extended: true }))
+  )
+  // .use(urlencoded({ extended: true }))
   .use(urlencoded({ extended: false }))
   .use(cookieParser())
   .use(flash())

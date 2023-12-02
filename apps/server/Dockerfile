@@ -147,4 +147,5 @@ ENV NODE_ENV=production
 
 EXPOSE 5000
 
+# CMD node -r  dotenv/config apps/server/dist/src/server.js
 CMD node apps/server/dist/src/server.js

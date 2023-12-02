@@ -4,6 +4,9 @@
 *******************/
 // require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
 import 'dotenv/config';
+// import dotenv from 'dotenv';
+// dotenv.config();
+
 import { Event } from '@shared/src';
 import { Channel, Connection, connect } from 'amqplib';
 import Stripe from 'stripe';
@@ -14,16 +17,18 @@ import OrderService from '../services/order.service';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function startConsumer() {
+  // await import('dotenv/config');
   // const CONN = 'amqp://rabbitmq';
   // const CONN = 'amqp://localhost';
 
   // const CONN =
-  //   process.env.Node_ENV === 'production'
+  //   process.env.NODE_ENV === 'production'
   //     ? `amqps://${aws_mq_username}:${aws_mq_password}@${aws_mq_broker_url}:${aws_mq_port}`
   //     : 'amqp://localhost';
   const CONN = `amqps://${process.env.AWS_MQ_USERNAME}:${process.env.AWS_MQ_PASSWORD}@${process.env.AWS_MQ_BROKER_URL}:${process.env.AWS_MQ_PORT}`;
+  // const CONN = 'amqp://localhost';
 
-  console.log('process.env.Node_ENV:', process.env.Node_ENV);
+  console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
   console.log('RabbitMQ Connection String:', CONN);
 
   let channel: Channel | null = null;

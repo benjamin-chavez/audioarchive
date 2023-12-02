@@ -39,12 +39,12 @@
 // }
 // // }
 // // const CONN =
-// //   process.env.Node_ENV === 'production'
+// //   process.env.NODE_ENV === 'production'
 // //     ? `amqps://${aws_mq_username}:${aws_mq_password}@${aws_mq_broker_url}:${aws_mq_port}`
 // //     : 'amqp://localhost';
 // const CONN = `amqps://${aws_mq_username}:${aws_mq_password}@${aws_mq_broker_url}:${aws_mq_port}`;
 
-// console.log('process.env.Node_ENV:', process.env.Node_ENV);
+// console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
 // console.log('RabbitMQ Connection String:', CONN);
 
 // let channel: Channel | null = null;

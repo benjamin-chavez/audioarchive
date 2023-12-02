@@ -3,6 +3,8 @@
       SENDER
 *******************/
 // import 'server-only';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // import * as amqp from 'amqplib/callback_api';
 import { connect, Channel, Connection } from 'amqplib';
@@ -48,13 +50,14 @@ import { connect, Channel, Connection } from 'amqplib';
 // // const CONN = 'amqp://localhost';
 
 // // const CONN =
-// //   process.env.Node_ENV === 'production'
+// //   process.env.NODE_ENV === 'production'
 // //     ? `amqps://${aws_mq_username}:${aws_mq_password}@${aws_mq_broker_url}:${aws_mq_port}`
 // //     : 'amqp://localhost';
 
 const CONN = `amqps://${process.env.AWS_MQ_USERNAME}:${process.env.AWS_MQ_PASSWORD}@${process.env.AWS_MQ_BROKER_URL}:${process.env.AWS_MQ_PORT}`;
+// const CONN = 'amqp://localhost';
 
-console.log('process.env.Node_ENV:', process.env.Node_ENV);
+console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
 console.log('RabbitMQ Connection String:', CONN);
 
 // const CA_CERT = Buffer.from(process.env.AWS_MQ_CA_CERT_BASE64, 'base64');

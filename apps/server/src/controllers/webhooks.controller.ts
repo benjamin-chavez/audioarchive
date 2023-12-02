@@ -5,13 +5,12 @@ import asyncHandler from 'express-async-handler';
 import Stripe from 'stripe';
 import knex from '../config/database';
 import { publishToQueue } from '../jobs/rabbitmq';
-
-// @ts-ignore
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createEvent: RequestHandler = asyncHandler(async (req, res) => {
   console.log('WEBHOOK REQUEST RECEIVED');
-  // const rawBody = req.body;
+  const rawBody = req.body;
+  console.log('rawBody: ', rawBody);
 
   let event: Stripe.Event;
   const signature = req.headers['stripe-signature'];
@@ -25,8 +24,9 @@ export const createEvent: RequestHandler = asyncHandler(async (req, res) => {
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (error) {
-    console.log(error);
-    throw new Error('Webhook signature verification failed.');
+    // console.log(error);
+    // throw new Error('Webhook signature verification failed.');
+    throw new Error(error);
   }
 
   const newEvent = await knex('events')
