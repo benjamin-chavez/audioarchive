@@ -4,7 +4,8 @@
 //   console.error('Failed to start server:', error);
 //   process.exit(1);
 // });
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config();
 import CustomMigrationSource from './src/database/customMigrationSource';
 import path from 'path';
 // import { Knex } from 'knex';
