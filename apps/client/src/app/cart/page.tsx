@@ -199,13 +199,7 @@ function CartItem({
 
 export default async function CartPage() {
   const res = await getMyCart();
-  if (!res.ok) {
-    return (
-      <div>
-        <p>Failed to get Cart Items</p>
-      </div>
-    );
-  }
+
   const { items: cartItems } = res.data;
   const subtotal = calculatePriceSubtotal(cartItems);
   const estimatedTax = calculateTaxEstimate();
