@@ -119,8 +119,8 @@
 // // });
 
 // // process.on('SIGINT', () => server.close());
-// import dotenv from 'dotenv';
-// dotenv.config();
+import dotenv from 'dotenv';
+dotenv.config();
 import { json, urlencoded } from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
