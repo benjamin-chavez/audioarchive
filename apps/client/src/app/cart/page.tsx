@@ -246,3 +246,5 @@ export default async function CartPage() {
     </div>
   );
 }
+
+export const dynamic = 'force-dynamic';
