@@ -277,6 +277,44 @@ module "security_group_ecs_task_client" {
   ]
 }
 
+# ------- Creating Security Group for SSH ACCESS -------
+module "security_group_ssh_access" {
+  source       = "./modules/security-group"
+  name         = "ssh-acess-${var.environment_name}"
+  description  = "Security group for SSH access"
+  vpc_id       = module.networking.aws_vpc
+  ingress_port = 22
+}
+
+# ------- Creating Security Group for AWS MQ BROKER -------
+module "security_group_mq_broker" {
+  source              = "./modules/security-group"
+  name                = "mq-broker${var.environment_name}"
+  description         = "Controls access to MQ Broker"
+  vpc_id              = module.networking.aws_vpc
+  cidr_blocks_ingress = ["0.0.0.0/0"] #TODO make this more restrictive
+  ingress_port        = 5672          #TODO use param instead
+  security_groups = [
+    module.security_group_ssh_access.sg_id,
+    module.security_group_ecs_task_server.sg_id
+  ]
+}
+
+# ------- Ceating AWS MQ BROKER -------
+module "mq_broker" {
+  source          = "./modules/mq_broker"
+  broker_name     = module.ssm_parameters.aws_mq_username.arn
+  security_groups = [module.security_group_mq_broker.sg_id]
+  subnet_ids      = [module.subn]
+  subnets = [
+    module.networking.public_subnets[0],
+    module.networking.public_subnets[1]
+  ]
+  publicly_accessible = true # <= TODO: set to false
+  username            = module.ssm_parameters.aws_mq_username
+  password            = module.ssm_parameters.aws_mq_password
+}
+
 # ------- Creating ECS Cluster -------
 module "ecs_cluster" {
   source = "./modules/ecs/cluster"
