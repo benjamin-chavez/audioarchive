@@ -21,11 +21,11 @@ export async function startConsumer() {
   // const CONN = 'amqp://rabbitmq';
   // const CONN = 'amqp://localhost';
 
-  // const CONN =
-  //   process.env.NODE_ENV === 'production'
-  //     ? `amqps://${aws_mq_username}:${aws_mq_password}@${aws_mq_broker_url}:${aws_mq_port}`
-  //     : 'amqp://localhost';
-  const CONN = `amqps://${process.env.AWS_MQ_USERNAME}:${process.env.AWS_MQ_PASSWORD}@${process.env.AWS_MQ_BROKER_URL}:${process.env.AWS_MQ_PORT}`;
+  const CONN =
+    process.env.NODE_ENV === 'production'
+      ? `amqps://${process.env.AWS_MQ_USERNAME}:${process.env.AWS_MQ_PASSWORD}@${process.env.AWS_MQ_BROKER_URL}:${process.env.AWS_MQ_PORT}`
+      : 'amqp://localhost';
+  // const CONN = `amqps://${process.env.AWS_MQ_USERNAME}:${process.env.AWS_MQ_PASSWORD}@${process.env.AWS_MQ_BROKER_URL}:${process.env.AWS_MQ_PORT}`;
   // const CONN = 'amqp://localhost';
 
   console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
