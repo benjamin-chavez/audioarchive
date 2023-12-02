@@ -36,8 +36,7 @@ export const createCheckout: RequestHandler = asyncHandler(async (req, res) => {
           // description: item.description,
           metadata: {
             id: item.product.id,
-            stripe_product_id: item.product.stripeProductId,
-            stripe_account_id: item.product.stripeAccountId,
+            // stripe_product_id: item.product.stripeProductId,
           },
         },
         unit_amount: item.product.price * 100,
