@@ -10,11 +10,14 @@ import CustomMigrationSource from './src/database/customMigrationSource';
 import path from 'path';
 // import { Knex } from 'knex';
 
-console.log('process.env.DATABASE_HOST: ', process.env.DATABASE_HOST);
-console.log('process.env.DATABASE_USER: ', process.env.DATABASE_USER);
-console.log('process.env.DATABASE_PASSWORD: ', process.env.DATABASE_PASSWORD);
-console.log('process.env.DATABASE_PORT: ', process.env.DATABASE_PORT);
-console.log('process.env.DATABASE_NAME: ', process.env.DATABASE_NAME);
+console.log('knexfile::process.env.DATABASE_HOST: ', process.env.DATABASE_HOST);
+console.log('knexfile::process.env.DATABASE_USER: ', process.env.DATABASE_USER);
+console.log(
+  'knexfile::process.env.DATABASE_PASSWORD: ',
+  process.env.DATABASE_PASSWORD
+);
+console.log('knexfile::process.env.DATABASE_PORT: ', process.env.DATABASE_PORT);
+console.log('knexfile::process.env.DATABASE_NAME: ', process.env.DATABASE_NAME);
 
 function convertCamelCaseToSnakeCase(str: string): string {
   return str.replace(/([A-Z])/g, (match, letter) => `_${letter.toLowerCase()}`);

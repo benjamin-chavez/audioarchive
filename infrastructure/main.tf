@@ -568,8 +568,8 @@ module "codebuild_server" {
   aws_mq_password        = module.ssm_parameters.aws_mq_password.arn
   aws_mq_broker_url      = module.ssm_parameters.aws_mq_broker_url.arn
   aws_mq_port            = module.ssm_parameters.aws_mq_port.arn
-  aws_sqs_stripe_q_url   = aws_ssm_parameter.stripe_webhooks_dlq_url.arn
-  aws_sqs_stripe_dlq_url = aws_ssm_parameter.stripe_webhooks_queue_url.arn
+  aws_sqs_stripe_q_url   = aws_ssm_parameter.stripe_webhooks_queue_url.arn
+  aws_sqs_stripe_dlq_url = aws_ssm_parameter.stripe_webhooks_dlq_url.arn
   service_port           = var.port_app_server
   ecs_role               = var.iam_role_name["ecs"]
   ecs_task_role          = var.iam_role_name["ecs_task_role"]
@@ -610,8 +610,8 @@ module "codebuild_client" {
   aws_mq_broker_url      = module.ssm_parameters.aws_mq_broker_url.arn
   aws_mq_port            = module.ssm_parameters.aws_mq_port.arn
   service_port           = var.port_app_client
-  aws_sqs_stripe_q_url   = aws_ssm_parameter.stripe_webhooks_dlq_url.arn
-  aws_sqs_stripe_dlq_url = aws_ssm_parameter.stripe_webhooks_queue_url.arn
+  aws_sqs_stripe_q_url   = aws_ssm_parameter.stripe_webhooks_queue_url.arn
+  aws_sqs_stripe_dlq_url = aws_ssm_parameter.stripe_webhooks_dlq_url.arn
   ecs_role               = var.iam_role_name["ecs"]
   #  ecs_task_role          = var.iam_role_name["ecs_task_role"] ?????????
   # server_alb_url         = module.alb_server.dns_alb
