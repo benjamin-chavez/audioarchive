@@ -43,12 +43,11 @@ export const createEvent: RequestHandler = asyncHandler(async (req, res) => {
 
   // await publishToQueue('webhook_queue', event);
   // await publishToQueue('webhook_queue', newEvent);
-  // const queueUrl =
-  //   'https://sqs.us-east-2.amazonaws.com/369579651631/audio-archive-test-queue.fifo';
   const queueUrl = process.env.AWS_SQS_STRIPE_WEBHOOKS_QUEUE_URL;
   await PublisherService.publishToQueueFIFO(queueUrl, newEvent, 'abc');
 
-  // TODO write somesort of test to validate that the events are being added to the correct queue
+  // TODO: write somesort of test to validate that the events are being added to the correct queue
+  // TODO: Add some sort of other SNS notification or something around this if it is failing in prod
 
   console.log('webhooks.controller::Webhook received and queued');
   res.status(200).json({ message: 'Webhook received and queued' });

@@ -98,6 +98,75 @@ fully-working-ecs/FINAL WITH ALL ROUTING/express-api/knexfile.ts
  - https://alto9.com/2020/05/21/aws-ssm-parameters-as-ecs-environment-variables/
 https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+fargate+ssm+parameter+store&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCTE3NDQxajBqNKgCALACAA&sourceid=chrome&ie=UTF-8#ip=1
  - Go through all IAM and narrow permissions
- - Set up RabbitMQ on AWS:
-    - https://www.npmjs.com/package/@aws-sdk/client-mq
-    - https://dev.to/aws-builders/simple-event-driven-app-using-amazon-mq-rabbitmq-22b0
+ <!--// - Set up RabbitMQ on AWS: -->
+    <!--// - https://www.npmjs.com/package/@aws-sdk/client-mq -->
+    <!--// - https://dev.to/aws-builders/simple-event-driven-app-using-amazon-mq-rabbitmq-22b0 -->
+ - Search
+    - Setup
+    - Filtering of products based on various categories
+
+ - Database:
+    - Setup automigration in the CI/CD Pipeline
+    - Write updated seed data/functions
+        - Must get updated Stripe data
+        - Must have significantly higher volume
+    - Restructure Product table and convert Enums to other type
+
+ - Cart:
+    - Set up logic to store cart in local storage if not logged in
+    - Fix formatting for order toal `$NAN`
+    - update with tax info
+    - Add to cart toast notification
+    - Cart items count icon
+    - Cart Dropdown menu
+
+ - Payments
+    - Look into adding a second payment provider
+    - Post question on stripe reddit about best practices for digital product marketplaces
+    - set up tax logic
+    - finish setting up/review payout logic
+    - review if you need to avoid selling in certain regions
+    - Add the subscription model for sellers who want to sell above a certain quota of disk space
+
+ - Admin Dashboard:
+    - Start
+    - The navbar option for this should only be visible to Admin users
+
+ - Seller Dashboard:
+    - Fix the product update logic so that the project file is name is loaded and so that a file isn't required to update the products
+    - Reorganize the `My Accounts` section.
+    - Add screen to display all orders
+
+ - Product Show Page
+    - Should pull all data from actual product
+    - Remove the Download Button unless user already purchased product
+    - Add `Edit` button if user is the product Seller
+
+ - User Dashboard
+    - Add screen to display all purchases/downloads
+
+
+ - Infrastructure
+    - Set up Cloudfront
+        - Try to get images to load in less choppy
+        - the cached images on the product show page should be the same as the products index page?
+    -
+
+ - Auth
+    - Migrate to Cognito?
+    -
+
+ - General Feature
+    - Add `Follow` Feature and display followed users in the dashboards
+      - do i need to add a block feauture?
+    - Comments/Rating functionality
+    - Review all cacheing behavior
+
+ - File Storage
+    - Set up Malware scanning
+    - Set up Additional S3 Logic
+      - Need an isolated pre-malware scan bucket
+      - See if there better practices for how to organize all of this
+    - Set up free tier quota
+
+ - Add validation to all forms
