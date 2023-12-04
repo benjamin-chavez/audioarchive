@@ -35,7 +35,11 @@ async function startServer() {
 }
 
 const queueUrl = process.env.AWS_SQS_STRIPE_WEBHOOKS_QUEUE_URL;
-const dlqUrl = process.env.AWS_SQS_STRIPE_WEBHOOKS_DLQ_URL;
+console.log(
+  'process.env.AWS_SQS_STRIPE_WEBHOOKS_QUEUE_URL: ',
+  process.env.AWS_SQS_STRIPE_WEBHOOKS_QUEUE_URL
+);
+// const dlqUrl = process.env.AWS_SQS_STRIPE_WEBHOOKS_DLQ_URL;
 const generalEventHandler = new GeneralEventHandler();
 const consumer = new ConsumerService(queueUrl);
 
