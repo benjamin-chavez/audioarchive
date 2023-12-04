@@ -4,9 +4,9 @@ import { Event } from '@shared/src';
 import { Channel, Connection, connect } from 'amqplib';
 import 'dotenv/config';
 import Stripe from 'stripe';
-import knex from '../config/database';
-import CartService from '../services/cart.service';
-import OrderService from '../services/order.service';
+import knex from '../../config/database';
+import CartService from '../../services/cart.service';
+import OrderService from '../../services/order.service';
 import { RABBITMQ_URL } from './config';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);

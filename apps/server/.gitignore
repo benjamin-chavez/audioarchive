@@ -20,3 +20,5 @@
 # !**/*.env.example
 **/node_modules
 dist/
+
+/src/lib/jobs/stripe-reqs.sh

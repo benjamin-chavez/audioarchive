@@ -15,7 +15,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import app from './app';
-import { startConsumer } from './jobs/consumer';
+import { startConsumer } from './lib/jobs/consumer';
 // import ParameterStoreService from './services/parameter-store.service';
 // import { log } from 'logger';
 

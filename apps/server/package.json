@@ -30,6 +30,7 @@
   "dependencies": {
     "@aws-sdk/client-mq": "^3.462.0",
     "@aws-sdk/client-s3": "^3.427.0",
+    "@aws-sdk/client-sqs": "^3.465.0",
     "@aws-sdk/client-ssm": "^3.454.0",
     "@aws-sdk/s3-request-presigner": "^3.427.0",
     "@shared": "workspace:*",
@@ -59,7 +60,9 @@
     "multer": "1.4.5-lts.1",
     "pg": "^8.11.3",
     "pg-to-ts": "^4.1.1",
+    "promise-retry": "^2.0.1",
     "stripe": "^14.3.0",
+    "uuid": "^9.0.1",
     "zod": "^3.22.2"
   },
   "devDependencies": {
