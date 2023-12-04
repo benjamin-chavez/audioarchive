@@ -278,42 +278,42 @@ module "security_group_ecs_task_client" {
 }
 
 # ------- Creating Security Group for SSH ACCESS -------
-module "security_group_ssh_access" {
-  source       = "./modules/security-group"
-  name         = "ssh-acess-${var.environment_name}"
-  description  = "Security group for SSH access"
-  vpc_id       = module.networking.aws_vpc
-  ingress_port = 22
-}
+# module "security_group_ssh_access" {
+#   source       = "./modules/security-group"
+#   name         = "ssh-acess-${var.environment_name}"
+#   description  = "Security group for SSH access"
+#   vpc_id       = module.networking.aws_vpc
+#   ingress_port = 22
+# }
 
-# ------- Creating Security Group for AWS MQ BROKER -------
-module "security_group_mq_broker" {
-  source              = "./modules/security-group"
-  name                = "mq-broker${var.environment_name}"
-  description         = "Controls access to MQ Broker"
-  vpc_id              = module.networking.aws_vpc
-  cidr_blocks_ingress = ["0.0.0.0/0"] #TODO make this more restrictive
-  ingress_port        = 5672          #TODO use param instead
-  security_groups = [
-    module.security_group_ssh_access.sg_id,
-    module.security_group_ecs_task_server.sg_id
-  ]
-}
+# # ------- Creating Security Group for AWS MQ BROKER -------
+# module "security_group_mq_broker" {
+#   source              = "./modules/security-group"
+#   name                = "mq-broker${var.environment_name}"
+#   description         = "Controls access to MQ Broker"
+#   vpc_id              = module.networking.aws_vpc
+#   cidr_blocks_ingress = ["0.0.0.0/0"] #TODO make this more restrictive
+#   ingress_port        = 5672          #TODO use param instead
+#   security_groups = [
+#     module.security_group_ssh_access.sg_id,
+#     module.security_group_ecs_task_server.sg_id
+#   ]
+# }
 
-# ------- Ceating AWS MQ BROKER -------
-module "mq_broker" {
-  source          = "./modules/mq_broker"
-  broker_name     = module.ssm_parameters.aws_mq_username.arn
-  security_groups = [module.security_group_mq_broker.sg_id]
-  subnet_ids      = [module.subn]
-  subnets = [
-    module.networking.public_subnets[0],
-    module.networking.public_subnets[1]
-  ]
-  publicly_accessible = true # <= TODO: set to false
-  username            = module.ssm_parameters.aws_mq_username
-  password            = module.ssm_parameters.aws_mq_password
-}
+# # ------- Ceating AWS MQ BROKER -------
+# module "mq_broker" {
+#   source          = "./modules/mq_broker"
+#   broker_name     = module.ssm_parameters.aws_mq_username.arn
+#   security_groups = [module.security_group_mq_broker.sg_id]
+#   subnet_ids      = [module.subn]
+#   subnets = [
+#     module.networking.public_subnets[0],
+#     module.networking.public_subnets[1]
+#   ]
+#   publicly_accessible = true # <= TODO: set to false
+#   username            = module.ssm_parameters.aws_mq_username
+#   password            = module.ssm_parameters.aws_mq_password
+# }
 
 # ------- Creating ECS Cluster -------
 module "ecs_cluster" {
@@ -469,6 +469,72 @@ module "sns" {
   sns_name = "sns-${var.environment_name}"
 }
 
+
+resource "aws_sqs_queue" "stripe_webhooks_queue_deadletter" {
+  name                      = "stripe-webhooks-dlq"
+  message_retention_seconds = 1209600 # 14 days
+
+  redrive_allow_policy = jsonencode({
+    redrivePermission = "byQueue",
+    sourceQueueArns   = [aws_sqs_queue.stripe_webhooks_queue.arn]
+  })
+
+  tags = {
+    Environment = "production"
+    Purpose     = "StripeWebhooksDLQ"
+  }
+}
+
+
+resource "aws_sqs_queue" "stripe_webhooks_queue" {
+  name                        = "stripe-webhooks-queue.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = true
+  sqs_managed_sse_enabled     = true
+
+  # delay_seconds = 0
+  # max_message_size           = 262144 # 256 KB
+  # message_retention_seconds  = 86400  # 1 day
+  # receive_wait_time_seconds  = 10
+  # visibility_timeout_seconds = 30
+
+  # policy
+  # redrive_policy
+  # content_based_deduplication
+  # deduplication_scope
+  # fifo_throughput_limit
+
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.stripe_webhooks_queue_deadletter.arn
+    maxReceiveCount     = 5
+  })
+
+  tags = {
+    Environment = "production"
+    Purpose     = "StripeWebhooks"
+  }
+}
+
+resource "aws_ssm_parameter" "stripe_webhooks_queue_url" {
+  name  = "/audioarchive/production/server/AWS_SQS_STRIPE_WEBHOOKS_QUEUE_URL"
+  type  = "String"
+  value = aws_sqs_queue.stripe_webhooks_queue.url
+
+  tags = {
+    Environment = "production"
+  }
+}
+
+resource "aws_ssm_parameter" "stripe_webhooks_dlq_url" {
+  name  = "/audioarchive/production/server/AWS_SQS_STRIPE_WEBHOOKS_DLQ_URL"
+  type  = "String"
+  value = aws_sqs_queue.stripe_webhooks_queue_deadletter.url
+
+  tags = {
+    Environment = "production"
+  }
+}
+
 # ------- Creating the server CodeBuild project -------***
 module "codebuild_server" {
   source                 = "./modules/codebuild"
@@ -502,6 +568,8 @@ module "codebuild_server" {
   aws_mq_password        = module.ssm_parameters.aws_mq_password.arn
   aws_mq_broker_url      = module.ssm_parameters.aws_mq_broker_url.arn
   aws_mq_port            = module.ssm_parameters.aws_mq_port.arn
+  aws_sqs_stripe_q_url   = aws_ssm_parameter.stripe_webhooks_dlq_url
+  aws_sqs_stripe_dlq_url = aws_ssm_parameter.stripe_webhooks_queue_url
   service_port           = var.port_app_server
   ecs_role               = var.iam_role_name["ecs"]
   ecs_task_role          = var.iam_role_name["ecs_task_role"]
@@ -542,6 +610,8 @@ module "codebuild_client" {
   aws_mq_broker_url      = module.ssm_parameters.aws_mq_broker_url.arn
   aws_mq_port            = module.ssm_parameters.aws_mq_port.arn
   service_port           = var.port_app_client
+  aws_sqs_stripe_q_url   = aws_ssm_parameter.stripe_webhooks_dlq_url
+  aws_sqs_stripe_dlq_url = aws_ssm_parameter.stripe_webhooks_queue_url
   ecs_role               = var.iam_role_name["ecs"]
   #  ecs_task_role          = var.iam_role_name["ecs_task_role"] ?????????
   # server_alb_url         = module.alb_server.dns_alb

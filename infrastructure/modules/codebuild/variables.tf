@@ -168,3 +168,11 @@ variable "aws_mq_port" {
   description = "TODO"
   type        = string
 }
+variable "aws_sqs_stripe_q_url" {
+  description = "TODO"
+  type        = string
+}
+variable "aws_sqs_stripe_dlq_url" {
+  description = "TODO"
+  type        = string
+}

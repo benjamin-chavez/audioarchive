@@ -75,6 +75,10 @@ phases:
         sed -i "s|<AWS_MQ_PASSWORD>|$AWS_MQ_PASSWORD|g" taskdef.json
         sed -i "s|<AWS_MQ_BROKER_URL>|$AWS_MQ_BROKER_URL|g" taskdef.json
         sed -i "s|<AWS_MQ_PORT>|$AWS_MQ_PORT|g" taskdef.json
+        sed -i "s|<AWS_SQS_STRIPE_WEBHOOKS_QUEUE_URL>|$AWS_SQS_STRIPE_WEBHOOKS_QUEUE_URL|g" taskdef.json
+        sed -i "s|<AWS_SQS_STRIPE_WEBHOOKS_DLQ_URL>|$AWS_SQS_STRIPE_WEBHOOKS_DLQ_URL|g" taskdef.json
+
+
 
 artifacts:
   files:

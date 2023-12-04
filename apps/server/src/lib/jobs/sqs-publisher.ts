@@ -42,9 +42,9 @@ class PublisherService {
     }
 
     // TODO: validate the queueUrl is a fifo queue
-    // if (queueUrl.split('.').pop() !== 'fifo') {
-    //   throw Error('Error: Queue Url is not a FIFO Queue');
-    // }
+    if (queueUrl.split('.').pop() !== 'fifo') {
+      throw Error('Error: Queue Url is not a FIFO Queue');
+    }
 
     const deduplicationId = `${groupId}-${this.uniqPublisherId}-${Date.now()}`;
     const params = {

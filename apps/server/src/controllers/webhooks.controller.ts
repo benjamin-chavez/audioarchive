@@ -4,13 +4,14 @@ import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
 import Stripe from 'stripe';
 import knex from '../config/database';
-import { publishToQueue } from '../lib/jobs/publisher';
+// import { publishToQueue } from '../lib/jobs/publisher';
+import { PublisherService } from '../lib/jobs/sqs-publisher';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createEvent: RequestHandler = asyncHandler(async (req, res) => {
   console.log('WEBHOOK REQUEST RECEIVED');
   const rawBody = req.body;
-  console.log('rawBody: ', rawBody);
+  // console.log('rawBody: ', rawBody);
 
   let event: Stripe.Event;
   const signature = req.headers['stripe-signature'];
@@ -40,10 +41,11 @@ export const createEvent: RequestHandler = asyncHandler(async (req, res) => {
     })
     .returning('*');
 
-  console.log('NEW EVENT!: ', newEvent);
-
   // await publishToQueue('webhook_queue', event);
-  await publishToQueue('webhook_queue', newEvent);
+  // await publishToQueue('webhook_queue', newEvent);
+  const queueUrl =
+    'https://sqs.us-east-2.amazonaws.com/369579651631/audio-archive-test-queue.fifo';
+  await PublisherService.publishToQueueFIFO(queueUrl, newEvent, 'abc');
 
   res.status(200).json({ message: 'Webhook received and queued' });
 });

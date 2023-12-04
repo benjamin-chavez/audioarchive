@@ -98,6 +98,14 @@
         {
           "name": "AWS_MQ_PORT",
           "valueFrom": "<AWS_MQ_PORT>"
+        },
+        {
+          "name"  : "AWS_SQS_STRIPE_WEBHOOKS_QUEUE_URL",
+          "valueFrom": "<AWS_SQS_STRIPE_WEBHOOKS_QUEUE_URL>"
+        },
+        {
+          "name"  : "AWS_SQS_STRIPE_WEBHOOKS_DLQ_URL",
+          "valueFrom": "<AWS_SQS_STRIPE_WEBHOOKS_DLQ_URL>"
         }
       ],
       "portMappings": [

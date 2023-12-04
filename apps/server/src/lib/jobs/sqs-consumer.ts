@@ -10,10 +10,10 @@
 import {
   DeleteMessageCommand,
   DeleteMessageCommandInput,
+  Message,
   ReceiveMessageCommand,
   ReceiveMessageCommandInput,
   SQSClient,
-  Message,
 } from '@aws-sdk/client-sqs';
 import { sqsClient } from '../../config/aws-config';
 
@@ -70,6 +70,7 @@ class ConsumerService {
   async consumeMessages(handler: (message: Message) => Promise<void>) {
     while (this.isPolling && !this.isShuttingDown) {
       try {
+        console.log('polling...');
         const messages = await this.receiveMessages();
 
         for (const message of messages) {
@@ -94,9 +95,10 @@ class ConsumerService {
 
     try {
       const body = JSON.parse(message.Body);
+      const event = body[0];
 
       // TODO: ADD ACTUAL HANDLER LOGIC
-      await handler(body);
+      await handler(event);
       await this.deleteMessage(message);
 
       return message.ReceiptHandle;

@@ -192,6 +192,15 @@ resource "aws_codebuild_project" "aws_codebuild" {
       name  = "AWS_MQ_PORT"
       value = var.aws_mq_port
     }
+
+    environment_variable {
+      name  = "AWS_SQS_STRIPE_WEBHOOKS_QUEUE_URL"
+      value = var.aws_sqs_stripe_q_url
+    }
+    environment_variable {
+      name  = "AWS_SQS_STRIPE_WEBHOOKS_DLQ_URL"
+      value = var.aws_sqs_stripe_dlq_url
+    }
   }
 
   logs_config {

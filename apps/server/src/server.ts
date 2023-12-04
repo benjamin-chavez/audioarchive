@@ -17,6 +17,7 @@ dotenv.config();
 import app from './app';
 // import { startConsumer } from './lib/jobs/consumer';
 import { ConsumerService } from './lib/jobs/sqs-consumer';
+import { GeneralEventHandler } from './controllers/stripe-handler';
 // import ParameterStoreService from './services/parameter-store.service';
 // import { log } from 'logger';
 
@@ -33,14 +34,15 @@ async function startServer() {
   }
 }
 
-const queueUrl =
-  'https://sqs.us-east-1.amazonaws.com/369579651631/audio-archive-test-queue.fifo';
+const queueUrl = process.env.AWS_SQS_STRIPE_WEBHOOKS_QUEUE_URL;
+const dlqUrl = process.env.AWS_SQS_STRIPE_WEBHOOKS_DLQ_URL;
+const generalEventHandler = new GeneralEventHandler();
 const consumer = new ConsumerService(queueUrl);
-consumer.startPolling(async () => {
-  () => (message: any) => {
-    console.log('Handling General Event:', message);
-  };
-});
 
 // startConsumer().catch((err) => console.error('Consumer error:', err));
+
+consumer.startPolling(
+  generalEventHandler.handleEvent.bind(generalEventHandler)
+);
+
 startServer();

@@ -407,6 +407,22 @@ data "aws_iam_policy_document" "role_policy_ecs_task_role" {
     #  resources = [data.aws_secretsmanager_secret.auth0_secret.arn]
     resources = ["*"]
   }
+  statement {
+    sid    = "AllowSQSQueueActions"
+    effect = "Allow"
+    actions = [
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueUrl",
+      "sqs:SendMessage",
+      # "SQS:*"
+    ]
+    # TODO: narrow this scope
+    resources = [
+      "*",
+      #  "arn:aws:sqs:your-region:your-account-id:your-queue-name"
+    ]
+  }
 }
 
 data "aws_iam_policy_document" "role_policy_ecs_task_excecution_role" {
