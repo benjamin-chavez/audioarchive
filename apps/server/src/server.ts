@@ -33,7 +33,9 @@ async function startServer() {
   }
 }
 
-const consumer = new ConsumerService('');
+const queueUrl =
+  'https://sqs.us-east-1.amazonaws.com/369579651631/audio-archive-test-queue.fifo';
+const consumer = new ConsumerService(queueUrl);
 consumer.startPolling(async () => {
   () => (message: any) => {
     console.log('Handling General Event:', message);

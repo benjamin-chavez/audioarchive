@@ -73,7 +73,7 @@ class ConsumerService {
         const messages = await this.receiveMessages();
 
         for (const message of messages) {
-          await this.processMessage(message);
+          await this.processMessage(message, handler);
         }
       } catch (error) {
         console.error('Error in message consumption loop:', error);
@@ -86,14 +86,17 @@ class ConsumerService {
     this._isPolling = false;
   }
 
-  async processMessage(message: Message) {
+  async processMessage(
+    message: Message,
+    handler: (message: Message) => Promise<void>
+  ) {
     this.activeProcessCnt += 1;
 
     try {
       const body = JSON.parse(message.Body);
 
       // TODO: ADD ACTUAL HANDLER LOGIC
-      await generalEventHandler.handleEvent(body);
+      await handler(body);
       await this.deleteMessage(message);
 
       return message.ReceiptHandle;
