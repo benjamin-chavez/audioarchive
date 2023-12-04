@@ -11,6 +11,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import 'dotenv/config';
 import { generateRandomBytes } from '../lib/utils';
 import { AppUser, Product } from '@shared/src';
+import { s3 } from '../config/aws-config';
 // import ParameterStoreService from './parameter-store.service';
 
 const CONTEXT = 'S3Service';
@@ -78,10 +79,10 @@ const CONTEXT = 'S3Service';
 //   region: process.env.AWS_REGION,
 // });
 
-export const s3 = new S3Client({
-  // region: process.env.AWS_REGION,
-  region: 'us-east-2',
-});
+// export const s3 = new S3Client({
+//   // region: process.env.AWS_REGION,
+//   region: 'us-east-2',
+// });
 
 class S3Service {
   // FOR ONLY ONE - TODO: CONSIDER RENAMING

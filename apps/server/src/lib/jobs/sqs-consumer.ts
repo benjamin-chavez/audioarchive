@@ -15,6 +15,7 @@ import {
   SQSClient,
   Message,
 } from '@aws-sdk/client-sqs';
+import { sqsClient } from '../../config/aws-config';
 
 class ConsumerService {
   private sqsClient: SQSClient;
@@ -23,7 +24,7 @@ class ConsumerService {
   private _isPolling: boolean;
   private _isShuttingDown: boolean;
 
-  constructor(sqsClient: SQSClient, queueUrl: string) {
+  constructor(queueUrl: string) {
     this.sqsClient = sqsClient;
     this.queueUrl = queueUrl;
     this.activeProcessCnt = 0;
@@ -91,7 +92,8 @@ class ConsumerService {
     try {
       const body = JSON.parse(message.Body);
 
-      await this.handler(body); // IGNORE THIS FOR NOW
+      // TODO: ADD ACTUAL HANDLER LOGIC
+      await generalEventHandler.handleEvent(body);
       await this.deleteMessage(message);
 
       return message.ReceiptHandle;

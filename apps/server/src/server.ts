@@ -15,7 +15,8 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import app from './app';
-import { startConsumer } from './lib/jobs/consumer';
+// import { startConsumer } from './lib/jobs/consumer';
+import { ConsumerService } from './lib/jobs/sqs-consumer';
 // import ParameterStoreService from './services/parameter-store.service';
 // import { log } from 'logger';
 
@@ -32,5 +33,12 @@ async function startServer() {
   }
 }
 
-startConsumer().catch((err) => console.error('Consumer error:', err));
+const consumer = new ConsumerService('');
+consumer.startPolling(async () => {
+  () => (message: any) => {
+    console.log('Handling General Event:', message);
+  };
+});
+
+// startConsumer().catch((err) => console.error('Consumer error:', err));
 startServer();
