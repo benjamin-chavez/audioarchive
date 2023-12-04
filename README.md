@@ -101,3 +101,5 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
  - Set up RabbitMQ on AWS:
     - https://www.npmjs.com/package/@aws-sdk/client-mq
     - https://dev.to/aws-builders/simple-event-driven-app-using-amazon-mq-rabbitmq-22b0
+
+test
