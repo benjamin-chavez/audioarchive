@@ -46,12 +46,14 @@ class PublisherService {
       throw Error('Error: Queue Url is not a FIFO Queue');
     }
 
-    const deduplicationId = `${groupId}-${this.uniqPublisherId}-${Date.now()}`;
+    console.log('publishToQueueFIFO: params passed validation');
+
+    // const deduplicationId = `${groupId}-${this.uniqPublisherId}-${Date.now()}`;
     const params = {
       QueueUrl: queueUrl,
       MessageBody: JSON.stringify(data),
       MessageGroupId: groupId,
-      MessageDeduplicationId: deduplicationId,
+      // MessageDeduplicationId: deduplicationId,
     };
 
     try {
