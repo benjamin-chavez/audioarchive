@@ -117,16 +117,34 @@ function TwTable({ stripeAccounts }: { stripeAccounts: Account[] }) {
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
                             {account.detailsSubmitted ? (
-                              account.detailsSubmitted.toString()
+                              // account.detailsSubmitted.toString()
+                              <div className="flex items-center justify-end gap-x-2 sm:justify-start">
+                                <div className="flex-none rounded-full p-1 text-green-400 bg-green-400/10">
+                                  <div className="h-1.5 w-1.5 rounded-full bg-current"></div>
+                                </div>
+                                <div className="hidden text-white sm:block">
+                                  Completed
+                                </div>
+                              </div>
                             ) : (
-                              <a
-                                type="button"
-                                // @ts-ignore
-                                href={`${account.accountLink.url}`}
-                                className="rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
-                              >
-                                Finish Onboarding
-                              </a>
+                              <>
+                                <div className="flex items-center justify-end gap-x-2 sm:justify-start">
+                                  {/* <div className="flex-none rounded-full p-1 text-red-400 bg-red-400/10">
+                                    <div className="h-1.5 w-1.5 rounded-full bg-current"></div>
+                                  </div> */}
+                                  {/* <div className="hidden text-white sm:block">
+                                    Completed
+                                  </div> */}
+                                  <a
+                                    type="button"
+                                    // @ts-ignore
+                                    href={`${account.accountLink.url}`}
+                                    className="rounded bg-white/10 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-white/20"
+                                  >
+                                    Finish Onboarding
+                                  </a>
+                                </div>
+                              </>
                             )}
                           </td>
                           <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">

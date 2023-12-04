@@ -111,14 +111,18 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
         - Must get updated Stripe data
         - Must have significantly higher volume
     - Restructure Product table and convert Enums to other type
+    - Add published/draft logic to products table
 
  - Cart:
     - Set up logic to store cart in local storage if not logged in
-    - Fix formatting for order toal `$NAN`
+    - Fix formatting
+        - order toal `$NAN`
+        - all numbers should only have two decimal places. Currently showing this: `$899.7000000000002`
     - update with tax info
     - Add to cart toast notification
     - Cart items count icon
     - Cart Dropdown menu
+    - Update so that you cannot have duplicate items in the cart - should increase quantity instead
 
  - Payments
     - Look into adding a second payment provider
@@ -126,10 +130,10 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - set up tax logic
     - finish setting up/review payout logic
     - review if you need to avoid selling in certain regions
-    - Add the subscription model for sellers who want to sell above a certain quota of disk space
+    - Add the subscription model for sellers who want to sell above a certain quota of disk space\
+    - Completed purchase redirect should go to a confirm page or go to the dashboard download page
 
  - Admin Dashboard:
-    - Start
     - The navbar option for this should only be visible to Admin users
 
  - Seller Dashboard:
@@ -137,10 +141,14 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - Reorganize the `My Accounts` section.
     - Add screen to display all orders
 
- - Product Show Page
-    - Should pull all data from actual product
-    - Remove the Download Button unless user already purchased product
-    - Add `Edit` button if user is the product Seller
+ - Product
+    - Show Page
+        - Should pull all data from actual product
+        - Remove the Download Button unless user already purchased product
+        - Add `Edit` button if user is the product Seller
+    - Index Page
+        - Stream in data
+
 
  - User Dashboard
     - Add screen to display all purchases/downloads
@@ -150,17 +158,22 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - Set up Cloudfront
         - Try to get images to load in less choppy
         - the cached images on the product show page should be the same as the products index page?
-    -
+    - Look into adding `serverless framework` and splitting iac between terraform and serverless
+    - Review and narrow all Iam roles/policies
+    - Fix bug that breaks the CI/CD when you run a second `pnpm tfa` command
 
  - Auth
     - Migrate to Cognito?
-    -
+    - Login Redirect screen - Currently takes you back to the screen that forced the login behavior, but it sends you to the home page if you directly select login
 
  - General Feature
     - Add `Follow` Feature and display followed users in the dashboards
       - do i need to add a block feauture?
     - Comments/Rating functionality
     - Review all cacheing behavior
+    - Email Feature
+      - Purchase confirmations
+      - General Marketing
 
  - File Storage
     - Set up Malware scanning
@@ -170,3 +183,10 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - Set up free tier quota
 
  - Add validation to all forms
+
+ - SQS Queue
+    - Add retry logic
+        - https://docs.aws.amazon.com/lambda/latest/operatorguide/sqs-retries.html
+        - https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-util-retry/
+    - Add deadletter queue
+    - Add ROBUST TESTING
