@@ -59,6 +59,11 @@ This Turborepo has some additional tools already setup for you:
 - [Jest](https://jestjs.io) test runner for all things JavaScript
 - [Prettier](https://prettier.io) for code formatting
 
+### Notes
+- User signup in local dev requires that the webhook route is publicly accesable. You can use ngrok for this.
+
+
+### TODO
 -auto-approve
 
 https://stackoverflow.com/questions/76899023/rds-while-connection-error-no-pg-hba-conf-entry-for-host
@@ -112,6 +117,7 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
         - Must have significantly higher volume
     - Restructure Product table and convert Enums to other type
     - Add published/draft logic to products table
+    - convert the `/api/app-users/register` route to a webhook route. Something like `/api/webhooks/auth0/register`.
 
  - Cart:
     - Set up logic to store cart in local storage if not logged in
@@ -190,3 +196,8 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
         - https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-util-retry/
     - Add deadletter queue
     - Add ROBUST TESTING
+
+
+
+  - Misc...
+      - Look at Wappalyzer on https://edm.com/

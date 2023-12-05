@@ -78,7 +78,7 @@ export async function getMe() {
 
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch product');
+    throw new Error('Failed to fetch me');
   }
 
   // const test = await res.json();
