@@ -7,7 +7,9 @@
     "rootDir": ".",
     "strict": false,
     "declaration": false,
-    "declarationMap": false
+    "declarationMap": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "exclude": ["node_modules"],
   "extends": "tsconfig/base.json",

@@ -3,18 +3,20 @@ import { Knex } from 'knex';
 const TABLE_NAME = 'app_users';
 
 exports.up = function (knex: Knex): Promise<void> {
-  return knex.schema.createTable(TABLE_NAME, (table) => {
-    table.increments('id').primary();
-    table.string('authId').unique().notNullable();
-    table.string('firstName').notNullable();
-    table.string('lastName').notNullable();
-    table.string('username').unique();
-    table.string('email').unique();
-    // table.string('avatar').defaultTo('default-avatar-seed.jpg');
-    table.string('avatarS3Key', 512).defaultTo('default-avatar-seed.webp');
-    table.string('avatarS3Url', 512);
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
+  return knex.schema.createTable(TABLE_NAME, (t) => {
+    t.increments('id').primary();
+    t.string('auth_id').unique().notNullable();
+    t.string('display_name').notNullable();
+    t.string('first_name').notNullable();
+    t.string('last_name').notNullable();
+    t.string('username').unique();
+    t.string('email').unique();
+    // t.string('avatar').defaultTo('default-avatar-seed.jpg');
+    t.string('avatar_s3_key', 512).defaultTo('default-avatar-seed.webp');
+    t.string('avatar_s3_url', 512);
+    // t.timestamp('created_at').defaultTo(knex.fn.now());
+    // t.timestamp('updated_at').defaultTo(knex.fn.now());
+    t.timestamps(true, true);
   });
 };
 
