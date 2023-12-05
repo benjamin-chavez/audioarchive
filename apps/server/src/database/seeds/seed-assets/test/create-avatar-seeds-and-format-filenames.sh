@@ -23,7 +23,8 @@ for file in "$directory"/*; do
     continue
   fi
 
-  base=${file%.*}
+  base=$(basename "$file")
+  base=${base%.*}
   extension=${file##*.}
   display_name="$base"
   username=$(echo "$base" | sed 's/ /-/g' | tr '[:upper:]' '[:lower:]')
@@ -33,8 +34,6 @@ for file in "$directory"/*; do
     avatarS3Key="${username}-seed.${extension}"
   else
     avatarS3Key="${username}-avatar-seed.${extension}"
-
-
 
     # Handle comma for JSON formatting
     if [ "$first" = true ]; then
@@ -47,6 +46,7 @@ for file in "$directory"/*; do
     echo "  {" >>seedfile.json
     echo "    \"auth_id\": \"auth0|$(openssl rand -hex 12)\"," >>seedfile.json
     echo "    \"display_name\": \"$display_name\"," >>seedfile.json
+
     if [[ "$display_name" =~ \  ]]; then
       echo "    \"first_name\": \"$(cut -d' ' -f1 <<<"$display_name")\"," >>seedfile.json
       echo "    \"last_name\": \"$(cut -d' ' -f2- <<<"$display_name")\"," >>seedfile.json
@@ -64,8 +64,11 @@ for file in "$directory"/*; do
   fi
 
   # File renaming logic
-  if [ "$file" != "${directory}/${avatarS3Key}" ]; then
-    mv -- "$file" "${directory}/${avatarS3Key}"
+  source_file="$file"
+  target_file="${directory}/${avatarS3Key}"
+
+  if [ "$source_file" != "$target_file" ]; then
+    mv -- "$source_file" "$target_file"
   fi
 done
 
