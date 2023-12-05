@@ -11,18 +11,14 @@ for file in *; do
 
   base=${file%.*}
   extension=${file##*.}
-  # display_name="${base/-/ }"
   display_name="$base"
-  username="${base/-/}"
-  username=$(echo "$username" | tr '[:upper:]' '[:lower:]')
+  username=$(echo "$base" | sed 's/ /-/g' | tr '[:upper:]' '[:lower:]')
 
+  # Set avatarS3Key based on whether 'banner' is in the file name
   if [[ "$base" == *banner* ]]; then
-    avatarS3Key=$(echo "$base" | sed 's/ /-/g' | tr '[:upper:]' '[:lower:]')-seed.${extension}
-    # nubase=$(echo "$base" | sed 's/ /-/g' | tr '[:upper:]' '[:lower:]' | sed 's|-banner||g')-banner-seed
+    avatarS3Key="${username}-seed.${extension}"
   else
     avatarS3Key="${username}-avatar-seed.${extension}"
-
-    # avatarS3Key="${nubase}.${extension}"
 
     # Handle comma for JSON formatting
     if [ "$first" = true ]; then
