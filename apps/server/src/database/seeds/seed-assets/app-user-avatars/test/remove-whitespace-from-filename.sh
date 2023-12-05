@@ -5,7 +5,7 @@ echo "[" >seedfile.json
 first=true
 
 for file in *; do
-  if [ -d "$file" ] || [ "$file" == *.sh ]; then
+  if [ -d "$file" ] || [[ "$file" == *.sh ]] || [[ "$file" == *.json ]]; then
     continue
   fi
 
