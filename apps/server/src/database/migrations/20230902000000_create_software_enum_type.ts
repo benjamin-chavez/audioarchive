@@ -2,7 +2,7 @@
 
 import { Knex } from 'knex';
 // import { SOFTWARE_ENUM_VALUES } from '@shared';
-const SOFTWARE_ENUM_VALUES = ['Ableton', 'FL_Studio', 'Logic'];
+const SOFTWARE_ENUM_VALUES = ['Ableton', 'FL_Studio', 'Logic', 'Bitwig'];
 
 const ENUM_NAME = 'software';
 

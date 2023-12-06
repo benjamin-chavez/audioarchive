@@ -149,7 +149,7 @@ const getSpotifyArtistIds = async () => {
     // @ts-ignore
     return res.value;
   });
-  return results;
+  // return results;
 };
 
 (async () => {

@@ -1,8 +1,8 @@
 // packages/shared/src/constants.ts
 
-export type SOFTWARE_ENUM = 'Ableton' | 'FL_Studio' | 'Logic';
+export type SOFTWARE_ENUM = 'Ableton' | 'FL_Studio' | 'Logic' | 'Bitwig';
 
-export const SOFTWARE_ENUM_VALUES = ['Ableton', 'FL_Studio', 'Logic'];
+export const SOFTWARE_ENUM_VALUES = ['Ableton', 'FL_Studio', 'Logic', 'Bitwig'];
 
 export type GENRE_ENUM =
   | 'Bass House'

@@ -129,6 +129,7 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - Cart items count icon
     - Cart Dropdown menu
     - Update so that you cannot have duplicate items in the cart - should increase quantity instead
+    - Redirect to Login Not setup - you probably won't need this once you set up local storage
 
  - Payments
     - Look into adding a second payment provider
@@ -158,7 +159,6 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
 
  - User Dashboard
     - Add screen to display all purchases/downloads
-
 
  - Infrastructure
     - Set up Cloudfront
