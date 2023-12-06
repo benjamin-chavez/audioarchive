@@ -5,7 +5,11 @@
     "first_name": "Ben",
     "last_name": "Chavez",
     "username": "benjamin-chavez",
-    "email": "ben.m.chavez@gmail.com"
+    "email": "ben.m.chavez@gmail.com",
+    "spotify_id": "6ip8Xbrp3hNeUxYd1T11j0",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/6ip8Xbrp3hNeUxYd1T11j0"
+    }
   },
   {
     "auth_id": "auth0|650caf196371a502e0233912",
@@ -14,7 +18,11 @@
     "last_name": "Chavez",
     "username": "amin-chavez",
     "email": "aminchavez.music@gmail.com",
-    "avatarS3Key": "amin-chavez-avatar-seed.jpeg"
+    "avatarS3Key": "amin-chavez-avatar-seed.jpeg",
+    "spotify_id": "1HBoMknv2KI9eI7tTnb6vZ",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1HBoMknv2KI9eI7tTnb6vZ"
+    }
   },
   {
     "auth_id": "auth0|6519fd529745d9c63c2975ae",
@@ -23,7 +31,11 @@
     "last_name": "Keefe",
     "username": "keefe",
     "email": "keefe.music@keefe.com",
-    "avatarS3Key": "keefe-avatar-seed.webp"
+    "avatarS3Key": "keefe-avatar-seed.webp",
+    "spotify_id": "4hXPtXUp0fPQZ2xpq3v8oU",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/4hXPtXUp0fPQZ2xpq3v8oU"
+    }
   },
   {
     "auth_id": "auth0|6519fe7fe51e9baa2514460d",
@@ -31,7 +43,11 @@
     "first_name": "Nate",
     "last_name": "Pawelczyk",
     "username": "safety-or-numbers",
-    "email": "router.music@router.com"
+    "email": "router.music@router.com",
+    "spotify_id": "1QNgopvt8ILfNVIXGU8k6g",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1QNgopvt8ILfNVIXGU8k6g"
+    }
   },
   {
     "auth_id": "auth0|6519fe7fe51e9baa2514460d",
@@ -40,7 +56,9 @@
     "last_name": "Pavel",
     "username": "nathaniel_pavel",
     "email": "router.music@router.com",
-    "avatarS3Key": "nathaniel_pavel-avatar-seed.jpg"
+    "avatarS3Key": "nathaniel_pavel-avatar-seed.jpg",
+    "spotify_id": null,
+    "links": {}
   },
   {
     "auth_id": "auth0|15bc5778036ff1ddd3670124",
@@ -49,7 +67,11 @@
     "last_name": "Slater",
     "username": "ac-slater",
     "email": "ac-slater@faker-mail.dev",
-    "avatarS3Key": "ac-slater-avatar-seed.webp"
+    "avatarS3Key": "ac-slater-avatar-seed.webp",
+    "spotify_id": "6EqFMCnVGBRNmwPlk2f3Uc",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/6EqFMCnVGBRNmwPlk2f3Uc"
+    }
   },
   {
     "auth_id": "auth0|d419ef8f8b97b027e13adefa",
@@ -58,7 +80,11 @@
     "last_name": "",
     "username": "aluna",
     "email": "aluna@faker-mail.dev",
-    "avatarS3Key": "aluna-avatar-seed.webp"
+    "avatarS3Key": "aluna-avatar-seed.webp",
+    "spotify_id": "5ITI6SEoUZMIXXkzCfr4oE",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5ITI6SEoUZMIXXkzCfr4oE"
+    }
   },
   {
     "auth_id": "auth0|926c18935acc534e5c0aaa22",
@@ -67,7 +93,11 @@
     "last_name": "",
     "username": "bassjackers",
     "email": "bassjackers@faker-mail.dev",
-    "avatarS3Key": "bassjackers-avatar-seed.webp"
+    "avatarS3Key": "bassjackers-avatar-seed.webp",
+    "spotify_id": "6xQvQwZQQuq9R3TdPNbcR8",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/6xQvQwZQQuq9R3TdPNbcR8"
+    }
   },
   {
     "auth_id": "auth0|eaf3b0df387a1e36b7b407c4",
@@ -76,7 +106,9 @@
     "last_name": "Miller (Aus)",
     "username": "ben-miller-(aus)",
     "email": "ben-miller-(aus)@faker-mail.dev",
-    "avatarS3Key": "ben-miller-(aus)-avatar-seed.webp"
+    "avatarS3Key": "ben-miller-(aus)-avatar-seed.webp",
+    "spotify_id": null,
+    "links": {}
   },
   {
     "auth_id": "auth0|510a47a6d4e1bd0ca45e1c8e",
@@ -85,7 +117,11 @@
     "last_name": "Gigantic",
     "username": "big-gigantic",
     "email": "big-gigantic@faker-mail.dev",
-    "avatarS3Key": "big-gigantic-avatar-seed.webp"
+    "avatarS3Key": "big-gigantic-avatar-seed.webp",
+    "spotify_id": "7o7mC95EDbJKTcPAAs8C3r",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/7o7mC95EDbJKTcPAAs8C3r"
+    }
   },
   {
     "auth_id": "auth0|50dc989902800168a70b1131",
@@ -94,7 +130,11 @@
     "last_name": "Clair",
     "username": "bleu-clair",
     "email": "bleu-clair@faker-mail.dev",
-    "avatarS3Key": "bleu-clair-avatar-seed.webp"
+    "avatarS3Key": "bleu-clair-avatar-seed.webp",
+    "spotify_id": "7kA4sEagpoNK91I7wr9tYr",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/7kA4sEagpoNK91I7wr9tYr"
+    }
   },
   {
     "auth_id": "auth0|991fa169427748ec8126c2e5",
@@ -103,7 +143,11 @@
     "last_name": "",
     "username": "bondax",
     "email": "bondax@faker-mail.dev",
-    "avatarS3Key": "bondax-avatar-seed.webp"
+    "avatarS3Key": "bondax-avatar-seed.webp",
+    "spotify_id": "4qobOrZpdUri80gScwsHfs",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/4qobOrZpdUri80gScwsHfs"
+    }
   },
   {
     "auth_id": "auth0|7cf7bcab8d5e475635a7f4d8",
@@ -112,7 +156,11 @@
     "last_name": "",
     "username": "borgore",
     "email": "borgore@faker-mail.dev",
-    "avatarS3Key": "borgore-avatar-seed.webp"
+    "avatarS3Key": "borgore-avatar-seed.webp",
+    "spotify_id": "7u160I5qtBYZTQMLEIJmyz",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/7u160I5qtBYZTQMLEIJmyz"
+    }
   },
   {
     "auth_id": "auth0|18aa44482e736c130830a907",
@@ -121,7 +169,11 @@
     "last_name": "Pineda",
     "username": "carlos-pineda",
     "email": "carlos-pineda@faker-mail.dev",
-    "avatarS3Key": "carlos-pineda-avatar-seed.webp"
+    "avatarS3Key": "carlos-pineda-avatar-seed.webp",
+    "spotify_id": "4BZjuzM6DAcX8vXIZmQzrm",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/4BZjuzM6DAcX8vXIZmQzrm"
+    }
   },
   {
     "auth_id": "auth0|66565e43a28d76a430bbfa62",
@@ -130,7 +182,11 @@
     "last_name": "",
     "username": "cazztek",
     "email": "cazztek@faker-mail.dev",
-    "avatarS3Key": "cazztek-avatar-seed.webp"
+    "avatarS3Key": "cazztek-avatar-seed.webp",
+    "spotify_id": "3wRQD6UZWlaWEnbgpIEPPX",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/3wRQD6UZWlaWEnbgpIEPPX"
+    }
   },
   {
     "auth_id": "auth0|1faeeaaf1404628d35c5b134",
@@ -139,7 +195,11 @@
     "last_name": "Porter",
     "username": "chet-porter",
     "email": "chet-porter@faker-mail.dev",
-    "avatarS3Key": "chet-porter-avatar-seed.jpg"
+    "avatarS3Key": "chet-porter-avatar-seed.jpg",
+    "spotify_id": "1BjaGDkxwa2fb2pSCXlFXb",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1BjaGDkxwa2fb2pSCXlFXb"
+    }
   },
   {
     "auth_id": "auth0|04aeb7dabc41508c50c33ecc",
@@ -148,7 +208,11 @@
     "last_name": "Lake",
     "username": "chris-lake",
     "email": "chris-lake@faker-mail.dev",
-    "avatarS3Key": "chris-lake-avatar-seed.webp"
+    "avatarS3Key": "chris-lake-avatar-seed.webp",
+    "spotify_id": "5Igpc9iLZ3YGtKeYfSrrOE",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5Igpc9iLZ3YGtKeYfSrrOE"
+    }
   },
   {
     "auth_id": "auth0|926ecf774777437776e2eb39",
@@ -157,7 +221,11 @@
     "last_name": "Nielsen",
     "username": "christian-nielsen",
     "email": "christian-nielsen@faker-mail.dev",
-    "avatarS3Key": "christian-nielsen-avatar-seed.webp"
+    "avatarS3Key": "christian-nielsen-avatar-seed.webp",
+    "spotify_id": "482tFoPyYAl3JDPXHKGAQr",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/482tFoPyYAl3JDPXHKGAQr"
+    }
   },
   {
     "auth_id": "auth0|e05ca3bd8959dbf24bd014b7",
@@ -166,7 +234,11 @@
     "last_name": "VonStroke",
     "username": "claude-vonstroke",
     "email": "claude-vonstroke@faker-mail.dev",
-    "avatarS3Key": "claude-vonstroke-avatar-seed.webp"
+    "avatarS3Key": "claude-vonstroke-avatar-seed.webp",
+    "spotify_id": "5CYAFhywQTXdZmppCp0ukd",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5CYAFhywQTXdZmppCp0ukd"
+    }
   },
   {
     "auth_id": "auth0|f6fb9703fe8b27b18f0ebf3c",
@@ -175,7 +247,11 @@
     "last_name": "",
     "username": "cloverdale",
     "email": "cloverdale@faker-mail.dev",
-    "avatarS3Key": "cloverdale-avatar-seed.webp"
+    "avatarS3Key": "cloverdale-avatar-seed.webp",
+    "spotify_id": "27RdRVoIwtB1CAhLwuPrbB",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/27RdRVoIwtB1CAhLwuPrbB"
+    }
   },
   {
     "auth_id": "auth0|5a96977f7f6b7ea7207aa314",
@@ -184,7 +260,11 @@
     "last_name": "",
     "username": "color.love",
     "email": "color.love@faker-mail.dev",
-    "avatarS3Key": "color.love-avatar-seed.webp"
+    "avatarS3Key": "color.love-avatar-seed.webp",
+    "spotify_id": "7hgwystBentJsSi5OwDTzh",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/7hgwystBentJsSi5OwDTzh"
+    }
   },
   {
     "auth_id": "auth0|2d0377391020d2b47f562e93",
@@ -193,7 +273,11 @@
     "last_name": "",
     "username": "curbi",
     "email": "curbi@faker-mail.dev",
-    "avatarS3Key": "curbi-avatar-seed.webp"
+    "avatarS3Key": "curbi-avatar-seed.webp",
+    "spotify_id": "2XiiUuK68XNdHaHOAF5hnT",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/2XiiUuK68XNdHaHOAF5hnT"
+    }
   },
   {
     "auth_id": "auth0|722b7d4430b92a1643eec83b",
@@ -202,7 +286,11 @@
     "last_name": "Lesden",
     "username": "daniel-lesden",
     "email": "daniel-lesden@faker-mail.dev",
-    "avatarS3Key": "daniel-lesden-avatar-seed.webp"
+    "avatarS3Key": "daniel-lesden-avatar-seed.webp",
+    "spotify_id": "32iIlSWFsOBxdq5BaVHL8g",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/32iIlSWFsOBxdq5BaVHL8g"
+    }
   },
   {
     "auth_id": "auth0|8ef1c033d04f6a71548bfaa1",
@@ -211,7 +299,9 @@
     "last_name": "(FR)",
     "username": "darius-(fr)",
     "email": "darius-(fr)@faker-mail.dev",
-    "avatarS3Key": "darius-(fr)-avatar-seed.webp"
+    "avatarS3Key": "darius-(fr)-avatar-seed.webp",
+    "spotify_id": null,
+    "links": {}
   },
   {
     "auth_id": "auth0|1a51700588a3a4a766ac2811",
@@ -220,7 +310,11 @@
     "last_name": "Horvat",
     "username": "denis-horvat",
     "email": "denis-horvat@faker-mail.dev",
-    "avatarS3Key": "denis-horvat-avatar-seed.webp"
+    "avatarS3Key": "denis-horvat-avatar-seed.webp",
+    "spotify_id": "5eJJoSS6weFQeI9AtNFLee",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5eJJoSS6weFQeI9AtNFLee"
+    }
   },
   {
     "auth_id": "auth0|c1c1bf57afebce0bd319b32a",
@@ -229,7 +323,11 @@
     "last_name": "Francis",
     "username": "dillon-francis",
     "email": "dillon-francis@faker-mail.dev",
-    "avatarS3Key": "dillon-francis-avatar-seed.webp"
+    "avatarS3Key": "dillon-francis-avatar-seed.webp",
+    "spotify_id": "5R3Hr2cnCCjt220Jmt2xLf",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5R3Hr2cnCCjt220Jmt2xLf"
+    }
   },
   {
     "auth_id": "auth0|cec7599b0d5033ba893139ce",
@@ -238,7 +336,11 @@
     "last_name": "",
     "username": "disclosure",
     "email": "disclosure@faker-mail.dev",
-    "avatarS3Key": "disclosure-avatar-seed.webp"
+    "avatarS3Key": "disclosure-avatar-seed.webp",
+    "spotify_id": "6nS5roXSAGhTGr34W6n7Et",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/6nS5roXSAGhTGr34W6n7Et"
+    }
   },
   {
     "auth_id": "auth0|61f2daa1094935eea7c40ff4",
@@ -247,7 +349,11 @@
     "last_name": "Rae",
     "username": "dj-rae",
     "email": "dj-rae@faker-mail.dev",
-    "avatarS3Key": "dj-rae-avatar-seed.webp"
+    "avatarS3Key": "dj-rae-avatar-seed.webp",
+    "spotify_id": "746LyYgFU6Gni4CMVPlFNa",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/746LyYgFU6Gni4CMVPlFNa"
+    }
   },
   {
     "auth_id": "auth0|477e7d60273c83a450659296",
@@ -256,7 +362,11 @@
     "last_name": "",
     "username": "dogma",
     "email": "dogma@faker-mail.dev",
-    "avatarS3Key": "dogma-avatar-seed.webp"
+    "avatarS3Key": "dogma-avatar-seed.webp",
+    "spotify_id": "4R6XPuqGShFESRVkCePaxj",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/4R6XPuqGShFESRVkCePaxj"
+    }
   },
   {
     "auth_id": "auth0|3359fdfc2b8cf916c3f7f56c",
@@ -265,7 +375,11 @@
     "last_name": "Dolla",
     "username": "dom-dolla",
     "email": "dom-dolla@faker-mail.dev",
-    "avatarS3Key": "dom-dolla-avatar-seed.webp"
+    "avatarS3Key": "dom-dolla-avatar-seed.webp",
+    "spotify_id": "205i7E8fNVfojowcQSfK9m",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/205i7E8fNVfojowcQSfK9m"
+    }
   },
   {
     "auth_id": "auth0|6e5ade55dfe5477c0be21bbe",
@@ -274,7 +388,11 @@
     "last_name": "Fresch",
     "username": "dr.-fresch",
     "email": "dr.-fresch@faker-mail.dev",
-    "avatarS3Key": "dr.-fresch-avatar-seed.webp"
+    "avatarS3Key": "dr.-fresch-avatar-seed.webp",
+    "spotify_id": "1htHgbGwgCWJBfGiQwcRqC",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1htHgbGwgCWJBfGiQwcRqC"
+    }
   },
   {
     "auth_id": "auth0|d77f81c209fdafc427c238a9",
@@ -283,7 +401,11 @@
     "last_name": "",
     "username": "droeloe",
     "email": "droeloe@faker-mail.dev",
-    "avatarS3Key": "droeloe-avatar-seed.jpg"
+    "avatarS3Key": "droeloe-avatar-seed.jpg",
+    "spotify_id": "0u18Cq5stIQLUoIaULzDmA",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/0u18Cq5stIQLUoIaULzDmA"
+    }
   },
   {
     "auth_id": "auth0|7d34920a23525e787350e47b",
@@ -292,7 +414,11 @@
     "last_name": "Lipa",
     "username": "dua-lipa",
     "email": "dua-lipa@faker-mail.dev",
-    "avatarS3Key": "dua-lipa-avatar-seed.webp"
+    "avatarS3Key": "dua-lipa-avatar-seed.webp",
+    "spotify_id": "6M2wZ9GZgrQXHCFfjv46we",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/6M2wZ9GZgrQXHCFfjv46we"
+    }
   },
   {
     "auth_id": "auth0|32d0e7a433815511a1febb45",
@@ -301,7 +427,11 @@
     "last_name": "",
     "username": "echonomist",
     "email": "echonomist@faker-mail.dev",
-    "avatarS3Key": "echonomist-avatar-seed.webp"
+    "avatarS3Key": "echonomist-avatar-seed.webp",
+    "spotify_id": "3ujc8l2JVYwGgAPU7KRRl3",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/3ujc8l2JVYwGgAPU7KRRl3"
+    }
   },
   {
     "auth_id": "auth0|75e5494ff385956a3ad10433",
@@ -310,7 +440,11 @@
     "last_name": "",
     "username": "eleganto",
     "email": "eleganto@faker-mail.dev",
-    "avatarS3Key": "eleganto-avatar-seed.webp"
+    "avatarS3Key": "eleganto-avatar-seed.webp",
+    "spotify_id": "0MMdZHo4Jeldyg5awD2w5V",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/0MMdZHo4Jeldyg5awD2w5V"
+    }
   },
   {
     "auth_id": "auth0|dc01243e3e28fd7e54981244",
@@ -319,7 +453,11 @@
     "last_name": "",
     "username": "flume",
     "email": "flume@faker-mail.dev",
-    "avatarS3Key": "flume-avatar-seed.webp"
+    "avatarS3Key": "flume-avatar-seed.webp",
+    "spotify_id": "6nxWCVXbOlEVRexSbLsTer",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/6nxWCVXbOlEVRexSbLsTer"
+    }
   },
   {
     "auth_id": "auth0|71c97e24751538068748fafc",
@@ -328,7 +466,11 @@
     "last_name": "Tet",
     "username": "four-tet",
     "email": "four-tet@faker-mail.dev",
-    "avatarS3Key": "four-tet-avatar-seed.webp"
+    "avatarS3Key": "four-tet-avatar-seed.webp",
+    "spotify_id": "7Eu1txygG6nJttLHbZdQOh",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/7Eu1txygG6nJttLHbZdQOh"
+    }
   },
   {
     "auth_id": "auth0|f48cf655f578b74ed7da740b",
@@ -337,7 +479,11 @@
     "last_name": "again..",
     "username": "fred-again..",
     "email": "fred-again..@faker-mail.dev",
-    "avatarS3Key": "fred-again..-avatar-seed.webp"
+    "avatarS3Key": "fred-again..-avatar-seed.webp",
+    "spotify_id": "4oLeXFyACqeem2VImYeBFe",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/4oLeXFyACqeem2VImYeBFe"
+    }
   },
   {
     "auth_id": "auth0|c9dcf4ed19e28441a0e5d387",
@@ -346,7 +492,11 @@
     "last_name": "Riot",
     "username": "georgie-riot",
     "email": "georgie-riot@faker-mail.dev",
-    "avatarS3Key": "georgie-riot-avatar-seed.webp"
+    "avatarS3Key": "georgie-riot-avatar-seed.webp",
+    "spotify_id": "658we9fIJkrorlUIcDzsHi",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/658we9fIJkrorlUIcDzsHi"
+    }
   },
   {
     "auth_id": "auth0|ebb79126f743db04ddb7d64c",
@@ -355,7 +505,11 @@
     "last_name": "",
     "username": "ghedi",
     "email": "ghedi@faker-mail.dev",
-    "avatarS3Key": "ghedi-avatar-seed.webp"
+    "avatarS3Key": "ghedi-avatar-seed.webp",
+    "spotify_id": "0Lyny0hbx38TM6ZoXSCONO",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/0Lyny0hbx38TM6ZoXSCONO"
+    }
   },
   {
     "auth_id": "auth0|8430f213a0f43b48baa1c349",
@@ -364,7 +518,11 @@
     "last_name": "Velvet",
     "username": "green-velvet",
     "email": "green-velvet@faker-mail.dev",
-    "avatarS3Key": "green-velvet-avatar-seed.webp"
+    "avatarS3Key": "green-velvet-avatar-seed.webp",
+    "spotify_id": "3ABaec4jjl95VqmG1iD4k2",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/3ABaec4jjl95VqmG1iD4k2"
+    }
   },
   {
     "auth_id": "auth0|983420c8da8b4cbb22464ac8",
@@ -373,7 +531,11 @@
     "last_name": "",
     "username": "g-rex",
     "email": "g-rex@faker-mail.dev",
-    "avatarS3Key": "g-rex-avatar-seed.webp"
+    "avatarS3Key": "g-rex-avatar-seed.webp",
+    "spotify_id": "0ZpPLGn0OkRMl2Y9Twn16K",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/0ZpPLGn0OkRMl2Y9Twn16K"
+    }
   },
   {
     "auth_id": "auth0|38ef3f8dae1565b692c645a3",
@@ -382,7 +544,11 @@
     "last_name": "",
     "username": "griz",
     "email": "griz@faker-mail.dev",
-    "avatarS3Key": "griz-avatar-seed.webp"
+    "avatarS3Key": "griz-avatar-seed.webp",
+    "spotify_id": "25oLRSUjJk4YHNUsQXk7Ut",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/25oLRSUjJk4YHNUsQXk7Ut"
+    }
   },
   {
     "auth_id": "auth0|3a188af7443e7a24ba3ee995",
@@ -391,7 +557,11 @@
     "last_name": "",
     "username": "habstrakt",
     "email": "habstrakt@faker-mail.dev",
-    "avatarS3Key": "habstrakt-avatar-seed.webp"
+    "avatarS3Key": "habstrakt-avatar-seed.webp",
+    "spotify_id": "1YYJxpOXYk1z1WtqdeLMkn",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1YYJxpOXYk1z1WtqdeLMkn"
+    }
   },
   {
     "auth_id": "auth0|d713d46c84db8ef57b405f55",
@@ -400,7 +570,11 @@
     "last_name": "",
     "username": "hugel",
     "email": "hugel@faker-mail.dev",
-    "avatarS3Key": "hugel-avatar-seed.webp"
+    "avatarS3Key": "hugel-avatar-seed.webp",
+    "spotify_id": "5PlfkPxwCpRRWQJBxCa0By",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5PlfkPxwCpRRWQJBxCa0By"
+    }
   },
   {
     "auth_id": "auth0|f4c9fae5a9acade792e3de28",
@@ -409,7 +583,9 @@
     "last_name": "",
     "username": "ibranovski2",
     "email": "ibranovski2@faker-mail.dev",
-    "avatarS3Key": "ibranovski2-avatar-seed.webp"
+    "avatarS3Key": "ibranovski2-avatar-seed.webp",
+    "spotify_id": null,
+    "links": {}
   },
   {
     "auth_id": "auth0|2ae31ad802e451355b224df3",
@@ -418,7 +594,11 @@
     "last_name": "",
     "username": "ibranovski",
     "email": "ibranovski@faker-mail.dev",
-    "avatarS3Key": "ibranovski-avatar-seed.webp"
+    "avatarS3Key": "ibranovski-avatar-seed.webp",
+    "spotify_id": "5ASWBtbVe1yfxjrCuREQ4p",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5ASWBtbVe1yfxjrCuREQ4p"
+    }
   },
   {
     "auth_id": "auth0|c18287c83a6c119e292da851",
@@ -427,7 +607,11 @@
     "last_name": "Wolf",
     "username": "jai-wolf",
     "email": "jai-wolf@faker-mail.dev",
-    "avatarS3Key": "jai-wolf-avatar-seed.webp"
+    "avatarS3Key": "jai-wolf-avatar-seed.webp",
+    "spotify_id": "24V5UY0nChKpnb1TBPJhCw",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/24V5UY0nChKpnb1TBPJhCw"
+    }
   },
   {
     "auth_id": "auth0|63897d7c7a5bbde9d00e150b",
@@ -436,7 +620,11 @@
     "last_name": "",
     "username": "jauz",
     "email": "jauz@faker-mail.dev",
-    "avatarS3Key": "jauz-avatar-seed.webp"
+    "avatarS3Key": "jauz-avatar-seed.webp",
+    "spotify_id": "5ttgIeUVka6FLyi00Uu5h8",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5ttgIeUVka6FLyi00Uu5h8"
+    }
   },
   {
     "auth_id": "auth0|1b4bb1e4b3fb5cf1862184c7",
@@ -445,7 +633,11 @@
     "last_name": "Butler",
     "username": "josh-butler",
     "email": "josh-butler@faker-mail.dev",
-    "avatarS3Key": "josh-butler-avatar-seed.webp"
+    "avatarS3Key": "josh-butler-avatar-seed.webp",
+    "spotify_id": "0EAlTKO2HfATH766bVH1rX",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/0EAlTKO2HfATH766bVH1rX"
+    }
   },
   {
     "auth_id": "auth0|5157f4011f87fd130aaf8c68",
@@ -454,7 +646,11 @@
     "last_name": "Jordan",
     "username": "julian-jordan",
     "email": "julian-jordan@faker-mail.dev",
-    "avatarS3Key": "julian-jordan-avatar-seed.webp"
+    "avatarS3Key": "julian-jordan-avatar-seed.webp",
+    "spotify_id": "2vUCVkeZjzDcaoX4gagHdV",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/2vUCVkeZjzDcaoX4gagHdV"
+    }
   },
   {
     "auth_id": "auth0|65ce5ccb0221799c61b62085",
@@ -463,7 +659,11 @@
     "last_name": "Sikora",
     "username": "juliet-sikora",
     "email": "juliet-sikora@faker-mail.dev",
-    "avatarS3Key": "juliet-sikora-avatar-seed.webp"
+    "avatarS3Key": "juliet-sikora-avatar-seed.webp",
+    "spotify_id": "27dP6YOr1pGNXLpHRLjvYx",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/27dP6YOr1pGNXLpHRLjvYx"
+    }
   },
   {
     "auth_id": "auth0|e31fdda456402dcf9d6d4a0a",
@@ -472,7 +672,11 @@
     "last_name": "jay",
     "username": "justin-jay",
     "email": "justin-jay@faker-mail.dev",
-    "avatarS3Key": "justin-jay-avatar-seed.jpg"
+    "avatarS3Key": "justin-jay-avatar-seed.jpg",
+    "spotify_id": "5k5eiijuHxrGwXp2Pz37GZ",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5k5eiijuHxrGwXp2Pz37GZ"
+    }
   },
   {
     "auth_id": "auth0|6b89b4b2c13f42b65f6f4e8d",
@@ -481,7 +685,11 @@
     "last_name": "Worra",
     "username": "j.-worra",
     "email": "j.-worra@faker-mail.dev",
-    "avatarS3Key": "j.-worra-avatar-seed.webp"
+    "avatarS3Key": "j.-worra-avatar-seed.webp",
+    "spotify_id": "4q0N3EI67tVnAeeaXbNQIj",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/4q0N3EI67tVnAeeaXbNQIj"
+    }
   },
   {
     "auth_id": "auth0|d9037cd13225936a77e675d3",
@@ -490,7 +698,11 @@
     "last_name": "",
     "username": "kasbo",
     "email": "kasbo@faker-mail.dev",
-    "avatarS3Key": "kasbo-avatar-seed.webp"
+    "avatarS3Key": "kasbo-avatar-seed.webp",
+    "spotify_id": "1ikID9RZZMvkuBGDWrqajq",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1ikID9RZZMvkuBGDWrqajq"
+    }
   },
   {
     "auth_id": "auth0|cb62b5bdf8697ff7b162de4b",
@@ -499,7 +711,11 @@
     "last_name": "Allen",
     "username": "kellie-allen",
     "email": "kellie-allen@faker-mail.dev",
-    "avatarS3Key": "kellie-allen-avatar-seed.webp"
+    "avatarS3Key": "kellie-allen-avatar-seed.webp",
+    "spotify_id": "0ITmVPvWLd1t4emVerjKAt",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/0ITmVPvWLd1t4emVerjKAt"
+    }
   },
   {
     "auth_id": "auth0|a96bed71d217ce41b9e0f1cd",
@@ -508,7 +724,11 @@
     "last_name": "",
     "username": "kream",
     "email": "kream@faker-mail.dev",
-    "avatarS3Key": "kream-avatar-seed.webp"
+    "avatarS3Key": "kream-avatar-seed.webp",
+    "spotify_id": "0DdDnziut7wOo6cAYWVZC5",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/0DdDnziut7wOo6cAYWVZC5"
+    }
   },
   {
     "auth_id": "auth0|dc468265fe8d1a4465f5d14e",
@@ -517,7 +737,11 @@
     "last_name": "",
     "username": "kuzey",
     "email": "kuzey@faker-mail.dev",
-    "avatarS3Key": "kuzey-avatar-seed.webp"
+    "avatarS3Key": "kuzey-avatar-seed.webp",
+    "spotify_id": "5127XqkoJOqMOCAaJ3iSbz",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5127XqkoJOqMOCAaJ3iSbz"
+    }
   },
   {
     "auth_id": "auth0|f777ada2edee893e6cced04f",
@@ -526,7 +750,11 @@
     "last_name": "Bee",
     "username": "lady-bee",
     "email": "lady-bee@faker-mail.dev",
-    "avatarS3Key": "lady-bee-avatar-seed.webp"
+    "avatarS3Key": "lady-bee-avatar-seed.webp",
+    "spotify_id": "5WuoHUDzojO8oto22ahnwN",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5WuoHUDzojO8oto22ahnwN"
+    }
   },
   {
     "auth_id": "auth0|7911ba642d18155f5517a350",
@@ -535,7 +763,11 @@
     "last_name": "",
     "username": "luxxury",
     "email": "luxxury@faker-mail.dev",
-    "avatarS3Key": "luxxury-avatar-seed.webp"
+    "avatarS3Key": "luxxury-avatar-seed.webp",
+    "spotify_id": "4Sq9t37DlFCE8XHF1brRCI",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/4Sq9t37DlFCE8XHF1brRCI"
+    }
   },
   {
     "auth_id": "auth0|c6658ef9430ccac2fd311540",
@@ -544,7 +776,11 @@
     "last_name": "",
     "username": "madvilla",
     "email": "madvilla@faker-mail.dev",
-    "avatarS3Key": "madvilla-avatar-seed.webp"
+    "avatarS3Key": "madvilla-avatar-seed.webp",
+    "spotify_id": "63zifEaDmILf5PAGyW0piG",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/63zifEaDmILf5PAGyW0piG"
+    }
   },
   {
     "auth_id": "auth0|d500da7169c08a557123e19c",
@@ -553,7 +789,11 @@
     "last_name": "Grab",
     "username": "mall-grab",
     "email": "mall-grab@faker-mail.dev",
-    "avatarS3Key": "mall-grab-avatar-seed.webp"
+    "avatarS3Key": "mall-grab-avatar-seed.webp",
+    "spotify_id": "7yF6JnFPDzgml2Ytkyl5D7",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/7yF6JnFPDzgml2Ytkyl5D7"
+    }
   },
   {
     "auth_id": "auth0|18be995869a19eb69cc4ae06",
@@ -562,7 +802,11 @@
     "last_name": "",
     "username": "manimal",
     "email": "manimal@faker-mail.dev",
-    "avatarS3Key": "manimal-avatar-seed.jpg"
+    "avatarS3Key": "manimal-avatar-seed.jpg",
+    "spotify_id": "7goOwP4vH811Qt4yjmGMPM",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/7goOwP4vH811Qt4yjmGMPM"
+    }
   },
   {
     "auth_id": "auth0|ccbd164fe28a211d512624be",
@@ -571,7 +815,11 @@
     "last_name": "Vaunt",
     "username": "marie-vaunt",
     "email": "marie-vaunt@faker-mail.dev",
-    "avatarS3Key": "marie-vaunt-avatar-seed.webp"
+    "avatarS3Key": "marie-vaunt-avatar-seed.webp",
+    "spotify_id": "50KydUSYhBFGorhAgUcrL5",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/50KydUSYhBFGorhAgUcrL5"
+    }
   },
   {
     "auth_id": "auth0|04a674b8d76e3e66feee81e0",
@@ -580,7 +828,11 @@
     "last_name": "HØRGER",
     "username": "marten-hØrger",
     "email": "marten-hØrger@faker-mail.dev",
-    "avatarS3Key": "marten-hØrger-avatar-seed.webp"
+    "avatarS3Key": "marten-hØrger-avatar-seed.webp",
+    "spotify_id": "0EdUwJSqkMmsH6Agg3G8Ls",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/0EdUwJSqkMmsH6Agg3G8Ls"
+    }
   },
   {
     "auth_id": "auth0|54bc9d398256903160cf6802",
@@ -589,7 +841,11 @@
     "last_name": "",
     "username": "masteria",
     "email": "masteria@faker-mail.dev",
-    "avatarS3Key": "masteria-avatar-seed.webp"
+    "avatarS3Key": "masteria-avatar-seed.webp",
+    "spotify_id": "5ydROmtpv230XlmkZI6LSD",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5ydROmtpv230XlmkZI6LSD"
+    }
   },
   {
     "auth_id": "auth0|712b8c2ee4938241867437a5",
@@ -598,7 +854,11 @@
     "last_name": "",
     "username": "matroda",
     "email": "matroda@faker-mail.dev",
-    "avatarS3Key": "matroda-avatar-seed.webp"
+    "avatarS3Key": "matroda-avatar-seed.webp",
+    "spotify_id": "45lcbTsX07JWzmTIjcdyBz",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/45lcbTsX07JWzmTIjcdyBz"
+    }
   },
   {
     "auth_id": "auth0|b8335feadb29f7bf4414373e",
@@ -607,7 +867,11 @@
     "last_name": "",
     "username": "meduza",
     "email": "meduza@faker-mail.dev",
-    "avatarS3Key": "meduza-avatar-seed.webp"
+    "avatarS3Key": "meduza-avatar-seed.webp",
+    "spotify_id": "0xRXCcSX89eobfrshSVdyu",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/0xRXCcSX89eobfrshSVdyu"
+    }
   },
   {
     "auth_id": "auth0|c88488c5ef6e46d38ffb2b5c",
@@ -616,7 +880,11 @@
     "last_name": "",
     "username": "mija",
     "email": "mija@faker-mail.dev",
-    "avatarS3Key": "mija-avatar-seed.jpg"
+    "avatarS3Key": "mija-avatar-seed.jpg",
+    "spotify_id": "1NpKmfDYMhw1KJIIUCsX4O",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1NpKmfDYMhw1KJIIUCsX4O"
+    }
   },
   {
     "auth_id": "auth0|869adff5f9b595f69d90304e",
@@ -625,7 +893,11 @@
     "last_name": "Williams",
     "username": "mike-williams",
     "email": "mike-williams@faker-mail.dev",
-    "avatarS3Key": "mike-williams-avatar-seed.webp"
+    "avatarS3Key": "mike-williams-avatar-seed.webp",
+    "spotify_id": "3IpvVrP3VLhruTmnququq7",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/3IpvVrP3VLhruTmnququq7"
+    }
   },
   {
     "auth_id": "auth0|a9ff33e5a3d355cbe6167b44",
@@ -634,7 +906,11 @@
     "last_name": "Monique",
     "username": "miss-monique",
     "email": "miss-monique@faker-mail.dev",
-    "avatarS3Key": "miss-monique-avatar-seed.webp"
+    "avatarS3Key": "miss-monique-avatar-seed.webp",
+    "spotify_id": "29TpNOsTNYbLb6Xa10H0PR",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/29TpNOsTNYbLb6Xa10H0PR"
+    }
   },
   {
     "auth_id": "auth0|7ba1d2dd9bc27a70b5205047",
@@ -643,7 +919,11 @@
     "last_name": "",
     "username": "mk",
     "email": "mk@faker-mail.dev",
-    "avatarS3Key": "mk-avatar-seed.webp"
+    "avatarS3Key": "mk-avatar-seed.webp",
+    "spotify_id": "1yqxFtPHKcGcv6SXZNdyT9",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1yqxFtPHKcGcv6SXZNdyT9"
+    }
   },
   {
     "auth_id": "auth0|abebd9def4bd698d3352d573",
@@ -652,7 +932,11 @@
     "last_name": "",
     "username": "moksi",
     "email": "moksi@faker-mail.dev",
-    "avatarS3Key": "moksi-avatar-seed.webp"
+    "avatarS3Key": "moksi-avatar-seed.webp",
+    "spotify_id": "5jm3x1qIibWdKSEMw2G011",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5jm3x1qIibWdKSEMw2G011"
+    }
   },
   {
     "auth_id": "auth0|6f5856047d62032401429cc5",
@@ -661,7 +945,11 @@
     "last_name": "Kismet",
     "username": "moore-kismet",
     "email": "moore-kismet@faker-mail.dev",
-    "avatarS3Key": "moore-kismet-avatar-seed.jpg"
+    "avatarS3Key": "moore-kismet-avatar-seed.jpg",
+    "spotify_id": "50uPj85gZxHFuFOlNBnnr5",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/50uPj85gZxHFuFOlNBnnr5"
+    }
   },
   {
     "auth_id": "auth0|1465eea54aa124978964d80c",
@@ -670,7 +958,8 @@
     "last_name": "",
     "username": "moxi",
     "email": "moxi@faker-mail.dev",
-    "avatarS3Key": "moxi-avatar-seed.webp"
+    "avatarS3Key": "moxi-avatar-seed.webp",
+    "spotify_id": null
   },
   {
     "auth_id": "auth0|0391a86888d12c1c9547701b",
@@ -679,7 +968,11 @@
     "last_name": "",
     "username": "musumeci",
     "email": "musumeci@faker-mail.dev",
-    "avatarS3Key": "musumeci-avatar-seed.webp"
+    "avatarS3Key": "musumeci-avatar-seed.webp",
+    "spotify_id": "5AezOTggHnFTiQ5AiowFBf",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5AezOTggHnFTiQ5AiowFBf"
+    }
   },
   {
     "auth_id": "auth0|d1940f20ecd6d0888d076ef9",
@@ -688,7 +981,11 @@
     "last_name": "Lou",
     "username": "natty-lou",
     "email": "natty-lou@faker-mail.dev",
-    "avatarS3Key": "natty-lou-avatar-seed.webp"
+    "avatarS3Key": "natty-lou-avatar-seed.webp",
+    "spotify_id": "01iBGqeIP82ClBsWKXEW1O",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/01iBGqeIP82ClBsWKXEW1O"
+    }
   },
   {
     "auth_id": "auth0|c3b130af537a36d57dd637a2",
@@ -697,7 +994,8 @@
     "last_name": "Nair",
     "username": "nikki-nair",
     "email": "nikki-nair@faker-mail.dev",
-    "avatarS3Key": "nikki-nair-avatar-seed.webp"
+    "avatarS3Key": "nikki-nair-avatar-seed.webp",
+    "spotify_id": null
   },
   {
     "auth_id": "auth0|0fa370c988dd691170874250",
@@ -706,7 +1004,11 @@
     "last_name": "",
     "username": "nuzb",
     "email": "nuzb@faker-mail.dev",
-    "avatarS3Key": "nuzb-avatar-seed.webp"
+    "avatarS3Key": "nuzb-avatar-seed.webp",
+    "spotify_id": "1whPdBCsbQv270FMoML1fa",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1whPdBCsbQv270FMoML1fa"
+    }
   },
   {
     "auth_id": "auth0|55ffe71e486a517156d1ebdf",
@@ -715,7 +1017,11 @@
     "last_name": "",
     "username": "odesza",
     "email": "odesza@faker-mail.dev",
-    "avatarS3Key": "odesza-avatar-seed.jpeg"
+    "avatarS3Key": "odesza-avatar-seed.jpeg",
+    "spotify_id": "21mKp7DqtSNHhCAU2ugvUw",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/21mKp7DqtSNHhCAU2ugvUw"
+    }
   },
   {
     "auth_id": "auth0|3d84244e3fc32d4d310f27ee",
@@ -724,7 +1030,9 @@
     "last_name": "3",
     "username": "peekaboo-3",
     "email": "peekaboo-3@faker-mail.dev",
-    "avatarS3Key": "peekaboo-3-avatar-seed.webp"
+    "avatarS3Key": "peekaboo-3-avatar-seed.webp",
+    "spotify_id": null,
+    "links": {}
   },
   {
     "auth_id": "auth0|a314b98ef30182fdb00a12b5",
@@ -733,7 +1041,9 @@
     "last_name": "",
     "username": "peekaboo-",
     "email": "peekaboo-@faker-mail.dev",
-    "avatarS3Key": "peekaboo--avatar-seed.webp"
+    "avatarS3Key": "peekaboo--avatar-seed.webp",
+    "spotify_id": null,
+    "links": {}
   },
   {
     "auth_id": "auth0|189fc663547b8c39aeef064e",
@@ -742,7 +1052,11 @@
     "last_name": "",
     "username": "peekaboo",
     "email": "peekaboo@faker-mail.dev",
-    "avatarS3Key": "peekaboo-avatar-seed.webp"
+    "avatarS3Key": "peekaboo-avatar-seed.webp",
+    "spotify_id": "4Ok1Cm5YX5StCQZgH0r2xF",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/4Ok1Cm5YX5StCQZgH0r2xF"
+    }
   },
   {
     "auth_id": "auth0|41e4e96f98aa8cd5c6d65e66",
@@ -751,7 +1065,11 @@
     "last_name": "Dogs",
     "username": "phlegmatic-dogs",
     "email": "phlegmatic-dogs@faker-mail.dev",
-    "avatarS3Key": "phlegmatic-dogs-avatar-seed.webp"
+    "avatarS3Key": "phlegmatic-dogs-avatar-seed.webp",
+    "spotify_id": "3g5Lhsq7cSJEK39BzKgIUe",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/3g5Lhsq7cSJEK39BzKgIUe"
+    }
   },
   {
     "auth_id": "auth0|dd58c35522044c17837abe74",
@@ -760,7 +1078,8 @@
     "last_name": "Disco Machine",
     "username": "purple-disco-machine",
     "email": "purple-disco-machine@faker-mail.dev",
-    "avatarS3Key": "purple-disco-machine-avatar-seed.jpg"
+    "avatarS3Key": "purple-disco-machine-avatar-seed.jpg",
+    "spotify_id": null
   },
   {
     "auth_id": "auth0|1934b0fbf88af3d46772726a",
@@ -769,7 +1088,11 @@
     "last_name": "",
     "username": "qlank",
     "email": "qlank@faker-mail.dev",
-    "avatarS3Key": "qlank-avatar-seed.jpg"
+    "avatarS3Key": "qlank-avatar-seed.jpg",
+    "spotify_id": "0oQ4s2gqzSvD7G1t97kO2y",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/0oQ4s2gqzSvD7G1t97kO2y"
+    }
   },
   {
     "auth_id": "auth0|46f329bfe65bcfc46965da6f",
@@ -778,7 +1101,11 @@
     "last_name": "Grime",
     "username": "rl-grime",
     "email": "rl-grime@faker-mail.dev",
-    "avatarS3Key": "rl-grime-avatar-seed.jpeg"
+    "avatarS3Key": "rl-grime-avatar-seed.jpeg",
+    "spotify_id": "5eIbEEQnDM8yuDVB0bimSP",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5eIbEEQnDM8yuDVB0bimSP"
+    }
   },
   {
     "auth_id": "auth0|c66db7632034b85fd36e89e4",
@@ -787,7 +1114,11 @@
     "last_name": "",
     "username": "saachi",
     "email": "saachi@faker-mail.dev",
-    "avatarS3Key": "saachi-avatar-seed.jpg"
+    "avatarS3Key": "saachi-avatar-seed.jpg",
+    "spotify_id": "4Gbsv1WfhPA5JxVdu1b4R7",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/4Gbsv1WfhPA5JxVdu1b4R7"
+    }
   },
   {
     "auth_id": "auth0|3142fa64e51e5bbc45852b9c",
@@ -796,7 +1127,11 @@
     "last_name": "Porter",
     "username": "sammy-porter",
     "email": "sammy-porter@faker-mail.dev",
-    "avatarS3Key": "sammy-porter-avatar-seed.webp"
+    "avatarS3Key": "sammy-porter-avatar-seed.webp",
+    "spotify_id": "2D51qkOmTNsNQj3C4LIvH7",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/2D51qkOmTNsNQj3C4LIvH7"
+    }
   },
   {
     "auth_id": "auth0|6ca6e53d3179310fd2ac3398",
@@ -805,7 +1140,11 @@
     "last_name": "Holo",
     "username": "san-holo",
     "email": "san-holo@faker-mail.dev",
-    "avatarS3Key": "san-holo-avatar-seed.webp"
+    "avatarS3Key": "san-holo-avatar-seed.webp",
+    "spotify_id": "0jNDKefhfSbLR9sFvcPLHo",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/0jNDKefhfSbLR9sFvcPLHo"
+    }
   },
   {
     "auth_id": "auth0|98c28634188a98bc4d45bc29",
@@ -814,7 +1153,11 @@
     "last_name": "Pacho",
     "username": "san-pacho",
     "email": "san-pacho@faker-mail.dev",
-    "avatarS3Key": "san-pacho-avatar-seed.jpg"
+    "avatarS3Key": "san-pacho-avatar-seed.jpg",
+    "spotify_id": "5jBerZvTAajwYvdxt3UhgU",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5jBerZvTAajwYvdxt3UhgU"
+    }
   },
   {
     "auth_id": "auth0|b95495289077e6db5da39e73",
@@ -823,7 +1166,11 @@
     "last_name": "",
     "username": "seleck",
     "email": "seleck@faker-mail.dev",
-    "avatarS3Key": "seleck-avatar-seed.webp"
+    "avatarS3Key": "seleck-avatar-seed.webp",
+    "spotify_id": "1vEBgIDF0B0IpJMbUvLJzY",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1vEBgIDF0B0IpJMbUvLJzY"
+    }
   },
   {
     "auth_id": "auth0|2c7c6da410002061a94b8476",
@@ -832,7 +1179,11 @@
     "last_name": "",
     "username": "shells",
     "email": "shells@faker-mail.dev",
-    "avatarS3Key": "shells-avatar-seed.webp"
+    "avatarS3Key": "shells-avatar-seed.webp",
+    "spotify_id": "1ZwuShKjJItDJez0aDCsxN",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1ZwuShKjJItDJez0aDCsxN"
+    }
   },
   {
     "auth_id": "auth0|ecb4d8838f990f95313f6956",
@@ -841,7 +1192,11 @@
     "last_name": "Wrek",
     "username": "ship-wrek",
     "email": "ship-wrek@faker-mail.dev",
-    "avatarS3Key": "ship-wrek-avatar-seed.webp"
+    "avatarS3Key": "ship-wrek-avatar-seed.webp",
+    "spotify_id": "1ic0FHNGIjXZAWH6O6Reif",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1ic0FHNGIjXZAWH6O6Reif"
+    }
   },
   {
     "auth_id": "auth0|f655b45e102d2e2566949281",
@@ -850,7 +1205,11 @@
     "last_name": "Magic",
     "username": "slow-magic",
     "email": "slow-magic@faker-mail.dev",
-    "avatarS3Key": "slow-magic-avatar-seed.webp"
+    "avatarS3Key": "slow-magic-avatar-seed.webp",
+    "spotify_id": "3htNAy3vYWWYV8RZFeyRMT",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/3htNAy3vYWWYV8RZFeyRMT"
+    }
   },
   {
     "auth_id": "auth0|e1d7d875bc06e0f15b04699c",
@@ -859,7 +1218,11 @@
     "last_name": "",
     "username": "smack",
     "email": "smack@faker-mail.dev",
-    "avatarS3Key": "smack-avatar-seed.webp"
+    "avatarS3Key": "smack-avatar-seed.webp",
+    "spotify_id": "5uJw4WCX5nYj4FHky9r1Ug",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/5uJw4WCX5nYj4FHky9r1Ug"
+    }
   },
   {
     "auth_id": "auth0|d1b6a62dcddff3b2cff254f7",
@@ -868,7 +1231,11 @@
     "last_name": "",
     "username": "snakehips",
     "email": "snakehips@faker-mail.dev",
-    "avatarS3Key": "snakehips-avatar-seed.webp"
+    "avatarS3Key": "snakehips-avatar-seed.webp",
+    "spotify_id": "2FwJwEswyIUAljqgjNSHgP",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/2FwJwEswyIUAljqgjNSHgP"
+    }
   },
   {
     "auth_id": "auth0|77d0aa7034e5183f3993fe7d",
@@ -877,7 +1244,8 @@
     "last_name": "Fodera",
     "username": "sonny-fodera",
     "email": "sonny-fodera@faker-mail.dev",
-    "avatarS3Key": "sonny-fodera-avatar-seed.jpg"
+    "avatarS3Key": "sonny-fodera-avatar-seed.jpg",
+    "spotify_id": null
   },
   {
     "auth_id": "auth0|8046d2483d60f24392c74914",
@@ -886,7 +1254,11 @@
     "last_name": "Motion",
     "username": "space-motion",
     "email": "space-motion@faker-mail.dev",
-    "avatarS3Key": "space-motion-avatar-seed.webp"
+    "avatarS3Key": "space-motion-avatar-seed.webp",
+    "spotify_id": "1k7iyyK6j5IJzF0cUMcaGY",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1k7iyyK6j5IJzF0cUMcaGY"
+    }
   },
   {
     "auth_id": "auth0|7440ec6b7eb15a568fe33ae1",
@@ -895,7 +1267,11 @@
     "last_name": "",
     "username": "subtronics",
     "email": "subtronics@faker-mail.dev",
-    "avatarS3Key": "subtronics-avatar-seed.webp"
+    "avatarS3Key": "subtronics-avatar-seed.webp",
+    "spotify_id": "3NJ94iuAmmMjbszODYT6pO",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/3NJ94iuAmmMjbszODYT6pO"
+    }
   },
   {
     "auth_id": "auth0|0c89f253089550e1c1396b8f",
@@ -904,7 +1280,11 @@
     "last_name": "",
     "username": "sully",
     "email": "sully@faker-mail.dev",
-    "avatarS3Key": "sully-avatar-seed.webp"
+    "avatarS3Key": "sully-avatar-seed.webp",
+    "spotify_id": "1bFUHThVEOIixkg7pKJ6VK",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1bFUHThVEOIixkg7pKJ6VK"
+    }
   },
   {
     "auth_id": "auth0|e18df22582c30f12c7ea2bc8",
@@ -913,7 +1293,8 @@
     "last_name": "Nulight",
     "username": "taiki-nulight",
     "email": "taiki-nulight@faker-mail.dev",
-    "avatarS3Key": "taiki-nulight-avatar-seed.webp"
+    "avatarS3Key": "taiki-nulight-avatar-seed.webp",
+    "spotify_id": null
   },
   {
     "auth_id": "auth0|791cacf48ae08339a1a41314",
@@ -922,7 +1303,11 @@
     "last_name": "",
     "username": "tchami",
     "email": "tchami@faker-mail.dev",
-    "avatarS3Key": "tchami-avatar-seed.webp"
+    "avatarS3Key": "tchami-avatar-seed.webp",
+    "spotify_id": "1KpCi9BOfviCVhmpI4G2sY",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/1KpCi9BOfviCVhmpI4G2sY"
+    }
   },
   {
     "auth_id": "auth0|6e06a5836a43b84932c92098",
@@ -931,7 +1316,8 @@
     "last_name": "Chainsmokers",
     "username": "the-chainsmokers",
     "email": "the-chainsmokers@faker-mail.dev",
-    "avatarS3Key": "the-chainsmokers-avatar-seed.webp"
+    "avatarS3Key": "the-chainsmokers-avatar-seed.webp",
+    "spotify_id": null
   },
   {
     "auth_id": "auth0|abc25280a7046f82326de3fe",
@@ -940,7 +1326,8 @@
     "last_name": "PDC",
     "username": "the-pdc",
     "email": "the-pdc@faker-mail.dev",
-    "avatarS3Key": "the-pdc-avatar-seed.webp"
+    "avatarS3Key": "the-pdc-avatar-seed.webp",
+    "spotify_id": null
   },
   {
     "auth_id": "auth0|2690c39004d50426f288dc62",
@@ -949,7 +1336,8 @@
     "last_name": "Son",
     "username": "third-son",
     "email": "third-son@faker-mail.dev",
-    "avatarS3Key": "third-son-avatar-seed.webp"
+    "avatarS3Key": "third-son-avatar-seed.webp",
+    "spotify_id": null
   },
   {
     "auth_id": "auth0|9cdea42bdf1ddd3d6d4f7fbb",
@@ -958,7 +1346,8 @@
     "last_name": "",
     "username": "tujamo",
     "email": "tujamo@faker-mail.dev",
-    "avatarS3Key": "tujamo-avatar-seed.webp"
+    "avatarS3Key": "tujamo-avatar-seed.webp",
+    "spotify_id": null
   },
   {
     "auth_id": "auth0|cf39674902dbb242c22928c0",
@@ -967,7 +1356,11 @@
     "last_name": "Motif",
     "username": "wax-motif",
     "email": "wax-motif@faker-mail.dev",
-    "avatarS3Key": "wax-motif-avatar-seed.webp"
+    "avatarS3Key": "wax-motif-avatar-seed.webp",
+    "spotify_id": "7zm3aSdmGiOkTt0aZFSO8R",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/7zm3aSdmGiOkTt0aZFSO8R"
+    }
   },
   {
     "auth_id": "auth0|69738c38cffb8725d7e846ab",
@@ -976,7 +1369,8 @@
     "last_name": "So Not",
     "username": "what-so-not",
     "email": "what-so-not@faker-mail.dev",
-    "avatarS3Key": "what-so-not-avatar-seed.webp"
+    "avatarS3Key": "what-so-not-avatar-seed.webp",
+    "spotify_id": null
   },
   {
     "auth_id": "auth0|cdbcae58e79417615933d9cb",
@@ -985,7 +1379,11 @@
     "last_name": "",
     "username": "wuki",
     "email": "wuki@faker-mail.dev",
-    "avatarS3Key": "wuki-avatar-seed.webp"
+    "avatarS3Key": "wuki-avatar-seed.webp",
+    "spotify_id": "6Se1y4vDcu9fVHLqdj1N3q",
+    "links": {
+      "spotify": "https://open.spotify.com/artist/6Se1y4vDcu9fVHLqdj1N3q"
+    }
   },
   {
     "auth_id": "auth0|e7f7e8b2cccb03decb01c0ba",
@@ -994,7 +1392,8 @@
     "last_name": "Dead",
     "username": "zeds-dead",
     "email": "zeds-dead@faker-mail.dev",
-    "avatarS3Key": "zeds-dead-avatar-seed.jpg"
+    "avatarS3Key": "zeds-dead-avatar-seed.jpg",
+    "spotify_id": null
   },
   {
     "auth_id": "auth0|a2a265fb021c287ead6d9a77",
@@ -1003,6 +1402,7 @@
     "last_name": "",
     "username": "zhu",
     "email": "zhu@faker-mail.dev",
-    "avatarS3Key": "zhu-avatar-seed.jpg"
+    "avatarS3Key": "zhu-avatar-seed.jpg",
+    "spotify_id": null
   }
 ]
