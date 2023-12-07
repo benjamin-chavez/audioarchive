@@ -1,5 +1,6 @@
 // apps/client/src/data/me.ts
-import 'server-only';
+// import 'server-only';
+'use server';
 
 import { getAccessToken } from '@auth0/nextjs-auth0';
 const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;

@@ -2,17 +2,23 @@
 
 'use client';
 
-import { ReactNode, useState } from 'react';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+// import { MeProvider } from '@/contexts/appUserContext';
+import { UserProvider } from '@auth0/nextjs-auth0/client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ReactNode, useState } from 'react';
 
-export default function Provider({ children }: { children: ReactNode }) {
+export default function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      {children}
+      <UserProvider>
+        {/* <MeProvider> */}
+        <ReactQueryDevtools initialIsOpen={false} />
+        {children}
+        {/* </MeProvider> */}
+      </UserProvider>
     </QueryClientProvider>
   );
 }

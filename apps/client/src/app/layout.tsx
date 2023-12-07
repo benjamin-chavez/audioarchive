@@ -2,16 +2,18 @@ import 'server-only';
 // import { loadEnvVariables } from '@/lib/clientEnv';
 
 import '@/styles/globals.css';
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+import Providers from '@/components/providers';
+// import { UserProvider } from '@auth0/nextjs-auth0/client';
 // import type Metadata from 'next';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { GeistSans, GeistMono } from 'geist/font';
 // import type { Metadata } from 'next/dist/lib/metadata/types/metadata-interface';
-import Container from '../components/container';
+
 import Navbar from '../components/navbar';
-import Provider from '@/components/providers';
-import Footer from '@/components/footer';
+
+// import Footer from '@/components/footer';
+// import Toast from '@/components/ui/toast';
 
 // import TanstackQueryProviders from '../lib/tanstack-query-utils/tanstackQueryProviders';
 // import '@radix-ui/themes/styles.css';
@@ -35,15 +37,12 @@ export default async function RootLayout({
       // className="dark"
     >
       <body className={inter.className}>
-        {/* <TanstackQueryProviders> */}
-        <UserProvider>
+        {/* <UserProvider> */}
+        <Providers>
           <Navbar />
-          {/* <Container> */}
-          <Provider>{children}</Provider>
-          {/* </Container> */}
-        </UserProvider>
 
-        {/* </TanstackQueryProviders> */}
+          {children}
+        </Providers>
       </body>
     </html>
   );

@@ -12,6 +12,8 @@ import {
   ShoppingCartIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
+// import Toast from './ui/toast';
+// import { useMe } from '@/contexts/appUserContext';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -71,12 +73,17 @@ export function ShoppingCart() {
 
 export default function Navbar() {
   const { user, isLoading } = useUser();
+  // const me = useMe();
 
   let authNavItem = navItems.anchorLinks.loginItem;
 
   if (!isLoading && user) {
     authNavItem = navItems.anchorLinks.logoutItem;
   }
+
+  // if (me) {
+  //   console.log(me);
+  // }
 
   return (
     <div className="z-50">
