@@ -1,126 +1,112 @@
 //  apps/server/src/database/seeds/creaet-product-seeds-from-spotify-api
 import { faker } from '@faker-js/faker';
 import fs from 'fs';
-import { nullable } from 'zod';
 
 const artists = [
+  // {
+  //   auth_id: 'auth0|6519fd529745d9c63c2975ae',
+  //   display_name: 'KEEFE',
+  //   first_name: 'Evan',
+  //   last_name: 'Keefe',
+  //   username: 'keefe',
+  //   email: 'keefe.music@keefe.com',
+  //   avatarS3Key: 'keefe-avatar-seed.webp',
+  //   spotify_id: '4hXPtXUp0fPQZ2xpq3v8oU',
+  //   links: {
+  //     spotify: 'https://open.spotify.com/artist/4hXPtXUp0fPQZ2xpq3v8oU',
+  //   },
+  // },
+  // {
+  //   auth_id: 'auth0|6519fe7fe51e9baa2514460d',
+  //   display_name: 'Safety or Numbers',
+  //   first_name: 'Nate',
+  //   last_name: 'Pawelczyk',
+  //   username: 'safety-or-numbers',
+  //   email: 'router.music@router.com',
+  //   spotify_id: '1QNgopvt8ILfNVIXGU8k6g',
+  //   links: {
+  //     spotify: 'https://open.spotify.com/artist/1QNgopvt8ILfNVIXGU8k6g',
+  //   },
+  // },
+  // {
+  //   auth_id: 'auth0|6519fe7fe51e9baa2514460d',
+  //   display_name: 'Nathaniel Pavel',
+  //   first_name: 'Nathaniel',
+  //   last_name: 'Pavel',
+  //   username: 'nathaniel_pavel',
+  //   email: 'router.music@router.com',
+  //   avatarS3Key: 'nathaniel_pavel-avatar-seed.jpg',
+  //   spotify_id: null,
+  //   links: {},
+  // },
+  // {
+  //   auth_id: 'auth0|15bc5778036ff1ddd3670124',
+  //   display_name: 'AC Slater',
+  //   first_name: 'AC',
+  //   last_name: 'Slater',
+  //   username: 'ac-slater',
+  //   email: 'ac-slater@faker-mail.dev',
+  //   avatarS3Key: 'ac-slater-avatar-seed.webp',
+  //   spotify_id: '6EqFMCnVGBRNmwPlk2f3Uc',
+  //   links: {
+  //     spotify: 'https://open.spotify.com/artist/6EqFMCnVGBRNmwPlk2f3Uc',
+  //   },
+  // },
   {
-    auth_id: 'auth0|6519fd529745d9c63c2975ae',
-    display_name: 'KEEFE',
-    first_name: 'Evan',
-    last_name: 'Keefe',
-    username: 'keefe',
-    email: 'keefe.music@keefe.com',
-    avatarS3Key: 'keefe-avatar-seed.webp',
-    spotify_id: '4hXPtXUp0fPQZ2xpq3v8oU',
-    links: {
-      spotify: 'https://open.spotify.com/artist/4hXPtXUp0fPQZ2xpq3v8oU',
-    },
-  },
-  {
-    auth_id: 'auth0|6519fe7fe51e9baa2514460d',
-    display_name: 'Safety or Numbers',
-    first_name: 'Nate',
-    last_name: 'Pawelczyk',
-    username: 'safety-or-numbers',
-    email: 'router.music@router.com',
-    spotify_id: '1QNgopvt8ILfNVIXGU8k6g',
-    links: {
-      spotify: 'https://open.spotify.com/artist/1QNgopvt8ILfNVIXGU8k6g',
-    },
-  },
-  {
-    auth_id: 'auth0|6519fe7fe51e9baa2514460d',
-    display_name: 'Nathaniel Pavel',
-    first_name: 'Nathaniel',
-    last_name: 'Pavel',
-    username: 'nathaniel_pavel',
-    email: 'router.music@router.com',
-    avatarS3Key: 'nathaniel_pavel-avatar-seed.jpg',
-    spotify_id: null,
-    links: {},
-  },
-  {
-    auth_id: 'auth0|15bc5778036ff1ddd3670124',
-    display_name: 'AC Slater',
-    first_name: 'AC',
-    last_name: 'Slater',
-    username: 'ac-slater',
-    email: 'ac-slater@faker-mail.dev',
-    avatarS3Key: 'ac-slater-avatar-seed.webp',
-    spotify_id: '6EqFMCnVGBRNmwPlk2f3Uc',
-    links: {
-      spotify: 'https://open.spotify.com/artist/6EqFMCnVGBRNmwPlk2f3Uc',
-    },
-  },
-  {
-    auth_id: 'auth0|d419ef8f8b97b027e13adefa',
-    display_name: 'Aluna',
-    first_name: 'Aluna',
+    auth_id: 'auth0|a96bed71d217ce41b9e0f1cd',
+    display_name: 'KREAM',
+    first_name: 'KREAM',
     last_name: '',
-    username: 'aluna',
-    email: 'aluna@faker-mail.dev',
-    avatarS3Key: 'aluna-avatar-seed.webp',
-    spotify_id: '5ITI6SEoUZMIXXkzCfr4oE',
+    username: 'kream',
+    email: 'kream@faker-mail.dev',
+    avatarS3Key: 'kream-avatar-seed.webp',
+    spotify_id: '0DdDnziut7wOo6cAYWVZC5',
     links: {
-      spotify: 'https://open.spotify.com/artist/5ITI6SEoUZMIXXkzCfr4oE',
+      spotify: 'https://open.spotify.com/artist/0DdDnziut7wOo6cAYWVZC5',
     },
   },
-  {
-    auth_id: 'auth0|926c18935acc534e5c0aaa22',
-    display_name: 'Bassjackers',
-    first_name: 'Bassjackers',
-    last_name: '',
-    username: 'bassjackers',
-    email: 'bassjackers@faker-mail.dev',
-    avatarS3Key: 'bassjackers-avatar-seed.webp',
-    spotify_id: '6xQvQwZQQuq9R3TdPNbcR8',
-    links: {
-      spotify: 'https://open.spotify.com/artist/6xQvQwZQQuq9R3TdPNbcR8',
-    },
-  },
-  {
-    auth_id: 'auth0|eaf3b0df387a1e36b7b407c4',
-    display_name: 'Ben Miller (Aus)',
-    first_name: 'Ben',
-    last_name: 'Miller (Aus)',
-    username: 'ben-miller-(aus)',
-    email: 'ben-miller-(aus)@faker-mail.dev',
-    avatarS3Key: 'ben-miller-(aus)-avatar-seed.webp',
-    spotify_id: null,
-    links: {},
-  },
-  {
-    auth_id: 'auth0|650caf196371a502e0233912',
-    display_name: 'Amin Chavez',
-    first_name: 'Amin',
-    last_name: 'Chavez',
-    username: 'amin-chavez',
-    email: 'aminchavez.music@gmail.com',
-    avatarS3Key: 'amin-chavez-avatar-seed.jpeg',
-    spotify_id: '1HBoMknv2KI9eI7tTnb6vZ',
-    links: {
-      spotify: 'https://open.spotify.com/artist/1HBoMknv2KI9eI7tTnb6vZ',
-    },
-  },
+  // {
+  //   auth_id: 'auth0|926c18935acc534e5c0aaa22',
+  //   display_name: 'Bassjackers',
+  //   first_name: 'Bassjackers',
+  //   last_name: '',
+  //   username: 'bassjackers',
+  //   email: 'bassjackers@faker-mail.dev',
+  //   avatarS3Key: 'bassjackers-avatar-seed.webp',
+  //   spotify_id: '6xQvQwZQQuq9R3TdPNbcR8',
+  //   links: {
+  //     spotify: 'https://open.spotify.com/artist/6xQvQwZQQuq9R3TdPNbcR8',
+  //   },
+  // },
+  // {
+  //   auth_id: 'auth0|eaf3b0df387a1e36b7b407c4',
+  //   display_name: 'Ben Miller (Aus)',
+  //   first_name: 'Ben',
+  //   last_name: 'Miller (Aus)',
+  //   username: 'ben-miller-(aus)',
+  //   email: 'ben-miller-(aus)@faker-mail.dev',
+  //   avatarS3Key: 'ben-miller-(aus)-avatar-seed.webp',
+  //   spotify_id: null,
+  //   links: {},
+  // },
+  // {
+  //   auth_id: 'auth0|650caf196371a502e0233912',
+  //   display_name: 'Amin Chavez',
+  //   first_name: 'Amin',
+  //   last_name: 'Chavez',
+  //   username: 'amin-chavez',
+  //   email: 'aminchavez.music@gmail.com',
+  //   avatarS3Key: 'amin-chavez-avatar-seed.jpeg',
+  //   spotify_id: '1HBoMknv2KI9eI7tTnb6vZ',
+  //   links: {
+  //     spotify: 'https://open.spotify.com/artist/1HBoMknv2KI9eI7tTnb6vZ',
+  //   },
+  // },
 ];
-
-// const artist = {
-//   auth_id: 'auth0|650caf196371a502e0233912',
-//   display_name: 'Amin Chavez',
-//   first_name: 'Amin',
-//   last_name: 'Chavez',
-//   username: 'amin-chavez',
-//   email: 'aminchavez.music@gmail.com',
-//   avatarS3Key: 'amin-chavez-avatar-seed.jpeg',
-//   spotify_id: '1HBoMknv2KI9eI7tTnb6vZ',
-//   links: {
-//     spotify: 'https://open.spotify.com/artist/1HBoMknv2KI9eI7tTnb6vZ',
-//   },
-// };
+// import artists from './data/app-user-seed-data-with-spotify.json';
 
 const SPOTIFY_TOKEN =
-  'BQBLVmDr72DVs4G7PuEhTGMA8AYlPPfWXgnWoiHfLiehCbD1Gw3e0_E0nsbqoctDDnVEoNOI-hjLqP7XS1D7qGgs1BhDrCMARipm-spetzTTE0-pvDc';
+  'BQDRATHHbwsFs8AkVBGSiXFGo1wXkvrdmPtAj1CDqLad8wIKV5cwU55tUiLetludg2lVXKcw_3oQ-mjkuo3l5y2DMO0kjJHpWnDDlPiHz6z3u35m37M';
 
 // curl --request GET \
 // --url 'https://api.spotify.com/v1/audio-features/6uoVKMfX6e1NcwZbzT584Y' \
@@ -187,7 +173,6 @@ const getTrackAudioFeatures = async (tracks: Object[]) => {
     tracks.map(async (track) => {
       // @ts-ignore
       const trackId = track.id;
-      // console.log(trackId);
 
       const res = await fetch(
         `https://api.spotify.com/v1/audio-features/${trackId}`,
@@ -199,18 +184,12 @@ const getTrackAudioFeatures = async (tracks: Object[]) => {
         }
       );
 
-      // const audioFeat = await res.json();
+      const data = await res.json();
+      console.log('DATA: ', data);
       // @ts-ignore
-      const { key, tempo } = await res.json();
-      // console.log('audioFeat', JSON.stringify(audioFeat, null, 2));
+      const tempo = data.tempo;
       // @ts-ignore
-      // console.log(audioFeat.key, audioFeat.tempo);
-
-      // @ts-ignore
-      // const key = musicalKeys[key];
-
-      // // console.log(JSON.stringify(audioFeat, null, 2));
-      // // console.log(tempo, musicalKeys[key]);
+      const key = data.key;
 
       const keyTypes = ['Major', 'Minor'];
       const updatedKey = `${musicalKeys[key]} ${
@@ -218,16 +197,13 @@ const getTrackAudioFeatures = async (tracks: Object[]) => {
       }`;
       const updatedTempo = (Math.round(tempo * 100) / 100).toFixed(2);
 
-      // console.log(track);
       const updatedTrack = {
         ...track,
         key: updatedKey,
         bpm: updatedTempo,
       };
-      // console.log(updatedTrack);
+
       return updatedTrack;
-      // return audioFeatures;
-      // return audioFeat;
     })
   );
 
@@ -259,7 +235,10 @@ const getArtistGenres = async (artist) => {
 
 const assignGenresToTracks = async (tracks: Object[], artist) => {
   const genres = await getArtistGenres(artist);
-  const cnt = genres.length;
+  if (!genres) {
+    return tracks;
+  }
+  const cnt = genres?.length;
 
   if (!cnt) {
     return tracks;
@@ -322,7 +301,7 @@ const formatTrackObject = (tracks: Object[]) => {
       imgS3Key: 'undefined',
       digitalFileS3Key: 'undefined',
       //
-      id: track.id,
+      spotifyId: track.id,
       imageUrl: track.imageUrl,
       artistId: track.artist,
     };
@@ -334,26 +313,31 @@ const formatTrackObject = (tracks: Object[]) => {
   const output = [];
 
   for (const artist of artists) {
-    // console.log(artist);
+    console.log('output', output.length);
     let tracks: Object[];
     tracks = await getTracksByArtist(artist);
+
     if (!tracks) {
       continue;
     }
+    console.log('after getTracksByArtist', tracks.length);
     tracks = await getTrackAudioFeatures(tracks);
-
+    console.log('after getTrackAudioFeatures(tracks)', tracks.length);
     tracks = await assignGenresToTracks(tracks, artist);
+    console.log('after assignGenresToTracks(tracks, artist)', tracks.length);
     tracks = assignSoftwareToTracks(tracks);
+    console.log('after assignSoftwareToTracks(tracks)', tracks.length);
     tracks = assignRandomPrice(tracks);
+    console.log('after assignRandomPrice(tracks)', tracks.length);
     tracks = formatTrackObject(tracks);
+    console.log('after formatTrackObject(tracks)', tracks.length);
     // console.log(tracks);
 
-    // const updatedData = await getSpotifyArtistIds();
-    // console.log(updatedData);
     output.push(tracks);
   }
+
   const jsonData = JSON.stringify(output, null, 2);
-  console.log(output);
+  // console.log(output);
 
   const filename =
     './apps/server/src/database/seeds/data/product-seed-data-with-spotify-data.json';

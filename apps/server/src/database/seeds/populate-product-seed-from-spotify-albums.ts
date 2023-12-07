@@ -102,7 +102,7 @@
 
 /////////////////////////////////
 import fs from 'fs';
-import artists from './app-user-seed-data.json';
+import artists from './data/app-user-seed-data.json';
 
 const spotifyToken = '';
 
