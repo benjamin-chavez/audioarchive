@@ -34,6 +34,7 @@
     "@aws-sdk/client-ssm": "^3.454.0",
     "@aws-sdk/s3-request-presigner": "^3.427.0",
     "@shared": "workspace:*",
+    "@spotify/web-api-ts-sdk": "^1.1.2",
     "amqplib": "^0.10.3",
     "aws-sdk": "^2.1502.0",
     "axios": "^1.6.2",
@@ -95,7 +96,6 @@
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
     "tsconfig": "workspace:*",
-    "typescript": "^5.2.2",
-    "unsplash-js": "^7.0.18"
+    "typescript": "^5.2.2"
   }
 }
