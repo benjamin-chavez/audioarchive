@@ -31,19 +31,22 @@ function AppUserCard({ appUser }: { appUser: AppUser }) {
             {/* <Image fill src={} alt={''} /> */}
           </Link>
         </div>
-        <div className="flex flex-1 flex-col space-y-2 p-4 bg-white">
+        <div className="flex flex-1 flex-col space-y-2 p-4 bg-white dark:bg-[#181A1B]">
           <h3 className="text-sm font-medium text-gray-900 "></h3>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-[#9E9589]">
             {appUser.firstName} | {appUser.lastName}
           </p>
-          <p className="text-sm text-gray-500 ">
+          <p className="text-sm text-gray-500 dark:text-[#9E9589]">
             Producer:{' '}
-            <Link href={`/${appUser.username}`} className="hover:text-blue-500">
+            <Link
+              href={`/${appUser.username}`}
+              className="hover:text-blue-500 "
+            >
               {appUser.username}
             </Link>
           </p>
           <div className="flex flex-1 flex-col justify-end">
-            <p className="text-base font-medium text-gray-900">
+            <p className="text-base font-medium text-gray-900 dark:text-[#D6D3CD] ">
               {appUser.username}
             </p>
           </div>

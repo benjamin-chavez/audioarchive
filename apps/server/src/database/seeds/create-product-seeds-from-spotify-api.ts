@@ -106,7 +106,7 @@ const artists = [
 // import artists from './data/app-user-seed-data-with-spotify.json';
 
 const SPOTIFY_TOKEN =
-  'BQDRATHHbwsFs8AkVBGSiXFGo1wXkvrdmPtAj1CDqLad8wIKV5cwU55tUiLetludg2lVXKcw_3oQ-mjkuo3l5y2DMO0kjJHpWnDDlPiHz6z3u35m37M';
+  'BQAIMrCK9_6dMOO2ZHUn5gj1rd0jVJHEZB101N3rKpqZ0xmXQkEcZlqcI9DKGx9rpkIdtpjQSvNIDyscY7po24KTRCK4kcQgzPRrhqvMDTbgLHggEYA';
 
 // curl --request GET \
 // --url 'https://api.spotify.com/v1/audio-features/6uoVKMfX6e1NcwZbzT584Y' \
@@ -183,7 +183,7 @@ const getTrackAudioFeatures = async (tracks: Object[]) => {
           },
         }
       );
-
+      // setTimeout(() => {}, 1000);
       const data = await res.json();
       console.log('DATA: ', data);
       // @ts-ignore

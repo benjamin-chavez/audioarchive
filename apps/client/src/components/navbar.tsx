@@ -1,8 +1,10 @@
 // frontend/app/components/navbar.tsx
 'use client';
 
+import { Fragment } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
+import { Menu, Transition } from '@headlessui/react';
 import {
   // Bars3Icon,
   // MagnifyingGlassIcon,
@@ -11,6 +13,10 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ');
+}
+
 export type NavItem = {
   name: string;
 };
@@ -18,24 +24,12 @@ export type NavItem = {
 const navItems = {
   nextLinks: [
     {
-      name: 'Home',
-      href: '/',
-    },
-    {
       name: 'Products',
       href: '/products',
     },
     {
       name: 'Users',
       href: '/search',
-    },
-    {
-      name: 'Dashboard',
-      href: `/dashboard`,
-    },
-    {
-      name: 'Admin',
-      href: `/a`,
     },
     {
       name: <ShoppingCart />,
@@ -52,28 +46,24 @@ const navItems = {
       href: '/api/auth/logout',
     },
   },
+  appUserNavigation: [
+    { name: 'Your Profile', href: '#' },
+    { name: 'Dashboard', href: '/dashboard' },
+    { name: 'Settings', href: '/dashboard/settings' },
+    { name: 'Admin', href: '/a' },
+    { name: 'Logout', href: '/api/auth/logout' },
+  ],
 };
 
 export function ShoppingCart() {
   return (
     <>
-      <div
-        // className="ml-4 flow-root lg:ml-8"
-        // className="flow-root"
-        className="group flex items-center h-full"
-      >
-        {/* <a
-          href="#"
-          // className="group -m-2 flex items-center p-2"
-          className="group -m-2 flex items-center p-2"
-        > */}
+      <div className="group flex items-center h-full">
         <ShoppingCartIcon
           className="h-5 w-5 flex-shrink-0"
           aria-hidden="true"
         />
-        {/* <span className="ml-2 text-sm font-medium">0</span> */}
         <span className="sr-only">items in cart, view bag</span>
-        {/* </a> */}
       </div>
     </>
   );
@@ -89,7 +79,7 @@ export default function Navbar() {
   }
 
   return (
-    <div>
+    <div className="z-50">
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link href="/" className="flex items-center">
@@ -99,7 +89,7 @@ export default function Navbar() {
             </span>
           </Link>
 
-          <div className="flex">
+          <div className="flex ">
             <div className=" w-full md:block md:w-auto" id="navbar-default">
               <div className="flex gap-8">
                 {navItems.nextLinks.map((item) => {
@@ -121,6 +111,49 @@ export default function Navbar() {
                 >
                   {authNavItem.name}
                 </a>
+
+                <Menu as="div" className="relative ">
+                  <div>
+                    <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                      <span className="absolute -inset-1.5" />
+                      <span className="sr-only">Open user menu</span>
+
+                      <img
+                        className="h-8 w-8 rounded-full"
+                        // src={appUser.avatarS3Url}
+                        src={'/amin-chavez-avatar-seed.jpeg'}
+                        alt=""
+                      />
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-200"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      {navItems.appUserNavigation.map((item) => (
+                        <Menu.Item key={item.name}>
+                          {({ active }) => (
+                            <a
+                              href={item.href}
+                              className={classNames(
+                                active ? 'bg-gray-100' : '',
+                                'block px-4 py-2 text-sm text-gray-700',
+                              )}
+                            >
+                              {item.name}
+                            </a>
+                          )}
+                        </Menu.Item>
+                      ))}
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
               </div>
             </div>
           </div>

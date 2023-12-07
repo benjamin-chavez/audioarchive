@@ -45,8 +45,8 @@ const consumer = new ConsumerService(queueUrl);
 
 // startConsumer().catch((err) => console.error('Consumer error:', err));
 
-consumer.startPolling(
-  generalEventHandler.handleEvent.bind(generalEventHandler)
-);
+// consumer.startPolling(
+//   generalEventHandler.handleEvent.bind(generalEventHandler)
+// );
 
 startServer();
