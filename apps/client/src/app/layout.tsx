@@ -11,6 +11,7 @@ import { GeistSans, GeistMono } from 'geist/font';
 // import type { Metadata } from 'next/dist/lib/metadata/types/metadata-interface';
 
 import Navbar from '../components/navbar';
+import Footer from '@/components/footer';
 
 // import Footer from '@/components/footer';
 // import Toast from '@/components/ui/toast';
@@ -43,6 +44,7 @@ export default async function RootLayout({
 
           {children}
         </Providers>
+        <Footer />
       </body>
     </html>
   );
