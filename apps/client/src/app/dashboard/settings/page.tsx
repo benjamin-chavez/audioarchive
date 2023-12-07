@@ -18,7 +18,7 @@ export default async function MySettingsPage() {
 
   return (
     <div>
-      <h1>My Settings Page</h1>
+      {/* <h1>My Settings Page</h1> */}
       <SettingsForm appUser={appUser} revalidateAppUser={revalidateAppUser} />
     </div>
   );

@@ -121,7 +121,8 @@ export default function Navbar() {
                       <img
                         className="h-8 w-8 rounded-full"
                         // src={appUser.avatarS3Url}
-                        src={'/amin-chavez-avatar-seed.jpeg'}
+                        // src={'/amin-chavez-avatar-seed.jpeg'}
+                        src={user?.picture}
                         alt=""
                       />
                     </Menu.Button>

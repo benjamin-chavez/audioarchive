@@ -1,6 +1,7 @@
 // frontend/src/app/project-files/page.tsx
 import 'server-only';
 import ProductsGrid from '../../components/products-grid';
+import Container from '@/components/container';
 
 async function getProducts() {
   const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
@@ -20,9 +21,9 @@ export default async function ProductsPage() {
   const products = res.data;
 
   return (
-    <div>
+    <Container>
       <ProductsGrid products={products} />
-    </div>
+    </Container>
   );
 }
 

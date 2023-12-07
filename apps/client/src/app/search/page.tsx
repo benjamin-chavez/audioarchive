@@ -4,6 +4,7 @@ import 'server-only';
 
 import { AppUser } from '@shared/src';
 import Link from 'next/link';
+import Container from '@/components/container';
 
 async function getAppUsers() {
   const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
@@ -59,17 +60,17 @@ function AppUserCard({ appUser }: { appUser: AppUser }) {
 function AppUsersGrid({ appUsers }: { appUsers: AppUser[] }) {
   if (appUsers) {
     return (
-      <div className="pt-20">
+      <Container>
         <div className="grid grid-cols-1 gap-y-4 lg:grid-cols-3 sm:gap-x-3 sm:gap-y-10 xl:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 place-items-center">
           {appUsers.map((appUser: AppUser) => {
             return (
-              <>
+              <div>
                 <AppUserCard key={appUser.id.toString()} appUser={appUser} />
-              </>
+              </div>
             );
           })}
         </div>
-      </div>
+      </Container>
     );
   }
 }

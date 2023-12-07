@@ -10,6 +10,8 @@ import { GeistSans, GeistMono } from 'geist/font';
 // import type { Metadata } from 'next/dist/lib/metadata/types/metadata-interface';
 import Container from '../components/container';
 import Navbar from '../components/navbar';
+import Provider from '@/components/providers';
+import Footer from '@/components/footer';
 
 // import TanstackQueryProviders from '../lib/tanstack-query-utils/tanstackQueryProviders';
 // import '@radix-ui/themes/styles.css';
@@ -37,7 +39,7 @@ export default async function RootLayout({
         <UserProvider>
           <Navbar />
           {/* <Container> */}
-          {children}
+          <Provider>{children}</Provider>
           {/* </Container> */}
         </UserProvider>
 
