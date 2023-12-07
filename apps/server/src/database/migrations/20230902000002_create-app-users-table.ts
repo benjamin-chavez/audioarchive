@@ -14,6 +14,8 @@ exports.up = function (knex: Knex): Promise<void> {
     // t.string('avatar').defaultTo('default-avatar-seed.jpg');
     t.string('avatar_s3_key', 512).defaultTo('default-avatar-seed.webp');
     t.string('avatar_s3_url', 512);
+    t.string('spotify_id');
+    t.string('spotify_url');
     // t.timestamp('created_at').defaultTo(knex.fn.now());
     // t.timestamp('updated_at').defaultTo(knex.fn.now());
     t.timestamps(true, true);

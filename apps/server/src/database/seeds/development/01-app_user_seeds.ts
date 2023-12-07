@@ -1,6 +1,7 @@
 import { Knex } from 'knex';
 // import seedData from 'app-user-seed-data.json';
-import seedData from '../app-user-seed-data.json';
+// import seedData from '../data/app-user-seed-data.json';
+import seedData from '../data/app-user-seed-data-with-spotify.json';
 
 const TABLE_NAME = 'app_users';
 
