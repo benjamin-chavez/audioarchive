@@ -120,7 +120,7 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - convert the `/api/app-users/register` route to a webhook route. Something like `/api/webhooks/auth0/register`.
 
  - Cart:
-    - Set up logic to store cart in local storage if not logged in
+    - Set up logic to store cart in local storage/context if not logged in
     - Fix formatting
         - order toal `$NAN`
         - all numbers should only have two decimal places. Currently showing this: `$899.7000000000002`
@@ -196,8 +196,6 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
         - https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-util-retry/
     - Add deadletter queue
     - Add ROBUST TESTING
-
-
 
   - Misc...
       - Look at Wappalyzer on https://edm.com/

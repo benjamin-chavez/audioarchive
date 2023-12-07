@@ -3,10 +3,9 @@ import { Knex } from 'knex';
 const TABLE_NAME = 'products';
 
 exports.up = async function (knex: Knex): Promise<void> {
-  // await knex.schema.raw(
-  //   "CREATE TYPE productStatusType AS ENUM ('draft', 'published', 'archived')"
-  // );
-  // await createOnUpdateTimestampFunction(knex);
+  await knex.schema.raw(
+    "CREATE TYPE productStatusType AS ENUM ('draft', 'published', 'archived')"
+  );
 
   return knex.schema.createTable(TABLE_NAME, (t) => {
     // Primary Key
@@ -36,9 +35,9 @@ exports.up = async function (knex: Knex): Promise<void> {
       .checkBetween([[20, 999]]);
     t.decimal('price').checkPositive().unsigned().notNullable(); // <= // [precision, scale]
 
-    // t.specificType('status', 'productStatusType')
-    //   .notNullable()
-    //   .defaultTo('draft');
+    t.specificType('status', 'productStatusType')
+      .notNullable()
+      .defaultTo('draft');
 
     t.string('imgS3Key', 512).defaultTo('default-album-artwork-seed.webp');
     t.string('imgS3Url', 512);
@@ -56,13 +55,9 @@ exports.up = async function (knex: Knex): Promise<void> {
     t.string('stripeProductId');
 
     t.timestamps(true, true);
-    // t.timestamp('created_at').defaultTo(knex.fn.now());
-    // t.timestamp('updated_at').defaultTo(knex.fn.now());
 
     // Composite Unique Constraint
     t.unique(['appUserId', 'name']);
-
-    // t.index('stripeProductId');
   });
 };
 

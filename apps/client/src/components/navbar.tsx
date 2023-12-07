@@ -1,7 +1,7 @@
 // frontend/app/components/navbar.tsx
 'use client';
 
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
 import { Menu, Transition } from '@headlessui/react';
@@ -14,6 +14,7 @@ import {
 } from '@heroicons/react/24/outline';
 // import Toast from './ui/toast';
 // import { useMe } from '@/contexts/appUserContext';
+import { getMe } from '@/lib/data/me';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -71,9 +72,21 @@ export function ShoppingCart() {
   );
 }
 
+const handleGetMe = async (setMe: any) => {
+  const me = await getMe();
+  // console.log(me);
+
+  setMe(me);
+  return me;
+};
+
 export default function Navbar() {
+  const [me, setMe] = useState(null);
   const { user, isLoading } = useUser();
-  // const me = useMe();
+
+  useEffect(() => {
+    setMe(handleGetMe(setMe));
+  }, []);
 
   let authNavItem = navItems.anchorLinks.loginItem;
 
@@ -81,9 +94,9 @@ export default function Navbar() {
     authNavItem = navItems.anchorLinks.logoutItem;
   }
 
-  // if (me) {
-  //   console.log(me);
-  // }
+  if (me) {
+    console.log(me);
+  }
 
   return (
     <div className="z-50">
@@ -129,7 +142,8 @@ export default function Navbar() {
                         className="h-8 w-8 rounded-full"
                         // src={appUser.avatarS3Url}
                         // src={'/amin-chavez-avatar-seed.jpeg'}
-                        src={user?.picture}
+                        // src={user?.picture}
+                        src={me?.data?.avatarS3Url}
                         alt=""
                       />
                     </Menu.Button>

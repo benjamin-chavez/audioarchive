@@ -85,7 +85,6 @@ export async function getMe() {
   // const test = await res.json();
 
   return res.json();
-  // return test;
 }
 
 export async function getMyCart() {

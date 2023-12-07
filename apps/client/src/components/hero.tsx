@@ -1,5 +1,7 @@
 // apps/client/src/components/hero.tsx
 
+import Link from 'next/link';
+
 export function Hero() {
   return (
     <div className="">
@@ -33,12 +35,12 @@ export function Hero() {
             options from our summer small-batch release while they're still in
             stock.
           </p>
-          <a
-            href="#"
+          <Link
+            href="/products"
             className="mt-8 inline-block rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-gray-900 hover:bg-gray-100"
           >
             Shop New Arrivals
-          </a>
+          </Link>
         </div>
       </div>
     </div>
