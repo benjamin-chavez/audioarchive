@@ -63,6 +63,7 @@ genre_id: 'Breaks / Breakbeat / UK Bass';
 //       appUserId: 3,
 //       accountId: 2,
 //       name: 'Friction',
+
 // genre_id: 'Techno (Raw / Deep / Hypnotic)',
 // genre_id: 'Techno',
 //       daw: 'Ableton',
@@ -80,7 +81,8 @@ genre_id: 'Breaks / Breakbeat / UK Bass';
 //       appUserId: 3,
 //       accountId: 2,
 //       name: 'Let Me - KEEFE Roller Mix',
-// genre_id: 'House',
+
+// genre_id:
 //       daw: 'Ableton',
 //       bpm: 135,
 //       key: 'F Major',
@@ -96,7 +98,8 @@ genre_id: 'Breaks / Breakbeat / UK Bass';
 //       appUserId: 4,
 //       accountId: 3,
 //       name: 'Translation',
-// genre_id: 'Deep House',
+// genre_id:
+
 //       daw: 'Ableton',
 //       bpm: 117,
 //       key: 'F Major',
@@ -112,7 +115,9 @@ genre_id: 'Breaks / Breakbeat / UK Bass';
 //       appUserId: 4,
 //       accountId: 3,
 //       name: 'Division',
+
 // genre_id: 'Deep House',
+
 //       daw: 'Ableton',
 //       bpm: 120,
 //       key: 'F Major',
@@ -139,7 +144,6 @@ genre_id: 'Breaks / Breakbeat / UK Bass';
 //     await knex(TABLE_NAME).insert({ ...seed });
 //   }
 // }
-
 import { Knex } from 'knex';
 // import StripeService from '../../../services/stripe.service';
 
@@ -157,6 +161,7 @@ export async function seed(knex: Knex): Promise<void> {
       accountId: 1,
       name: 'The Look',
       genre_id: 1,
+      genre_name: 'Bass House',
       daw: 'Ableton',
       bpm: 126,
       key: '',
@@ -173,6 +178,7 @@ export async function seed(knex: Knex): Promise<void> {
       accountId: 1,
       name: 'Booty',
       genre_id: 1,
+      genre_name: 'Bass House',
       daw: 'Ableton',
       bpm: 127,
       key: '',
@@ -189,7 +195,9 @@ export async function seed(knex: Knex): Promise<void> {
       accountId: 2,
       name: 'Dred 84',
       // genre_id: 'Breaks / Breakbeat / UK Bass'
+      // genre_id: 'Breaks / Breakbeat /nameUK Bass'
       genre_id: 3,
+      genre_name: 'Breaks',
       daw: 'Ableton',
       bpm: 99,
       key: 'F Minor',
@@ -205,8 +213,9 @@ export async function seed(knex: Knex): Promise<void> {
       appUserId: 3,
       accountId: 2,
       name: 'Friction',
-      // genre_id: 'Techno (Raw / Deep / Hypnotic)',
       genre_id: 9,
+      // genre_name: 'Techno (Raw / Deep / Hypnotic)',
+      genre_name: 'Techno',
       daw: 'Ableton',
       bpm: 145,
       key: 'F Major',
@@ -223,6 +232,7 @@ export async function seed(knex: Knex): Promise<void> {
       accountId: 2,
       name: 'Let Me - KEEFE Roller Mix',
       genre_id: 7,
+      genre_name: 'House',
       daw: 'Ableton',
       bpm: 135,
       key: 'F Major',
@@ -239,6 +249,7 @@ export async function seed(knex: Knex): Promise<void> {
       accountId: 3,
       name: 'Translation',
       genre_id: 4,
+      genre_name: 'Deep House',
       daw: 'Ableton',
       bpm: 117,
       key: 'F Major',
@@ -255,6 +266,7 @@ export async function seed(knex: Knex): Promise<void> {
       accountId: 3,
       name: 'Division',
       genre_id: 4,
+      genre_name: 'Deep House',
       daw: 'Ableton',
       bpm: 120,
       key: 'F Major',

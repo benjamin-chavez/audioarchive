@@ -59,7 +59,7 @@ class CartModel {
           'stripe_product_id', products.stripe_product_id,
           'stripe_account_id', accounts.stripe_account_id,
           'name', products.name,
-          'genre', products.genre,
+          'genre_name', products.genre_name,
           'daw', products.daw,
           'bpm', products.bpm,
           'price', products.price,

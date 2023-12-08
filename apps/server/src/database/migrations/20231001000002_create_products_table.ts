@@ -39,10 +39,10 @@ exports.up = async function (knex: Knex): Promise<void> {
       .inTable('genre')
       .onDelete('SET NULL');
 
-    // t.string('genre_name')
-    //   .references('name')
-    //   .inTable('genre')
-    //   .onDelete('SET NULL');
+    t.string('genre_name')
+      .references('name')
+      .inTable('genre')
+      .onDelete('SET NULL');
 
     // Essential Columns
     t.string('name').notNullable();
