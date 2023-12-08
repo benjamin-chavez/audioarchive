@@ -72,7 +72,7 @@ export function ShadcnTable({ products }: { products: Product[] }) {
                         <TableHead className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">
                           Name
                         </TableHead>
-                        <TableHead>Software</TableHead>
+                        <TableHead>DAW</TableHead>
                         <TableHead>Genre</TableHead>
                         <TableHead>Price</TableHead>
                       </TableRow>
@@ -88,7 +88,7 @@ export function ShadcnTable({ products }: { products: Product[] }) {
                             >
                               {product.name}
                             </TableCell>
-                            <TableCell>{product.software}</TableCell>
+                            <TableCell>{product.daw}</TableCell>
                             <TableCell>{product.genre}</TableCell>
                             <TableCell>{product.price}</TableCell>
                             <TableCell className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
@@ -141,7 +141,7 @@ function TwTable({ products }: { products: Product[] }) {
                           scope="col"
                           className="px-3 py-3.5 text-left text-sm font-semibold text-white"
                         >
-                          Software
+                          DAW
                         </th>
                         <th
                           scope="col"
@@ -170,7 +170,7 @@ function TwTable({ products }: { products: Product[] }) {
                             {product.name}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
-                            {product.software}
+                            {product.daw}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
                             {product.genre}

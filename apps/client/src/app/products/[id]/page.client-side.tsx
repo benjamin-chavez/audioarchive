@@ -94,7 +94,7 @@ export default function Example2({
                   </Link>
                 </p>
                 <p className="mt-2 text-sm text-gray-500">
-                  {product.software} | {product.genre}
+                  {product.daw} | {product.genre}
                 </p>
               </div>
 

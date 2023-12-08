@@ -23,12 +23,31 @@ exports.up = async function (knex: Knex): Promise<void> {
       .references('id')
       .inTable('accounts')
       .notNullable()
-      .onDelete('CASCADE');
+      .onDelete('RESTRICT');
+
+    // Foreign Key
+    // t.integer('genreName')
+    //   .unsigned()
+    //   .references('name')
+    //   .inTable('genre')
+    //   .notNullable()
+    //   .onDelete('CASCADE');
+
+    t.integer('genre_id')
+      .unsigned()
+      .references('id')
+      .inTable('genre')
+      .onDelete('SET NULL');
+
+    // t.string('genre_name')
+    //   .references('name')
+    //   .inTable('genre')
+    //   .onDelete('SET NULL');
 
     // Essential Columns
     t.string('name').notNullable();
-    t.specificType('genre', 'genre').notNullable();
-    t.specificType('software', 'software').notNullable();
+    // t.specificType('genre', 'genre').notNullable();
+    t.string('daw').notNullable();
     t.integer('bpm')
       .unsigned()
       .notNullable()

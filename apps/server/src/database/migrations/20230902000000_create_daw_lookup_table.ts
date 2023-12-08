@@ -1,4 +1,4 @@
-// apps/server/src/database/migrations/20230902000000_create_software_enum_type.ts
+//
 
 import { Knex } from 'knex';
 

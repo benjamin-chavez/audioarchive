@@ -311,14 +311,14 @@ const assignGenresToTracks = async (tracks: Object[], artist) => {
   return updatedTracks;
 };
 
-const assignSoftwareToTracks = (tracks: Object[]) => {
+const assignDawToTracks = (tracks: Object[]) => {
   const daws = ['Ableton', 'FL_Studio', 'Logic', 'Bitwig'];
 
   const updatedTracks = tracks.map((track) => {
     const daw = daws[Math.floor(Math.random() * daws.length)];
     return {
       ...track,
-      software: daw,
+      daw: daw,
     };
   });
 
@@ -347,7 +347,7 @@ const formatTrackObject = (tracks: Object[]) => {
       accountId: 'undefined',
       name: track.name,
       genre: track.genre,
-      software: track.software,
+      daw: track.daw,
       bpm: track.bpm,
       key: track.key,
       label: 'undefined',
@@ -380,8 +380,8 @@ const formatTrackObject = (tracks: Object[]) => {
 //     // console.log('after getTrackAudioFeatures(tracks)', tracks.length);
 //     // tracks = await assignGenresToTracks(tracks, artist);
 //     // console.log('after assignGenresToTracks(tracks, artist)', tracks.length);
-//     // tracks = assignSoftwareToTracks(tracks);
-//     // console.log('after assignSoftwareToTracks(tracks)', tracks.length);
+//     // tracks = assignDawToTracks(tracks);
+//     // console.log('after assignDawToTracks(tracks)', tracks.length);
 //     // tracks = assignRandomPrice(tracks);
 //     // console.log('after assignRandomPrice(tracks)', tracks.length);
 //     // tracks = formatTrackObject(tracks);

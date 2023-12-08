@@ -136,7 +136,7 @@ function CartItem({
                 </h3>
               </div>
               <div className="mt-1 flex text-sm">
-                <p className="text-gray-500">{product.software}</p>
+                <p className="text-gray-500">{product.daw}</p>
                 {/* {product.bpm ? (
                   <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">
                     {product.bpm} bpm
@@ -200,7 +200,11 @@ function CartItem({
 export default async function CartPage() {
   const res = await getMyCart();
 
-  console.log(res);
+  console.log(res.data);
+
+  // if (!res.data) {
+  //   return;
+  // }
 
   const { items: cartItems } = res.data;
   const subtotal = calculatePriceSubtotal(cartItems);

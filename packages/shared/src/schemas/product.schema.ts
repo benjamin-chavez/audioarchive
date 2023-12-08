@@ -8,7 +8,7 @@ export const ProductSchema = z.object({
   accountId: z.number().int().positive(),
   name: z.string(),
   genre: z.string(),
-  software: z.string(),
+  daw: z.string(),
   bpm: z.number(),
   price: z.number(),
   artwork: z.string().optional(),

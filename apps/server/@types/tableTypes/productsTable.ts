@@ -9,7 +9,7 @@ declare module 'knex/types/tables' {
     products: Product;
     products_composite: Knex.CompositeTableType<
       Product,
-      Pick<Product, 'name' | 'software' | 'genre' | 'stripeProductId'> &
+      Pick<Product, 'name' | 'daw' | 'genre' | 'stripeProductId'> &
         Partial<
           Pick<
             Product,

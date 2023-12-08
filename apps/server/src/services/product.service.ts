@@ -51,11 +51,7 @@ class ProductService {
     // ): Promise<Product> {
   ): Promise<any> {
     try {
-      if (
-        !productData.name ||
-        !productData.software ||
-        !productData.appUserId
-      ) {
+      if (!productData.name || !productData.daw || !productData.appUserId) {
         throw new BadRequestError('Invalid product data provided');
       }
 
@@ -80,7 +76,7 @@ class ProductService {
   ): Promise<Product> {
     // TODO:
     // Business logic for validation or other checks before updating.
-    // if (!productData.name || !productData.software) {
+    // if (!productData.name || !productData.daw) {
     //   throw new BadRequestError('Invalid product data provided');
     // }
 

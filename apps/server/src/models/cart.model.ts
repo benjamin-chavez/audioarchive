@@ -60,7 +60,7 @@ class CartModel {
           'stripe_account_id', accounts.stripe_account_id,
           'name', products.name,
           'genre', products.genre,
-          'software', products.software,
+          'daw', products.daw,
           'bpm', products.bpm,
           'price', products.price,
           'img_s3_key', products.img_s3_key,

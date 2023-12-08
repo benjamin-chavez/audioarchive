@@ -11,7 +11,7 @@ type FormData = {
   id?: number;
   name: string;
   genre: string;
-  software: string;
+  daw: string;
   bpm: string;
   price: string;
   imgFile?: File;
@@ -37,8 +37,8 @@ export default function ProductForm({
       name: product?.name || generateRandomString(20),
       // genre: product?.genre || '',
       genre: product?.genre || 'House',
-      // software: product?.software || '',
-      software: product?.software || 'Ableton',
+      // daw: product?.daw || '',
+      daw: product?.daw || 'Ableton',
       // bpm: product?.bpm !== undefined ? product.bpm.toString() : '',
       bpm: product?.bpm !== undefined ? product.bpm.toString() : '126',
       // price: product?.price !== undefined ? product.price.toString() : '',
@@ -219,11 +219,11 @@ export default function ProductForm({
 
           <div>
             <label className="block text-sm font-medium leading-6 text-white">
-              Software
+              DAW
             </label>
 
             <input
-              {...register('software', { required: true })}
+              {...register('daw', { required: true })}
               className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 mt-2"
             />
           </div>
