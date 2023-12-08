@@ -9,7 +9,8 @@ type CartContext = {
   decreaseCartQuantity: (id: number) => void;
   removeFromCart: (id: number) => void;
   setItemQuantity: (id: number, quantity: number) => void;
-  getCartItems: () => CartItem2[];
+  cartQuantity: number;
+  cartItems: CartItem2[];
 };
 
 type CartItem2 = {
@@ -26,6 +27,7 @@ export function useCart() {
 export function CartProvider({ children }: { children: ReactNode }) {
   // const [cartItems, setCartItems] = useState<Partial<CartItem[]>>({});
   const [cartItems, setCartItems] = useState<CartItem2[]>([]);
+  const [cartQuantity, setCartQuantity] = useState(1);
 
   function increaseCartQuantity(id: number) {
     setCartItems((curItems) => {
@@ -102,7 +104,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
         decreaseCartQuantity,
         removeFromCart,
         setItemQuantity,
-        getCartItems,
+        // getCartItems,
+        cartQuantity,
+        cartItems,
       }}
     >
       {children}
