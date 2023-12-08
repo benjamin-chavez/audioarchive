@@ -2,6 +2,7 @@
 
 'use client';
 
+import { CartProvider } from '@/contexts/cartContext';
 // import { MeProvider } from '@/contexts/appUserContext';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -14,10 +15,12 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <UserProvider>
-        {/* <MeProvider> */}
-        <ReactQueryDevtools initialIsOpen={false} />
-        {children}
-        {/* </MeProvider> */}
+        <CartProvider>
+          {/* <MeProvider> */}
+          <ReactQueryDevtools initialIsOpen={false} />
+          {children}
+          {/* </MeProvider> */}
+        </CartProvider>
       </UserProvider>
     </QueryClientProvider>
   );
