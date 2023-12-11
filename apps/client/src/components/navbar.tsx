@@ -16,6 +16,7 @@ import {
 // import Toast from './ui/toast';
 // import { useMe } from '@/contexts/appUserContext';
 import { getMe } from '@/lib/data/me';
+import { useCart } from '@/contexts/cart-context';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -60,6 +61,8 @@ const navItems = {
 };
 
 export function ShoppingCart() {
+  const { cartQuantity } = useCart();
+
   return (
     <>
       <div className="group flex items-center h-full">
@@ -68,6 +71,7 @@ export function ShoppingCart() {
           aria-hidden="true"
         />
         <span className="sr-only">items in cart, view bag</span>
+        {cartQuantity ? cartQuantity : ''}
       </div>
     </>
   );

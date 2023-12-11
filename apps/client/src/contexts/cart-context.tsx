@@ -1,18 +1,24 @@
 // apps/client/src/contexts/cart-context.tsx
 'use client';
 
-import { CartItem, Product, ProductWithAppUser } from '@shared/src';
-import { ReactNode, createContext, useContext, useState } from 'react';
+import { CartItem, ProductWithAppUser } from '@shared/src';
+import { ReactNode, createContext, useContext } from 'react';
+import { useLocalStorage } from 'usehooks-ts';
+
+const MAX_PURCHASE_QUANTITY = 5;
 
 type CartContext = {
-  increaseCartQuantity: (productId: number) => void;
-  setCartQuantity: (product: any, quantity: number) => void;
+  increaseCartQuantity: (product: any) => void;
+  setCartQuantity: (
+    product: ProductWithAppUser | any,
+    newQuantity: number,
+  ) => void;
   removeFromCart: (id: number) => void;
+  cartQuantity: number;
   cartItems: CartItem[] | any[];
 };
 
 const CartContext = createContext<CartContext | null>(null);
-// const CartContext = createContext<CartContext>({} as CartContext);
 
 export function useCart(): CartContext {
   const context = useContext(CartContext);
@@ -25,10 +31,30 @@ export function useCart(): CartContext {
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [cartItems, setCartItems] = useState<CartItem[] | any[]>([]);
+  // const [error, setError] = useState<string | null>(null);
+  const [cartItems, setCartItems] = useLocalStorage<CartItem[] | any[]>(
+    'cart-items',
+    [],
+  );
 
-  function increaseCartQuantity(product: any | ProductWithAppUser) {
+  // const handleMaxQuantityError = () => {
+  //   setError('Can only purchase 5 copies of a given item at a time');
+
+  //   // Optionally, you can clear the error after some time
+  //   setTimeout(() => setError(null), 3000); // Clears error after 3 seconds
+  // };
+
+  const cartQuantity = cartItems.reduce(
+    // @ts-ignore
+    (quantity, item) => item.quantity + quantity,
+    // @ts-ignore
+    0,
+  );
+
+  async function increaseCartQuantity(product: any | ProductWithAppUser) {
     const { id: productId } = product;
+
+    const originalCartItems = [...cartItems];
 
     setCartItems((curItems) => {
       if (curItems.find((item) => item.productId === productId) == null) {
@@ -37,6 +63,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
       } else {
         return curItems.map((item) => {
           if (item.productId === productId) {
+            // TODO: handle this error more appropriatly
+            if (item.quantity === MAX_PURCHASE_QUANTITY) {
+              throw Error(
+                'Can only purchase 5 copies of a given item at a time',
+              );
+            }
             return { ...item, quantity: item.quantity + 1 };
           } else {
             return item;
@@ -45,14 +77,29 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
     });
 
-    console.log(cartItems);
+    const res = await fetch(`/api/app-users/me/cart/items`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ productId }),
+    });
+
+    if (!res.ok) {
+      setCartItems(originalCartItems);
+      console.error('Server update failed: ', res.json());
+      // throw new Error('Problem adding item to cart');
+    }
   }
 
   function setCartQuantity(
     product: any | ProductWithAppUser,
     newQuantity: number,
   ) {
-    console.log('produ: ', product);
+    if (newQuantity >= MAX_PURCHASE_QUANTITY) {
+      throw Error('Can only purchase 5 copies of a given item at a time');
+    }
+
     const { id: productId } = product;
 
     setCartItems((curItems) => {
@@ -68,21 +115,35 @@ export function CartProvider({ children }: { children: ReactNode }) {
         );
       }
     });
-
-    console.log('setCartQuantity: ', cartItems);
   }
 
-  function removeFromCart(id: number) {
+  async function removeFromCart(cartItemId: number) {
+    const originalCartItems = [...cartItems];
+
     setCartItems((curItems) => {
-      return curItems.filter((item) => item.id !== id);
+      return curItems.filter((item) => item.id !== cartItemId);
     });
 
-    console.log('removeFromCart: ', cartItems);
+    const res = await fetch(`api/app-users/me/cart/items/${cartItemId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!res.ok) {
+      setCartItems(originalCartItems);
+      console.error('Failed to removed item from cart: ', res.json());
+      // throw new Error('Failed to removed item from cart');
+    }
+
+    // return res.json();
   }
 
   return (
     <CartContext.Provider
       value={{
+        cartQuantity,
         increaseCartQuantity,
         setCartQuantity,
         removeFromCart,
@@ -93,3 +154,38 @@ export function CartProvider({ children }: { children: ReactNode }) {
     </CartContext.Provider>
   );
 }
+
+// function setCartQuantity(
+//   product: ProductWithAppUser | any,
+//   newQuantity: number,
+// ) {
+//   const { id: productId } = product;
+
+//   setCartItems((curItems) => {
+//     const existingItem = curItems.find(
+//       (item) => item.productId === productId,
+//     );
+
+//     if (!existingItem) {
+//       return [...curItems, { cartId: 1, productId, quantity: newQuantity }];
+//     }
+
+//     if (newQuantity > MAX_PURCHASE_QUANTITY) {
+//       handleMaxQuantityError();
+//       return curItems;
+//     }
+
+//     return curItems.map((item) => {
+//       item.productId === productId
+//         ? { ...item, quantity: newQuantity }
+//         : item;
+//     });
+//   });
+// }
+
+// function increaseCartQuantity(product: any | ProductWithAppUser) {
+//   const currentQuantity =
+//     cartItems.find((item) => item.productId === product.id)?.quantity || 0;
+
+//   setCartQuantity(product, currentQuantity + 1);
+// }

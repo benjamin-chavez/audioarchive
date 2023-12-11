@@ -31,6 +31,8 @@ export const getMyCart: RequestHandler = asyncHandler(async (req, res) => {
   const appUser = await MeService.getMe(authId);
   const cart = await CartService.getCart(appUser.id);
 
+  console.log('updatedCart', cart);
+
   res.status(200).json({ data: cart, message: 'Successfully retreived cart' });
 });
 
@@ -45,6 +47,7 @@ export const updateMyCart: RequestHandler = asyncHandler(async (req, res) => {
     cartData
   );
 
+  console.log('updatedCart', updatedCart);
   res
     .status(200)
     .json({ data: updatedCart, message: 'Cart successfully updated' });

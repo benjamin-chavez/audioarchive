@@ -1,45 +1,56 @@
 // apps/client/src/app/products/components/add-to-cart-button.tsx
 'use client';
+
 import { useCart } from '@/contexts/cart-context';
 import { Product, ProductWithAppUser } from '@shared/src';
-import axios from 'axios';
 
 export async function handleAddToCart({
   product,
   increaseCartQuantity,
 }: {
   product: Product;
-  increaseCartQuantity: any;
+  increaseCartQuantity: (productId: any) => void;
 }) {
   try {
-    if (typeof increaseCartQuantity !== 'function') {
-      console.error(
-        'increaseCartQuantity is not a function',
-        increaseCartQuantity,
-      );
-      return;
-    }
-
-    // const res = await fetch(`/api/app-users/me/cart/items`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ productId }),
-    // });
-    // if (!res.ok) {
-    //   throw new Error('Problem adding item to cart');
-    // }
-    // const updatedCart = await res.json();
-    console.log(product);
     increaseCartQuantity(product);
   } catch (error) {
     console.error('Failed to add item to cart:', error);
   }
 }
 
+// export async function handleAddToCart({
+//   productId,
+//   revalidateCart,
+// }: {
+//   productId: number;
+//   revalidateCart: () => Promise<void>;
+// }) {
+//   try {
+//     console.log('productId', productId);
+//     const res = await fetch(`/api/app-users/me/cart/items`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ productId }),
+//       // body: product,
+//     });
+
+//     if (!res.ok) {
+//       throw new Error('Problem adding item to cart');
+//     }
+
+//     const updatedCart = await res.json();
+//     // console.log('updatedCart', updatedCart);
+
+//     await revalidateCart();
+//     // TODO: NEED TO REVALIDATE CACHE
+//   } catch (error) {
+//     console.error('Failed to add item to cart:', error);
+//   }
+// }
+
 function AddToCartButton({ product }: { product: ProductWithAppUser }) {
-  console.log('Adding To Cart: ', product);
   const { increaseCartQuantity } = useCart();
 
   return (

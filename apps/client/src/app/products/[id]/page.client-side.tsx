@@ -16,42 +16,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-// export async function handleAddToCart({
-//   productId,
-//   revalidateCart,
-// }: {
-//   productId: number;
-//   revalidateCart: () => Promise<void>;
-// }) {
-//   try {
-//     console.log('productId', productId);
-//     const res = await fetch(`/api/app-users/me/cart/items`, {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify({ productId }),
-//       // body: product,
-//     });
-
-//     if (!res.ok) {
-//       throw new Error('Problem adding item to cart');
-//     }
-
-//     const updatedCart = await res.json();
-//     // console.log('updatedCart', updatedCart);
-
-//     await revalidateCart();
-//     // TODO: NEED TO REVALIDATE CACHE
-//   } catch (error) {
-//     console.error('Failed to add item to cart:', error);
-//   }
-// }
-
 export default function ProductsPageClient({
-  product,
-} // revalidateCart,
-: {
+  product, // revalidateCart,
+}: {
   product: ProductWithAppUser | any;
   // revalidateCart: () => Promise<void>;
 }) {

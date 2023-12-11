@@ -42,6 +42,15 @@ export const addItemToCart: RequestHandler = asyncHandler(async (req, res) => {
     cartItemData
   );
 
+  console.log('updatedCart', JSON.stringify(cartWithItems, null, 2));
+
+  // await new Promise<void>((resolve) => {
+  //   setTimeout(() => {
+  //     console.log('hello');
+  //     resolve();
+  //   }, 5000);
+  // });
+  // throw Error('failed');
   res.status(200).json({
     data: cartWithItems,
     message: 'Cart with cart items successfully retrieved',
