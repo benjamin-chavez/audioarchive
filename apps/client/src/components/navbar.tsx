@@ -126,7 +126,7 @@ export default function Navbar() {
   }
 
   if (me) {
-    console.log(me);
+    // console.log(me);
   }
 
   return (

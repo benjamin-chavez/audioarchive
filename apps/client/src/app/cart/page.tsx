@@ -200,7 +200,7 @@ function CartItem({
 export default async function CartPage() {
   const res = await getMyCart();
 
-  console.log(res.data);
+  // console.log(res.data);
 
   // if (!res.data) {
   //   return;

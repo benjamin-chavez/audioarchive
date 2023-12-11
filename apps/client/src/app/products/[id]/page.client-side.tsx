@@ -23,7 +23,7 @@ export async function handleAddToCart({
   revalidateCart: () => Promise<void>;
 }) {
   try {
-    console.log('productId', productId);
+    // console.log('productId', productId);
     const res = await fetch(`/api/app-users/me/cart/items`, {
       method: 'POST',
       headers: {
