@@ -1,37 +1,44 @@
 // apps/client/src/app/cart/remove-from-cart-button.tsx
 'use client';
 
+import { useCart } from '@/contexts/cart-context';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 
-export async function handleRemoveFromCart({
+// export async function handleRemoveFromCart({
+export function handleRemoveFromCart({
   cartItemId,
-  revalidateCart,
+  // revalidateCart,
+  removeFromCart,
 }: {
   cartItemId: number | any;
-  revalidateCart: () => Promise<void>;
+  // revalidateCart: () => Promise<void>;
+  removeFromCart: any;
 }) {
-  const res = await fetch(`api/app-users/me/cart/items/${cartItemId}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  // const res = await fetch(`api/app-users/me/cart/items/${cartItemId}`, {
+  //   method: 'DELETE',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  // });
 
-  if (!res.ok) {
-    throw new Error('Failed to removed item from cart');
-  }
+  // if (!res.ok) {
+  //   throw new Error('Failed to removed item from cart');
+  // }
 
-  await revalidateCart();
-  return res.json();
+  // await revalidateCart();
+  // return res.json();
+
+  removeFromCart(cartItemId);
 }
 
 export default function RemoveFromCartButton({
-  cartItemId,
-  revalidateCart,
+  cartItemId, // revalidateCart,
 }: {
   cartItemId: number | any;
-  revalidateCart: () => Promise<void>;
+  // revalidateCart: () => Promise<void>;
 }) {
+  const { removeFromCart } = useCart();
+
   return (
     <div>
       <button
@@ -40,7 +47,8 @@ export default function RemoveFromCartButton({
         onClick={() =>
           handleRemoveFromCart({
             cartItemId: cartItemId,
-            revalidateCart,
+            // revalidateCart,
+            removeFromCart,
           })
         }
       >

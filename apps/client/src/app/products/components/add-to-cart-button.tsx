@@ -1,7 +1,7 @@
 // apps/client/src/app/products/components/add-to-cart-button.tsx
 'use client';
 import { useCart } from '@/contexts/cart-context';
-import { Product } from '@shared/src';
+import { Product, ProductWithAppUser } from '@shared/src';
 import axios from 'axios';
 
 export async function handleAddToCart({
@@ -38,10 +38,9 @@ export async function handleAddToCart({
   }
 }
 
-function AddToCartButton({ product }: { product: Product }) {
+function AddToCartButton({ product }: { product: ProductWithAppUser }) {
+  console.log('Adding To Cart: ', product);
   const { increaseCartQuantity } = useCart();
-
-  console.log(product);
 
   return (
     <div>
