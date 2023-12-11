@@ -1,18 +1,16 @@
 import 'server-only';
 // import { loadEnvVariables } from '@/lib/clientEnv';
 
-import '@/styles/globals.css';
+import Footer from '@/components/footer';
 import Providers from '@/components/providers';
-// import { UserProvider } from '@auth0/nextjs-auth0/client';
-// import type Metadata from 'next';
+import '@/styles/globals.css';
+import { GeistSans } from 'geist/font';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { GeistSans, GeistMono } from 'geist/font';
-// import type { Metadata } from 'next/dist/lib/metadata/types/metadata-interface';
-
 import Navbar from '../components/navbar';
-import Footer from '@/components/footer';
 
+// import type Metadata from 'next';
+// import type { Metadata } from 'next/dist/lib/metadata/types/metadata-interface';
 // import Footer from '@/components/footer';
 // import Toast from '@/components/ui/toast';
 
@@ -38,7 +36,6 @@ export default async function RootLayout({
       // className="dark"
     >
       <body className={inter.className}>
-        {/* <UserProvider> */}
         <Providers>
           <Navbar />
 

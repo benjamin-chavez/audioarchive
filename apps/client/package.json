@@ -18,6 +18,7 @@
     "@shared": "workspace:*",
     "@tanstack/react-query": "^5.12.2",
     "@tanstack/react-query-devtools": "^5.13.3",
+    "axios": "^1.6.2",
     "clsx": "^2.0.0",
     "eslint-plugin-prettier": "^5.0.1",
     "geist": "^1.1.0",

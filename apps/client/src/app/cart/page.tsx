@@ -1,21 +1,11 @@
 // apps/client/src/app/cart/page.tsx
-// import 'server-only';
-// 'use client';
+'use client';
 
 import { CheckIcon, QuestionMarkCircleIcon } from '@heroicons/react/20/solid';
 import { getMyCart } from '../../lib/data/me';
-import RemoveFromCartButton from './remove-from-cart-button';
-import { revalidateTag } from 'next/cache';
-import { revalidatePath } from 'next/cache';
-import CheckoutButton from './checkout-button';
-
-export async function revalidateCart() {
-  'use server';
-
-  // TODO: Figure out if you should use revalidateTag or revalidatePath
-  revalidateTag('cart');
-  // revalidatePath('/cart');
-}
+import RemoveFromCartButton from './components/remove-from-cart-button';
+import CheckoutButton from './components/checkout-button';
+import { useCart } from '@/contexts/cart-context';
 
 function calculatePriceSubtotal(cartItems: any): number {
   // @ts-ignore
@@ -109,20 +99,20 @@ function CartItem({
   cartItem: any;
   cartItemIdx: number;
 }) {
-  const { id: cartItemId, product } = cartItem;
+  // const { id: cartItemId, product } = cartItem;
 
   return (
     <>
       <li className="flex py-6 sm:py-10">
-        <div className="flex-shrink-0">
+        {/* <div className="flex-shrink-0">
           <img
             src={product.imgS3Url}
             // alt={product.imageAlt}
             className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
           />
-        </div>
+        </div> */}
 
-        <div className="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
+        {/* <div className="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
           <div className="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
             <div>
               <div className="flex justify-between">
@@ -137,11 +127,11 @@ function CartItem({
               </div>
               <div className="mt-1 flex text-sm">
                 <p className="text-gray-500">{product.daw}</p>
-                {/* {product.bpm ? (
-                  <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">
-                    {product.bpm} bpm
-                  </p>
-                ) : null} */}
+                // {product.bpm ? (
+                  // <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">
+                    // {product.bpm} bpm
+                  // </p>
+                // ) : null}
               </div>
               <p className="mt-1 text-sm font-medium text-gray-900">
                 {product.price}
@@ -174,42 +164,49 @@ function CartItem({
           </div>
 
           <p className="mt-4 flex space-x-2 text-sm text-gray-700">
-            {/* {product.inStock ? ( */}
+            // {product.inStock ? (
             <CheckIcon
               className="h-5 w-5 flex-shrink-0 text-green-500"
               aria-hidden="true"
             />
-            {/* ) : (
-              <ClockIcon
-                className="h-5 w-5 flex-shrink-0 text-gray-300"
-                aria-hidden="true"
-              />
-            )} */}
+            //  ) : (
+            //   <ClockIcon
+            //     className="h-5 w-5 flex-shrink-0 text-gray-300"
+            //     aria-hidden="true"
+            //   />
+            // )}
 
             <span>
-              {/* {product.inStock ? 'In stock' : `Ships in ${product.leadTime}`} */}
+              // {product.inStock ? 'In stock' : `Ships in ${product.leadTime}`}
               In stock
             </span>
           </p>
-        </div>
+        </div> */}
       </li>
     </>
   );
 }
 
-export default async function CartPage() {
-  const res = await getMyCart();
+export default function CartPage() {
+  // const res = await getMyCart();
 
-  console.log(res.data);
+  // console.log(res.data);
 
   // if (!res.data) {
   //   return;
   // }
 
-  const { items: cartItems } = res.data;
-  const subtotal = calculatePriceSubtotal(cartItems);
-  const estimatedTax = calculateTaxEstimate();
-  const orderTotal = calculateOrderTotal({ subtotal, estimatedTax });
+  const { cartItems } = useCart();
+  console.log('cartItems: ', cartItems);
+
+  // const { items: cartItems } = res.data;
+  // const subtotal = calculatePriceSubtotal(cartItems);
+  // const estimatedTax = calculateTaxEstimate();
+  // const orderTotal = calculateOrderTotal({ subtotal, estimatedTax });
+
+  const subtotal = 0;
+  const estimatedTax = 0;
+  const orderTotal = 0;
 
   return (
     <div className="bg-white">

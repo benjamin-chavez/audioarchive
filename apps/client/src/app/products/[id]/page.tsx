@@ -3,8 +3,8 @@ import 'server-only';
 
 import { getProductDetails } from '@/lib/data/product';
 import { ProductWithAppUser } from '@shared/src';
-import { revalidateCart } from '../../cart/page';
-import Example2 from './page.client-side';
+// import { revalidateCart } from '../../cart/page';
+import ProductsPageClient from './page.client-side';
 
 type ProductProps = {
   params: { id: string };
@@ -22,7 +22,10 @@ export default async function ProductDetail({ params }: ProductProps) {
 
   return (
     <>
-      <Example2 product={product} revalidateCart={revalidateCart} />
+      <ProductsPageClient
+        product={product}
+        // revalidateCart={revalidateCart}
+      />
     </>
   );
 }

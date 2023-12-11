@@ -7,7 +7,7 @@ export const cartItemSchema = z.object({
   cartId: z.number().int().positive(),
   // stripeAccountId: z.number().int().positive(),
   productId: z.number().int().positive(),
-  // quantity: z.number().int().positive(),
+  quantity: z.number().int().positive(),
   created_at: z.date(),
   updated_at: z.date(),
 });

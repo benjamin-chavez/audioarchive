@@ -28,7 +28,7 @@ export async function up(knex: Knex): Promise<void> {
       .inTable('products')
       .notNullable();
 
-    // table.integer('quantity').notNullable();
+    table.integer('quantity').notNullable().defaultTo(1); // TODO: Decide if you need/want to keep the quantity default value
     // table.decimal('price', 10, 2).notNullable();
 
     table.timestamps(true, true);

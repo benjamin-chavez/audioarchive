@@ -9,7 +9,7 @@ module.exports = {
     'next/core-web-vitals',
     'prettier',
     'plugin:prettier/recommended',
-    // 'plugin:@tanstack/eslint-plugin-query/recommended',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
   ],
   plugins: [
     'prettier',

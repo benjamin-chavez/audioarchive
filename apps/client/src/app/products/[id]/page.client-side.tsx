@@ -9,50 +9,51 @@ import { StarIcon } from '@heroicons/react/20/solid';
 import { Product, ProductWithAppUser } from '@shared/src';
 import { Fragment } from 'react';
 import { product2, reviews, faqs, license } from './temp-data';
+import { AddToCartButton } from '../components/add-to-cart-button';
 
 // @ts-ignore
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export async function handleAddToCart({
-  productId,
-  revalidateCart,
-}: {
-  productId: number;
-  revalidateCart: () => Promise<void>;
-}) {
-  try {
-    console.log('productId', productId);
-    const res = await fetch(`/api/app-users/me/cart/items`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ productId }),
-      // body: product,
-    });
+// export async function handleAddToCart({
+//   productId,
+//   revalidateCart,
+// }: {
+//   productId: number;
+//   revalidateCart: () => Promise<void>;
+// }) {
+//   try {
+//     console.log('productId', productId);
+//     const res = await fetch(`/api/app-users/me/cart/items`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ productId }),
+//       // body: product,
+//     });
 
-    if (!res.ok) {
-      throw new Error('Problem adding item to cart');
-    }
+//     if (!res.ok) {
+//       throw new Error('Problem adding item to cart');
+//     }
 
-    const updatedCart = await res.json();
-    // console.log('updatedCart', updatedCart);
+//     const updatedCart = await res.json();
+//     // console.log('updatedCart', updatedCart);
 
-    await revalidateCart();
-    // TODO: NEED TO REVALIDATE CACHE
-  } catch (error) {
-    console.error('Failed to add item to cart:', error);
-  }
-}
+//     await revalidateCart();
+//     // TODO: NEED TO REVALIDATE CACHE
+//   } catch (error) {
+//     console.error('Failed to add item to cart:', error);
+//   }
+// }
 
-export default function Example2({
+export default function ProductsPageClient({
   product,
-  revalidateCart,
-}: {
+} // revalidateCart,
+: {
   product: ProductWithAppUser | any;
-  revalidateCart: () => Promise<void>;
+  // revalidateCart: () => Promise<void>;
 }) {
   return (
     <div className="bg-white">
@@ -128,18 +129,7 @@ export default function Example2({
             <p className="mt-6 text-gray-500">{product2.description}</p>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
-              <button
-                type="button"
-                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-                onClick={() =>
-                  handleAddToCart({
-                    productId: product.id,
-                    revalidateCart,
-                  })
-                }
-              >
-                Add to Cart
-              </button>
+              <AddToCartButton product={product} />
               <a
                 // type="button"
                 href={product.digitalFileS3Url}
