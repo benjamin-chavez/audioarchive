@@ -13,7 +13,7 @@
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
-### Docker
+#### Docker
 
 This repo is configured to be built with Docker, and Docker compose. To build all apps in this repo:
 
