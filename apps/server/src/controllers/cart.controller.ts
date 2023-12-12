@@ -8,14 +8,14 @@ import { CartWithCartItems } from '@shared/src';
 import { Knex } from 'knex';
 import knex from '../config/database';
 
-export const createMyCart: RequestHandler = asyncHandler(async (req, res) => {
-  // @ts-ignore
-  const authId = req.auth.sub;
-  const appUser = await MeService.getMe(authId);
-  const newCart = await CartService.createCart(appUser.id);
+// export const createMyCart: RequestHandler = asyncHandler(async (req, res) => {
+//   // @ts-ignore
+//   const authId = req.auth.sub;
+//   const appUser = await MeService.getMe(authId);
+//   const newCart = await CartService.createCart(appUser.id);
 
-  res.status(200).json({ data: newCart, message: 'Successfully created cart' });
-});
+//   res.status(200).json({ data: newCart, message: 'Successfully created cart' });
+// });
 
 // export const createCart: RequestHandler = asyncHandler(async (req, res) => {
 //   const appUserId = req.
@@ -25,16 +25,16 @@ export const createMyCart: RequestHandler = asyncHandler(async (req, res) => {
 //   res.status(200).json({ data: {} });
 // });
 
-export const getMyCart: RequestHandler = asyncHandler(async (req, res) => {
-  // @ts-ignore
-  const authId = req.auth.sub;
-  const appUser = await MeService.getMe(authId);
-  const cart = await CartService.getCart(appUser.id);
+// export const getMyCart: RequestHandler = asyncHandler(async (req, res) => {
+//   // @ts-ignore
+//   const authId = req.auth.sub;
+//   const appUser = await MeService.getMe(authId);
+//   const cart = await CartService.getCart(appUser.id);
 
-  console.log('updatedCart', cart);
+//   console.log('updatedCart', cart);
 
-  res.status(200).json({ data: cart, message: 'Successfully retreived cart' });
-});
+//   res.status(200).json({ data: cart, message: 'Successfully retreived cart' });
+// });
 
 export const updateMyCart: RequestHandler = asyncHandler(async (req, res) => {
   // @ts-ignore

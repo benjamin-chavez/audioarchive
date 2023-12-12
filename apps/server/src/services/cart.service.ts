@@ -97,6 +97,25 @@ class CartService {
     return cartWithItems;
   }
 
+  static async updateCartItemByAppUserId(
+    appUserId: number,
+    cartItemData: Partial<CartItem>
+  ) {
+    let cart = await CartModel.findBy('appUserId', appUserId);
+
+    if (!cart) {
+      cart = await this.createCart(appUserId);
+    }
+
+    const updatedCartItem = await CartItemModel.updateCartItem({
+      cartId: cart.id,
+      productId: cartItemData.productId,
+      quantity: cartItemData.quantity,
+    });
+
+    return updatedCartItem;
+  }
+
   static async updateActiveCartByAppUserId(
     appUserId: number,
     cartData: Partial<Cart | null>

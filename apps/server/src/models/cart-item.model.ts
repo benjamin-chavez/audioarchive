@@ -32,12 +32,19 @@ class CartItemModel {
   //   return cart || null;
   // }
 
-  // static async updateById(
-  //   cartId: number,
-  //   cartData: Partial<Cart>
-  // ): Promise<Cart | null> {
-  //   return knex(this.tableName).where({ cartId }).update(cartData);
-  // }
+  static async updateCartItem({
+    cartId,
+    productId,
+    quantity,
+  }: {
+    cartId: number;
+    productId: number;
+    quantity: number;
+  }): Promise<Cart | null> {
+    return knex(this.tableName).where({ cartId, productId }).update({
+      quantity,
+    });
+  }
 
   // static async updateActiveCartByAppUserId(
   //   appUserId: number,

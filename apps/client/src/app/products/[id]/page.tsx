@@ -1,7 +1,7 @@
 // frontend/app/project-files/[slug]/page.tsx
 import 'server-only';
 
-import { getProductDetails } from '@/lib/data/product';
+import { getProductDetails } from '@/services/server/products.server-api';
 import { ProductWithAppUser } from '@shared/src';
 // import { revalidateCart } from '../../cart/page';
 import ProductsPageClient from './page.client-side';

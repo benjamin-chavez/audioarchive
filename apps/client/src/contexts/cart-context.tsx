@@ -2,6 +2,7 @@
 'use client';
 
 import { CartItem, ProductWithAppUser } from '@shared/src';
+import axios from 'axios';
 import { ReactNode, createContext, useContext } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 
@@ -92,13 +93,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  function setCartQuantity(
+  async function setCartQuantity(
     product: any | ProductWithAppUser,
     newQuantity: number,
   ) {
-    if (newQuantity >= MAX_PURCHASE_QUANTITY) {
+    if (newQuantity > MAX_PURCHASE_QUANTITY) {
       throw Error('Can only purchase 5 copies of a given item at a time');
     }
+
+    const originalCartItems = [...cartItems];
 
     const { id: productId } = product;
 
@@ -107,14 +110,31 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
       if (!itemExists) {
         return [...curItems, { ...product, productId, quantity: newQuantity }];
-      } else {
-        return curItems.map((item) =>
-          item.productId === productId
-            ? { ...item, quantity: newQuantity }
-            : item,
-        );
       }
+
+      return curItems.map((item) =>
+        item.productId === productId
+          ? { ...item, quantity: newQuantity }
+          : item,
+      );
     });
+
+    try {
+      const res = await axios.put(`/api/app-users/me/cart/items`, {
+        productId,
+        quantity: newQuantity,
+      });
+
+      console.log('res: ', res);
+      if (res.status !== 200) {
+        setCartItems(originalCartItems);
+        console.error('Server update failed: ', res.data);
+        // throw new Error('Problem adding item to cart');
+      }
+    } catch (error) {
+      setCartItems(originalCartItems);
+      console.error('Server update failed: ', error);
+    }
   }
 
   async function removeFromCart(cartItemId: number) {

@@ -42,15 +42,6 @@ export const addItemToCart: RequestHandler = asyncHandler(async (req, res) => {
     cartItemData
   );
 
-  console.log('updatedCart', JSON.stringify(cartWithItems, null, 2));
-
-  // await new Promise<void>((resolve) => {
-  //   setTimeout(() => {
-  //     console.log('hello');
-  //     resolve();
-  //   }, 5000);
-  // });
-  // throw Error('failed');
   res.status(200).json({
     data: cartWithItems,
     message: 'Cart with cart items successfully retrieved',
@@ -74,21 +65,35 @@ export const addItemToCart: RequestHandler = asyncHandler(async (req, res) => {
 //   res.status(200).json({ data: cart, message: 'Successfully retreived cart' });
 // });
 
-// export const updateMyCart: RequestHandler = asyncHandler(async (req, res) => {
-//   // @ts-ignore
-//   const authId = req.auth.sub;
-//   const appUser = await MeService.getMe(authId);
+export const updateMyCartItem: RequestHandler = asyncHandler(
+  async (req, res) => {
+    // @ts-ignore
+    const authId = req.auth.sub;
+    const appUser = await MeService.getMe(authId);
 
-//   const cartData = req.body;
-//   const updatedCart = await CartService.updateActiveCartByAppUserId(
-//     appUser.id,
-//     cartData
-//   );
+    const cartItemData = req.body;
+    const updatedCart = await CartService.updateCartItemByAppUserId(
+      appUser.id,
+      cartItemData
+    );
 
-//   res
-//     .status(200)
-//     .json({ data: updatedCart, message: 'Cart successfully updated' });
-// });
+    // console.log('updatedCart:', updatedCart);
+
+    console.log('updatedCart', JSON.stringify(updatedCart, null, 2));
+
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        console.log('hello');
+        resolve();
+      }, 2000);
+    });
+    // throw Error('failed');
+
+    res
+      .status(200)
+      .json({ data: updatedCart, message: 'Cart successfully updated' });
+  }
+);
 
 // export const updateCart: RequestHandler = asyncHandler(async (req, res) => {
 //   const cartId = parseInt(req.params.id, 10);
