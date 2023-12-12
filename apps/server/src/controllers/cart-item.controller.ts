@@ -37,6 +37,8 @@ export const addItemToCart: RequestHandler = asyncHandler(async (req, res) => {
   const appUser = await MeService.getMe(authId);
   const cartItemData = req.body;
 
+  console.log('cartItemData: ', cartItemData);
+
   const cartWithItems = await CartService.addItemToCart(
     appUser.id,
     cartItemData

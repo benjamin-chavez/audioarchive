@@ -55,12 +55,14 @@ export async function getMyCart() {
     const res = await axios.get(`api/app-users/me/cart`);
 
     console.log('res: ', res);
+    console.log(res.statusText);
     // @ts-ignore
-    if (!res.ok) {
+    // if (!res.ok) {
+    if (res.statusText !== 'OK') {
       throw new Error('Failed to fetch Shopping Cart');
     }
 
-    return res.data;
+    return res.data?.data;
   } catch (error) {
     console.error('Failed to get cart:', error);
   }

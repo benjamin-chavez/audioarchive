@@ -3,9 +3,8 @@
 
 import { authAdapter } from '@/lib/auth';
 import { getMyCart } from '@/services/client/cart.api-client';
-
 import { CartItem, ProductWithAppUser } from '@shared/src';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import {
   ReactNode,
@@ -19,14 +18,9 @@ import { useLocalStorage } from 'usehooks-ts';
 const MAX_PURCHASE_QUANTITY = 5;
 
 type CartContext = {
-  increaseCartQuantity: (product: any) => void;
-  // setCartQuantity: (
-  //   product: ProductWithAppUser | any,
-  //   newQuantity: number,
-  // ) => void;
-  // removeFromCart: (id: number) => void;
   cartQuantity: number;
   cartItems: CartItem[] | any[];
+  increaseCartQuantity: (product: any) => void;
 };
 
 const CartContext = createContext<CartContext | null>(null);
@@ -43,76 +37,57 @@ export function useCart(): CartContext {
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const { user, isAuthenticated } = authAdapter.useAppUser();
-  // const [error, setError] = useState<string | null>(null);
+
   const [localCartItems, setLocalCartItems] = useLocalStorage<
     CartItem[] | any[]
   >('cart-items', []);
+
   const [cartItems, setCartItems] = useState(
     isAuthenticated ? [] : localCartItems,
   );
 
   const cartQuery = useQuery({
     queryKey: ['cart'],
-    queryFn: () => getMyCart(),
+    queryFn: () => getMyCart,
+    enabled: isAuthenticated,
   });
 
-  // if (cartQuery.isLoading) return <h1>Loading...</h1>;
-  // if (cartQuery.isError) {
-  //   return <pre>{JSON.stringify(cartQuery.error)}</pre>;
-  // }
+  const addCartItemMutation = useMutation({
+    mutationFn: (product) => {
+      return axios.post('/api/app-users/me/cart/items', product);
+    },
+  });
 
-  // const fetchCartFromServer = () => {
-  //   return;
-  // };
-
-  // useEffect(() => {
-  //   const updateAppUserCartWithLocalStorage = async () => {
-  //     if (!isAuthenticated || cartItems?.length <= 0) {
-  //       return;
-  //     }
-
-  //     const res = await fetch('/api/me/cart', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(cartItems),
-  //     });
-
-  //     if (!res.ok) {
-  //       // This will activate the closest `error.js` Error Boundary
-  //       // console.log('err');
-  //       // TODO: you will need error boundaries to handle throwing errors inside of useEffect properly
-  //       throw new Error('Failed ');
-  //     }
-
-  //     setCartItems([]);
-  //   };
-
-  //   updateAppUserCartWithLocalStorage();
-  // }, [isAuthenticated, user, cartItems]);
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setCartItems(localCartItems);
+    }
+  }, [isAuthenticated, localCartItems]);
 
   useEffect(() => {
     const populateCartItems = () => {
-      // const cartData = isAuthenticated
-      //   ? fetchCartFromServer()
-      //   : setCartItems(localCartItems);
+      // const cartData = isAuthenticated ? cartQuery.data?.items : localCartItems;
 
-      // const cartData = isAuthenticated ? cartQuery.data : localCartItems;
       // setCartItems(cartData);
-      if (isAuthenticated) {
-        const cartData = cartQuery.data;
-        setCartItems([]);
-        // setLocalCartItems([]);
-        setCartItems(cartData);
-      } else {
-        setCartItems(localCartItems);
+      if (isAuthenticated && cartQuery.isSuccess) {
+        // @ts-ignore
+        setCartItems(cartQuery.data?.items || []);
       }
     };
 
     populateCartItems();
-  }, [isAuthenticated, localCartItems]);
+    // }, [isAuthenticated, localCartItems, cartQuery]);
+  }, [isAuthenticated, cartQuery.isSuccess, cartQuery.data]);
 
+  if (cartQuery.isLoading) return <h1>Loading...</h1>;
+  if (cartQuery.isError) {
+    // console.error(cartQuery.error);
+    return <pre>{JSON.stringify(cartQuery.error)}</pre>;
+  }
+  // if (addCartItemMutation.isPending) return <h1>Mutating...</h1>;
+  // if (addCartItemMutation.isError) return <h1>Mutating...</h1>;
+
+  console.log('cartItems!:', cartItems);
   const cartQuantity = cartItems?.reduce(
     // @ts-ignore
     (quantity, item) => item.quantity + quantity,
@@ -152,21 +127,22 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
 
       setCartItems((prevItems) => updateCartItems(prevItems));
+      addCartItemMutation.mutate(product);
 
-      const res = await fetch(`/api/app-users/me/cart/items`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ productId }),
-      });
+      // const res = await fetch(`/api/app-users/me/cart/items`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ productId }),
+      // });
 
-      if (!res.ok) {
-        throw new Error('Server update failed');
-        // setCartItems(originalCartItems);
-        // console.error('Server update failed: ', res.json());
-        // throw new Error('Problem adding item to cart');
-      }
+      // if (!res.ok) {
+      //   throw new Error('Server update failed');
+      //   // setCartItems(originalCartItems);
+      //   // console.error('Server update failed: ', res.json());
+      //   // throw new Error('Problem adding item to cart');
+      // }
     } catch (error) {
       console.error('Server update failed: ', error);
       isAuthenticated
@@ -180,8 +156,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
       value={{
         cartQuantity,
         increaseCartQuantity,
-        // setCartQuantity,
-        // removeFromCart,
         cartItems,
       }}
     >

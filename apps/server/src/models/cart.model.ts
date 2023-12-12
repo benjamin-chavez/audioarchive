@@ -51,6 +51,7 @@ class CartModel {
     json_agg(
       json_build_object(
         'id', cart_items.id,
+        'quantity', cart_items.quantity,
         'cart_id', cart_items.cart_id,
         'created_at', cart_items.created_at,
         'updated_at', cart_items.updated_at,

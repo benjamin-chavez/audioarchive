@@ -19,7 +19,8 @@ if (
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  // reactStrictMode: true,
+  reactStrictMode: false,
   poweredByHeader: false,
   transpilePackages: ['ui', 'parameter-store'],
   output: 'standalone',

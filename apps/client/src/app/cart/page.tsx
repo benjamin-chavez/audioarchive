@@ -104,15 +104,15 @@ function CartItem({
 }) {
   // const { id: cartItemId, product } = cartItem;
   const cartItemIdx = cartItem.id;
-  const { setCartQuantity } = useCart();
+  // const { setCartQuantity } = useCart();
 
-  const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault();
+  // const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   e.preventDefault();
 
-    const newQuantity = parseInt(e.target.value);
-    console.log('cartItemId', cartItem, 'newQuant: ', newQuantity);
-    setCartQuantity(cartItem, newQuantity);
-  };
+  //   const newQuantity = parseInt(e.target.value);
+  //   console.log('cartItemId', cartItem, 'newQuant: ', newQuantity);
+  //   setCartQuantity(cartItem, newQuantity);
+  // };
 
   return (
     <li className="flex py-6 sm:py-10" key={cartItem.id}>
@@ -159,7 +159,7 @@ function CartItem({
               name={`quantity-${cartItemIdx}`}
               className="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
               value={cartItem.quantity}
-              onChange={handleQuantityChange}
+              // onChange={handleQuantityChange}
             >
               <option value={1}>1</option>
               <option value={2}>2</option>
@@ -210,16 +210,16 @@ export default function CartPage() {
   // }
 
   const { cartItems } = useCart();
-  console.log('cartItems: ', cartItems);
+  // console.log('cartItems: ', cartItems);
 
   // const { items: cartItems } = res.data;
-  const subtotal = calculatePriceSubtotal(cartItems);
-  const estimatedTax = calculateTaxEstimate();
-  const orderTotal = calculateOrderTotal({ subtotal, estimatedTax });
+  // const subtotal = calculatePriceSubtotal(cartItems);
+  // const estimatedTax = calculateTaxEstimate();
+  // const orderTotal = calculateOrderTotal({ subtotal, estimatedTax });
 
-  // const subtotal = 0;
-  // const estimatedTax = 0;
-  // const orderTotal = 0;
+  const subtotal = 0;
+  const estimatedTax = 0;
+  const orderTotal = 0;
 
   return (
     <div className="bg-white">
