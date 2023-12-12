@@ -87,28 +87,28 @@ export async function getMe() {
   return res.json();
 }
 
-export async function getMyCart() {
-  try {
-    const { accessToken } = await getAccessToken();
+// export async function getMyCart() {
+//   try {
+//     const { accessToken } = await getAccessToken();
 
-    const res = await fetch(`${BASE_URL}/app-users/me/cart`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-    });
+//     const res = await fetch(`${BASE_URL}/app-users/me/cart`, {
+//       method: 'GET',
+//       headers: {
+//         Authorization: `Bearer ${accessToken}`,
+//         'Content-Type': 'application/json',
+//       },
+//     });
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch Shopping Cart');
-    }
+//     if (!res.ok) {
+//       throw new Error('Failed to fetch Shopping Cart');
+//     }
 
-    return res.json();
-  } catch (error) {
-    // TODO: FINISH HANDLING ERRORS HERE
-    // PROBABLY SHOULD REDIRECT TO LOGIN?
-    return {};
-  }
-}
+//     return res.json();
+//   } catch (error) {
+//     // TODO: FINISH HANDLING ERRORS HERE
+//     // PROBABLY SHOULD REDIRECT TO LOGIN?
+//     return {};
+//   }
+// }
 
 //

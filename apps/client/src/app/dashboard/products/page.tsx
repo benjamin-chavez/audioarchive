@@ -3,12 +3,7 @@
 // apps/client/src/app/(app-users)/settings/components/products-overview.tsx
 import 'server-only';
 
-import React from 'react';
-import {
-  getAccessToken,
-  getSession,
-  withPageAuthRequired,
-} from '@auth0/nextjs-auth0';
+// import { getSession } from '@auth0/nextjs-auth0';
 // import { getAppUserWithProducts } from '@/lib/data/app-user';
 import {
   Table,
@@ -18,11 +13,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Product, ProductWithAppUser, User } from '@shared/src';
-import Link from 'next/link';
-import { revalidatePath, revalidateTag } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { getMyProducts } from '@/lib/data/me';
+import { Product } from '@shared/src';
+import { revalidatePath } from 'next/cache';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { authAdapter } from '@/lib/auth';
 
 export async function revalidateListings() {
   'use server';
@@ -31,7 +27,7 @@ export async function revalidateListings() {
 }
 
 export default async function MyProductsPage() {
-  const session = await getSession();
+  const session = await authAdapter.getSession();
   const user = session ? session.user : null;
 
   const res = await getMyProducts();

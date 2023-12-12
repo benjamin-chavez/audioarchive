@@ -43,10 +43,25 @@ export async function addToCart({ productId }: { productId: number }) {
   }
 }
 
-
 // const res = await fetch(`api/app-users/me/cart/items/${cartItemId}`, {
 //   method: 'DELETE',
 //   headers: {
 //     'Content-Type': 'application/json',
 //   },
 // });
+
+export async function getMyCart() {
+  try {
+    const res = await axios.get(`api/app-users/me/cart`);
+
+    console.log('res: ', res);
+    // @ts-ignore
+    if (!res.ok) {
+      throw new Error('Failed to fetch Shopping Cart');
+    }
+
+    return res.data;
+  } catch (error) {
+    console.error('Failed to get cart:', error);
+  }
+}

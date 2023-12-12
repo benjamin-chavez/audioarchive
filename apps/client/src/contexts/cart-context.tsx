@@ -1,20 +1,30 @@
 // apps/client/src/contexts/cart-context.tsx
 'use client';
 
+import { authAdapter } from '@/lib/auth';
+import { getMyCart } from '@/services/client/cart.api-client';
+
 import { CartItem, ProductWithAppUser } from '@shared/src';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { ReactNode, createContext, useContext } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 
 const MAX_PURCHASE_QUANTITY = 5;
 
 type CartContext = {
   increaseCartQuantity: (product: any) => void;
-  setCartQuantity: (
-    product: ProductWithAppUser | any,
-    newQuantity: number,
-  ) => void;
-  removeFromCart: (id: number) => void;
+  // setCartQuantity: (
+  //   product: ProductWithAppUser | any,
+  //   newQuantity: number,
+  // ) => void;
+  // removeFromCart: (id: number) => void;
   cartQuantity: number;
   cartItems: CartItem[] | any[];
 };
@@ -32,20 +42,78 @@ export function useCart(): CartContext {
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
+  const { user, isAuthenticated } = authAdapter.useAppUser();
   // const [error, setError] = useState<string | null>(null);
-  const [cartItems, setCartItems] = useLocalStorage<CartItem[] | any[]>(
-    'cart-items',
-    [],
+  const [localCartItems, setLocalCartItems] = useLocalStorage<
+    CartItem[] | any[]
+  >('cart-items', []);
+  const [cartItems, setCartItems] = useState(
+    isAuthenticated ? [] : localCartItems,
   );
 
-  // const handleMaxQuantityError = () => {
-  //   setError('Can only purchase 5 copies of a given item at a time');
+  const cartQuery = useQuery({
+    queryKey: ['cart'],
+    queryFn: () => getMyCart(),
+  });
 
-  //   // Optionally, you can clear the error after some time
-  //   setTimeout(() => setError(null), 3000); // Clears error after 3 seconds
+  // if (cartQuery.isLoading) return <h1>Loading...</h1>;
+  // if (cartQuery.isError) {
+  //   return <pre>{JSON.stringify(cartQuery.error)}</pre>;
+  // }
+
+  // const fetchCartFromServer = () => {
+  //   return;
   // };
 
-  const cartQuantity = cartItems.reduce(
+  // useEffect(() => {
+  //   const updateAppUserCartWithLocalStorage = async () => {
+  //     if (!isAuthenticated || cartItems?.length <= 0) {
+  //       return;
+  //     }
+
+  //     const res = await fetch('/api/me/cart', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(cartItems),
+  //     });
+
+  //     if (!res.ok) {
+  //       // This will activate the closest `error.js` Error Boundary
+  //       // console.log('err');
+  //       // TODO: you will need error boundaries to handle throwing errors inside of useEffect properly
+  //       throw new Error('Failed ');
+  //     }
+
+  //     setCartItems([]);
+  //   };
+
+  //   updateAppUserCartWithLocalStorage();
+  // }, [isAuthenticated, user, cartItems]);
+
+  useEffect(() => {
+    const populateCartItems = () => {
+      // const cartData = isAuthenticated
+      //   ? fetchCartFromServer()
+      //   : setCartItems(localCartItems);
+
+      // const cartData = isAuthenticated ? cartQuery.data : localCartItems;
+      // setCartItems(cartData);
+      if (isAuthenticated) {
+        const cartData = cartQuery.data;
+        setCartItems([]);
+        // setLocalCartItems([]);
+        setCartItems(cartData);
+      } else {
+        setCartItems(localCartItems);
+      }
+    };
+
+    populateCartItems();
+  }, [isAuthenticated, localCartItems]);
+
+  const cartQuantity = cartItems?.reduce(
     // @ts-ignore
     (quantity, item) => item.quantity + quantity,
     // @ts-ignore
@@ -57,107 +125,54 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     const originalCartItems = [...cartItems];
 
-    setCartItems((curItems) => {
+    const updateCartItems = (curItems) => {
       if (curItems.find((item) => item.productId === productId) == null) {
         // TODO: FIX CART ID
         return [...curItems, { cartId: 1, productId, quantity: 1, ...product }];
-      } else {
-        return curItems.map((item) => {
-          if (item.productId === productId) {
-            // TODO: handle this error more appropriatly
-            if (item.quantity === MAX_PURCHASE_QUANTITY) {
-              throw Error(
-                'Can only purchase 5 copies of a given item at a time',
-              );
-            }
-            return { ...item, quantity: item.quantity + 1 };
-          } else {
-            return item;
+      }
+
+      return curItems.map((item) => {
+        if (item.productId === productId) {
+          // TODO: handle this error more appropriatly
+          if (item.quantity === MAX_PURCHASE_QUANTITY) {
+            throw Error('Can only purchase 5 copies of a given item at a time');
           }
-        });
-      }
-    });
 
-    const res = await fetch(`/api/app-users/me/cart/items`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ productId }),
-    });
-
-    if (!res.ok) {
-      setCartItems(originalCartItems);
-      console.error('Server update failed: ', res.json());
-      // throw new Error('Problem adding item to cart');
-    }
-  }
-
-  async function setCartQuantity(
-    product: any | ProductWithAppUser,
-    newQuantity: number,
-  ) {
-    if (newQuantity > MAX_PURCHASE_QUANTITY) {
-      throw Error('Can only purchase 5 copies of a given item at a time');
-    }
-
-    const originalCartItems = [...cartItems];
-
-    const { id: productId } = product;
-
-    setCartItems((curItems) => {
-      const itemExists = curItems.find((item) => item.productId === productId);
-
-      if (!itemExists) {
-        return [...curItems, { ...product, productId, quantity: newQuantity }];
-      }
-
-      return curItems.map((item) =>
-        item.productId === productId
-          ? { ...item, quantity: newQuantity }
-          : item,
-      );
-    });
+          return { ...item, quantity: item.quantity + 1 };
+        } else {
+          return item;
+        }
+      });
+    };
 
     try {
-      const res = await axios.put(`/api/app-users/me/cart/items`, {
-        productId,
-        quantity: newQuantity,
+      if (!isAuthenticated) {
+        setLocalCartItems((prevItems) => updateCartItems(prevItems));
+        return;
+      }
+
+      setCartItems((prevItems) => updateCartItems(prevItems));
+
+      const res = await fetch(`/api/app-users/me/cart/items`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId }),
       });
 
-      console.log('res: ', res);
-      if (res.status !== 200) {
-        setCartItems(originalCartItems);
-        console.error('Server update failed: ', res.data);
+      if (!res.ok) {
+        throw new Error('Server update failed');
+        // setCartItems(originalCartItems);
+        // console.error('Server update failed: ', res.json());
         // throw new Error('Problem adding item to cart');
       }
     } catch (error) {
-      setCartItems(originalCartItems);
       console.error('Server update failed: ', error);
+      isAuthenticated
+        ? setCartItems(originalCartItems)
+        : setLocalCartItems(originalCartItems);
     }
-  }
-
-  async function removeFromCart(cartItemId: number) {
-    const originalCartItems = [...cartItems];
-
-    setCartItems((curItems) => {
-      return curItems.filter((item) => item.id !== cartItemId);
-    });
-
-    const res = await fetch(`api/app-users/me/cart/items/${cartItemId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!res.ok) {
-      setCartItems(originalCartItems);
-      console.error('Failed to removed item from cart: ', res.json());
-      // throw new Error('Failed to removed item from cart');
-    }
-
-    // return res.json();
   }
 
   return (
@@ -165,8 +180,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       value={{
         cartQuantity,
         increaseCartQuantity,
-        setCartQuantity,
-        removeFromCart,
+        // setCartQuantity,
+        // removeFromCart,
         cartItems,
       }}
     >
@@ -174,38 +189,3 @@ export function CartProvider({ children }: { children: ReactNode }) {
     </CartContext.Provider>
   );
 }
-
-// function setCartQuantity(
-//   product: ProductWithAppUser | any,
-//   newQuantity: number,
-// ) {
-//   const { id: productId } = product;
-
-//   setCartItems((curItems) => {
-//     const existingItem = curItems.find(
-//       (item) => item.productId === productId,
-//     );
-
-//     if (!existingItem) {
-//       return [...curItems, { cartId: 1, productId, quantity: newQuantity }];
-//     }
-
-//     if (newQuantity > MAX_PURCHASE_QUANTITY) {
-//       handleMaxQuantityError();
-//       return curItems;
-//     }
-
-//     return curItems.map((item) => {
-//       item.productId === productId
-//         ? { ...item, quantity: newQuantity }
-//         : item;
-//     });
-//   });
-// }
-
-// function increaseCartQuantity(product: any | ProductWithAppUser) {
-//   const currentQuantity =
-//     cartItems.find((item) => item.productId === product.id)?.quantity || 0;
-
-//   setCartQuantity(product, currentQuantity + 1);
-// }

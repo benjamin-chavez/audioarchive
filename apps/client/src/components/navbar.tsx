@@ -17,6 +17,7 @@ import {
 // import { useMe } from '@/contexts/appUserContext';
 import { getMe } from '@/lib/data/me';
 import { useCart } from '@/contexts/cart-context';
+import { authAdapter } from '../lib/auth';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -122,7 +123,7 @@ const handleGetMe = async (setMe: any) => {
 
 export default function Navbar() {
   const [me, setMe] = useState(null);
-  const { user, isLoading } = useUser();
+  const { user, isLoading } = authAdapter.useAppUser();
 
   useEffect(() => {
     setMe(handleGetMe(setMe));
