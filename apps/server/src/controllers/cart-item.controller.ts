@@ -79,14 +79,14 @@ export const updateMyCartItem: RequestHandler = asyncHandler(
 
     // console.log('updatedCart:', updatedCart);
 
-    console.log('updatedCart', JSON.stringify(updatedCart, null, 2));
+    // console.log('updatedCart', JSON.stringify(updatedCart, null, 2));
 
-    await new Promise<void>((resolve) => {
-      setTimeout(() => {
-        console.log('hello');
-        resolve();
-      }, 2000);
-    });
+    // await new Promise<void>((resolve) => {
+    //   setTimeout(() => {
+    //     console.log('hello');
+    //     resolve();
+    //   }, 2000);
+    // });
     // throw Error('failed');
 
     res

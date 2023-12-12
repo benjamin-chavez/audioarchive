@@ -115,7 +115,7 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - Write updated seed data/functions
         - Must get updated Stripe data
         - Must have significantly higher volume
-    - Restructure Product table and convert Enums to other type
+    <!-- //- Restructure Product table and convert Enums to other type -->
     - Add published/draft logic to products table
     - convert the `/api/app-users/register` route to a webhook route. Something like `/api/webhooks/auth0/register`.
 
@@ -128,7 +128,7 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - Add to cart toast notification
     - Cart items count icon
     - Cart Dropdown menu
-    - Update so that you cannot have duplicate items in the cart - should increase quantity instead
+    - Update so that you cannot have duplicate items in the cart - should increase quantity instead <- JUST NEED TO PUT CONSTRANTS ON DATABASE TOO
     - Redirect to Login Not setup - you probably won't need this once you set up local storage
     - Add warning cartItem badge if they have more than one of the same item
 
