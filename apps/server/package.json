@@ -63,6 +63,8 @@
     "pg-to-ts": "^4.1.1",
     "promise-retry": "^2.0.1",
     "stripe": "^14.3.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.1",
     "zod": "^3.22.2"
   },
@@ -83,6 +85,8 @@
     "@types/node": "^20.9.2",
     "@types/pg": "^8.10.2",
     "@types/supertest": "^2.0.16",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
     "concurrently": "^8.2.2",
     "esbuild": "^0.19.5",
     "esbuild-register": "^3.5.0",

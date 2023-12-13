@@ -130,6 +130,8 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import errorHandler from './middleware/errorMiddleware'; // notFoundHandler, // generalErrorHandler,
 import routes from './routes/index';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 // export const createServer: any = () => {
 //   const app = express();
@@ -150,6 +152,22 @@ import routes from './routes/index';
 // };
 
 const app: Express = express();
+
+const options = {
+  definition: {
+    openapi: '3.0.1',
+    info: {
+      title: 'REST API for Swagger Documentation',
+      version: '1.0.0',
+    },
+    schemes: ['http', 'https'],
+    servers: [{ url: 'http://localhost:5000/' }],
+  },
+  apis: [`${__dirname}/routes/index.ts`, './dist/routes/example-route.js'],
+};
+const swaggerSpec = swaggerJSDoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const baseUrl = process.env.AUTH0_BASE_URL;
 const issuerBaseUrl = process.env.AUTH0_ISSUER_BASE_URL;
@@ -211,7 +229,8 @@ app
       .status(200)
       .json({ message: `Healthy! | ${process.env.NODE_ENV}` });
   })
-  .use('/api', routes)
-  .use(errorHandler);
+  .use('/api', routes);
+
+app.use(errorHandler);
 
 export default app;
