@@ -1,27 +1,65 @@
-// apps/server/src/swaggerConfig.ts
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Audio Archive API",
 
-const swaggerJsdoc = require('swagger-jsdoc');
-
-const options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Audio Archive API',
-      version: '1.0.0',
-      description: 'Audio Archive REST API',
-    },
-    servers: [
-      {
-        url: 'http://localhost:5000',
-        description: 'Local server',
-      },
-      // Additional servers can be added here
-    ],
-    // Add other global level configurations like security, tags, etc.
+    "description": "Audio Archive REST API",
+    "version": "1.0.0"
   },
-  apis: ['./routes/**/*.*'], // Path to your API files
-};
-
-const swaggerSpec = swaggerJsdoc(options);
-
-module.exports = swaggerSpec;
+  "schemes": ["http"],
+  "servers": [{ "url": "http://localhost:5000/" }],
+  "paths": {
+    "/example": {
+      "post": {
+        "tags": ["ExampleEndpoints"],
+        "summary": "Send a text to the server",
+        "description": "Send a message to the server and get a response added to the original text.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExampleSchemaHeader"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExampleSchemaBody"
+                }
+              }
+            }
+          },
+          "404": { "description": "Not found" },
+          "500": { "description": "Internal server error" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ExampleSchemaBody": {
+        "properties": {
+          "responseText": {
+            "type": "string",
+            "example": "This is some example string! This is an endpoint"
+          }
+        }
+      },
+      "ExampleSchemaHeader": {
+        "required": ["text"],
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "This is some example string!"
+          }
+        }
+      }
+    }
+  }
+}
