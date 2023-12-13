@@ -27,8 +27,9 @@ export async function up(knex: Knex): Promise<void> {
 
     // table.timestamp('lastActivityAt');
     // table.boolean('reminder_sent');
-
+    // total_price ??
     table.timestamps(true, true);
+
     table.index('id');
   });
 

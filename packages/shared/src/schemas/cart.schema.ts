@@ -12,10 +12,18 @@ export const cartSchema = z.object({
 
   // lastActivityAt: z.date(),
   // reminderSent: z.boolean(),
-
   created_at: z.date(),
   updated_at: z.date(),
 });
+
+// export const addToCartRequestSchema = z.object({
+//   appUserId: z.number().int().positive(),
+// });
+
+// export const addToCartResponseSchema = z.object({
+//   success: z.boolean(),
+//   message: z.string(),
+// });
 
 export const cartWithCartItemsSchema = cartSchema.extend({
   cartItems: z.array(cartItemSchema).default([]),
@@ -24,3 +32,7 @@ export const cartWithCartItemsSchema = cartSchema.extend({
 export type CartStatusEnum = z.infer<typeof CartStatusEnum>;
 export type Cart = z.infer<typeof cartSchema>;
 export type CartWithCartItems = z.infer<typeof cartWithCartItemsSchema>;
+
+
+/////////////////////////////////
+
