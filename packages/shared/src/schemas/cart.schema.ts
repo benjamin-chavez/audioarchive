@@ -1,7 +1,7 @@
 // packages/shared/src/schemas/cart.schema.ts
 
 import { z } from 'zod';
-import { cartItemSchema } from './cart-item.schema';
+import { CartItem, cartItemSchema } from './cart-item.schema';
 
 const CartStatusEnum = z.enum(['active', 'purchased', 'archived', 'abandoned']);
 
@@ -33,6 +33,35 @@ export type CartStatusEnum = z.infer<typeof CartStatusEnum>;
 export type Cart = z.infer<typeof cartSchema>;
 export type CartWithCartItems = z.infer<typeof cartWithCartItemsSchema>;
 
-
 /////////////////////////////////
 
+export type AddProductToMyCartRequest = {
+  productID: number;
+};
+
+export type AddProductToCartResponse = {
+  success: boolean;
+  message: string;
+};
+
+export type getMyCartRequest = {};
+
+export type getCartResponse = {
+  cartID: number;
+  items: CartItem[];
+  totalPrice: number;
+};
+
+interface UpdateCartItemRequest {
+  cartItemID: number;
+  newQuantity: number;
+}
+
+interface UpdateCartItemRequest {
+  cartItemID: number;
+  newQuantity: number;
+}
+
+interface RemoveFromCartRequest {
+  cartItemID: number;
+}

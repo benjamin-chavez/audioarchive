@@ -95,61 +95,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     0,
   );
 
-  async function increaseCartQuantity(product: any | ProductWithAppUser) {
-    const { id: productId } = product;
-
-    const originalCartItems = [...cartItems];
-
-    const updateCartItems = (curItems) => {
-      if (curItems.find((item) => item.productId === productId) == null) {
-        // TODO: FIX CART ID
-        return [...curItems, { cartId: 1, productId, quantity: 1, ...product }];
-      }
-
-      return curItems.map((item) => {
-        if (item.productId === productId) {
-          // TODO: handle this error more appropriatly
-          if (item.quantity === MAX_PURCHASE_QUANTITY) {
-            throw Error('Can only purchase 5 copies of a given item at a time');
-          }
-
-          return { ...item, quantity: item.quantity + 1 };
-        } else {
-          return item;
-        }
-      });
-    };
-
-    try {
-      if (!isAuthenticated) {
-        setLocalCartItems((prevItems) => updateCartItems(prevItems));
-        return;
-      }
-
-      setCartItems((prevItems) => updateCartItems(prevItems));
-      addCartItemMutation.mutate(product);
-
-      // const res = await fetch(`/api/app-users/me/cart/items`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ productId }),
-      // });
-
-      // if (!res.ok) {
-      //   throw new Error('Server update failed');
-      //   // setCartItems(originalCartItems);
-      //   // console.error('Server update failed: ', res.json());
-      //   // throw new Error('Problem adding item to cart');
-      // }
-    } catch (error) {
-      console.error('Server update failed: ', error);
-      isAuthenticated
-        ? setCartItems(originalCartItems)
-        : setLocalCartItems(originalCartItems);
-    }
-  }
 
   return (
     <CartContext.Provider

@@ -1,6 +1,7 @@
 // apps/client/src/services/cart.api-client.ts
 'use client';
 
+import { AddToCartResponse } from '@shared/src';
 import axios from 'axios';
 
 // const MAX_PURCHASE_QUANTITY = 5;
@@ -33,6 +34,7 @@ export async function addProductToCart({ productId }: { productId: number }) {
 
 export async function addToCart({ productId }: { productId: number }) {
   try {
+    // const res: AddToCartResponse = await axios.post(
     const res = await axios.post(`/api/app-users/me/cart/items`, {
       productId,
     });

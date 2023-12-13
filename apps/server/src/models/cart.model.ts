@@ -9,6 +9,7 @@ import {
 } from '@shared/src';
 import knex from '../config/database';
 import { sanitize } from '../lib/utils';
+import {api} from 'swagger'
 
 class CartModel {
   private static tableName = 'carts';
@@ -50,11 +51,9 @@ class CartModel {
         knex.raw(`
     json_agg(
       json_build_object(
-        'id', cart_items.id,
-        'quantity', cart_items.quantity,
+        'cart_item_id', cart_items.id,
+        'cart_item_quantity', cart_items.quantity,
         'cart_id', cart_items.cart_id,
-        'created_at', cart_items.created_at,
-        'updated_at', cart_items.updated_at,
         'product', json_build_object(
           'id', products.id,
           'stripe_product_id', products.stripe_product_id,
@@ -111,5 +110,7 @@ class CartModel {
     return updatedCarts[0];
   }
 }
+
+api.api.routesList
 
 export default CartModel;

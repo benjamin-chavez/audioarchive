@@ -17,19 +17,7 @@ import CartItemService from '../services/cart-item.service';
 //     .json({ data: newCartItem, message: 'Successfully added item to cart' });
 // });
 
-export const getMyCartWithCartItems: RequestHandler = asyncHandler(
-  async (req, res) => {
-    // @ts-ignore
-    const authId = req.auth.sub;
-    const appUser = await MeService.getMe(authId);
-    const cartWithItems = await CartService.getCartWithCartItems(appUser.id);
 
-    res.status(200).json({
-      data: cartWithItems,
-      message: 'Cart with cart items successfully retrieved',
-    });
-  }
-);
 
 export const addItemToCart: RequestHandler = asyncHandler(async (req, res) => {
   // @ts-ignore

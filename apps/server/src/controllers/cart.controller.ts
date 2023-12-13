@@ -36,22 +36,36 @@ import knex from '../config/database';
 //   res.status(200).json({ data: cart, message: 'Successfully retreived cart' });
 // });
 
-export const updateMyCart: RequestHandler = asyncHandler(async (req, res) => {
-  // @ts-ignore
-  const authId = req.auth.sub;
-  const appUser = await MeService.getMe(authId);
+export const getMyCartWithCartItems: RequestHandler = asyncHandler(
+  async (req, res) => {
+    // @ts-ignore
+    const authId = req.auth.sub;
+    const appUser = await MeService.getMe(authId);
+    const cartWithItems = await CartService.getCartWithCartItems(appUser.id);
 
-  const cartData = req.body;
-  const updatedCart = await CartService.updateActiveCartByAppUserId(
-    appUser.id,
-    cartData
-  );
+    res.status(200).json({
+      data: cartWithItems,
+      message: 'Cart with cart items successfully retrieved',
+    });
+  }
+);
 
-  console.log('updatedCart', updatedCart);
-  res
-    .status(200)
-    .json({ data: updatedCart, message: 'Cart successfully updated' });
-});
+// export const updateMyCart: RequestHandler = asyncHandler(async (req, res) => {
+//   // @ts-ignore
+//   const authId = req.auth.sub;
+//   const appUser = await MeService.getMe(authId);
+
+//   const cartData = req.body;
+//   const updatedCart = await CartService.updateActiveCartByAppUserId(
+//     appUser.id,
+//     cartData
+//   );
+
+//   console.log('updatedCart', updatedCart);
+//   res
+//     .status(200)
+//     .json({ data: updatedCart, message: 'Cart successfully updated' });
+// });
 
 // export const updateCart: RequestHandler = asyncHandler(async (req, res) => {
 //   const cartId = parseInt(req.params.id, 10);
