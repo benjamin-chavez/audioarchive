@@ -63,6 +63,8 @@
     "pg-to-ts": "^4.1.1",
     "promise-retry": "^2.0.1",
     "stripe": "^14.3.0",
+    "swagger": "workspace:*",
+    "swagger-editor": "^4.11.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.1",

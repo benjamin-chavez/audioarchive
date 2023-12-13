@@ -1,0 +1,41 @@
+{
+  "name": "swagger",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "./dist/index.js",
+  "source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsc && cp swagger.yaml dist/swagger.yaml",
+    "clean": "rm -rf dist",
+    "dev": "cp swagger.yaml dist/swagger.yaml && tsc -w",
+    "lint": "eslint \"src/**/*.ts*\"",
+    "test": "jest",
+    "swag:dev": "npx swagger-typescript-api -p http://localhost:5000/api/swagger.json -o '/home/benchavez/Code (Ubuntu VM)/Projects/audio-archive-wrapper/audioarchive-current/audioarchive/packages/swagger/src' -n myApi.ts"
+  },
+  "jest": {
+    "preset": "jest-presets/jest/node"
+  },
+  "dependencies": {
+    "install": "^0.13.0",
+    "js-yaml": "^4.1.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.8",
+    "@types/node": "^20.9.2",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
+    "eslint": "^8.54.0",
+    "eslint-config-custom": "workspace:*",
+    "jest": "^29.7.0",
+    "jest-presets": "workspace:*",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.2.2"
+  }
+}

@@ -39,6 +39,8 @@ export const createStripeAccount: RequestHandler = asyncHandler(
         service_agreement: serviceAgreement,
       },
     };
+    // const p: AppUser = await MeService.getMe('sdsd');
+    // console.log(p);
 
     const account: Stripe.Account = await stripe.accounts.create(params);
 

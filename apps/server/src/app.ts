@@ -130,9 +130,9 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import errorHandler from './middleware/errorMiddleware'; // notFoundHandler, // generalErrorHandler,
 import routes from './routes/index';
+import { swaggerDocument } from 'swagger';
 // import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import * as swaggerDocument from './swagger.json';
 
 // export const createServer: any = () => {
 //   const app = express();
@@ -169,7 +169,7 @@ const app: Express = express();
 // const swaggerSpec = swaggerJSDoc(options);
 // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const baseUrl = process.env.AUTH0_BASE_URL;
 const issuerBaseUrl = process.env.AUTH0_ISSUER_BASE_URL;
@@ -222,6 +222,7 @@ app
   .use(urlencoded({ extended: false }))
   .use(cookieParser())
   .use(flash())
+  .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
   .get('/healthz', (req: any, res: any) => {
     return res.json({ ok: true });
   })

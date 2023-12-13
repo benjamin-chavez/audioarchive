@@ -1,0 +1,325 @@
+openapi: '3.0.2'
+info:
+  title: API Title
+  version: '1.0'
+servers:
+  - url: 'http://localhost:5000/api'
+tags:
+  - name: appUser
+    description: Everything about appUsers
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: products
+  - name: cart
+  - name: cartItems
+    description: Operations about user
+paths:
+  /api:
+      get:
+        tags:
+          - api
+        summary: 'API Root'
+        description: 'Fetch Root.'
+        responses:
+          '200':
+            description: 'Server Running'
+            content:
+              text/plain:
+                schema:
+                  type: 'string'
+
+  /api/app-users:
+    get:
+      tags:
+        - appUser
+      summary: 'Get App Users'
+      description: 'Fetch a list of app users.'
+      responses:
+        '200':
+          description: 'List of app users'
+          content:
+            application/json:
+              schema:
+                type: 'array'
+                items:
+                  $ref: '#/components/schemas/AppUser'
+  /api/app-users/profiles:
+    get:
+      tags:
+        - appUser
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: OK
+  /api/products:
+    get:
+      tags:
+        - products
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    ExampleSchemaBody:
+      properties:
+        responseText:
+          type: 'string'
+          example: 'This is some example string! This is an endpoint'
+    ExampleSchemaHeader:
+      required:
+        - 'text'
+      properties:
+        text:
+          type: 'string'
+          example: 'This is some example string!'
+    AppUser:
+      type: 'object'
+      properties:
+        id:
+          type: 'integer'
+          format: 'int32'
+          description: 'Unique identifier for the user'
+        authId:
+          type: 'string'
+          description: 'Authentication identifier for the user'
+        displayName:
+          type: 'string'
+          description: 'Display name of the user'
+        firstName:
+          type: 'string'
+          description: 'First name of the user'
+        lastName:
+          type: 'string'
+          description: 'Last name of the user'
+        username:
+          type: 'string'
+          description: 'Username of the user'
+        email:
+          type: 'string'
+          format: 'email'
+          description: 'Email address of the user'
+        avatarS3Key:
+          type: 'string'
+          description: "S3 key for the user's avatar image"
+        avatarS3Url:
+          type: 'string'
+          format: 'uri'
+          description: "S3 URL for the user's avatar image"
+        spotifyId:
+          type: 'string'
+          description: 'Spotify ID of the user'
+        spotifyUrl:
+          type: 'string'
+          format: 'uri'
+          description: 'Spotify URL of the user'
+        createdAt:
+          type: 'string'
+          format: 'date-time'
+          description: 'Timestamp of when the user was created'
+        updatedAt:
+          type: 'string'
+          format: 'date-time'
+          description: 'Timestamp of when the user was last updated'
+      required:
+        - 'id'
+        - 'authId'
+        - 'displayName'
+        - 'firstName'
+        - 'lastName'
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        appUserId:
+          type: integer
+          format: int64
+        accountId:
+          type: integer
+          format: int64
+        genreId:
+          type: integer
+          format: int64
+        genreName:
+          type: string
+        name:
+          type: string
+        daw:
+          type: string
+        bpm:
+          type: integer
+          minimum: 20
+          maximum: 999
+        price:
+          type: number
+          format: decimal
+        status:
+          type: string
+          enum: [draft, published, archived]
+        imgS3Key:
+          type: string
+        imgS3Url:
+          type: string
+        digitalFileS3Key:
+          type: string
+        digitalFileS3Url:
+          type: string
+        key:
+          type: string
+        label:
+          type: string
+        description:
+          type: string
+        stripeProductId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - daw
+        - bpm
+        - price
+        - status
+    Cart:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        appUserId:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum: [active, purchased, archived, abandoned]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - appUserId
+        - status
+    CartItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        cartId:
+          type: integer
+          format: int64
+        productId:
+          type: integer
+          format: int64
+        quantity:
+          type: integer
+          default: 1
+          minimum: 1
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - cartId
+        - productId
+        - quantity
+    AddToCartRequest:
+      type: object
+      required:
+        - userID
+        - productID
+        - quantity
+      properties:
+        userID:
+          type: integer
+          format: int64
+        productID:
+          type: integer
+          format: int64
+        quantity:
+          type: integer
+          format: int64
+    AddToCartResponse:
+      type: object
+      required:
+        - success
+        - message
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+    GetCartResponse:
+      type: object
+      required:
+        - cartID
+        - items
+        - totalPrice
+      properties:
+        cartID:
+          type: integer
+          format: int64
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+        totalPrice:
+          type: number
+          format: float
+    UpdateCartItemRequest:
+      type: object
+      required:
+        - cartItemID
+        - newQuantity
+      properties:
+        cartItemID:
+          type: integer
+          format: int64
+        newQuantity:
+          type: integer
+          format: int64
+    UpdateCartItemResponse:
+      type: object
+      required:
+        - success
+        - message
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+    RemoveFromCartRequest:
+      type: object
+      required:
+        - cartItemID
+      properties:
+        cartItemID:
+          type: integer
+          format: int64
+    RemoveFromCartResponse:
+      type: object
+      required:
+        - success
+        - message
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+
