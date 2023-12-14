@@ -1,6 +1,12 @@
 // apps/server/src/services/cart.service.ts
 
-import { Cart, CartItem, CartWithCartItems, Product } from '@shared/src';
+import {
+  ApiCartData,
+  Cart,
+  CartItem,
+  CartWithCartItems,
+  Product,
+} from '@shared/src';
 import { BadRequestError, NotFoundError } from '../middleware/customErrors';
 import CartModel from '../models/cart.model';
 import CartItemModel from '../models/cart-item.model';
@@ -41,10 +47,8 @@ class CartService {
     return cart;
   }
 
-  static async getCartWithCartItems(
-    appUserId: number
-  ): Promise<CartWithCartItems | any> {
-    let cartData: CartWithCartItems | null | any =
+  static async getCartWithItems(appUserId: number): Promise<ApiCartData | any> {
+    let cartData: ApiCartData | null | any =
       await CartModel.getCartWithItems(appUserId);
 
     if (!cartData) {
@@ -52,7 +56,7 @@ class CartService {
       cartData = [{ ...newCart, items: [] }];
     }
 
-    if (isEmpty(cartData[0]?.items[0].product)) {
+    if (isEmpty(cartData[0]?.items[0]?.product)) {
       return cartData;
     }
 
@@ -92,7 +96,7 @@ class CartService {
     });
 
     const cartWithItems: CartWithCartItems =
-      await this.getCartWithCartItems(appUserId);
+      await this.getCartWithItems(appUserId);
 
     return cartWithItems;
   }

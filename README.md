@@ -100,6 +100,7 @@ fully-working-ecs/FINAL WITH ALL ROUTING/express-api/knexfile.ts
       "ts-node": "^10.9.1"
     }
   ```
+  ``````
  - https://alto9.com/2020/05/21/aws-ssm-parameters-as-ecs-environment-variables/
 https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+fargate+ssm+parameter+store&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCTE3NDQxajBqNKgCALACAA&sourceid=chrome&ie=UTF-8#ip=1
  - Go through all IAM and narrow permissions

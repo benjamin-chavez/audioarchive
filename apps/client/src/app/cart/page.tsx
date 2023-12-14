@@ -6,6 +6,7 @@ import { CheckIcon, QuestionMarkCircleIcon } from '@heroicons/react/20/solid';
 import { useCart } from '@/contexts/cart-context';
 import CheckoutButton from './components/checkout-button';
 import RemoveFromCartButton from './components/remove-from-cart-button';
+import { getMyCart } from '@/services/client/cart.api-client';
 
 function calculatePriceSubtotal(cartItems: any): number {
   // @ts-ignore
@@ -201,7 +202,7 @@ function CartItem({
 }
 
 export default function CartPage() {
-  // const res = await getMyCart();
+  const cartItems = getMyCart();
 
   // console.log(res.data);
 
@@ -209,7 +210,7 @@ export default function CartPage() {
   //   return;
   // }
 
-  const { cartItems } = useCart();
+  // const { cartItems } = useCart();
   // console.log('cartItems: ', cartItems);
 
   // const { items: cartItems } = res.data;

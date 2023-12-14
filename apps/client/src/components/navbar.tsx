@@ -16,7 +16,7 @@ import {
 // import Toast from './ui/toast';
 // import { useMe } from '@/contexts/appUserContext';
 import { getMe } from '@/lib/data/me';
-import { useCart } from '@/contexts/cart-context';
+// import { useCart } from '@/contexts/cart-context';
 import { authAdapter } from '../lib/auth';
 
 function classNames(...classes) {
@@ -39,7 +39,7 @@ const navItems = {
     },
     {
       name: <ShoppingCart />,
-      href: `/cart`,
+      href: `/testing`,
     },
   ],
   // anchorLinks: {
@@ -67,7 +67,7 @@ const navItems = {
 };
 
 export function ShoppingCart() {
-  const { cartQuantity } = useCart();
+  // const { cartQuantity } = useCart();
 
   return (
     <>
@@ -77,7 +77,7 @@ export function ShoppingCart() {
           aria-hidden="true"
         />
         <span className="sr-only">items in cart, view bag</span>
-        {cartQuantity ? cartQuantity : ''}
+        {/* {cartQuantity ? cartQuantity : ''} */}
       </div>
     </>
   );

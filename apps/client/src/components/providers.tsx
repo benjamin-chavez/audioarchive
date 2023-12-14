@@ -38,10 +38,10 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <UserProvider>
-        <CartProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-          {children}
-        </CartProvider>
+        {/* <CartProvider> */}
+        <ReactQueryDevtools initialIsOpen={false} />
+        {children}
+        {/* </CartProvider> */}
       </UserProvider>
     </QueryClientProvider>
   );

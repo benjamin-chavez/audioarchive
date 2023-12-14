@@ -267,21 +267,45 @@ components:
           type: string
     GetCartResponse:
       type: object
-      required:
-        - cartID
-        - items
-        - totalPrice
       properties:
-        cartID:
-          type: integer
-          format: int64
-        items:
+        data:
           type: array
           items:
-            $ref: '#/components/schemas/CartItem'
-        totalPrice:
-          type: number
-          format: float
+            type: object
+            properties:
+              cartId:
+                type: integer
+              appUserId:
+                type: integer
+              items:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    cartItemId:
+                      type: integer
+                    quantity:
+                      type: integer
+                    productId:
+                      type: integer
+                    name:
+                      type: string
+                    genre:
+                      type: string
+                    daw:
+                      type: string
+                    bpm:
+                      type: integer
+                    price:
+                      type: number
+                    imgS3Key:
+                      type: string
+                    sellerId:
+                      type: integer
+                    sellerUsername:
+                      type: string
+        message:
+          type: string
     UpdateCartItemRequest:
       type: object
       required:
@@ -322,4 +346,3 @@ components:
           type: boolean
         message:
           type: string
-

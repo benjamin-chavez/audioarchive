@@ -1,7 +1,9 @@
 // apps/client/src/services/cart.api-client.ts
 'use client';
 
-import { AddToCartResponse } from '@shared/src';
+import { getCartResponse } from '@shared/src';
+import { useQuery } from '@tanstack/react-query';
+// import { AddToCartResponse } from '@shared/src';
 import axios from 'axios';
 
 // const MAX_PURCHASE_QUANTITY = 5;
@@ -52,20 +54,41 @@ export async function addToCart({ productId }: { productId: number }) {
 //   },
 // });
 
-export async function getMyCart() {
-  try {
-    const res = await axios.get(`api/app-users/me/cart`);
+// export async function getMyCart(): Promise<getCartResponse | null> {
+//   try {
+//     const res = await axios.get(`api/app-users/me/cart`);
 
-    console.log('res: ', res);
-    console.log(res.statusText);
-    // @ts-ignore
-    // if (!res.ok) {
+//     if (res.statusText !== 'OK') {
+//       throw new Error('Failed to fetch Shopping Cart');
+//     }
+
+//     console.log('res: ', res.data?.data);
+//     return res.data?.data;
+//   } catch (error) {
+//     console.error('Failed to get cart:', error);
+//   }
+// }
+
+export async function getMyCart(): Promise<getCartResponse | null | any> {
+  try {
+    const res = await fetch(`api/app-users/me/cart`, { method: 'GET' });
+
     if (res.statusText !== 'OK') {
       throw new Error('Failed to fetch Shopping Cart');
     }
+    const response = await res.json();
 
-    return res.data?.data;
+    console.log('res: ', response.data);
+    return response.data;
   } catch (error) {
     console.error('Failed to get cart:', error);
   }
+}
+
+export function useShoppingCart() {
+  return useQuery({
+    queryKey: ['cart'],
+    queryFn: getMyCart,
+    // refetchOnMount: false,
+  });
 }

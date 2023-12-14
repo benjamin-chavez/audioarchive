@@ -4,7 +4,7 @@ import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
 import MeService from '../services/me.service';
 import CartService from '../services/cart.service';
-import { CartWithCartItems } from '@shared/src';
+import { CartWithCartItems, getCartResponse } from '@shared/src';
 import { Knex } from 'knex';
 import knex from '../config/database';
 
@@ -42,12 +42,23 @@ export const getMyCartWithCartItems: RequestHandler = asyncHandler(
     // const authId = req.auth.sub;
     // const appUser = await MeService.getMe(authId);
     const appUser = { id: 2 };
-    const cartWithItems = await CartService.getCartWithCartItems(appUser.id);
+    const cartWithItems = await CartService.getCartWithItems(appUser.id);
 
-    res.status(200).json({
+    // res.status(200).json({
+    //   data: cartWithItems,
+    //   message: 'Cart with cart items successfully retrieved',
+    // });
+
+    const response = {
       data: cartWithItems,
       message: 'Cart with cart items successfully retrieved',
-    });
+    };
+    // console.log(JSON.stringify(response, null, 2));
+
+    console.log('HEREHERHER');
+    res.status(200).json(response);
+
+    // res.status(200).json(cartWithItems);
   }
 );
 

@@ -39,6 +39,7 @@ router.get('/me/accounts', checkJwt, meController.getMeWithStripeAccounts);
 router.get(
   '/me/cart',
   // checkJwt,
+  // checkJwt,
   cartController.getMyCartWithCartItems
 ); // - Retrieve the current user's cart and its cartItems
 // TODO: router.put('/me/cart', checkJwt, cartController.updateMyCart); // - update the status of the cart

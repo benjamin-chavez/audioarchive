@@ -1,7 +1,7 @@
 // apps/client/src/app/cart/remove-from-cart-button.tsx
 'use client';
 
-import { useCart } from '@/contexts/cart-context';
+// import { useCart } from '@/contexts/cart-context';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 
 // export async function handleRemoveFromCart({
@@ -37,7 +37,7 @@ export default function RemoveFromCartButton({
   cartItemId: number | any;
   // revalidateCart: () => Promise<void>;
 }) {
-  const { removeFromCart } = useCart();
+  // const { removeFromCart } = useCart();
 
   return (
     <div>

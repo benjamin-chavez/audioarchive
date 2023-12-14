@@ -1,6 +1,7 @@
 // apps/server/src/models/cart.model.ts
 
 import {
+  ApiCartData,
   AppUser,
   Cart,
   CartItem,
@@ -42,38 +43,8 @@ class CartModel {
 
   static async getCartWithItems(
     appUserId: number
-  ): Promise<CartWithCartItems | null | any> {
+  ): Promise<ApiCartData | null> {
     // TODO: Update to use the `apps/server/src/database/queries/get-cart-with-items-and-products.sql` file instead
-
-    // 'quantity', cart_items.quantity,
-    //   const cartWithItems = await knex('carts')
-    //     .select('carts.*')
-    //     .select(
-    //       knex.raw(`
-    //   json_agg(
-    //     json_build_object(
-    //       'cart_item_id', cart_items.id,
-    //       'product_id', products.id,
-    //       'name', products.name,
-    //       'genre', products.genre,
-    //       'daw', products.daw,
-    //       'bpm', products.bpm,
-    //       'price', products.price,
-    //       'img_s3_key', products.img_s3_key,
-    //       'img_s3_url', products.img_s3_url
-    //       'seller_id', app_users.id,
-    //       'seller_username', app_users.username
-    //     )
-    //   ) AS items
-    // `)
-    //     )
-    //     .leftJoin('cart_items', 'carts.id', 'cart_items.cart_id')
-    //     .leftJoin('products', 'cart_items.product_id', 'products.id')
-    //     .leftJoin('accounts', 'products.account_id', 'accounts.id')
-    //     .leftJoin('app_users', 'products.app_user_id', 'app_users.id')
-    //     .where('carts.app_user_id', appUserId)
-    //     .andWhere('carts.status', 'active')
-    //     .groupBy('carts.id');
 
     const cartWithItems = await knex('carts')
       .select(
@@ -108,7 +79,9 @@ class CartModel {
       cartWithItems[0].items = Object.values(cartWithItems[0].items);
     }
 
-    const cartData = sanitize(cartWithItems);
+    const cartData: ApiCartData = sanitize(cartWithItems)[0];
+
+    // console.log('cartData', cartData);
 
     return cartData;
   }
