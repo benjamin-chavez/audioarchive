@@ -39,8 +39,9 @@ import knex from '../config/database';
 export const getMyCartWithCartItems: RequestHandler = asyncHandler(
   async (req, res) => {
     // @ts-ignore
-    const authId = req.auth.sub;
-    const appUser = await MeService.getMe(authId);
+    // const authId = req.auth.sub;
+    // const appUser = await MeService.getMe(authId);
+    const appUser = { id: 2 };
     const cartWithItems = await CartService.getCartWithCartItems(appUser.id);
 
     res.status(200).json({

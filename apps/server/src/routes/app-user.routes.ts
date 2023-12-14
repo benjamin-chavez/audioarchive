@@ -36,7 +36,11 @@ router.post('/me/accounts', checkJwt, accountsController.createStripeAccount);
 router.get('/me/accounts', checkJwt, meController.getMeWithStripeAccounts);
 
 // router.post('/me/cart', checkJwt, cartController.createMyCart); // **Unused-Keep?
-router.get('/me/cart', checkJwt, cartController.getMyCartWithCartItems); // - Retrieve the current user's cart and its cartItems
+router.get(
+  '/me/cart',
+  // checkJwt,
+  cartController.getMyCartWithCartItems
+); // - Retrieve the current user's cart and its cartItems
 // TODO: router.put('/me/cart', checkJwt, cartController.updateMyCart); // - update the status of the cart
 
 router.put('/me/cart/items', checkJwt, cartItemController.updateMyCartItem);

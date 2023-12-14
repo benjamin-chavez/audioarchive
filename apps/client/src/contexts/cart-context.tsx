@@ -20,7 +20,7 @@ const MAX_PURCHASE_QUANTITY = 5;
 type CartContext = {
   cartQuantity: number;
   cartItems: CartItem[] | any[];
-  increaseCartQuantity: (product: any) => void;
+  // increaseCartQuantity: (product: any) => void;
 };
 
 const CartContext = createContext<CartContext | null>(null);
@@ -95,12 +95,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     0,
   );
 
-
   return (
     <CartContext.Provider
       value={{
         cartQuantity,
-        increaseCartQuantity,
+        // increaseCartQuantity,
         cartItems,
       }}
     >
