@@ -82,6 +82,7 @@ class CartModel {
         knex.raw(`json_agg(
         json_build_object(
             'cart_item_id', cart_items.id,
+            'quantity', cart_items.quantity,
             'product_id', products.id,
             'name', products.name,
             'genre', products.genre_name,
@@ -108,10 +109,7 @@ class CartModel {
     }
 
     const cartData = sanitize(cartWithItems);
-    console.log('');
-    console.log('');
-    console.log('HERE: ', JSON.stringify(cartData));
-    console.log('');
+
     return cartData;
   }
 
