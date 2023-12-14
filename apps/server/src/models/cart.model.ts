@@ -82,7 +82,6 @@ class CartModel {
         knex.raw(`json_agg(
         json_build_object(
             'cart_item_id', cart_items.id,
-            'quantity', cart_items.quantity,
             'product_id', products.id,
             'name', products.name,
             'genre', products.genre_name,
@@ -94,7 +93,7 @@ class CartModel {
             'seller_id', app_users.id,
             'seller_username', app_users.username
         )
-    ) AS items`)
+    ) as items`)
       )
       .leftJoin('cart_items', 'carts.id', 'cart_items.cart_id')
       .leftJoin('products', 'cart_items.product_id', 'products.id')
