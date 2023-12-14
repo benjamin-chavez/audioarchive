@@ -52,28 +52,24 @@ class CartService {
       cartData = [{ ...newCart, items: [] }];
     }
 
-    if (isEmpty(cartData[0]?.items[0].product)) {
+    if (isEmpty(cartData?.items[0])) {
       return cartData;
     }
 
-    const cartItems = cartData[0].items;
+    const cartItems = cartData?.items;
     const s3Keys = cartItems
-      .map((cartItem) => cartItem.product.imgS3Key)
+      .map((cartItem) => cartItem.imgS3Key)
       .filter((s3Key) => s3Key != null);
 
     const signedUrls = await S3Service.getSignedUrls(s3Keys);
 
     const updatedCartItems = cartItems.map((cartItem) => ({
       ...cartItem,
-      product: {
-        ...cartItem.product,
-        imgS3Url: cartItem.product.imgS3Key
-          ? signedUrls[cartItem.product.imgS3Key]
-          : null,
-      },
+      imgS3Url: cartItem.imgS3Key ? signedUrls[cartItem.imgS3Key] : null,
     }));
 
-    return { ...cartData[0], items: updatedCartItems };
+    console.log('cartData:: ', cartData);
+    return { ...cartData, items: updatedCartItems };
   }
 
   static async addItemToCart(

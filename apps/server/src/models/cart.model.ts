@@ -39,40 +39,30 @@ class CartModel {
     return cart || null;
   }
 
-  static async getCartWithItems(
-    appUserId: number
-  ): Promise<CartWithCartItems | null | any> {
+  static async getCartWithItems(appUserId: number): Promise<null | any> {
+    // ): Promise<ApiCartData | null | any> {
     // TODO: Update to use the `apps/server/src/database/queries/get-cart-with-items-and-products.sql` file instead
 
     const cartWithItems = await knex('carts')
-      .select('carts.*')
       .select(
-        knex.raw(`
-    json_agg(
-      json_build_object(
-        'id', cart_items.id,
-        'cart_id', cart_items.cart_id,
-        'created_at', cart_items.created_at,
-        'updated_at', cart_items.updated_at,
-        'product', json_build_object(
-          'id', products.id,
-          'stripe_product_id', products.stripe_product_id,
-          'stripe_account_id', accounts.stripe_account_id,
-          'name', products.name,
-          'genre_name', products.genre_name,
-          'daw', products.daw,
-          'bpm', products.bpm,
-          'price', products.price,
-          'img_s3_key', products.img_s3_key,
-          'img_s3_url', products.img_s3_url
-        ),
-        'app_user', json_build_object(
-          'id', app_users.id,
-          'username', app_users.username
+        'carts.id as cart_id',
+        'carts.app_user_id as app_user_id',
+        knex.raw(`json_agg(
+        json_build_object(
+            'cart_item_id', cart_items.id,
+            'quantity', cart_items.quantity,
+            'product_id', products.id,
+            'name', products.name,
+            'genre', products.genre_name,
+            'daw', products.daw,
+            'bpm', products.bpm,
+            'price', products.price,
+            'img_s3_key', products.img_s3_key,
+            'img_s3_url', products.img_s3_url,
+            'seller_id', app_users.id,
+            'seller_username', app_users.username
         )
-      )
-    ) AS items
-  `)
+    ) as items`)
       )
       .leftJoin('cart_items', 'carts.id', 'cart_items.cart_id')
       .leftJoin('products', 'cart_items.product_id', 'products.id')
@@ -86,7 +76,10 @@ class CartModel {
       cartWithItems[0].items = Object.values(cartWithItems[0].items);
     }
 
-    const cartData = sanitize(cartWithItems);
+    // const cartData: ApiCartData = sanitize(cartWithItems)[0];
+    const cartData = sanitize(cartWithItems)[0];
+
+    // console.log('cartData', cartData);
 
     return cartData;
   }

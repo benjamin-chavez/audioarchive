@@ -125,9 +125,9 @@ export default function Navbar() {
     authNavItem = navItems.anchorLinks.logoutItem;
   }
 
-  if (me) {
-    console.log(me);
-  }
+  // if (me) {
+  //   console.log(me);
+  // }
 
   return (
     <div className="z-50">

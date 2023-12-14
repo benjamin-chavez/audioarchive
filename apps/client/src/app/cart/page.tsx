@@ -20,7 +20,7 @@ export async function revalidateCart() {
 function calculatePriceSubtotal(cartItems: any): number {
   // @ts-ignore
   const subtotal = cartItems?.reduce((sum, cartItem) => {
-    return sum + cartItem.product.price;
+    return sum + cartItem.price;
   }, 0);
   // console.log(subtotal);
   return subtotal;
@@ -116,7 +116,7 @@ function CartItem({
       <li className="flex py-6 sm:py-10">
         <div className="flex-shrink-0">
           <img
-            src={product.imgS3Url}
+            src={cartItem.imgS3Url}
             // alt={product.imageAlt}
             className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
           />
@@ -128,15 +128,15 @@ function CartItem({
               <div className="flex justify-between">
                 <h3 className="text-sm">
                   <a
-                    href={`/products/${product.id}`}
+                    href={`/products/${cartItem.productId}`}
                     className="font-medium text-gray-700 hover:text-gray-800"
                   >
-                    {product.name}
+                    {cartItem.name}
                   </a>
                 </h3>
               </div>
               <div className="mt-1 flex text-sm">
-                <p className="text-gray-500">{product.daw}</p>
+                <p className="text-gray-500">{cartItem.daw}</p>
                 {/* {product.bpm ? (
                   <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">
                     {product.bpm} bpm
@@ -144,13 +144,13 @@ function CartItem({
                 ) : null} */}
               </div>
               <p className="mt-1 text-sm font-medium text-gray-900">
-                {product.price}
+                {cartItem.price}
               </p>
             </div>
 
             <div className="mt-4 sm:mt-0 sm:pr-9">
               <label htmlFor={`quantity-${cartItemIdx}`} className="sr-only">
-                Quantity, {product.name}
+                Quantity, {cartItem.name}
               </label>
               <select
                 id={`quantity-${cartItemIdx}`}
@@ -200,7 +200,7 @@ function CartItem({
 export default async function CartPage() {
   const res = await getMyCart();
 
-  console.log(res.data);
+  console.log('res: ', JSON.stringify(res, null, 2));
 
   // if (!res.data) {
   //   return;

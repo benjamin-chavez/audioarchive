@@ -9,6 +9,7 @@ import { StarIcon } from '@heroicons/react/20/solid';
 import { Product, ProductWithAppUser } from '@shared/src';
 import { Fragment } from 'react';
 import { product2, reviews, faqs, license } from './temp-data';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 // @ts-ignore
 function classNames(...classes) {
@@ -22,25 +23,32 @@ export async function handleAddToCart({
   productId: number;
   revalidateCart: () => Promise<void>;
 }) {
-  try {
-    console.log('productId', productId);
-    const res = await fetch(`/api/app-users/me/cart/items`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ productId }),
-      // body: product,
-    });
+  const { user } = useUser();
 
-    if (!res.ok) {
-      throw new Error('Problem adding item to cart');
+  // UPDATE CONTEXT
+
+  try {
+    if (user) {
+      const res = await fetch(`/api/app-users/me/cart/items`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Problem adding item to cart');
+      }
+
+      // const updatedCart = await res.json();
+      // console.log('updatedCart', updatedCart);
+
+      await revalidateCart();
+    } else {
+      // useLocalStorage(productIdy)
     }
 
-    const updatedCart = await res.json();
-    // console.log('updatedCart', updatedCart);
-
-    await revalidateCart();
     // TODO: NEED TO REVALIDATE CACHE
   } catch (error) {
     console.error('Failed to add item to cart:', error);
