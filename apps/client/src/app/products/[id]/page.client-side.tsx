@@ -34,48 +34,57 @@ export async function handleAddToCart({
   // UPDATE CONTEXT
 
   try {
-    // if (user) {
-    //   console.log('here-user');
-    //   const res = await fetch(`/api/app-users/me/cart/items`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({ productId: product.id }),
-    //   });
+    if (user) {
+      console.log('here-user');
+      const res = await fetch(`/api/app-users/me/cart/items`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId: product.id }),
+      });
 
-    //   if (!res.ok) {
-    //     throw new Error('Problem adding item to cart');
-    //   }
+      if (!res.ok) {
+        throw new Error('Problem adding item to cart');
+      }
 
-    //   // const updatedCart = await res.json();
-    //   // console.log('updatedCart', updatedCart);
+      // const updatedCart = await res.json();
+      // console.log('updatedCart', updatedCart);
 
-    //   // TODO: NEED TO REVALIDATE CACHE
-    //   await revalidateCart();
-    // } else {
-    const newCartItem = {
-      quantity: 1,
-      productId: product.id,
-      name: product.name,
-      genre: product.genre,
-      daw: product.daw,
-      bpm: product.bpm,
-      price: product.price,
-      imgS3Key: product.imgS3Key,
-      imgS3Url: product.imgS3Url,
-      sellerId: product.appUserId,
-      sellerUsername: product.name,
-    };
-    console.log('else', cartItems);
-    // const updatedCart = [...cartItems, newCartItem];
-    const updatedCart = [...cartItems, newCartItem];
+      // TODO: NEED TO REVALIDATE CACHE
+      await revalidateCart();
+    } else {
+      // const existingCartItem = cartItems.find(
+      //   (item) => item.productId === product.id,
+      // );
 
-    console.log('updatedCart: ', updatedCart);
-    storeCart(updatedCart);
-    // storeCart([...cartItems, newCartItem]);
-    // setLocalCartItems([...cartItems, newCartItem]);
-    // }
+      const existingCartItemIdx = cartItems.findIndex(
+        (item) => item.productId === product.id,
+      );
+
+      let updatedCart;
+      if (existingCartItemIdx !== -1) {
+        updatedCart = [...cartItems];
+        updatedCart[existingCartItemIdx].quantity += 1;
+      } else {
+        const newCartItem = {
+          quantity: 1,
+          productId: product.id,
+          name: product.name,
+          genre: product.genre,
+          daw: product.daw,
+          bpm: product.bpm,
+          price: product.price,
+          imgS3Key: product.imgS3Key,
+          imgS3Url: product.imgS3Url,
+          sellerId: product.appUserId,
+          sellerUsername: product.name,
+        };
+        updatedCart = [...cartItems, newCartItem];
+      }
+
+      storeCart(updatedCart);
+    }
   } catch (error) {
     console.error('Failed to add item to cart:', error);
   }
