@@ -100,11 +100,6 @@ export default function Example2({
   const { cartItems, setLocalCartItems, storeCart } = useCart();
   const { user } = useUser();
 
-  // useEffect(() => {
-  //   // console.log('localCartItems: ', setLocalCartItems);
-  //   console.log('cartItems: ', cartItems);
-  // }, [setLocalCartItems]);
-
   return (
     <div className="bg-white">
       <div className="mt-10">

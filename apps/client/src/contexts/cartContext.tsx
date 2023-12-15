@@ -53,6 +53,32 @@ export function useCart(): CartContext {
   return context;
 }
 
+function mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems) {
+  console.log('dbci:', databaseCartItems);
+  if (databaseCartItems.length === 0) {
+    return cartItems;
+  }
+
+  if (cartItems.length === 0) {
+    return databaseCartItems;
+  }
+
+  const mergedCart = Object.values(
+    [...cartItems, ...databaseCartItems].reduce((acc, item) => {
+      acc[item.productId] = {
+        ...item,
+        quantity:
+          (acc[item.productId] ? acc[item.productId].quantity : 0) +
+          item.quantity,
+      };
+      return acc;
+    }, {}),
+  );
+
+  // console.log('mergedCart: ', mergedCart);
+  return mergedCart;
+}
+
 export function CartProvider({
   children,
   getMyCart,
@@ -73,14 +99,20 @@ export function CartProvider({
     const myFunc = async () => {
       console.log('myFunc');
       if (user) {
-        const databaseCartItems = await getMyCart();
+        const {
+          data: { items: databaseCartItems },
+        } = await getMyCart();
+        const mergedCart = mergeLocalStorageCartWithDBCart(
+          cartItems,
+          databaseCartItems,
+        );
 
         // TODO: merge databaseCartItems with localCartItems before emptying
         if (localCartItems.length !== 0) {
           setLocalCartItems([]);
         }
 
-        setCartItems(databaseCartItems);
+        setCartItems(mergedCart);
       } else {
         // setLocalCartItems([]);
         // console.log('localCartItems: ', localCartItems);
@@ -91,6 +123,26 @@ export function CartProvider({
     myFunc();
     console.log(cartItems);
   }, [localCartItems, user]);
+
+  // useEffect(() => {
+  //   const myFunc = async () => {
+  //     console.log('useEffect - user');
+  //     if (user) {
+  //       const databaseCartItems = await getMyCart();
+  //       const mergedCart = mergeLocalStorageCartWithDBCart(
+  //         cartItems,
+  //         databaseCartItems,
+  //       );
+
+  //       setLocalCartItems([]);
+  //       setCartItems(mergedCart);
+  //     } else {
+  //       // setLocalCartItems([]);
+  //       setCartItems(localCartItems);
+  //     }
+  //   };
+
+  //   myFunc();
   // }, [user]);
 
   function storeCart(updatedCartItems) {
