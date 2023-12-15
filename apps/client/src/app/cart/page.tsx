@@ -1,9 +1,13 @@
 // apps/client/src/app/cart/page.tsx
 import 'server-only';
+
+import dynamic from 'next/dynamic';
+
 import { revalidateTag } from 'next/cache';
-import CartPageClient from './page.client';
+// import CartPageClient from './page.client';
+const CartPageClient = dynamic(() => import('./page.client'), { ssr: false });
 import { getSession } from '@auth0/nextjs-auth0';
-import { getMyCart } from '@/lib/data/me';
+// import { getMyCart } from '@/lib/data/me';
 
 export async function revalidateCart() {
   'use server';
@@ -14,18 +18,18 @@ export async function revalidateCart() {
 }
 
 export default async function CartPage() {
-  const session = await getSession();
-  const user = session ? session.user : null;
+  // const session = await getSession();
+  // const user = session ? session.user : null;
   // const { cartItems, setCartItems, setLocalCartItems } = useCart();
 
   // let databaseCartItems;
-  if (user) {
-    //   databaseCartItems = await getMyCart();
-    // const res = await getMyCart();
-    // // console.log('res: ', JSON.stringify(res, null, 2));
-    // setCartItems(res.data.items);
-    revalidateCart();
-  }
+  // if (user) {
+  //   //   databaseCartItems = await getMyCart();
+  //   // const res = await getMyCart();
+  //   // // console.log('res: ', JSON.stringify(res, null, 2));
+  //   // setCartItems(res.data.items);
+  //   revalidateCart();
+  // }
 
   // if (!cartItems) {
   //   return;
@@ -34,6 +38,7 @@ export default async function CartPage() {
   // const { items: cartItems } = res.data;
   return (
     <div>
+      {/* <CartPageClient revalidateCart={revalidateCart} /> */}
       <CartPageClient revalidateCart={revalidateCart} />
     </div>
   );

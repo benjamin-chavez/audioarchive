@@ -10,12 +10,14 @@ export async function handleRemoveFromCart({
   revalidateCart,
   cartItems,
   setLocalCartItems,
+  storeCart,
   user,
 }: {
   cartItem: any;
   revalidateCart: () => Promise<void>;
   cartItems: any;
   setLocalCartItems: (items: any[]) => void;
+  storeCart: any;
   user: any;
 }) {
   if (user) {
@@ -36,12 +38,16 @@ export async function handleRemoveFromCart({
     await revalidateCart();
     return res.json();
   } else {
+    // TODO: There might be a bug here. if middle items are duplicated then only one of them is removed/filtered out
+    //       There shouldn't be duplicates anyway, but there still might be a rendering issue
     console.log('old: ', cartItems);
     const updatedCartItems = cartItems.filter(
       (item) => item.productId !== cartItem.productId,
     );
 
     console.log('new: ', updatedCartItems);
+    storeCart(updatedCartItems);
+
     // setLocalCartItems(updatedCartItems);
   }
 }
@@ -53,7 +59,7 @@ export default function RemoveFromCartButton({
   cartItem: any;
   revalidateCart: () => Promise<void>;
 }) {
-  const { cartItems, setLocalCartItems } = useCart();
+  const { cartItems, setLocalCartItems, storeCart } = useCart();
   const { user } = useUser();
 
   return (
@@ -67,6 +73,7 @@ export default function RemoveFromCartButton({
             revalidateCart,
             user,
             cartItems,
+            storeCart,
             setLocalCartItems,
           })
         }

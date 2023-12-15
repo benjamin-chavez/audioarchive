@@ -83,7 +83,7 @@ export function CartProvider({
         setCartItems(databaseCartItems);
       } else {
         // setLocalCartItems([]);
-        console.log('localCartItems: ', localCartItems);
+        // console.log('localCartItems: ', localCartItems);
         setCartItems(localCartItems);
       }
     };

@@ -6,6 +6,7 @@ import { useCart } from '@/contexts/cartContext';
 import { CheckIcon, QuestionMarkCircleIcon } from '@heroicons/react/20/solid';
 import CheckoutButton from './checkout-button';
 import RemoveFromCartButton from './remove-from-cart-button';
+import { useEffect, useState } from 'react';
 
 // function calculatePriceSubtotal(cartItems: any): number {
 //   // @ts-ignore
