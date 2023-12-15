@@ -28,11 +28,12 @@ export async function up(knex: Knex): Promise<void> {
       .inTable('products')
       .notNullable();
 
-    // table.integer('quantity').notNullable();
+    table.integer('quantity').notNullable();
     // table.decimal('price', 10, 2).notNullable();
 
     table.timestamps(true, true);
 
+    table.unique(['cartId', 'productId']);
     // table.index('appUserId');
   });
 }

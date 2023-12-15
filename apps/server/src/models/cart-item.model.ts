@@ -32,12 +32,22 @@ class CartItemModel {
   //   return cart || null;
   // }
 
-  // static async updateById(
-  //   cartId: number,
-  //   cartData: Partial<Cart>
-  // ): Promise<Cart | null> {
-  //   return knex(this.tableName).where({ cartId }).update(cartData);
-  // }
+  static async upsertCartItem({
+    cartId,
+    cartItem,
+  }: {
+    cartId: number;
+    cartItem: Partial<CartItem> | any;
+  }): Promise<CartItem | any | null> {
+    return knex('cart_items')
+      .insert({
+        cartId: cartItem.cartId,
+        productId: cartItem.productId,
+        quantity: cartItem.quantity,
+      })
+      .onConflict(['cartId', 'productId'])
+      .merge({ quantity: cartItem.quantity });
+  }
 
   // static async updateActiveCartByAppUserId(
   //   appUserId: number,

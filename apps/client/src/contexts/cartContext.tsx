@@ -94,14 +94,19 @@ export function CartProvider({
   const [cartItems, setCartItems] = useState<ApiCartItem[]>(
     localCartItems || [],
   );
+  const [cartId, setCartId] = useState<number | null>(null);
 
   useEffect(() => {
     const myFunc = async () => {
       console.log('myFunc');
       if (user) {
         const {
-          data: { items: databaseCartItems },
+          data: { items: databaseCartItems, cartId: apiCartId },
         } = await getMyCart();
+        console.log('cartId', apiCartId);
+        console.log('items:, ', databaseCartItems);
+        setCartId(apiCartId);
+
         const mergedCart = mergeLocalStorageCartWithDBCart(
           cartItems,
           databaseCartItems,
@@ -123,6 +128,24 @@ export function CartProvider({
     myFunc();
     console.log(cartItems);
   }, [localCartItems, user]);
+
+  useEffect(() => {
+    const updateDatabaseCart = async () => {
+      if (!user) {
+        return;
+      }
+
+      const res = await fetch(`/api/app-users/me/cart/items`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ cartId, cartItems }),
+      });
+    };
+
+    updateDatabaseCart();
+  }, [cartItems]);
 
   // useEffect(() => {
   //   const myFunc = async () => {

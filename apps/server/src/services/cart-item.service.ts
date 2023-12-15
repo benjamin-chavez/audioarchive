@@ -50,6 +50,66 @@ class CartItemService {
   //   }
   //   return updatedCart;
   // }
+
+  static async updateCartItemsByCartId(
+    cartId: number,
+    cartItems: any
+  ): Promise<any> {
+    if (!cartItems) {
+      throw new BadRequestError('Invalid cart data provided');
+    }
+
+    const prunedCartItems = cartItems
+      .filter((item) => item.quantity)
+      .map((item) => {
+        return {
+          cartId,
+          productId: item.productId,
+          quantity: item.quantity,
+        };
+      });
+    console.log('prunedCartItems ', JSON.stringify(prunedCartItems, null, 2));
+
+    const queries = cartItems.map((item) =>
+      CartItemModel.upsertCartItem({ cartId, cartItem: item })
+    );
+    const results = await Promise.allSettled(queries);
+
+    results.forEach((result, index) => {
+      if (result.status === 'fulfilled') {
+        console.log(`Item ${index} updated successfully:`, result.value);
+      } else {
+        console.error(`Error updating item ${index}:`, result.reason);
+      }
+    });
+
+    // if (!updatedCart) {
+    //   throw new NotFoundError('cart not found or failed to update');
+    // }
+
+    // return updatedCart;
+    // return prunedCartItems;
+
+    const summary = {
+      successCount: results.filter((result) => result.status === 'fulfilled')
+        .length,
+      errors: results
+        .filter((result) => result.status === 'rejected')
+        // @ts-ignore
+        .map((result) => result.reason),
+    };
+    return summary;
+
+    // const successfulUpdates = results
+    //   .filter((result) => result.status === 'fulfilled')
+    //   .map((result) => result.value); // assuming result.value contains meaningful data
+
+    // const errors = results
+    //   .filter((result) => result.status === 'rejected')
+    //   .map((result) => result.reason);
+
+    // return { successfulUpdates, errors };
+  }
 }
 
 export default CartItemService;
