@@ -1,7 +1,6 @@
 'use client';
 import { updateDatabaseCart } from '@/services/cart.api-service';
 import { useUser } from '@auth0/nextjs-auth0/client';
-// import { ApiCartData } from '@shared/src';
 import {
   Dispatch,
   ReactNode,
@@ -35,9 +34,6 @@ export type ApiCartData = {
 };
 
 export type CartContext = {
-  // cartId?: number;
-  // cartItems: ApiCartItem[];
-  // setCartItems: () => any;
   storeCart: (updatedCartItems: any) => void;
   setCartItems: Dispatch<any>;
   setLocalCartItems: Dispatch<any>;
@@ -108,11 +104,6 @@ export function CartProvider({
       }
       const { items: databaseCartItems, cartId: apiCartId } = response?.data;
 
-      // const mergedCart = mergeLocalStorageCartWithDBCart(
-      //   cartItems,
-      //   databaseCartItems,
-      // );
-      // setCartItems(mergedCart);
       setCartItems(
         mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems),
       );
@@ -128,45 +119,6 @@ export function CartProvider({
 
     myFunc();
   }, [localCartItems, user]);
-
-  // useEffect(() => {
-  //   const updateDatabaseCart = async () => {
-  //     if (!user) {
-  //       return;
-  //     }
-
-  //     const res = await fetch(`/api/app-users/me/cart/items`, {
-  //       method: 'PUT',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ cartId, cartItems }),
-  //     });
-  //   };
-
-  //   updateDatabaseCart();
-  // }, [cartItems]);
-
-  // useEffect(() => {
-  //   const myFunc = async () => {
-  //     console.log('useEffect - user');
-  //     if (user) {
-  //       const databaseCartItems = await getMyCart();
-  //       const mergedCart = mergeLocalStorageCartWithDBCart(
-  //         cartItems,
-  //         databaseCartItems,
-  //       );
-
-  //       setLocalCartItems([]);
-  //       setCartItems(mergedCart);
-  //     } else {
-  //       // setLocalCartItems([]);
-  //       setCartItems(localCartItems);
-  //     }
-  //   };
-
-  //   myFunc();
-  // }, [user]);
 
   const storeCart = useCallback(
     (updatedCartItems) => {
