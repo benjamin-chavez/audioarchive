@@ -1,37 +1,61 @@
 // apps/client/src/app/cart/remove-from-cart-button.tsx
 'use client';
 
+import { useCart } from '@/contexts/cartContext';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 
 export async function handleRemoveFromCart({
-  cartItemId,
+  cartItem,
   revalidateCart,
+  cartItems,
+  setLocalCartItems,
+  user,
 }: {
-  cartItemId: number | any;
+  cartItem: any;
   revalidateCart: () => Promise<void>;
+  cartItems: any;
+  setLocalCartItems: (items: any[]) => void;
+  user: any;
 }) {
-  const res = await fetch(`api/app-users/me/cart/items/${cartItemId}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  if (user) {
+    const res = await fetch(
+      `api/app-users/me/cart/items/${cartItem.cartItemId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
 
-  if (!res.ok) {
-    throw new Error('Failed to removed item from cart');
+    if (!res.ok) {
+      throw new Error('Failed to removed item from cart');
+    }
+
+    await revalidateCart();
+    return res.json();
+  } else {
+    console.log('old: ', cartItems);
+    const updatedCartItems = cartItems.filter(
+      (item) => item.productId !== cartItem.productId,
+    );
+
+    console.log('new: ', updatedCartItems);
+    // setLocalCartItems(updatedCartItems);
   }
-
-  await revalidateCart();
-  return res.json();
 }
 
 export default function RemoveFromCartButton({
-  cartItemId,
+  cartItem,
   revalidateCart,
 }: {
-  cartItemId: number | any;
+  cartItem: any;
   revalidateCart: () => Promise<void>;
 }) {
+  const { cartItems, setLocalCartItems } = useCart();
+  const { user } = useUser();
+
   return (
     <div>
       <button
@@ -39,8 +63,11 @@ export default function RemoveFromCartButton({
         className="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
         onClick={() =>
           handleRemoveFromCart({
-            cartItemId: cartItemId,
+            cartItem: cartItem,
             revalidateCart,
+            user,
+            cartItems,
+            setLocalCartItems,
           })
         }
       >

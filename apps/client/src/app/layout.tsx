@@ -12,6 +12,7 @@ import { GeistSans, GeistMono } from 'geist/font';
 
 import Navbar from '../components/navbar';
 import Footer from '@/components/footer';
+import { getMyCart } from '@/lib/data/me';
 
 // import Footer from '@/components/footer';
 // import Toast from '@/components/ui/toast';
@@ -39,7 +40,7 @@ export default async function RootLayout({
     >
       <body className={inter.className}>
         {/* <UserProvider> */}
-        <Providers>
+        <Providers getMyCart={getMyCart}>
           <Navbar />
 
           {children}

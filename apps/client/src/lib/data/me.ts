@@ -112,5 +112,3 @@ export async function getMyCart() {
     return {};
   }
 }
-
-//

@@ -23,11 +23,7 @@ const handleCheckoutSession = async ({ cartItems }: { cartItems: any }) => {
 };
 
 // eslint-disable-next-line @next/next/no-async-client-component
-export default async function CheckoutButton({
-  cartItems,
-}: {
-  cartItems: any;
-}) {
+export default function CheckoutButton({ cartItems }: { cartItems: any }) {
   const router = useRouter();
   const handleCheckout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

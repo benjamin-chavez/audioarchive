@@ -2,14 +2,14 @@
 // TODO: Convert this to a server component and move into `apps/client/src/app/products/[id]/page.tsx` file.
 'use client';
 
-import Link from 'next/link';
-
+import { useCart } from '@/contexts/cartContext';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { Tab } from '@headlessui/react';
 import { StarIcon } from '@heroicons/react/20/solid';
 import { Product, ProductWithAppUser } from '@shared/src';
-import { Fragment } from 'react';
-import { product2, reviews, faqs, license } from './temp-data';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import Link from 'next/link';
+import { Fragment, useEffect } from 'react';
+import { faqs, license, product2, reviews } from './temp-data';
 
 // @ts-ignore
 function classNames(...classes) {
@@ -17,39 +17,65 @@ function classNames(...classes) {
 }
 
 export async function handleAddToCart({
-  productId,
+  product,
   revalidateCart,
+  cartItems,
+  setLocalCartItems,
+  storeCart,
+  user,
 }: {
-  productId: number;
+  product: Product | any;
   revalidateCart: () => Promise<void>;
+  cartItems: any;
+  setLocalCartItems: any;
+  storeCart: any;
+  user: any;
 }) {
-  const { user } = useUser();
-
   // UPDATE CONTEXT
 
   try {
-    if (user) {
-      const res = await fetch(`/api/app-users/me/cart/items`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ productId }),
-      });
+    // if (user) {
+    //   console.log('here-user');
+    //   const res = await fetch(`/api/app-users/me/cart/items`, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ productId: product.id }),
+    //   });
 
-      if (!res.ok) {
-        throw new Error('Problem adding item to cart');
-      }
+    //   if (!res.ok) {
+    //     throw new Error('Problem adding item to cart');
+    //   }
 
-      // const updatedCart = await res.json();
-      // console.log('updatedCart', updatedCart);
+    //   // const updatedCart = await res.json();
+    //   // console.log('updatedCart', updatedCart);
 
-      await revalidateCart();
-    } else {
-      // useLocalStorage(productIdy)
-    }
+    //   // TODO: NEED TO REVALIDATE CACHE
+    //   await revalidateCart();
+    // } else {
+    const newCartItem = {
+      quantity: 1,
+      productId: product.id,
+      name: product.name,
+      genre: product.genre,
+      daw: product.daw,
+      bpm: product.bpm,
+      price: product.price,
+      imgS3Key: product.imgS3Key,
+      imgS3Url: product.imgS3Url,
+      sellerId: product.appUserId,
+      sellerUsername: product.name,
+    };
+    console.log('else', cartItems);
+    // const updatedCart = [...cartItems, newCartItem];
+    const updatedCart = [...cartItems, newCartItem];
 
-    // TODO: NEED TO REVALIDATE CACHE
+    console.log('updatedCart: ', updatedCart);
+    storeCart(updatedCart);
+    // storeCart([...cartItems, newCartItem]);
+    // setLocalCartItems([...cartItems, newCartItem]);
+    // }
   } catch (error) {
     console.error('Failed to add item to cart:', error);
   }
@@ -62,6 +88,14 @@ export default function Example2({
   product: ProductWithAppUser | any;
   revalidateCart: () => Promise<void>;
 }) {
+  const { cartItems, setLocalCartItems, storeCart } = useCart();
+  const { user } = useUser();
+
+  // useEffect(() => {
+  //   // console.log('localCartItems: ', setLocalCartItems);
+  //   console.log('cartItems: ', cartItems);
+  // }, [setLocalCartItems]);
+
   return (
     <div className="bg-white">
       <div className="mt-10">
@@ -141,7 +175,11 @@ export default function Example2({
                 className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                 onClick={() =>
                   handleAddToCart({
-                    productId: product.id,
+                    product: product,
+                    cartItems,
+                    setLocalCartItems,
+                    storeCart,
+                    user,
                     revalidateCart,
                   })
                 }

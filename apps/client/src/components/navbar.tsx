@@ -115,9 +115,9 @@ export default function Navbar() {
   const [me, setMe] = useState(null);
   const { user, isLoading } = useUser();
 
-  useEffect(() => {
-    setMe(handleGetMe(setMe));
-  }, []);
+  // useEffect(() => {
+  //   setMe(handleGetMe(setMe));
+  // }, []);
 
   let authNavItem = navItems.anchorLinks.loginItem;
 
