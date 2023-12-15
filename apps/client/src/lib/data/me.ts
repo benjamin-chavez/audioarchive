@@ -105,7 +105,10 @@ export async function getMyCart() {
       throw new Error('Failed to fetch Shopping Cart');
     }
 
-    return res.json();
+    const rez = await res.json();
+    console.log('rez: ', rez);
+    // return res.json();
+    return rez;
   } catch (error) {
     // TODO: FINISH HANDLING ERRORS HERE
     // PROBABLY SHOULD REDIRECT TO LOGIN?

@@ -37,6 +37,8 @@ export const addItemToCart: RequestHandler = asyncHandler(async (req, res) => {
   const appUser = await MeService.getMe(authId);
   const cartItemData = req.body;
 
+  console.log('addItemToCart: ', cartItemData);
+
   const cartWithItems = await CartService.addItemToCart(
     appUser.id,
     cartItemData
@@ -99,7 +101,10 @@ export const updateCartItems: RequestHandler = asyncHandler(
     // const cartData = req.body;
     // console.log('cartData', JSON.stringify(cartData, null, 2));
 
-    const updatedCart = await CartItemService.updateCartItemsByCartId(cartId, cartItems);
+    const updatedCart = await CartItemService.updateCartItemsByCartId(
+      cartId,
+      cartItems
+    );
 
     res
       .status(200)

@@ -10,6 +10,7 @@ import { Product, ProductWithAppUser } from '@shared/src';
 import Link from 'next/link';
 import { Fragment, useEffect } from 'react';
 import { faqs, license, product2, reviews } from './temp-data';
+import { revalidateCart2 } from '../../cart/page';
 
 // @ts-ignore
 function classNames(...classes) {
@@ -41,18 +42,22 @@ export async function handleAddToCart({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ productId: product.id }),
+        body: JSON.stringify({ productId: product.id, quantity: 1 }),
       });
 
       if (!res.ok) {
         throw new Error('Problem adding item to cart');
       }
 
-      // const updatedCart = await res.json();
-      // console.log('updatedCart', updatedCart);
+      const {
+        data: { items: updatedCart },
+      } = await res.json();
+      console.log('updatedCart', updatedCart);
+      storeCart(updatedCart);
 
       // TODO: NEED TO REVALIDATE CACHE
-      await revalidateCart();
+      // await revalidateCart();
+      await revalidateCart2();
     } else {
       // const existingCartItem = cartItems.find(
       //   (item) => item.productId === product.id,

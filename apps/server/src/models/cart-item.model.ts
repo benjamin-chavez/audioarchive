@@ -7,9 +7,13 @@ import knex from '../config/database';
 class CartItemModel {
   private static tableName = 'cartItems';
 
-  static async create(cartId: number, productId: number): Promise<CartItem> {
+  static async create(
+    cartId: number,
+    productId: number,
+    quantity: number
+  ): Promise<CartItem> {
     const newCartItem: CartItem[] = await knex(this.tableName)
-      .insert({ cartId, productId })
+      .insert({ cartId, productId, quantity })
       .returning('*');
 
     return newCartItem[0];
@@ -56,7 +60,7 @@ class CartItemModel {
     // server:dev:clean: Error updating item 0: error: insert into "cart_items" ("cart_id", "product_id", "quantity") values (DEFAULT, $1, $2) on conflict ("cart_id", "product_id") do update set "quantity" = $3 - null value in column "cart_id" of relation "cart_items" violates not-null constraint"
     return knex('cart_items')
       .insert({
-        cartId: cartItem.cartId,
+        cartId: cartId,
         productId: cartItem.productId,
         quantity: cartItem.quantity,
       })

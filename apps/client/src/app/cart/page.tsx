@@ -1,9 +1,10 @@
 // apps/client/src/app/cart/page.tsx
-import 'server-only';
+// import 'server-only';
+'use server';
 
 import dynamic from 'next/dynamic';
 
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 // import CartPageClient from './page.client';
 const CartPageClient = dynamic(() => import('./page.client'), { ssr: false });
 import { getSession } from '@auth0/nextjs-auth0';
@@ -12,6 +13,12 @@ import { getSession } from '@auth0/nextjs-auth0';
 export async function revalidateCart() {
   'use server';
 
+  // TODO: Figure out if you should use revalidateTag or revalidatePath
+  // revalidateTag('cart');
+  revalidatePath('/cart');
+}
+
+export async function revalidateCart2() {
   // TODO: Figure out if you should use revalidateTag or revalidatePath
   revalidateTag('cart');
   // revalidatePath('/cart');

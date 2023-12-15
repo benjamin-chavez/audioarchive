@@ -47,22 +47,25 @@ class CartModel {
       .select(
         'carts.id as cart_id',
         'carts.app_user_id as app_user_id',
-        knex.raw(`json_agg(
-        json_build_object(
-            'cart_item_id', cart_items.id,
-            'quantity', cart_items.quantity,
-            'product_id', products.id,
-            'name', products.name,
-            'genre', products.genre_name,
-            'daw', products.daw,
-            'bpm', products.bpm,
-            'price', products.price,
-            'img_s3_key', products.img_s3_key,
-            'img_s3_url', products.img_s3_url,
-            'seller_id', app_users.id,
-            'seller_username', app_users.username
-        )
-    ) as items`)
+        knex.raw(`COALESCE(
+          json_agg(
+            json_build_object(
+                'cart_item_id', cart_items.id,
+                'quantity', cart_items.quantity,
+                'product_id', products.id,
+                'name', products.name,
+                'genre', products.genre_name,
+                'daw', products.daw,
+                'bpm', products.bpm,
+                'price', products.price,
+                'img_s3_key', products.img_s3_key,
+                'img_s3_url', products.img_s3_url,
+                'seller_id', app_users.id,
+                'seller_username', app_users.username
+            )
+          ) FILTER (WHERE cart_items.id IS NOT NULL),
+          '{}'::json
+        ) AS items`)
       )
       .leftJoin('cart_items', 'carts.id', 'cart_items.cart_id')
       .leftJoin('products', 'cart_items.product_id', 'products.id')
@@ -71,6 +74,11 @@ class CartModel {
       .where('carts.app_user_id', appUserId)
       .andWhere('carts.status', 'active')
       .groupBy('carts.id');
+
+    console.log(
+      'cartModel-getCartWithItems:',
+      JSON.stringify(cartWithItems, null, 2)
+    );
 
     if (cartWithItems && cartWithItems[0] && cartWithItems[0].items) {
       cartWithItems[0].items = Object.values(cartWithItems[0].items);

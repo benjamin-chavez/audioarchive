@@ -9,16 +9,20 @@ import { isEmpty } from '../lib/utils';
 
 class CartService {
   static async createCartItem(
-    cartItemData: Partial<CartItem>
+    cartItemData: Partial<CartItem> | any
   ): Promise<CartItem> {
-    const { cartId, productId } = cartItemData;
+    const { cartId, productId, quantity } = cartItemData;
 
-    if (!cartId || !productId) {
+    if (!cartId || !productId || !quantity) {
       // TODO: add Error message
       throw Error;
     }
 
-    const newCartItem: CartItem = await CartItemModel.create(cartId, productId);
+    const newCartItem: CartItem = await CartItemModel.create(
+      cartId,
+      productId,
+      quantity
+    );
 
     return newCartItem;
   }
@@ -47,15 +51,31 @@ class CartService {
     let cartData: CartWithCartItems | null | any =
       await CartModel.getCartWithItems(appUserId);
 
+    // console.log(
+    //   'getCartWithCartItems-cartData-0: ',
+    //   JSON.stringify(cartData, null, 2)
+    // );
     if (!cartData) {
       const newCart = await this.createCart(appUserId);
       cartData = [{ ...newCart, items: [] }];
+      // console.log(
+      //   'getCartWithCartItems-cartData-1: ',
+      //   JSON.stringify(cartData, null, 2)
+      // );
     }
 
     if (isEmpty(cartData?.items[0])) {
+      // console.log(
+      //   'getCartWithCartItems-cartData-2: ',
+      //   JSON.stringify(cartData, null, 2)
+      // );
       return cartData;
     }
 
+    // console.log(
+    //   'getCartWithCartItems-cartData-3: ',
+    //   JSON.stringify(cartData, null, 2)
+    // );
     const cartItems = cartData?.items;
     const s3Keys = cartItems
       .map((cartItem) => cartItem.imgS3Key)
@@ -68,13 +88,13 @@ class CartService {
       imgS3Url: cartItem.imgS3Key ? signedUrls[cartItem.imgS3Key] : null,
     }));
 
-    console.log('cartData:: ', cartData);
+    // console.log('cartData:: ', cartData);
     return { ...cartData, items: updatedCartItems };
   }
 
   static async addItemToCart(
     appUserId: number,
-    cartItemData: Partial<CartItem>
+    cartItemData: Partial<CartItem> | any
   ): Promise<CartWithCartItems> {
     let cart = await CartModel.findBy('appUserId', appUserId);
 
@@ -85,6 +105,7 @@ class CartService {
     const newCartItem = await this.createCartItem({
       cartId: cart.id,
       productId: cartItemData.productId,
+      quantity: cartItemData.quantity,
     });
 
     const cartWithItems: CartWithCartItems =

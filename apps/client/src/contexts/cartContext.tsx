@@ -75,7 +75,7 @@ function mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems) {
     }, {}),
   );
 
-  // console.log('mergedCart: ', mergedCart);
+  console.log('mergedCart: ', mergedCart);
   return mergedCart;
 }
 
@@ -95,21 +95,31 @@ export function CartProvider({
     localCartItems || [],
   );
   const [cartId, setCartId] = useState<number | null>(null);
+  // const [revalidateCart, setRevalidateCart] = useState<boolean>(true);
+
+  // useEffect(()=> {
+
+  // })
 
   useEffect(() => {
     const myFunc = async () => {
       console.log('myFunc');
       if (user) {
-        const {
-          data: { items: databaseCartItems, cartId: apiCartId },
-        } = await getMyCart();
-        console.log('cartId', apiCartId);
+        const response = await getMyCart();
+
+        if (!response || !response.data) {
+          return;
+        }
+        const { items: databaseCartItems, cartId: apiCartId } = response.data;
+
+        console.log('response.data', response.data);
         console.log('items:, ', databaseCartItems);
         setCartId(apiCartId);
 
         const mergedCart = mergeLocalStorageCartWithDBCart(
           cartItems,
           databaseCartItems,
+          // [],
         );
 
         // TODO: merge databaseCartItems with localCartItems before emptying
@@ -129,23 +139,23 @@ export function CartProvider({
     console.log(cartItems);
   }, [localCartItems, user]);
 
-  useEffect(() => {
-    const updateDatabaseCart = async () => {
-      if (!user) {
-        return;
-      }
+  // useEffect(() => {
+  //   const updateDatabaseCart = async () => {
+  //     if (!user) {
+  //       return;
+  //     }
 
-      const res = await fetch(`/api/app-users/me/cart/items`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ cartId, cartItems }),
-      });
-    };
+  //     const res = await fetch(`/api/app-users/me/cart/items`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ cartId, cartItems }),
+  //     });
+  //   };
 
-    updateDatabaseCart();
-  }, [cartItems]);
+  //   updateDatabaseCart();
+  // }, [cartItems]);
 
   // useEffect(() => {
   //   const myFunc = async () => {
