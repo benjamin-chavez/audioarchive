@@ -1,10 +1,12 @@
 'use client';
+import { updateDatabaseCart } from '@/services/cart.api-service';
 import { useUser } from '@auth0/nextjs-auth0/client';
 // import { ApiCartData } from '@shared/src';
 import {
   Dispatch,
   ReactNode,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -54,7 +56,6 @@ export function useCart(): CartContext {
 }
 
 function mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems) {
-  console.log('dbci:', databaseCartItems);
   if (databaseCartItems.length === 0) {
     return cartItems;
   }
@@ -75,7 +76,6 @@ function mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems) {
     }, {}),
   );
 
-  console.log('mergedCart: ', mergedCart);
   return mergedCart;
 }
 
@@ -94,49 +94,39 @@ export function CartProvider({
   const [cartItems, setCartItems] = useState<ApiCartItem[]>(
     localCartItems || [],
   );
-  const [cartId, setCartId] = useState<number | null>(null);
-  // const [revalidateCart, setRevalidateCart] = useState<boolean>(true);
-
-  // useEffect(()=> {
-
-  // })
 
   useEffect(() => {
     const myFunc = async () => {
-      console.log('myFunc');
-      if (user) {
-        const response = await getMyCart();
-
-        if (!response || !response.data) {
-          return;
-        }
-        const { items: databaseCartItems, cartId: apiCartId } = response.data;
-
-        console.log('response.data', response.data);
-        console.log('items:, ', databaseCartItems);
-        setCartId(apiCartId);
-
-        const mergedCart = mergeLocalStorageCartWithDBCart(
-          cartItems,
-          databaseCartItems,
-          // [],
-        );
-
-        // TODO: merge databaseCartItems with localCartItems before emptying
-        if (localCartItems.length !== 0) {
-          setLocalCartItems([]);
-        }
-
-        setCartItems(mergedCart);
-      } else {
-        // setLocalCartItems([]);
-        // console.log('localCartItems: ', localCartItems);
+      if (!user) {
         setCartItems(localCartItems);
+        return;
+      }
+
+      const response = await getMyCart();
+      if (!response || !response.data) {
+        return;
+      }
+      const { items: databaseCartItems, cartId: apiCartId } = response?.data;
+
+      // const mergedCart = mergeLocalStorageCartWithDBCart(
+      //   cartItems,
+      //   databaseCartItems,
+      // );
+      // setCartItems(mergedCart);
+      setCartItems(
+        mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems),
+      );
+
+      if (user) {
+        await updateDatabaseCart({ cartId: apiCartId, cartItems });
+      }
+
+      if (localCartItems.length !== 0) {
+        setLocalCartItems([]);
       }
     };
 
     myFunc();
-    console.log(cartItems);
   }, [localCartItems, user]);
 
   // useEffect(() => {
@@ -178,16 +168,16 @@ export function CartProvider({
   //   myFunc();
   // }, [user]);
 
-  function storeCart(updatedCartItems) {
-    console.log('store cart: ', updatedCartItems);
-
-    if (user) {
-      // TODO: Post request to api
-      setCartItems(updatedCartItems);
-    } else {
-      setLocalCartItems(updatedCartItems);
-    }
-  }
+  const storeCart = useCallback(
+    (updatedCartItems) => {
+      if (user) {
+        setCartItems(updatedCartItems);
+      } else {
+        setLocalCartItems(updatedCartItems);
+      }
+    },
+    [user, setCartItems, setLocalCartItems],
+  );
 
   const contextValue = useMemo(
     () => ({

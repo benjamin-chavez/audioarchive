@@ -9,14 +9,13 @@ export async function handleRemoveFromCart({
   cartItem,
   revalidateCart,
   cartItems,
-  setLocalCartItems,
   storeCart,
   user,
 }: {
   cartItem: any;
   revalidateCart: () => Promise<void>;
   cartItems: any;
-  setLocalCartItems: (items: any[]) => void;
+
   storeCart: any;
   user: any;
 }) {
@@ -47,8 +46,6 @@ export async function handleRemoveFromCart({
 
     console.log('new: ', updatedCartItems);
     storeCart(updatedCartItems);
-
-    // setLocalCartItems(updatedCartItems);
   }
 }
 
@@ -59,7 +56,7 @@ export default function RemoveFromCartButton({
   cartItem: any;
   revalidateCart: () => Promise<void>;
 }) {
-  const { cartItems, setLocalCartItems, storeCart } = useCart();
+  const { cartItems, storeCart } = useCart();
   const { user } = useUser();
 
   return (
@@ -74,7 +71,6 @@ export default function RemoveFromCartButton({
             user,
             cartItems,
             storeCart,
-            setLocalCartItems,
           })
         }
       >

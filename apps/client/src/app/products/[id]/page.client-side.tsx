@@ -21,14 +21,12 @@ export async function handleAddToCart({
   product,
   revalidateCart,
   cartItems,
-  setLocalCartItems,
   storeCart,
   user,
 }: {
   product: Product | any;
   revalidateCart: () => Promise<void>;
   cartItems: any;
-  setLocalCartItems: any;
   storeCart: any;
   user: any;
 }) {
@@ -102,7 +100,7 @@ export default function Example2({
   product: ProductWithAppUser | any;
   revalidateCart: () => Promise<void>;
 }) {
-  const { cartItems, setLocalCartItems, storeCart } = useCart();
+  const { cartItems, storeCart } = useCart();
   const { user } = useUser();
 
   return (
@@ -186,7 +184,6 @@ export default function Example2({
                   handleAddToCart({
                     product: product,
                     cartItems,
-                    setLocalCartItems,
                     storeCart,
                     user,
                     revalidateCart,
