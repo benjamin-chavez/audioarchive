@@ -132,6 +132,7 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - Cart Dropdown menu
     - Update so that you cannot have duplicate items in the cart - should increase quantity instead <= add a constraint to the db as well?
     - Redirect to Login Not setup - you probably won't need this once you set up local storage
+    - Add warning cartItem badge if they have more than one of the same item
     - order by time added to cart
     - add max purchase quantity logic back => `const MAX_PURCHASE_QUANTITY = 5`
 
