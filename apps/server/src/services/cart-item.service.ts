@@ -78,6 +78,11 @@ class CartItemService {
       if (result.status === 'fulfilled') {
         console.log(`Item ${index} updated successfully:`, result.value);
       } else {
+        // TODO: START HERE TODO: START HERE TODO: START HERE TODO: START HERE TODO: START HERE TODO: START HERE
+        // TODO: THE merged cart items don't all have a cart_id when a user logs in and the local cart is merged with the db cart.
+        // TODO: The error is getting raised here, but you will have to find out where exactly it isn't being set properly.
+        // TODO: It might be coming from the `apps/client/src/app/cart/page.client.tsx` file, but i think you could verify this by console logging
+        // TODO: From the cart context
         console.error(`Error updating item ${index}:`, result.reason);
       }
     });
