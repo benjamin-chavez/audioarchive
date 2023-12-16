@@ -1,4 +1,5 @@
 'use client';
+import { getMyCart } from '@/lib/data/me';
 // import { updateDatabaseCart } from '@/services/cart.api-service';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
@@ -10,6 +11,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
@@ -40,17 +42,39 @@ export type CartContext = {
   setLocalCartItems: Dispatch<any>;
 } & ApiCartData;
 
-const CartContext = createContext<CartContext | null>(null);
+function useFetchCart(user, isLoading) {
+  const [cartData, setCartData] = useState(null);
 
-export function useCart(): CartContext {
-  const context = useContext(CartContext);
+  useEffect(() => {
+    if (!user || isLoading) return;
 
-  if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
-  }
+    const fetchCartData = async () => {
+      const response = await getMyCart();
+      if (response && response.data) {
+        setCartData(response.data);
+      }
+    };
 
-  return context;
+    fetchCartData();
+  }, [user, isLoading]);
+
+  return cartData;
 }
+
+function useUpdateCart(user) {
+  const updateCart = useCallback(
+    async (cartItems, cartId) => {
+      if (!user) return;
+
+      await updateDatabaseCart({ cartId, cartItems });
+    },
+    [user],
+  );
+
+  return updateCart;
+}
+
+const CartContext = createContext<CartContext | null>(null);
 
 async function updateDatabaseCart({
   cartId,
@@ -107,7 +131,7 @@ export function CartProvider({
   children: ReactNode;
   getMyCart: any;
 }) {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const [localCartItems, setLocalCartItems] = useLocalStorage<ApiCartItem[]>(
     'cart-items',
     [],
@@ -116,44 +140,121 @@ export function CartProvider({
     localCartItems || [],
   );
 
+  const cartData = useFetchCart(user, isLoading);
+  const updateCart = useUpdateCart(user);
+
+  const hasInitialized = useRef(false);
+
   useEffect(() => {
-    const synchronizeCart = async () => {
+    if (!user || isLoading || hasInitialized.current || !cartData) {
+      return;
+    }
+
+    const mergedCart = mergeLocalStorageCartWithDBCart(
+      cartItems,
+      cartData.items,
+    );
+    setCartItems(mergedCart);
+    updateCart(mergedCart, cartData.cartId);
+
+    hasInitialized.current = true;
+
+    if (localCartItems.length !== 0) {
+      setLocalCartItems([]);
+    }
+  }, [user, isLoading, cartData, cartItems, localCartItems, updateCart]);
+
+  // useEffect(() => {
+  //   // **HERE**
+  //   const synchronizeCart = async () => {
+  //     if (isLoading || hasInitialized.current) {
+  //       return;
+  //     }
+
+  //     if (user) {
+  //       const response = await getMyCart();
+  //       if (!response || !response.data) {
+  //         return;
+  //       }
+  //       const { items: databaseCartItems, cartId: apiCartId } = response?.data;
+
+  //       const mergedCart = mergeLocalStorageCartWithDBCart(
+  //         cartItems,
+  //         databaseCartItems,
+  //       );
+  //       setCartItems(mergedCart);
+
+  //       console.log('UPDATE DATABASE CART');
+  //       await updateDatabaseCart({
+  //         cartId: apiCartId,
+  //         cartItems: mergedCart,
+  //       });
+
+  //       hasInitialized.current = true;
+  //     }
+
+  //     if (!isLoading && localCartItems.length !== 0) {
+  //       setLocalCartItems([]);
+  //     }
+  //   };
+
+  //   synchronizeCart();
+  // }, [user]);
+
+  useEffect(() => {
+    const synchronizeCart = () => {
       if (!user) {
         setCartItems(localCartItems);
-        return;
-      }
-
-      const response = await getMyCart();
-      if (!response || !response.data) {
-        return;
-      }
-      const { items: databaseCartItems, cartId: apiCartId } = response?.data;
-
-      const mergedCart = mergeLocalStorageCartWithDBCart(
-        cartItems,
-        databaseCartItems,
-      );
-      setCartItems(mergedCart);
-      // setCartItems(
-      //   mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems),
-      // );
-
-      console.log('mergedCart: ', mergedCart);
-
-      // @ts-ignore
-      const testing = await updateDatabaseCart({
-        cartId: apiCartId,
-        cartItems: mergedCart,
-      });
-      console.log('testing: ', testing);
-
-      if (localCartItems.length !== 0) {
-        setLocalCartItems([]);
       }
     };
 
     synchronizeCart();
-  }, [localCartItems, user]);
+  }, [localCartItems]);
+
+  // useEffect(() => {
+  //   if (!user) {
+  //     setCartItems(localCartItems);
+  //   }
+  // }, [localCartItems, user]);
+
+  // useEffect(() => {
+  //   const synchronizeCart = async () => {
+  //     if (!user) {
+  //       setCartItems(localCartItems);
+  //       return;
+  //     }
+
+  //     const response = await getMyCart();
+  //     if (!response || !response.data) {
+  //       return;
+  //     }
+  //     const { items: databaseCartItems, cartId: apiCartId } = response?.data;
+
+  //     const mergedCart = mergeLocalStorageCartWithDBCart(
+  //       cartItems,
+  //       databaseCartItems,
+  //     );
+  //     setCartItems(mergedCart);
+  //     // setCartItems(
+  //     //   mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems),
+  //     // );
+
+  //     console.log('mergedCart: ', mergedCart);
+
+  //     // @ts-ignore
+  //     const testing = await updateDatabaseCart({
+  //       cartId: apiCartId,
+  //       cartItems: mergedCart,
+  //     });
+  //     console.log('testing: ', testing);
+
+  //     if (localCartItems.length !== 0) {
+  //       setLocalCartItems([]);
+  //     }
+  //   };
+
+  //   synchronizeCart();
+  // }, [localCartItems, user]);
 
   const storeCart = useCallback(
     (updatedCartItems) => {
@@ -180,4 +281,14 @@ export function CartProvider({
   return (
     <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>
   );
+}
+
+export function useCart(): CartContext {
+  const context = useContext(CartContext);
+
+  if (!context) {
+    throw new Error('useCart must be used within a CartProvider');
+  }
+
+  return context;
 }

@@ -88,7 +88,7 @@ export async function getMe() {
 }
 
 export async function getMyCart() {
-  'use server';
+  // 'use server';
 
   try {
     const { accessToken } = await getAccessToken();
