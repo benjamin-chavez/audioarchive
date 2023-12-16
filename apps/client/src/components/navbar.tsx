@@ -2,7 +2,7 @@
 'use client';
 
 import { Fragment, useEffect, useState } from 'react';
-import { useUser } from '@auth0/nextjs-auth0/client';
+// import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
 import { Menu, Transition } from '@headlessui/react';
 import {
@@ -17,6 +17,7 @@ import {
 // import { useMe } from '@/contexts/appUserContext';
 import { getMe } from '@/lib/data/me';
 import { useCart } from '@/contexts/cartContext';
+import { authAdapter } from '@/lib/auth';
 
 // import { authAdapter } from '../lib/auth';
 
@@ -121,17 +122,17 @@ export function ShoppingCart() {
 
 export default function Navbar() {
   const [me, setMe] = useState(null);
-  // const { user, isLoading, isAuthenticated } = authAdapter.useAppUser();
-  const { user, isLoading } = useUser();
+  const { user, isLoading, isAuthenticated } = authAdapter.useAppUser();
+  // const { user, isLoading } = useUser();
 
   useEffect(() => {
     const handleGetMe = async (setMe: any) => {
-      if (!user || isLoading) {
-        return;
-      }
-      // if (!isAuthenticated) {
+      // if (!user || isLoading) {
       //   return;
       // }
+      if (!isAuthenticated) {
+        return;
+      }
 
       const me = await getMe();
       setMe(me);
@@ -139,10 +140,7 @@ export default function Navbar() {
     };
 
     handleGetMe(setMe);
-  }, [
-    user,
-    // isAuthenticated
-  ]);
+  }, [user, isAuthenticated]);
 
   // let authNavItem = navItems.anchorLinks.loginItem;
 
