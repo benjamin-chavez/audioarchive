@@ -34,12 +34,16 @@ export async function handleAddToCart({
 
   try {
     if (user) {
+      const newQuantity =
+        (cartItems.find((item) => item.productId === product.id)?.quantity ||
+          0) + 1;
+
       const res = await fetch(`/api/app-users/me/cart/items`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ productId: product.id, quantity: 1 }),
+        body: JSON.stringify({ productId: product.id, quantity: newQuantity }),
       });
 
       if (!res.ok) {
