@@ -124,13 +124,7 @@ function mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems) {
   return mergedCart;
 }
 
-export function CartProvider({
-  children,
-  getMyCart,
-}: {
-  children: ReactNode;
-  getMyCart: any;
-}) {
+export function CartProvider({ children }: { children: ReactNode }) {
   const { user, isLoading } = useUser();
   const [localCartItems, setLocalCartItems] = useLocalStorage<ApiCartItem[]>(
     'cart-items',
@@ -141,6 +135,7 @@ export function CartProvider({
   );
 
   const cartData = useFetchCart(user, isLoading);
+  console.log('cartData', cartData);
   const updateCart = useUpdateCart(user);
 
   const hasInitialized = useRef(false);
@@ -154,6 +149,7 @@ export function CartProvider({
       cartItems,
       cartData.items,
     );
+    console.log('mergedCart', mergedCart);
     setCartItems(mergedCart);
     updateCart(mergedCart, cartData.cartId);
 

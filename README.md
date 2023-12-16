@@ -117,12 +117,12 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - Write updated seed data/functions
         - Must get updated Stripe data
         - Must have significantly higher volume
-    - Restructure Product table and convert Enums to other type
+    <!-- //- Restructure Product table and convert Enums to other type -->
     - Add published/draft logic to products table
     - convert the `/api/app-users/register` route to a webhook route. Something like `/api/webhooks/auth0/register`.
 
  - Cart:
-    - Set up logic to store cart in local storage/context if not logged in
+    <!-- //- Set up logic to store cart in local storage/context if not logged in -->
     - Fix formatting
         - order toal `$NAN`
         - all numbers should only have two decimal places. Currently showing this: `$899.7000000000002`
@@ -130,7 +130,7 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - Add to cart toast notification
     - Cart items count icon
     - Cart Dropdown menu
-    - Update so that you cannot have duplicate items in the cart - should increase quantity instead
+    - Update so that you cannot have duplicate items in the cart - should increase quantity instead <= add a constraint to the db as well?
     - Redirect to Login Not setup - you probably won't need this once you set up local storage
     - order by time added to cart
 

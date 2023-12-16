@@ -106,6 +106,7 @@ export async function getMyCart() {
     }
 
     const response = await res.json();
+    console.log('getMyCart:', response);
 
     if (!response.data) {
       throw new Error('No Response Data');

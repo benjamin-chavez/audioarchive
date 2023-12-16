@@ -23,7 +23,7 @@ export default function Providers({
     <QueryClientProvider client={queryClient}>
       <UserProvider>
         {/* <MeProvider> */}
-        <CartProvider getMyCart={getMyCart}>
+        <CartProvider>
           <ReactQueryDevtools initialIsOpen={false} />
           {children}
         </CartProvider>

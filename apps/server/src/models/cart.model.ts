@@ -14,9 +14,17 @@ class CartModel {
   private static tableName = 'carts';
 
   static async create(appUserId: number): Promise<Cart> {
-    const newCart: Cart[] = await knex(this.tableName)
+    const newCartRows: Cart[] = await knex(this.tableName)
       .insert({ appUserId })
-      .returning('*');
+      .returning(['id', 'appUserId']);
+
+    console.log('**newCartRows', newCartRows);
+
+    const newCart = newCartRows.map((row) => ({
+      cartId: row.id,
+      appUserId: row.appUserId,
+    }));
+    console.log('**newCart', newCart);
 
     return newCart[0];
   }
@@ -85,7 +93,7 @@ class CartModel {
     // const cartData: ApiCartData = sanitize(cartWithItems)[0];
     const cartData = sanitize(cartWithItems)[0];
 
-    console.log('cartData', cartData);
+    // console.log('cartData', cartData);
 
     return cartData;
   }

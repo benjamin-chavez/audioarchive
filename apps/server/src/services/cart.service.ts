@@ -58,7 +58,7 @@ class CartService {
     // );
     if (!cartData) {
       const newCart = await this.createCart(appUserId);
-      cartData = [{ ...newCart, items: [] }];
+      cartData = { ...newCart, items: [] };
       // console.log(
       //   'getCartWithCartItems-cartData-1: ',
       //   JSON.stringify(cartData, null, 2)
