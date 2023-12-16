@@ -290,5 +290,14 @@ export function useCart(): CartContext {
     throw new Error('useCart must be used within a CartProvider');
   }
 
+  // const setCartQuantity = useCallback(
+  //   async (cartItems, cartId) => {
+  //     if (!user) return;
+
+  //     await updateDatabaseCart({ cartId, cartItems });
+  //   },
+  //   [user],
+  // );
+
   return context;
 }

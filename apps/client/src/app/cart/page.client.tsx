@@ -7,7 +7,7 @@ import { CheckIcon, QuestionMarkCircleIcon } from '@heroicons/react/20/solid';
 import CheckoutButton from './checkout-button';
 import RemoveFromCartButton from './remove-from-cart-button';
 import { useEffect, useState } from 'react';
-
+import { useUser } from '@auth0/nextjs-auth0/client';
 // function calculatePriceSubtotal(cartItems: any): number {
 //   // @ts-ignore
 //   const subtotal = cartItems?.reduce((sum, cartItem) => {
@@ -93,16 +93,87 @@ function OrderSummary({
   );
 }
 
+export async function handleSetCartItemQuantity({
+  productId,
+  quantity,
+  storeCart,
+}: {
+  productId: any;
+  quantity: any;
+  storeCart: any;
+}) {
+  try {
+    const res = await fetch(`/api/app-users/me/cart/items`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        productId,
+        quantity,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error('Problem updating cart item quantity');
+    }
+
+    const {
+      data: { items: updatedCart },
+    } = await res.json();
+
+    storeCart(updatedCart);
+
+    return updatedCart;
+  } catch (error) {
+    console.error('Failed to add item to cart:', error);
+  }
+}
+
 function CartItem({
+  cartItems,
   cartItem,
   cartItemIdx,
   revalidateCart,
+  storeCart,
+  user,
 }: {
+  cartItems: any;
   cartItem: any;
   cartItemIdx: number;
   revalidateCart: any;
+  storeCart: any;
+  user: any;
 }) {
-  console.log('cartItem::: ', cartItem);
+  // console.log('cartItem::: ', cartItem);
+  // const { setCartQuantity } = useCart();
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    e.preventDefault();
+    console.log('cartItems', cartItems);
+
+    const newQuantity = parseInt(e.target.value);
+    const updatedItem = { ...cartItem, quantity: newQuantity };
+    console.log('updatedItem', updatedItem);
+    // setCartQuantity(cartItem, newQuantity);
+
+    const filteredCartItems = cartItems.filter(
+      (item) => item.productId !== cartItem.productId,
+    );
+    const updatedCartItems = [...filteredCartItems, updatedItem];
+    console.log('updatedCartItems', updatedCartItems);
+
+    if (user) {
+      handleSetCartItemQuantity({
+        productId: cartItem.productId,
+        quantity: newQuantity,
+        storeCart,
+      });
+    } else {
+      storeCart(updatedCartItems);
+    }
+  };
+
   return (
     <>
       <li className="flex py-6 sm:py-10">
@@ -148,6 +219,7 @@ function CartItem({
                 id={`quantity-${cartItemIdx}`}
                 name={`quantity-${cartItemIdx}`}
                 value={cartItem.quantity}
+                onChange={handleQuantityChange}
                 className="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
               >
                 <option value={1}>1</option>
@@ -195,7 +267,8 @@ export default function CartPageClient({
 }: {
   revalidateCart: any;
 }) {
-  const { cartItems, setCartItems } = useCart();
+  const { user, isLoading } = useUser();
+  const { cartItems, storeCart } = useCart();
 
   // if (user) {
   //   const res = await getMyCart();
@@ -241,6 +314,9 @@ export default function CartPageClient({
                     key={cartItem.productId}
                     cartItem={cartItem}
                     revalidateCart={revalidateCart}
+                    cartItems={cartItems}
+                    storeCart={storeCart}
+                    user={user}
                   />
                 ))}
               </ul>
