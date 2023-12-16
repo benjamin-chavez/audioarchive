@@ -65,7 +65,7 @@ class CartService {
       // );
     }
 
-    if (isEmpty(cartData?.items[0])) {
+    if (isEmpty(cartData?.items)) {
       // console.log(
       //   'getCartWithCartItems-cartData-2: ',
       //   JSON.stringify(cartData, null, 2)

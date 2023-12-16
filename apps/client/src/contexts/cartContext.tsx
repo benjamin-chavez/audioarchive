@@ -1,5 +1,5 @@
 'use client';
-import { updateDatabaseCart } from '@/services/cart.api-service';
+// import { updateDatabaseCart } from '@/services/cart.api-service';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import {
   Dispatch,
@@ -51,8 +51,32 @@ export function useCart(): CartContext {
   return context;
 }
 
+async function updateDatabaseCart({
+  cartId,
+  cartItems,
+}: {
+  // cartId: number;
+  // cartItems: any;
+  cartId: any;
+  cartItems: any;
+}) {
+  const res = await fetch(`/api/app-users/me/cart/items`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ cartId, cartItems }),
+  });
+
+  // if (!res.ok) {
+  //   throw new Error('Failed to update cart');
+  // }
+
+  return res.json();
+}
+
 function mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems) {
-  if (databaseCartItems.length === 0) {
+  if (!databaseCartItems || databaseCartItems.length === 0) {
     return cartItems;
   }
 
@@ -103,14 +127,20 @@ export function CartProvider({
         return;
       }
       const { items: databaseCartItems, cartId: apiCartId } = response?.data;
-
-      setCartItems(
-        mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems),
+      const mergedCart = mergeLocalStorageCartWithDBCart(
+        cartItems,
+        databaseCartItems,
       );
 
-      if (user) {
-        await updateDatabaseCart({ cartId: apiCartId, cartItems });
-      }
+      setCartItems(mergedCart);
+      console.log('mergedCart: ', mergedCart);
+
+      // @ts-ignore
+      const testing = await updateDatabaseCart({
+        cartId: apiCartId,
+        cartItems: mergedCart,
+      });
+      console.log('testing: ', testing);
 
       if (localCartItems.length !== 0) {
         setLocalCartItems([]);

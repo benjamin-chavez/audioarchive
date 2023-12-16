@@ -87,7 +87,7 @@ class CartModel {
     // const cartData: ApiCartData = sanitize(cartWithItems)[0];
     const cartData = sanitize(cartWithItems)[0];
 
-    // console.log('cartData', cartData);
+    console.log('cartData', cartData);
 
     return cartData;
   }
