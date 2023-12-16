@@ -1,6 +1,6 @@
 'use client';
+
 import { getMyCart } from '@/lib/data/me';
-// import { updateDatabaseCart } from '@/services/cart.api-service';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 import {
@@ -38,6 +38,7 @@ export type ApiCartData = {
 
 export type CartContext = {
   storeCart: (updatedCartItems: any) => void;
+  totalItemQuantity: number;
   setCartItems: Dispatch<any>;
   setLocalCartItems: Dispatch<any>;
 } & ApiCartData;
@@ -80,8 +81,6 @@ async function updateDatabaseCart({
   cartId,
   cartItems,
 }: {
-  // cartId: number;
-  // cartItems: any;
   cartId: any;
   cartItems: any;
 }) {
@@ -92,10 +91,6 @@ async function updateDatabaseCart({
     },
     body: JSON.stringify({ cartId, cartItems }),
   });
-
-  // if (!res.ok) {
-  //   throw new Error('Failed to update cart');
-  // }
 
   return res.json();
 }
@@ -263,6 +258,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [user, setCartItems, setLocalCartItems],
   );
 
+  const calculateTotalItemQuantity = (items) => {
+    return items.reduce((total, item) => total + item.quantity, 0);
+  };
+
+  const totalItemQuantity = useMemo(
+    () => calculateTotalItemQuantity(cartItems),
+    [cartItems],
+  );
+
   const contextValue = useMemo(
     () => ({
       cartId: undefined,
@@ -270,8 +274,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setCartItems,
       storeCart,
       setLocalCartItems,
+      totalItemQuantity,
     }),
-    [cartItems, setCartItems, storeCart, setLocalCartItems],
+    [cartItems, setCartItems, storeCart, setLocalCartItems, totalItemQuantity],
   );
 
   return (
