@@ -184,7 +184,7 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
  - File Storage
     - Set up Malware scanning
     - Set up Additional S3 Logic
-      - Need an isolated pre-malware scan bucket
+      - Need an isolated pre-malware scan bucket!
       - See if there better practices for how to organize all of this
     - Set up free tier quota
 
