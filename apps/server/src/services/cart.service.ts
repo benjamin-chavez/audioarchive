@@ -111,6 +111,12 @@ class CartService {
     //   quantity: cartItemData.quantity,
     // });
 
+    // const newCartItem = await CartItemModel.upsertCartItem({
+    //   cartId: cart.id,
+    //   // productId: cartItemData.productId,
+    //   // quantity: cartItemData.quantity,
+    //   cartItem: cartItemData,
+    // });
     const newCartItem = await CartItemModel.upsertCartItem({
       cartId: cart.id,
       // productId: cartItemData.productId,

@@ -69,16 +69,14 @@ class CartModel {
       )
       .leftJoin('cart_items', 'carts.id', 'cart_items.cart_id')
       .leftJoin('products', 'cart_items.product_id', 'products.id')
-      .leftJoin('accounts', 'products.account_id', 'accounts.id')
       .leftJoin('app_users', 'products.app_user_id', 'app_users.id')
       .where('carts.app_user_id', appUserId)
       .andWhere('carts.status', 'active')
       .groupBy('carts.id');
-
-    console.log(
-      'cartModel-getCartWithItems:',
-      JSON.stringify(cartWithItems, null, 2)
-    );
+    // console.log(
+    //   'cartModel-getCartWithItems:',
+    //   JSON.stringify(cartWithItems, null, 2)
+    // );
 
     if (cartWithItems && cartWithItems[0] && cartWithItems[0].items) {
       cartWithItems[0].items = Object.values(cartWithItems[0].items);

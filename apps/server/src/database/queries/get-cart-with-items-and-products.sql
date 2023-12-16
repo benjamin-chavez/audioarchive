@@ -25,7 +25,7 @@ FROM
     carts
     LEFT JOIN cart_items ON carts.id = cart_items.cart_id
     LEFT JOIN products ON cart_items.product_id = products.id
-    LEFT JOIN accounts ON products.account_id = accounts.id
+    --LEFT JOIN accounts ON products.account_id = accounts.id
     LEFT JOIN app_users ON products.app_user_id = app_users.id
 WHERE
     carts.app_user_id = [YourAppUserId]

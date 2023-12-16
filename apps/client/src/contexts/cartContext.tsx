@@ -1,6 +1,7 @@
 'use client';
 // import { updateDatabaseCart } from '@/services/cart.api-service';
 import { useUser } from '@auth0/nextjs-auth0/client';
+
 import {
   Dispatch,
   ReactNode,
@@ -127,12 +128,16 @@ export function CartProvider({
         return;
       }
       const { items: databaseCartItems, cartId: apiCartId } = response?.data;
+
       const mergedCart = mergeLocalStorageCartWithDBCart(
         cartItems,
         databaseCartItems,
       );
-
       setCartItems(mergedCart);
+      // setCartItems(
+      //   mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems),
+      // );
+
       console.log('mergedCart: ', mergedCart);
 
       // @ts-ignore
