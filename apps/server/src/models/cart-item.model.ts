@@ -43,29 +43,19 @@ class CartItemModel {
     cartId: number;
     cartItem: Partial<CartItem> | any;
   }): Promise<CartItem | any | null> {
-    // TODO: START HERE: // TODO: START HERE: // TODO: START HERE: // TODO: START HERE:
-    // TODO: LOOK AT `cartId` param of this func. it isn't getting passed in the psql query
-    // "prunedCartItems  [
-    // server:dev:clean:   {
-    // server:dev:clean:     "cartId": 1,
-    // server:dev:clean:     "productId": 2,
-    // server:dev:clean:     "quantity": 2
-    // server:dev:clean:   },
-    // server:dev:clean:   {
-    // server:dev:clean:     "cartId": 1,
-    // server:dev:clean:     "productId": 5,
-    // server:dev:clean:     "quantity": 1
-    // server:dev:clean:   }
-    // server:dev:clean: ]
-    // server:dev:clean: Error updating item 0: error: insert into "cart_items" ("cart_id", "product_id", "quantity") values (DEFAULT, $1, $2) on conflict ("cart_id", "product_id") do update set "quantity" = $3 - null value in column "cart_id" of relation "cart_items" violates not-null constraint"
-    return knex('cart_items')
-      .insert({
-        cartId: cartId,
-        productId: cartItem.productId,
-        quantity: cartItem.quantity,
-      })
-      .onConflict(['cartId', 'productId'])
-      .merge({ quantity: cartItem.quantity });
+    return (
+      knex('cart_items')
+        .insert({
+          cartId: cartId,
+          productId: cartItem.productId,
+          quantity: cartItem.quantity,
+        })
+        .onConflict(['cartId', 'productId'])
+        // .merge({
+        //   quantity: knex.raw('cart_items.quantity + ?', [cartItem.quantity]),
+        // });
+        .merge({ quantity: cartItem.quantity })
+    );
   }
 
   // static async updateActiveCartByAppUserId(

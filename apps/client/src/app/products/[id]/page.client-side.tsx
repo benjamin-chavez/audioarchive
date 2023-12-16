@@ -47,15 +47,16 @@ export async function handleAddToCart({
       }
 
       const {
-        data: { items: updatedCartItems },
+        data: { items: updatedCart },
       } = await res.json();
-      console.log('updatedCartItems', updatedCartItems);
-      storeCart(updatedCartItems);
+      console.log('updatedCart', updatedCart);
+      storeCart(updatedCart);
 
       // TODO: NEED TO REVALIDATE CACHE
       // await revalidateCart();
       // await revalidateCart2();
-      return updatedCartItems;
+      // await revalidateCart2();
+      return updatedCart;
     } else {
       // const existingCartItem = cartItems.find(
       //   (item) => item.productId === product.id,

@@ -68,7 +68,6 @@ class CartItemService {
           quantity: item.quantity,
         };
       });
-    console.log('prunedCartItems ', JSON.stringify(prunedCartItems, null, 2));
 
     const queries = cartItems.map((item) =>
       CartItemModel.upsertCartItem({ cartId, cartItem: item })

@@ -6,6 +6,7 @@ import CartModel from '../models/cart.model';
 import CartItemModel from '../models/cart-item.model';
 import S3Service from './s3.service';
 import { isEmpty } from '../lib/utils';
+import CartItemService from './cart-item.service';
 
 class CartService {
   static async createCartItem(
@@ -102,11 +103,21 @@ class CartService {
       cart = await this.createCart(appUserId);
     }
 
-    const newCartItem = await this.createCartItem({
+    console.log('cart:', cartItemData);
+
+    // const newCartItem = await this.createCartItem({
+    //   cartId: cart.id,
+    //   productId: cartItemData.productId,
+    //   quantity: cartItemData.quantity,
+    // });
+
+    const newCartItem = await CartItemModel.upsertCartItem({
       cartId: cart.id,
-      productId: cartItemData.productId,
-      quantity: cartItemData.quantity,
+      // productId: cartItemData.productId,
+      // quantity: cartItemData.quantity,
+      cartItem: cartItemData,
     });
+    console.log('newnew', newCartItem);
 
     const cartWithItems: CartWithCartItems =
       await this.getCartWithCartItems(appUserId);
