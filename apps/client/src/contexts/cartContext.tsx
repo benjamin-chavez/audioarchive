@@ -92,7 +92,7 @@ export function CartProvider({
   );
 
   useEffect(() => {
-    const myFunc = async () => {
+    const synchronizeCart = async () => {
       if (!user) {
         setCartItems(localCartItems);
         return;
@@ -117,7 +117,7 @@ export function CartProvider({
       }
     };
 
-    myFunc();
+    synchronizeCart();
   }, [localCartItems, user]);
 
   const storeCart = useCallback(

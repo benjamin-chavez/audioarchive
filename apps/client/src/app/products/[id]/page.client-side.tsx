@@ -34,7 +34,6 @@ export async function handleAddToCart({
 
   try {
     if (user) {
-      console.log('here-user');
       const res = await fetch(`/api/app-users/me/cart/items`, {
         method: 'POST',
         headers: {
@@ -48,14 +47,15 @@ export async function handleAddToCart({
       }
 
       const {
-        data: { items: updatedCart },
+        data: { items: updatedCartItems },
       } = await res.json();
-      console.log('updatedCart', updatedCart);
-      storeCart(updatedCart);
+      console.log('updatedCartItems', updatedCartItems);
+      storeCart(updatedCartItems);
 
       // TODO: NEED TO REVALIDATE CACHE
       // await revalidateCart();
-      await revalidateCart2();
+      // await revalidateCart2();
+      return updatedCartItems;
     } else {
       // const existingCartItem = cartItems.find(
       //   (item) => item.productId === product.id,

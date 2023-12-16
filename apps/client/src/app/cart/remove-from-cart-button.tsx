@@ -15,7 +15,6 @@ export async function handleRemoveFromCart({
   cartItem: any;
   revalidateCart: () => Promise<void>;
   cartItems: any;
-
   storeCart: any;
   user: any;
 }) {
@@ -33,9 +32,13 @@ export async function handleRemoveFromCart({
     if (!res.ok) {
       throw new Error('Failed to removed item from cart');
     }
+    const updatedCartItems = cartItems.filter(
+      (item) => item.productId !== cartItem.productId,
+    );
 
-    await revalidateCart();
-    return res.json();
+    storeCart(updatedCartItems);
+
+    // return updatedCart;
   } else {
     // TODO: There might be a bug here. if middle items are duplicated then only one of them is removed/filtered out
     //       There shouldn't be duplicates anyway, but there still might be a rendering issue
