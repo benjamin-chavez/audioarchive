@@ -1,4 +1,4 @@
-// apps/client/src/app/cart/page.tsx
+// apps/client/src/app/cart/page.client.tsx
 
 'use client';
 
