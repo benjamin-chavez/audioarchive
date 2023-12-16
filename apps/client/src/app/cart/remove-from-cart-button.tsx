@@ -1,37 +1,67 @@
 // apps/client/src/app/cart/remove-from-cart-button.tsx
 'use client';
 
+import { useCart } from '@/contexts/cartContext';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 
 export async function handleRemoveFromCart({
-  cartItemId,
+  cartItem,
   revalidateCart,
+  cartItems,
+  storeCart,
+  user,
 }: {
-  cartItemId: number | any;
+  cartItem: any;
   revalidateCart: () => Promise<void>;
+  cartItems: any;
+  storeCart: any;
+  user: any;
 }) {
-  const res = await fetch(`api/app-users/me/cart/items/${cartItemId}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  if (user) {
+    const res = await fetch(
+      `api/app-users/me/cart/items/${cartItem.cartItemId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
 
-  if (!res.ok) {
-    throw new Error('Failed to removed item from cart');
+    if (!res.ok) {
+      throw new Error('Failed to removed item from cart');
+    }
+    const updatedCartItems = cartItems.filter(
+      (item) => item.productId !== cartItem.productId,
+    );
+
+    storeCart(updatedCartItems);
+
+    // return updatedCart;
+  } else {
+    // TODO: There might be a bug here. if middle items are duplicated then only one of them is removed/filtered out
+    //       There shouldn't be duplicates anyway, but there still might be a rendering issue
+    console.log('old: ', cartItems);
+    const updatedCartItems = cartItems.filter(
+      (item) => item.productId !== cartItem.productId,
+    );
+
+    console.log('new: ', updatedCartItems);
+    storeCart(updatedCartItems);
   }
-
-  await revalidateCart();
-  return res.json();
 }
 
 export default function RemoveFromCartButton({
-  cartItemId,
+  cartItem,
   revalidateCart,
 }: {
-  cartItemId: number | any;
+  cartItem: any;
   revalidateCart: () => Promise<void>;
 }) {
+  const { cartItems, storeCart } = useCart();
+  const { user } = useUser();
+
   return (
     <div>
       <button
@@ -39,8 +69,11 @@ export default function RemoveFromCartButton({
         className="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
         onClick={() =>
           handleRemoveFromCart({
-            cartItemId: cartItemId,
+            cartItem: cartItem,
             revalidateCart,
+            user,
+            cartItems,
+            storeCart,
           })
         }
       >

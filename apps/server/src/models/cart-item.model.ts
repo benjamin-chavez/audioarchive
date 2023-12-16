@@ -7,9 +7,13 @@ import knex from '../config/database';
 class CartItemModel {
   private static tableName = 'cartItems';
 
-  static async create(cartId: number, productId: number): Promise<CartItem> {
+  static async create(
+    cartId: number,
+    productId: number,
+    quantity: number
+  ): Promise<CartItem> {
     const newCartItem: CartItem[] = await knex(this.tableName)
-      .insert({ cartId, productId })
+      .insert({ cartId, productId, quantity })
       .returning('*');
 
     return newCartItem[0];
@@ -32,12 +36,27 @@ class CartItemModel {
   //   return cart || null;
   // }
 
-  // static async updateById(
-  //   cartId: number,
-  //   cartData: Partial<Cart>
-  // ): Promise<Cart | null> {
-  //   return knex(this.tableName).where({ cartId }).update(cartData);
-  // }
+  static async upsertCartItem({
+    cartId,
+    cartItem,
+  }: {
+    cartId: number;
+    cartItem: Partial<CartItem> | any;
+  }): Promise<CartItem | any | null> {
+    return (
+      knex('cart_items')
+        .insert({
+          cartId: cartId,
+          productId: cartItem.productId,
+          quantity: cartItem.quantity,
+        })
+        .onConflict(['cartId', 'productId'])
+        // .merge({
+        //   quantity: knex.raw('cart_items.quantity + ?', [cartItem.quantity]),
+        // });
+        .merge({ quantity: cartItem.quantity })
+    );
+  }
 
   // static async updateActiveCartByAppUserId(
   //   appUserId: number,

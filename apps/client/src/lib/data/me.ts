@@ -88,6 +88,8 @@ export async function getMe() {
 }
 
 export async function getMyCart() {
+  // 'use server';
+
   try {
     const { accessToken } = await getAccessToken();
 
@@ -103,12 +105,17 @@ export async function getMyCart() {
       throw new Error('Failed to fetch Shopping Cart');
     }
 
-    return res.json();
+    const response = await res.json();
+    console.log('getMyCart:', response);
+
+    if (!response.data) {
+      throw new Error('No Response Data');
+    }
+
+    return response;
   } catch (error) {
     // TODO: FINISH HANDLING ERRORS HERE
     // PROBABLY SHOULD REDIRECT TO LOGIN?
     return {};
   }
 }
-
-//

@@ -14,9 +14,17 @@ class CartModel {
   private static tableName = 'carts';
 
   static async create(appUserId: number): Promise<Cart> {
-    const newCart: Cart[] = await knex(this.tableName)
+    const newCartRows: Cart[] = await knex(this.tableName)
       .insert({ appUserId })
-      .returning('*');
+      .returning(['id', 'appUserId']);
+
+    console.log('**newCartRows', newCartRows);
+
+    const newCart = newCartRows.map((row) => ({
+      cartId: row.id,
+      appUserId: row.appUserId,
+    }));
+    console.log('**newCart', newCart);
 
     return newCart[0];
   }
@@ -39,54 +47,53 @@ class CartModel {
     return cart || null;
   }
 
-  static async getCartWithItems(
-    appUserId: number
-  ): Promise<CartWithCartItems | null | any> {
+  static async getCartWithItems(appUserId: number): Promise<null | any> {
+    // ): Promise<ApiCartData | null | any> {
     // TODO: Update to use the `apps/server/src/database/queries/get-cart-with-items-and-products.sql` file instead
 
     const cartWithItems = await knex('carts')
-      .select('carts.*')
       .select(
-        knex.raw(`
-    json_agg(
-      json_build_object(
-        'id', cart_items.id,
-        'cart_id', cart_items.cart_id,
-        'created_at', cart_items.created_at,
-        'updated_at', cart_items.updated_at,
-        'product', json_build_object(
-          'id', products.id,
-          'stripe_product_id', products.stripe_product_id,
-          'stripe_account_id', accounts.stripe_account_id,
-          'name', products.name,
-          'genre_name', products.genre_name,
-          'daw', products.daw,
-          'bpm', products.bpm,
-          'price', products.price,
-          'img_s3_key', products.img_s3_key,
-          'img_s3_url', products.img_s3_url
-        ),
-        'app_user', json_build_object(
-          'id', app_users.id,
-          'username', app_users.username
-        )
-      )
-    ) AS items
-  `)
+        'carts.id as cart_id',
+        'carts.app_user_id as app_user_id',
+        knex.raw(`COALESCE(
+          json_agg(
+            json_build_object(
+                'cart_item_id', cart_items.id,
+                'quantity', cart_items.quantity,
+                'product_id', products.id,
+                'name', products.name,
+                'genre', products.genre_name,
+                'daw', products.daw,
+                'bpm', products.bpm,
+                'price', products.price,
+                'img_s3_key', products.img_s3_key,
+                'img_s3_url', products.img_s3_url,
+                'seller_id', app_users.id,
+                'seller_username', app_users.username
+            )
+          ) FILTER (WHERE cart_items.id IS NOT NULL),
+          '{}'::json
+        ) AS items`)
       )
       .leftJoin('cart_items', 'carts.id', 'cart_items.cart_id')
       .leftJoin('products', 'cart_items.product_id', 'products.id')
-      .leftJoin('accounts', 'products.account_id', 'accounts.id')
       .leftJoin('app_users', 'products.app_user_id', 'app_users.id')
       .where('carts.app_user_id', appUserId)
       .andWhere('carts.status', 'active')
       .groupBy('carts.id');
+    // console.log(
+    //   'cartModel-getCartWithItems:',
+    //   JSON.stringify(cartWithItems, null, 2)
+    // );
 
     if (cartWithItems && cartWithItems[0] && cartWithItems[0].items) {
       cartWithItems[0].items = Object.values(cartWithItems[0].items);
     }
 
-    const cartData = sanitize(cartWithItems);
+    // const cartData: ApiCartData = sanitize(cartWithItems)[0];
+    const cartData = sanitize(cartWithItems)[0];
+
+    // console.log('cartData', cartData);
 
     return cartData;
   }

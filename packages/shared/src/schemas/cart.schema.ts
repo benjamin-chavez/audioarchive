@@ -24,3 +24,52 @@ export const cartWithCartItemsSchema = cartSchema.extend({
 export type CartStatusEnum = z.infer<typeof CartStatusEnum>;
 export type Cart = z.infer<typeof cartSchema>;
 export type CartWithCartItems = z.infer<typeof cartWithCartItemsSchema>;
+
+/////////
+// export type ApiCartItem = {
+//   cartItemId: number;
+//   quantity: number;
+//   productId: number;
+//   name: string;
+//   genre: string;
+//   daw: string;
+//   bpm: number;
+//   price: number;
+//   imgS3Key: string;
+//   sellerId: number;
+//   sellerUsername: string;
+// };
+
+// export type ApiCartData = {
+//   cartId: number;
+//   appUserId?: number;
+//   items: ApiCartItem[];
+// };
+
+
+
+// export  type getCartResponse = {
+//   data: ApiCartData;
+//   message: string;
+// };
+
+export type getCartResponse = {
+  data: {
+    cartId: number;
+    appUserId?: number;
+    items: {
+      cartItemId: number;
+      quantity: number;
+      productId: number;
+      name: string;
+      genre: string;
+      daw: string;
+      bpm: number;
+      price: number;
+      imgS3Key: string;
+      sellerId: number;
+      sellerUsername: string;
+    }[];
+  };
+  message: string;
+};

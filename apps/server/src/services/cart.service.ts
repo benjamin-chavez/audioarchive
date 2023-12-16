@@ -6,19 +6,24 @@ import CartModel from '../models/cart.model';
 import CartItemModel from '../models/cart-item.model';
 import S3Service from './s3.service';
 import { isEmpty } from '../lib/utils';
+import CartItemService from './cart-item.service';
 
 class CartService {
   static async createCartItem(
-    cartItemData: Partial<CartItem>
+    cartItemData: Partial<CartItem> | any
   ): Promise<CartItem> {
-    const { cartId, productId } = cartItemData;
+    const { cartId, productId, quantity } = cartItemData;
 
-    if (!cartId || !productId) {
+    if (!cartId || !productId || !quantity) {
       // TODO: add Error message
       throw Error;
     }
 
-    const newCartItem: CartItem = await CartItemModel.create(cartId, productId);
+    const newCartItem: CartItem = await CartItemModel.create(
+      cartId,
+      productId,
+      quantity
+    );
 
     return newCartItem;
   }
@@ -47,38 +52,50 @@ class CartService {
     let cartData: CartWithCartItems | null | any =
       await CartModel.getCartWithItems(appUserId);
 
+    // console.log(
+    //   'getCartWithCartItems-cartData-0: ',
+    //   JSON.stringify(cartData, null, 2)
+    // );
     if (!cartData) {
       const newCart = await this.createCart(appUserId);
-      cartData = [{ ...newCart, items: [] }];
+      cartData = { ...newCart, items: [] };
+      // console.log(
+      //   'getCartWithCartItems-cartData-1: ',
+      //   JSON.stringify(cartData, null, 2)
+      // );
     }
 
-    if (isEmpty(cartData[0]?.items[0].product)) {
+    if (isEmpty(cartData?.items)) {
+      // console.log(
+      //   'getCartWithCartItems-cartData-2: ',
+      //   JSON.stringify(cartData, null, 2)
+      // );
       return cartData;
     }
 
-    const cartItems = cartData[0].items;
+    // console.log(
+    //   'getCartWithCartItems-cartData-3: ',
+    //   JSON.stringify(cartData, null, 2)
+    // );
+    const cartItems = cartData?.items;
     const s3Keys = cartItems
-      .map((cartItem) => cartItem.product.imgS3Key)
+      .map((cartItem) => cartItem.imgS3Key)
       .filter((s3Key) => s3Key != null);
 
     const signedUrls = await S3Service.getSignedUrls(s3Keys);
 
     const updatedCartItems = cartItems.map((cartItem) => ({
       ...cartItem,
-      product: {
-        ...cartItem.product,
-        imgS3Url: cartItem.product.imgS3Key
-          ? signedUrls[cartItem.product.imgS3Key]
-          : null,
-      },
+      imgS3Url: cartItem.imgS3Key ? signedUrls[cartItem.imgS3Key] : null,
     }));
 
-    return { ...cartData[0], items: updatedCartItems };
+    // console.log('cartData:: ', cartData);
+    return { ...cartData, items: updatedCartItems };
   }
 
   static async addItemToCart(
     appUserId: number,
-    cartItemData: Partial<CartItem>
+    cartItemData: Partial<CartItem> | any
   ): Promise<CartWithCartItems> {
     let cart = await CartModel.findBy('appUserId', appUserId);
 
@@ -86,10 +103,27 @@ class CartService {
       cart = await this.createCart(appUserId);
     }
 
-    const newCartItem = await this.createCartItem({
+    console.log('cart:', cartItemData);
+
+    // const newCartItem = await this.createCartItem({
+    //   cartId: cart.id,
+    //   productId: cartItemData.productId,
+    //   quantity: cartItemData.quantity,
+    // });
+
+    // const newCartItem = await CartItemModel.upsertCartItem({
+    //   cartId: cart.id,
+    //   // productId: cartItemData.productId,
+    //   // quantity: cartItemData.quantity,
+    //   cartItem: cartItemData,
+    // });
+    const newCartItem = await CartItemModel.upsertCartItem({
       cartId: cart.id,
-      productId: cartItemData.productId,
+      // productId: cartItemData.productId,
+      // quantity: cartItemData.quantity,
+      cartItem: cartItemData,
     });
+    console.log('newnew', newCartItem);
 
     const cartWithItems: CartWithCartItems =
       await this.getCartWithCartItems(appUserId);

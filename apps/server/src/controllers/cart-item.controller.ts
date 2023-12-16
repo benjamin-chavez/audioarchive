@@ -37,6 +37,8 @@ export const addItemToCart: RequestHandler = asyncHandler(async (req, res) => {
   const appUser = await MeService.getMe(authId);
   const cartItemData = req.body;
 
+  console.log('addItemToCart: ', cartItemData);
+
   const cartWithItems = await CartService.addItemToCart(
     appUser.id,
     cartItemData
@@ -91,6 +93,24 @@ export const addItemToCart: RequestHandler = asyncHandler(async (req, res) => {
 //     .status(200)
 //     .json({ data: updatedCart, message: 'Successfully updated cart' });
 // });
+
+export const updateCartItems: RequestHandler = asyncHandler(
+  async (req, res) => {
+    const { cartId, cartItems } = req.body;
+
+    // const cartData = req.body;
+    // console.log('cartData', JSON.stringify(cartData, null, 2));
+
+    const updatedCart = await CartItemService.updateCartItemsByCartId(
+      cartId,
+      cartItems
+    );
+
+    res
+      .status(200)
+      .json({ data: updatedCart, message: 'Successfully updated cart' });
+  }
+);
 
 export const deleteCartItem: RequestHandler = asyncHandler(async (req, res) => {
   const cartItemId = parseInt(req.params.cartItemId);

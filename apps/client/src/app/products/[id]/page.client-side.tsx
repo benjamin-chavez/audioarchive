@@ -2,13 +2,15 @@
 // TODO: Convert this to a server component and move into `apps/client/src/app/products/[id]/page.tsx` file.
 'use client';
 
-import Link from 'next/link';
-
+import { useCart } from '@/contexts/cartContext';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { Tab } from '@headlessui/react';
 import { StarIcon } from '@heroicons/react/20/solid';
 import { Product, ProductWithAppUser } from '@shared/src';
-import { Fragment } from 'react';
-import { product2, reviews, faqs, license } from './temp-data';
+import Link from 'next/link';
+import { Fragment, useEffect } from 'react';
+import { faqs, license, product2, reviews } from './temp-data';
+import { revalidateCart2 } from '../../cart/page';
 
 // @ts-ignore
 function classNames(...classes) {
@@ -16,32 +18,81 @@ function classNames(...classes) {
 }
 
 export async function handleAddToCart({
-  productId,
+  product,
   revalidateCart,
+  cartItems,
+  storeCart,
+  user,
 }: {
-  productId: number;
+  product: Product | any;
   revalidateCart: () => Promise<void>;
+  cartItems: any;
+  storeCart: any;
+  user: any;
 }) {
+  // UPDATE CONTEXT
+
   try {
-    console.log('productId', productId);
-    const res = await fetch(`/api/app-users/me/cart/items`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ productId }),
-      // body: product,
-    });
+    if (user) {
+      const newQuantity =
+        (cartItems.find((item) => item.productId === product.id)?.quantity ||
+          0) + 1;
 
-    if (!res.ok) {
-      throw new Error('Problem adding item to cart');
+      const res = await fetch(`/api/app-users/me/cart/items`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId: product.id, quantity: newQuantity }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Problem adding item to cart');
+      }
+
+      const {
+        data: { items: updatedCart },
+      } = await res.json();
+      console.log('updatedCart', updatedCart);
+      storeCart(updatedCart);
+
+      // TODO: NEED TO REVALIDATE CACHE
+      // await revalidateCart();
+      // await revalidateCart2();
+      // await revalidateCart2();
+      return updatedCart;
+    } else {
+      // const existingCartItem = cartItems.find(
+      //   (item) => item.productId === product.id,
+      // );
+
+      const existingCartItemIdx = cartItems.findIndex(
+        (item) => item.productId === product.id,
+      );
+
+      let updatedCart;
+      if (existingCartItemIdx !== -1) {
+        updatedCart = [...cartItems];
+        updatedCart[existingCartItemIdx].quantity += 1;
+      } else {
+        const newCartItem = {
+          quantity: 1,
+          productId: product.id,
+          name: product.name,
+          genre: product.genre,
+          daw: product.daw,
+          bpm: product.bpm,
+          price: product.price,
+          imgS3Key: product.imgS3Key,
+          imgS3Url: product.imgS3Url,
+          sellerId: product.appUserId,
+          sellerUsername: product.name,
+        };
+        updatedCart = [...cartItems, newCartItem];
+      }
+
+      storeCart(updatedCart);
     }
-
-    const updatedCart = await res.json();
-    // console.log('updatedCart', updatedCart);
-
-    await revalidateCart();
-    // TODO: NEED TO REVALIDATE CACHE
   } catch (error) {
     console.error('Failed to add item to cart:', error);
   }
@@ -54,6 +105,9 @@ export default function Example2({
   product: ProductWithAppUser | any;
   revalidateCart: () => Promise<void>;
 }) {
+  const { cartItems, storeCart } = useCart();
+  const { user } = useUser();
+
   return (
     <div className="bg-white">
       <div className="mt-10">
@@ -133,7 +187,10 @@ export default function Example2({
                 className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                 onClick={() =>
                   handleAddToCart({
-                    productId: product.id,
+                    product: product,
+                    cartItems,
+                    storeCart,
+                    user,
                     revalidateCart,
                   })
                 }
