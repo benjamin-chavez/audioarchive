@@ -50,7 +50,7 @@ class CartModel {
   static async getCartWithItems(appUserId: number): Promise<null | any> {
     // ): Promise<ApiCartData | null | any> {
     // TODO: Update to use the `apps/server/src/database/queries/get-cart-with-items-and-products.sql` file instead
-
+    // TODO: **SQL Query Evaluation
     const cartWithItems = await knex('carts')
       .select(
         'carts.id as cart_id',

@@ -111,6 +111,10 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
  - Search
     - Setup
     - Filtering of products based on various categories
+    - resources:
+      - [postgres-full-text-search-is-good-enough](https://rachbelaid.com/postgres-full-text-search-is-good-enough/)
+      - [postgres-full-text-search-engine](https://xata.io/blog/postgres-full-text-search-engine)
+      - [postgres-full-text-search-a-search-engine-in-a-database](https://www.crunchydata.com/blog/postgres-full-text-search-a-search-engine-in-a-database)
 
  - Database:
     - Setup automigration in the CI/CD Pipeline
@@ -205,3 +209,4 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
   - Misc...
       - Look at Wappalyzer on https://edm.com/
       - Swagger? => See branch: [add-cart-context-and-swagger](https://github.com/benjamin-chavez/audioarchive/compare/master...add-cart-context-and-swagger)
+      - Directory Structure: [Delightful React File/Directory Structure](https://www.joshwcomeau.com/react/file-structure/)
