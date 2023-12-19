@@ -13,8 +13,12 @@ function classNames(...classes) {
 
 export default function Example() {
   return (
-    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
-      <div className="flex h-16 shrink-0 items-center"></div>
+    <div
+      // max-w-7xl
+      //
+      className="flex grow flex-col max-w-[200px] gap-y-5 overflow-y-auto  px-6 bg-gray-900/70 w-full"
+    >
+      <div className="flex h-10 shrink-0 items-center"></div>
       <nav className="flex flex-1 flex-col">
         <ul role="list" className="flex flex-1 flex-col gap-y-7">
           <li>

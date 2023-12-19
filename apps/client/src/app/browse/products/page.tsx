@@ -1,10 +1,11 @@
 // frontend/src/app/project-files/page.tsx
 import 'server-only';
-import ProductsGrid from '../../components/products-grid';
+import ProductsGrid from '../../../components/products-grid';
 import Container from '@/components/container';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import TestSearch from '@/components/test-search/text-search';
 import Inner from '@/components/test-search/inner';
+import AppUsersBrowser from '../app-users-browser';
 
 async function getProducts() {
   const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
@@ -20,6 +21,7 @@ async function getProducts() {
 }
 
 export default async function ProductsPage() {
+  // const [browseTopic, setBrowseTopic] = useState()
   const res = await getProducts();
   const products = res.data;
 
@@ -35,6 +37,10 @@ export default async function ProductsPage() {
           <TestSearch>
             <ProductsGrid products={products} />
           </TestSearch>
+
+          {/* <TestSearch>
+            <AppUsersBrowser />
+          </TestSearch> */}
 
           {/* </Suspense> */}
         </div>
