@@ -1,17 +1,37 @@
 // apps/client/src/app/test-search/inner.tsx
 'use client';
-import { HomeIcon, UsersIcon } from '@heroicons/react/24/outline';
 
-const navigation = [
-  { name: 'Products', href: '#', icon: HomeIcon, current: true },
-  { name: 'Artists', href: '#', icon: UsersIcon, current: false },
-];
+import { HomeIcon, UsersIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Example() {
+export default function Inner() {
+  //  const [currentPath, setCurrentPath] = useState('/browse/products');
+  const currentPath = usePathname();
+
+  const navigation = [
+    {
+      name: 'Products',
+      href: '/browse/products',
+      icon: HomeIcon,
+      current: currentPath === '/browse/products',
+    },
+    {
+      name: 'Artists',
+      href: '/browse/app-users',
+      icon: UsersIcon,
+      current: currentPath === '/browse/app-users',
+    },
+  ];
+
+  // const handleNavigationChange = (path) => {
+  //   setCurrentPath(path);
+  // };
+
   return (
     <div
       // max-w-7xl
@@ -28,8 +48,11 @@ export default function Example() {
             <div className="mt-2">
               <ul role="list" className="-mx-2 space-y-1">
                 {navigation.map((item) => (
-                  <li key={item.name}>
-                    <a
+                  <li
+                    key={item.name}
+                    // onClick={() => handleNavigationChange(item.href)}
+                  >
+                    <Link
                       href={item.href}
                       className={classNames(
                         item.current
@@ -43,7 +66,7 @@ export default function Example() {
                         aria-hidden="true"
                       />
                       {item.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

@@ -54,6 +54,18 @@ const filters = [
     ],
   },
   {
+    id: 'Key',
+    name: 'Key',
+    options: [
+      { value: 'white', label: 'White', checked: false },
+      { value: 'beige', label: 'Beige', checked: false },
+      { value: 'blue', label: 'Blue', checked: false },
+      { value: 'brown', label: 'Brown', checked: false },
+      { value: 'green', label: 'Green', checked: false },
+      { value: 'purple', label: 'Purple', checked: false },
+    ],
+  },
+  {
     id: 'DAW',
     name: 'DAW',
     options: [
