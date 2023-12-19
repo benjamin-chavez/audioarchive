@@ -1,3 +1,4 @@
+// apps/server/src/database/migrations/20231218000000_create_text_search_vectors.ts
 import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {

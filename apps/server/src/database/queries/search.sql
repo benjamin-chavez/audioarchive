@@ -110,3 +110,7 @@ WHERE
                     FROM unique_lexeme
                 WHERE
                     levenshtein_less_equal(word , 'lake' , 3) < 2 LIMIT 1)));
+
+
+
+SELECT * FROM app_users WHERE similarity(display_name, 'chrs lke') > 0.2;

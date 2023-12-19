@@ -130,7 +130,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   const cartData = useFetchCart(user, isLoading);
-  console.log('cartData', cartData);
+  // console.log('cartData', cartData);
   const updateCart = useUpdateCart(user);
 
   const hasInitialized = useRef(false);
@@ -144,7 +144,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       cartItems,
       cartData.items,
     );
-    console.log('mergedCart', mergedCart);
+    // console.log('mergedCart', mergedCart);
     setCartItems(mergedCart);
     updateCart(mergedCart, cartData.cartId);
 

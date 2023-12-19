@@ -10,7 +10,7 @@ import { Inter } from 'next/font/google';
 import { GeistSans, GeistMono } from 'geist/font';
 // import type { Metadata } from 'next/dist/lib/metadata/types/metadata-interface';
 
-import Navbar from '../components/navbar';
+import Navbar from '../components/navbar/navbar';
 import Footer from '@/components/footer';
 import { getMyCart } from '@/lib/data/me';
 
