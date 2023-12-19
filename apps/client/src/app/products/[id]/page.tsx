@@ -3,8 +3,9 @@ import 'server-only';
 
 import { getProductDetails } from '@/lib/data/product';
 import { ProductWithAppUser } from '@shared/src';
-import { revalidateCart } from '../../cart/page';
+// import { revalidateCart } from '../../cart/page';
 import Example2 from './page.client-side';
+import { revalidateCart } from '@/app/cart/page';
 
 type ProductProps = {
   params: { id: string };

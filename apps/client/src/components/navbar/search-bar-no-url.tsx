@@ -3,7 +3,6 @@
 
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 
 type FormData = {
   searchQuery: string;
@@ -15,37 +14,33 @@ function SearchBar() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
-  const router = useRouter();
 
   // const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
 
-  const onSubmit: SubmitHandler<FormData> = (input) => {
-    // console.log(input);
-    // router.push(`/search/products?${encodeURIComponent(input.searchQuery)}`);
-    // router.push('products/search?q=laptops&category=electronics');
-    router.push(`/products/search?q=${encodeURIComponent(input.searchQuery)}`);
-    // try {
+  const onSubmit: SubmitHandler<FormData> = async (input) => {
+    try {
+      // console.log(data);
+      // const response = await fetch(`/api/search/app-users/${data.searchQuery}`);
+      const res = await fetch(`/api/search/products/${input.searchQuery}`);
 
-    //   // const res = await fetch(`/api/search/products/${input.searchQuery}`);
+      if (!res.ok) {
+        const resBody = await res.json();
 
-    //   // if (!res.ok) {
-    //   //   const resBody = await res.json();
+        const errorMessage = `${
+          resBody.message || 'An error occurred'
+        } (Status Code: ${res.status})`;
 
-    //   //   const errorMessage = `${
-    //   //     resBody.message || 'An error occurred'
-    //   //   } (Status Code: ${res.status})`;
+        // throw new Error(errorMessage);
+        console.log(errorMessage);
+      }
 
-    //   //   // throw new Error(errorMessage);
-    //   //   console.log(errorMessage);
-    //   // }
-
-    //   // const { data } = await res.json();
-    //   // console.log(data);
-    //   // revalidateListings();
-    // } catch (error) {
-    //   console.log(error);
-    //   window.alert('Error searching');
-    // }
+      const { data } = await res.json();
+      console.log(data);
+      // revalidateListings();
+    } catch (error) {
+      console.log(error);
+      window.alert('Error searching');
+    }
   };
 
   return (

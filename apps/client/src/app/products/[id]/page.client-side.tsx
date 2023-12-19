@@ -10,7 +10,7 @@ import { Product, ProductWithAppUser } from '@shared/src';
 import Link from 'next/link';
 import { Fragment, useEffect } from 'react';
 import { faqs, license, product2, reviews } from './temp-data';
-import { revalidateCart2 } from '../../cart/page';
+// import { revalidateCart2 } from '../../cart/page';
 
 // @ts-ignore
 function classNames(...classes) {

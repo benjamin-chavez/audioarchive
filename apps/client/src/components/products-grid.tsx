@@ -1,5 +1,6 @@
 // apps/client/src/components/products-grid.tsx
-import 'server-only';
+// TODO: Try to get this back on server:
+// import 'server-only';
 
 import Card from '../components/card';
 import { AppUser, AppUserWithProducts, Product } from '@shared/src';

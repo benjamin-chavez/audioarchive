@@ -37,8 +37,8 @@ const navItems = {
       href: '/products',
     },
     {
-      name: 'Users',
-      href: '/search',
+      name: 'Artists',
+      href: '/app-users',
     },
     {
       name: <ShoppingCart />,
