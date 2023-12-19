@@ -3,6 +3,7 @@ import 'server-only';
 import ProductsGrid from '../../components/products-grid';
 import Container from '@/components/container';
 import { Suspense } from 'react';
+import TestSearch from '@/components/test-search/text-search';
 
 async function getProducts() {
   const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
@@ -24,7 +25,10 @@ export default async function ProductsPage() {
   return (
     <Container>
       {/* <Suspense fallback={<p>loading products...</p>}> */}
-      <ProductsGrid products={products} />
+
+      <TestSearch>
+        <ProductsGrid products={products} />
+      </TestSearch>
       {/* </Suspense> */}
     </Container>
   );

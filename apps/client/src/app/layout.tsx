@@ -35,10 +35,10 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${GeistSans.className}`}
+      className={`dark ${GeistSans.className} h-full`}
       // className="dark"
     >
-      <body className={inter.className}>
+      <body className={`${inter.className} h-full`}>
         {/* <UserProvider> */}
         <Providers getMyCart={getMyCart}>
           <Navbar />
