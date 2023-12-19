@@ -193,32 +193,6 @@ const products = [
   },
   // More products...
 ];
-const footerNavigation = {
-  products: [
-    { name: 'Bags', href: '#' },
-    { name: 'Tees', href: '#' },
-    { name: 'Objects', href: '#' },
-    { name: 'Home Goods', href: '#' },
-    { name: 'Accessories', href: '#' },
-  ],
-  company: [
-    { name: 'Who we are', href: '#' },
-    { name: 'Sustainability', href: '#' },
-    { name: 'Press', href: '#' },
-    { name: 'Careers', href: '#' },
-    { name: 'Terms & Conditions', href: '#' },
-    { name: 'Privacy', href: '#' },
-  ],
-  customerService: [
-    { name: 'Contact', href: '#' },
-    { name: 'Shipping', href: '#' },
-    { name: 'Returns', href: '#' },
-    { name: 'Warranty', href: '#' },
-    { name: 'Secure Payments', href: '#' },
-    { name: 'FAQ', href: '#' },
-    { name: 'Find a store', href: '#' },
-  ],
-};
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -234,7 +208,10 @@ export default function TestSearch({
 
   return (
     <>
-      <div className="bg-gray-50">
+      <div
+      // className="bg-gray-50"
+      // className="bg-red-500"
+      >
         <div>
           {/* Mobile filter dialog */}
           <Transition.Root show={mobileFiltersOpen} as={Fragment}>
@@ -344,8 +321,8 @@ export default function TestSearch({
 
           <main>
             <div
-              // className="bg-white"
-              className="!bg-yellow-500"
+              className="bg-white"
+              // className="!bg-yellow-500"
             >
               <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900">
@@ -360,7 +337,10 @@ export default function TestSearch({
             </div>
             <div className="flex">
               <Inner />
-              <div className="bg-blue-800 w-[85%]">
+              <div
+                // bg-blue-800
+                className=" w-[85%]"
+              >
                 <Container>
                   {/* <p>products</p> */}
                   {children}
