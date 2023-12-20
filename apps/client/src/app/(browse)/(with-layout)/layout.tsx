@@ -57,7 +57,6 @@ export default function Browse2Layout({
     >
       <Container>
         <div className="">
-          {/* <SidebarNavigation>{children}</SidebarNavigation> */}
           <div className="flex">
             <Sidebar />
 

@@ -1,11 +1,10 @@
 // frontend/src/app/project-files/page.tsx
 import 'server-only';
-
+import ProductsGrid from '../(browse)/(with-layout)/products/components/products-grid';
 import Container from '@/components/container';
 import { Suspense } from 'react';
 import TestSearch from '@/components/test-search/text-search';
 import Inner from '@/components/test-search/inner';
-import ProductsGrid from '@/app/(browse)/(with-layout)/products/components/products-grid';
 
 async function getProducts() {
   const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;

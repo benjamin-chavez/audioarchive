@@ -1,36 +1,16 @@
-// apps/client/src/app/(browse)/cats2/page.tsx
-
-// 'use client';
-
-import { Filters } from './components/filters';
-import {
-  sortOptions,
-  filters,
-  activeFilters,
-  products,
-} from '../../products/config';
 import Link from 'next/link';
+import Card from '../../../../../components/card';
+import { AppUser, AppUserWithProducts, Product } from '@shared/src';
 
-async function getProducts() {
-  const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
-
-  const res = await fetch(`${BASE_URL}/products`);
-
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch products');
-  }
-
-  return res.json();
-}
-
-export default async function Page() {
-  const res = await getProducts();
-  const products = res.data;
-
+function ProductsGridV2({
+  products,
+  appUser,
+}: {
+  appUser?: AppUser;
+  products?: Product[];
+}) {
   return (
     <>
-      {/* Product grid */}
       <section
         aria-labelledby="products-heading"
         className="mx-auto max-w-2xl px-4 pb-16 pt-12 sm:px-6 sm:pb-24 sm:pt-16 lg:max-w-7xl lg:px-8"
@@ -64,3 +44,4 @@ export default async function Page() {
     </>
   );
 }
+export default ProductsGridV2;

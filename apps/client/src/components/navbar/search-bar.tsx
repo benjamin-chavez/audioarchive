@@ -24,6 +24,8 @@ function SearchBar() {
     // router.push(`/search/products?${encodeURIComponent(input.searchQuery)}`);
     // router.push('products/search?q=laptops&category=electronics');
     router.push(`/products/search?q=${encodeURIComponent(input.searchQuery)}`);
+    // router.push(`/products?q=${encodeURIComponent(input.searchQuery)}`);
+
     // try {
 
     //   // const res = await fetch(`/api/search/products/${input.searchQuery}`);

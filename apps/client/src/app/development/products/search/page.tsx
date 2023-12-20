@@ -5,7 +5,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { searchProducts } from './actions';
 import { useEffect, useState } from 'react';
 import Container from '@/components/container';
-import ProductsGrid from '@/components/products-grid';
+import ProductsGrid from '@/app/(browse)/(with-layout)/products/components/products-grid';
 
 // const searchProducts = async (searchQuery: string) => {
 //   const res = await fetch(`/api/search/products/${searchQuery}`);

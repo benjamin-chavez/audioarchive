@@ -4,8 +4,9 @@ import 'server-only';
 import { getProductDetails } from '@/lib/data/product';
 import { ProductWithAppUser } from '@shared/src';
 // import { revalidateCart } from '../../cart/page';
-import Example2 from './page.client-side';
+import PageClient from './page.client-side';
 import { revalidateCart } from '@/app/cart/page';
+import Container from '@/components/container';
 
 type ProductProps = {
   params: { id: string };
@@ -22,8 +23,8 @@ export default async function ProductDetail({ params }: ProductProps) {
   const product: ProductWithAppUser = res.data;
 
   return (
-    <>
-      <Example2 product={product} revalidateCart={revalidateCart} />
-    </>
+    <Container>
+      <PageClient product={product} revalidateCart={revalidateCart} />
+    </Container>
   );
 }

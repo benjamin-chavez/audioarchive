@@ -5,7 +5,8 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { searchProducts } from './actions';
 import { useEffect, useState } from 'react';
 import Container from '@/components/container';
-import ProductsGrid from '@/components/products-grid';
+import ProductsGrid from '@/app/(browse)/(with-layout)/products/components/products-grid';
+import ProductsGridV2 from '../components/products-grid-v2';
 
 // const searchProducts = async (searchQuery: string) => {
 //   const res = await fetch(`/api/search/products/${searchQuery}`);
@@ -48,9 +49,9 @@ function ProductSearch() {
   if (products) {
     return (
       <Container>
-        <h1>PRODUCT SEARCH</h1>
         {/* <Suspense fallback={<p>loading products...</p>}> */}
-        <ProductsGrid products={products} />
+        {/* <ProductsGridV2 products={products} /> */}
+        <ProductsGridV2 products={products} />
         {/* </Suspense> */}
       </Container>
     );

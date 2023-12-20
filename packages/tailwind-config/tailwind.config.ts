@@ -91,7 +91,7 @@ const config: Config = {
   plugins: [
     require('@tailwindcss/forms'),
     require('tailwindcss-animate'),
-    require('@tailwindcss/aspect-ratio'),
+    // require('@tailwindcss/aspect-ratio'),
   ],
 };
 export default config;

@@ -98,7 +98,7 @@ export async function handleAddToCart({
   }
 }
 
-export default function Example2({
+export default function PageClient({
   product,
   revalidateCart,
 }: {

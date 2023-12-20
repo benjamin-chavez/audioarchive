@@ -3,7 +3,7 @@
 
 import 'server-only';
 
-import ProductsGrid from '../../../components/products-grid';
+import ProductsGrid from '../../(browse)/(with-layout)/products/components/products-grid';
 import { getAppUserWProducts } from '@/lib/data/app-user';
 import Image from 'next/image';
 import Container from '@/components/container';
