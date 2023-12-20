@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 // frontend/app/components/card.tsx
-import 'server-only';
+// TODO: Try to get this back on server:
+// import 'server-only';
 
 import { AppUser } from '@shared/src/schemas';
 import { ProductWithAppUser } from '@shared/src/types';

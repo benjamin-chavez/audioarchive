@@ -10,7 +10,8 @@ import { Product, ProductWithAppUser } from '@shared/src';
 import Link from 'next/link';
 import { Fragment, useEffect } from 'react';
 import { faqs, license, product2, reviews } from './temp-data';
-import { revalidateCart2 } from '../../cart/page';
+import { MAX_CART_ITEM_QUANTITY } from '@shared';
+// import { revalidateCart2 } from '../../cart/page';
 
 // @ts-ignore
 function classNames(...classes) {
@@ -38,12 +39,21 @@ export async function handleAddToCart({
         (cartItems.find((item) => item.productId === product.id)?.quantity ||
           0) + 1;
 
+      if (newQuantity > MAX_CART_ITEM_QUANTITY) {
+        throw new Error(
+          `You may only purchase ${MAX_CART_ITEM_QUANTITY} copies of this item at a time`,
+        );
+      }
+
       const res = await fetch(`/api/app-users/me/cart/items`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ productId: product.id, quantity: newQuantity }),
+        body: JSON.stringify({
+          productId: product.id,
+          quantity: newQuantity,
+        }),
       });
 
       if (!res.ok) {
@@ -72,11 +82,19 @@ export async function handleAddToCart({
 
       let updatedCart;
       if (existingCartItemIdx !== -1) {
+        const newQuantity = (cartItems[existingCartItemIdx].quantity += 1);
+        if (newQuantity > MAX_CART_ITEM_QUANTITY) {
+          throw new Error(
+            `You may only purchase ${MAX_CART_ITEM_QUANTITY} copies of this item at a time`,
+          );
+        }
+
         updatedCart = [...cartItems];
-        updatedCart[existingCartItemIdx].quantity += 1;
+        updatedCart[existingCartItemIdx].quantity = newQuantity;
       } else {
         const newCartItem = {
           quantity: 1,
+          cartItemCreatedAt: new Date(),
           productId: product.id,
           name: product.name,
           genre: product.genre,
@@ -94,11 +112,13 @@ export async function handleAddToCart({
       storeCart(updatedCart);
     }
   } catch (error) {
+    // TODO: Make the alert prettier
+    alert(error);
     console.error('Failed to add item to cart:', error);
   }
 }
 
-export default function Example2({
+export default function PageClient({
   product,
   revalidateCart,
 }: {
@@ -110,14 +130,25 @@ export default function Example2({
 
   return (
     <div className="bg-white">
-      <div className="mt-10">
-        <Link href="/products" className="bg-blue-500 px-4 py-1 ">
-          Back to Products
-        </Link>
-      </div>
-      <div className="mx-auto px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+      <div
+        // py-16
+        // sm:py-24
+        className="mx-auto px-4 sm:py-16 py-8 sm:px-6 lg:max-w-7xl lg:px-8"
+      >
+        <div
+          // mt-10
+          className=""
+        >
+          <Link
+            href="/products"
+            // py-1
+            className="bg-blue-500  px-4 "
+          >
+            Back to Products
+          </Link>
+        </div>
         {/* Product */}
-        <div className="lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
+        <div className="lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16 py-0 sm:py-8 ">
           {/* Product image */}
           <div className="lg:col-span-4 lg:row-end-1">
             <div className="aspect-h-3 aspect-w-4 overflow-hidden rounded-lg bg-gray-100">

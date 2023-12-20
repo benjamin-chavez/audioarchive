@@ -50,7 +50,7 @@ class CartModel {
   static async getCartWithItems(appUserId: number): Promise<null | any> {
     // ): Promise<ApiCartData | null | any> {
     // TODO: Update to use the `apps/server/src/database/queries/get-cart-with-items-and-products.sql` file instead
-
+    // TODO: **SQL Query Evaluation
     const cartWithItems = await knex('carts')
       .select(
         'carts.id as cart_id',
@@ -59,6 +59,7 @@ class CartModel {
           json_agg(
             json_build_object(
                 'cart_item_id', cart_items.id,
+                'cart_item_created_at', cart_items.created_at,
                 'quantity', cart_items.quantity,
                 'product_id', products.id,
                 'name', products.name,

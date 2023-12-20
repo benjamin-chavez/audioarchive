@@ -10,9 +10,11 @@ import { Inter } from 'next/font/google';
 import { GeistSans, GeistMono } from 'geist/font';
 // import type { Metadata } from 'next/dist/lib/metadata/types/metadata-interface';
 
-import Navbar from '../components/navbar';
+import Navbar from '../components/navbar/navbar';
 import Footer from '@/components/footer';
 import { getMyCart } from '@/lib/data/me';
+import AlternateNav from '@/components/test-search/alternate-nav';
+import Container from '@/components/container';
 
 // import Footer from '@/components/footer';
 // import Toast from '@/components/ui/toast';
@@ -35,13 +37,16 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${GeistSans.className}`}
+      className={`dark ${GeistSans.className} h-full`}
       // className="dark"
     >
-      <body className={inter.className}>
+      <body className={`${inter.className} h-full`}>
         {/* <UserProvider> */}
         <Providers getMyCart={getMyCart}>
           <Navbar />
+          {/* <Container> */}
+          {/* <AlternateNav /> */}
+          {/* </Container> */}
 
           {children}
         </Providers>

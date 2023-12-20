@@ -39,6 +39,7 @@ const convertSnakeCaseToCamelCase = (obj: any): any => {
   }, {});
 };
 
+
 const baseConfig = {
   client: 'postgresql',
   pool: {

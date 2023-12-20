@@ -88,7 +88,11 @@ const config: Config = {
   //     },
   //   },
   // },
-  plugins: [require('@tailwindcss/forms'), require('tailwindcss-animate')],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('tailwindcss-animate'),
+    // require('@tailwindcss/aspect-ratio'),
+  ],
 };
 export default config;
 

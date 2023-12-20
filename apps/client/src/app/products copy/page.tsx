@@ -1,8 +1,10 @@
 // frontend/src/app/project-files/page.tsx
 import 'server-only';
-import ProductsGrid from '../../components/products-grid';
+import ProductsGrid from '../(browse)/(with-layout)/products/components/products-grid';
 import Container from '@/components/container';
 import { Suspense } from 'react';
+import TestSearch from '@/components/test-search/text-search';
+import Inner from '@/components/test-search/inner';
 
 async function getProducts() {
   const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
@@ -22,11 +24,22 @@ export default async function ProductsPage() {
   const products = res.data;
 
   return (
-    <Container>
-      {/* <Suspense fallback={<p>loading products...</p>}> */}
-      <ProductsGrid products={products} />
-      {/* </Suspense> */}
-    </Container>
+    <div
+    // className="bg-red-500"
+    >
+      <Container>
+        <div className="flex">
+          <Inner />
+          {/* <Suspense fallback={<p>loading products...</p>}> */}
+
+          <TestSearch>
+            <ProductsGrid products={products} />
+          </TestSearch>
+
+          {/* </Suspense> */}
+        </div>
+      </Container>
+    </div>
   );
 }
 

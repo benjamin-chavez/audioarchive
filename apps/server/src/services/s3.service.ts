@@ -115,7 +115,7 @@ class S3Service {
   // FOR MORE THAN ONE - TODO: CONSIDER RENAMING
   static async getSignedUrlsForProducts(
     products: Product[]
-  ): Promise<Product[]> {
+  ): Promise<Product[] | any> {
     const productsWithSignedUrls = await Promise.all(
       products.map(async (product) => ({
         ...product,

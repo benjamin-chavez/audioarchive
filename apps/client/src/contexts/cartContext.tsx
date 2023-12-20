@@ -2,6 +2,7 @@
 
 import { getMyCart } from '@/lib/data/me';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { MAX_CART_ITEM_QUANTITY } from '@shared';
 
 import {
   Dispatch,
@@ -106,11 +107,18 @@ function mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems) {
 
   const mergedCart = Object.values(
     [...cartItems, ...databaseCartItems].reduce((acc, item) => {
+      const combinedQuantity = acc[item.productId]
+        ? acc[item.productId].quantity
+        : 0 + item.quantity;
+
+      const adjustedQuantity =
+        combinedQuantity > MAX_CART_ITEM_QUANTITY
+          ? MAX_CART_ITEM_QUANTITY
+          : combinedQuantity;
+
       acc[item.productId] = {
         ...item,
-        quantity:
-          (acc[item.productId] ? acc[item.productId].quantity : 0) +
-          item.quantity,
+        quantity: adjustedQuantity,
       };
       return acc;
     }, {}),
@@ -130,7 +138,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   const cartData = useFetchCart(user, isLoading);
-  console.log('cartData', cartData);
+  // console.log('cartData', cartData);
   const updateCart = useUpdateCart(user);
 
   const hasInitialized = useRef(false);
@@ -144,7 +152,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       cartItems,
       cartData.items,
     );
-    console.log('mergedCart', mergedCart);
+    // console.log('mergedCart', mergedCart);
     setCartItems(mergedCart);
     updateCart(mergedCart, cartData.cartId);
 

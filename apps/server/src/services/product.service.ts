@@ -14,7 +14,7 @@ class ProductService {
 
   static async getAllProductsWithUserDetails(): Promise<any> {
     const products = await ProductModel.getAllProductsWithUserDetails();
-
+    console.log(products);
     const productsWithSignedUrls =
       await S3Service.getSignedUrlsForProducts(products);
 
