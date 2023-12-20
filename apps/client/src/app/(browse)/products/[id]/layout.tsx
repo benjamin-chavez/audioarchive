@@ -3,6 +3,8 @@
 // apps/client/src/app/(browse2)/layout.tsx
 'use client';
 
+import Container from '@/components/container';
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
@@ -14,9 +16,9 @@ export default function Browse2Layout({
 }) {
   return (
     <section className="h-full">
-      {/* <Container> */}
-      <div className="">{children}</div>
-      {/* </Container> */}
+      <Container>
+        <div className="">{children}</div>
+      </Container>
     </section>
   );
 }

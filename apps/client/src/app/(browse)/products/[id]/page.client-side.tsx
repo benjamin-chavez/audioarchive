@@ -110,14 +110,25 @@ export default function Example2({
 
   return (
     <div className="bg-white">
-      <div className="mt-10">
-        <Link href="/products" className="bg-blue-500 px-4 py-1 ">
-          Back to Products
-        </Link>
-      </div>
-      <div className="mx-auto px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+      <div
+        // py-16
+        // sm:py-24
+        className="mx-auto px-4 sm:py-16 py-8 sm:px-6 lg:max-w-7xl lg:px-8"
+      >
+        <div
+          // mt-10
+          className=""
+        >
+          <Link
+            href="/products"
+            // py-1
+            className="bg-blue-500  px-4 "
+          >
+            Back to Products
+          </Link>
+        </div>
         {/* Product */}
-        <div className="lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
+        <div className="lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16 py-0 sm:py-8 ">
           {/* Product image */}
           <div className="lg:col-span-4 lg:row-end-1">
             <div className="aspect-h-3 aspect-w-4 overflow-hidden rounded-lg bg-gray-100">

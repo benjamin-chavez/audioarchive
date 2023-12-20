@@ -2,8 +2,13 @@
 
 // 'use client';
 
-import { Filters } from './filters';
-import { sortOptions, filters, activeFilters, products } from './config';
+import { Filters } from '../../products/filters';
+import {
+  sortOptions,
+  filters,
+  activeFilters,
+  products,
+} from '../../products/config';
 import Link from 'next/link';
 
 async function getProducts() {

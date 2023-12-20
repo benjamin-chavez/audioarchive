@@ -15,7 +15,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import Container from '@/components/container';
-import Sidebar from './sidebar';
+import Sidebar from './components/sidebar';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
