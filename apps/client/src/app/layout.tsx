@@ -13,6 +13,8 @@ import { GeistSans, GeistMono } from 'geist/font';
 import Navbar from '../components/navbar/navbar';
 import Footer from '@/components/footer';
 import { getMyCart } from '@/lib/data/me';
+import AlternateNav from '@/components/test-search/alternate-nav';
+import Container from '@/components/container';
 
 // import Footer from '@/components/footer';
 // import Toast from '@/components/ui/toast';
@@ -42,6 +44,9 @@ export default async function RootLayout({
         {/* <UserProvider> */}
         <Providers getMyCart={getMyCart}>
           <Navbar />
+          {/* <Container> */}
+          {/* <AlternateNav /> */}
+          {/* </Container> */}
 
           {children}
         </Providers>
