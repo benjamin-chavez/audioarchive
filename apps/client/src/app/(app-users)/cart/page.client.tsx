@@ -8,6 +8,7 @@ import CheckoutButton from './checkout-button';
 import RemoveFromCartButton from './remove-from-cart-button';
 import { useEffect, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { Badge } from '@/components/ui/badge';
 // function calculatePriceSubtotal(cartItems: any): number {
 //   // @ts-ignore
 //   const subtotal = cartItems?.reduce((sum, cartItem) => {
@@ -238,24 +239,31 @@ function CartItem({
             </div>
           </div>
 
-          <p className="mt-4 flex space-x-2 text-sm text-gray-700">
-            {/* {product.inStock ? ( */}
-            <CheckIcon
-              className="h-5 w-5 flex-shrink-0 text-green-500"
-              aria-hidden="true"
-            />
-            {/* ) : (
+          <div className="">
+            <p className="mt-4 flex space-x-2 text-sm text-gray-700">
+              {/* {product.inStock ? ( */}
+              <CheckIcon
+                className="h-5 w-5 flex-shrink-0 text-green-500"
+                aria-hidden="true"
+              />
+              {/* ) : (
               <ClockIcon
                 className="h-5 w-5 flex-shrink-0 text-gray-300"
                 aria-hidden="true"
               />
             )} */}
 
-            <span>
-              {/* {product.inStock ? 'In stock' : `Ships in ${product.leadTime}`} */}
-              In stock
-            </span>
-          </p>
+              <span>
+                {/* {product.inStock ? 'In stock' : `Ships in ${product.leadTime}`} */}
+                In stock
+              </span>
+            </p>
+            {cartItem.quantity > 1 && (
+              <Badge>
+                You have more than one copy of this item in your cart
+              </Badge>
+            )}
+          </div>
         </div>
       </li>
     </>
@@ -269,6 +277,8 @@ export default function CartPageClient({
 }) {
   const { user, isLoading } = useUser();
   const { cartItems, storeCart } = useCart();
+
+  console.log(cartItems);
 
   // if (user) {
   //   const res = await getMyCart();
@@ -289,6 +299,14 @@ export default function CartPageClient({
   const estimatedTax = 0;
   const orderTotal = 0;
 
+  const sortCartItems = (items) => {
+    return items.sort(
+      (a, b) =>
+        new Date(a.cartItemCreatedAt).getTime() -
+        new Date(b.cartItemCreatedAt).getTime(),
+    );
+  };
+
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -301,24 +319,31 @@ export default function CartPageClient({
             <h2 id="cart-heading" className="sr-only">
               Items in your shopping cart
             </h2>
-
             {cartItems?.length > 0 ? (
               <ul
                 role="list"
                 className="divide-y divide-gray-200 border-b border-t border-gray-200"
               >
                 {/* @ts-ignore */}
-                {cartItems.map((cartItem, cartItemIdx) => (
-                  // @ts-ignore
-                  <CartItem
-                    key={cartItem.productId}
-                    cartItem={cartItem}
-                    revalidateCart={revalidateCart}
-                    cartItems={cartItems}
-                    storeCart={storeCart}
-                    user={user}
-                  />
-                ))}
+                {cartItems
+                  .sort(
+                    (a, b) =>
+                      // @ts-ignore
+                      new Date(a.cartItemCreatedAt).getTime() -
+                      // @ts-ignore
+                      new Date(b.cartItemCreatedAt).getTime(),
+                  )
+                  .map((cartItem, cartItemIdx) => (
+                    // @ts-ignore
+                    <CartItem
+                      key={cartItem.productId}
+                      cartItem={cartItem}
+                      revalidateCart={revalidateCart}
+                      cartItems={cartItems}
+                      storeCart={storeCart}
+                      user={user}
+                    />
+                  ))}
               </ul>
             ) : (
               <>

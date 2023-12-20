@@ -2,6 +2,8 @@
 
 import { z } from 'zod';
 
+export const MAX_CART_ITEM_QUANTITY = 5;
+
 export const cartItemSchema = z.object({
   id: z.number().int().positive(),
   cartId: z.number().int().positive(),

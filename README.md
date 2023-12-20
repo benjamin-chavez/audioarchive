@@ -132,13 +132,13 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
         - all numbers should only have two decimal places. Currently showing this: `$899.7000000000002`
     - update with tax info
     - Add to cart toast notification
-    - Cart items count icon
+    <!-- // - Cart items count icon -->
     - Cart Dropdown menu
-    - Update so that you cannot have duplicate items in the cart - should increase quantity instead <= add a constraint to the db as well?
-    - Redirect to Login Not setup - you probably won't need this once you set up local storage
-    - Add warning cartItem badge if they have more than one of the same item
-    - order by time added to cart
-    - add max purchase quantity logic back => `const MAX_PURCHASE_QUANTITY = 5`
+    <!-- //- Update so that you cannot have duplicate items in the cart - should increase quantity instead <= add a constraint to the db as well? -->
+    <!-- /// - Redirect to Login Not setup - you probably won't need this once you set up local storage -->
+    <!--// - Add warning cartItem badge if they have more than one of the same item -->
+    <!-- // - order by time added to cart -->
+    <!-- // - add max purchase quantity logic back => `const MAX_PURCHASE_QUANTITY = 5` -->
 
  - Payments
     - Look into adding a second payment provider

@@ -10,6 +10,7 @@ import { Product, ProductWithAppUser } from '@shared/src';
 import Link from 'next/link';
 import { Fragment, useEffect } from 'react';
 import { faqs, license, product2, reviews } from './temp-data';
+import { MAX_CART_ITEM_QUANTITY } from '@shared';
 // import { revalidateCart2 } from '../../cart/page';
 
 // @ts-ignore
@@ -38,12 +39,21 @@ export async function handleAddToCart({
         (cartItems.find((item) => item.productId === product.id)?.quantity ||
           0) + 1;
 
+      if (newQuantity > MAX_CART_ITEM_QUANTITY) {
+        throw new Error(
+          `You may only purchase ${MAX_CART_ITEM_QUANTITY} copies of this item at a time`,
+        );
+      }
+
       const res = await fetch(`/api/app-users/me/cart/items`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ productId: product.id, quantity: newQuantity }),
+        body: JSON.stringify({
+          productId: product.id,
+          quantity: newQuantity,
+        }),
       });
 
       if (!res.ok) {
@@ -72,11 +82,19 @@ export async function handleAddToCart({
 
       let updatedCart;
       if (existingCartItemIdx !== -1) {
+        const newQuantity = (cartItems[existingCartItemIdx].quantity += 1);
+        if (newQuantity > MAX_CART_ITEM_QUANTITY) {
+          throw new Error(
+            `You may only purchase ${MAX_CART_ITEM_QUANTITY} copies of this item at a time`,
+          );
+        }
+
         updatedCart = [...cartItems];
-        updatedCart[existingCartItemIdx].quantity += 1;
+        updatedCart[existingCartItemIdx].quantity = newQuantity;
       } else {
         const newCartItem = {
           quantity: 1,
+          cartItemCreatedAt: new Date(),
           productId: product.id,
           name: product.name,
           genre: product.genre,
@@ -94,6 +112,8 @@ export async function handleAddToCart({
       storeCart(updatedCart);
     }
   } catch (error) {
+    // TODO: Make the alert prettier
+    alert(error);
     console.error('Failed to add item to cart:', error);
   }
 }
