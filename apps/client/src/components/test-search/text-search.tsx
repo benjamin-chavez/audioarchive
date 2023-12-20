@@ -4,7 +4,7 @@
 // require('@tailwindcss/aspect-ratio'),
 
 // import Container from '../container';
-import AlternateNav from './alternate-nav';
+// import AlternateNav from './alternate-nav';
 import FilterComponent from './filter-component';
 import Inner from './inner';
 

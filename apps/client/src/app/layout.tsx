@@ -13,7 +13,7 @@ import { GeistSans, GeistMono } from 'geist/font';
 import Navbar from '../components/navbar/navbar';
 import Footer from '@/components/footer';
 import { getMyCart } from '@/lib/data/me';
-import AlternateNav from '@/components/test-search/alternate-nav';
+// import AlternateNav from '@/components/test-search/alternate-nav';
 import Container from '@/components/container';
 
 // import Footer from '@/components/footer';

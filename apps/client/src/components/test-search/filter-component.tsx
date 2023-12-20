@@ -17,7 +17,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import AlternateNav from './alternate-nav';
+// import AlternateNav from './alternate-nav';
 import Container from '../container';
 import Inner from './inner';
 

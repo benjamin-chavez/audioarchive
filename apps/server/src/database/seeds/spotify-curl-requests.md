@@ -1,4 +1,4 @@
-
+<!--
 
 curl --http1.1 -X "POST" -H "Authorization: Basic ZDVmOTUxMTA4ZWRmNDczOTgzMDA5NzViNmE4MThhM2U6NjM0ZTg5MDZlYTNiNGYwZmE5OWUwYTNhOGEyM2NlZTY=" -d grant_type=client_credentials https://accounts.spotify.com/api/token
 
@@ -35,4 +35,4 @@ curl --request GET \
 
   curl --request GET \
   --url 'https://api.spotify.com/v1/search?q=amin+chavez&type=artist&limit=10&offset=1' \
-  --header 'Authorization: Bearer <AUTH_TOKEN>'
+  --header 'Authorization: Bearer <AUTH_TOKEN>' -->

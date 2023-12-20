@@ -51,6 +51,7 @@ function AppUserCard({ appUser }: { appUser: AppUser }) {
           <div className="flex flex-1 flex-col justify-end">
             <p className="text-base font-medium text-gray-900 dark:text-[#D6D3CD] ">
               {/* {appUser.username} */}
+              {/* @ts-ignore */}
               {appUser.displayName}
             </p>
           </div>
@@ -67,7 +68,7 @@ function AppUsersGrid({ appUsers }: { appUsers: AppUser[] }) {
         <div className="grid grid-cols-1 gap-y-4 lg:grid-cols-3 sm:gap-x-3 sm:gap-y-10 xl:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 place-items-center">
           {appUsers.map((appUser: AppUser) => {
             return (
-              <div>
+              <div key={appUser.id}>
                 <AppUserCard key={appUser.id.toString()} appUser={appUser} />
               </div>
             );

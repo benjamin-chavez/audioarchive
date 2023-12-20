@@ -161,6 +161,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (localCartItems.length !== 0) {
       setLocalCartItems([]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, isLoading, cartData, cartItems, localCartItems, updateCart]);
 
   // useEffect(() => {
@@ -208,6 +209,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     };
 
     synchronizeCart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localCartItems]);
 
   // useEffect(() => {
@@ -284,6 +286,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setLocalCartItems,
       totalItemQuantity,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [cartItems, setCartItems, storeCart, setLocalCartItems, totalItemQuantity],
   );
 

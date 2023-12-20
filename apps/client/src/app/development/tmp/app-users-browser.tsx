@@ -66,7 +66,7 @@ function AppUsersGrid({ appUsers }: { appUsers: AppUser[] }) {
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {appUsers.map((appUser: AppUser) => {
             return (
-              <div>
+              <div key={appUser.id}>
                 <AppUserCard key={appUser.id.toString()} appUser={appUser} />
               </div>
             );

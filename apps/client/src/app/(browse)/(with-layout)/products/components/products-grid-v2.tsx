@@ -29,7 +29,7 @@ function ProductsGridV2({
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                 <img
                   src={product.imgS3Url}
-                  alt={product.imageAlt}
+                  alt={product.imgS3Url}
                   className="h-full w-full object-cover object-center group-hover:opacity-75"
                 />
               </div>

@@ -9,6 +9,7 @@ export const AppUserSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   username: z.string(),
+  displayName: z.string(),
   // username: z.string().max(50).nullable(),
   email: z.string().email(),
   // avatar: z.string().optional(),
