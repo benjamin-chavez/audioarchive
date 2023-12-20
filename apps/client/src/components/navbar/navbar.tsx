@@ -273,7 +273,7 @@ export default function Navbar() {
                       </div>
 
                       <span
-                        className="mx-4 h-6 w-px bg-yellow-200 lg:mx-6"
+                        className="mx-4 h-6 w-px bg-gray-200 lg:mx-6"
                         aria-hidden="true"
                       />
 
