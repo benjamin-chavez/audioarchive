@@ -447,6 +447,7 @@ function AlternateNav() {
                         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                         alt=""
                       />
+                      {/* <h2 className=" text-black">Audio Archive</h2> */}
                     </a>
                   </div>
 

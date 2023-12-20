@@ -1,7 +1,13 @@
 // apps/client/src/app/test-search/inner.tsx
 'use client';
 
-import { HomeIcon, UsersIcon } from '@heroicons/react/24/outline';
+import {
+  HomeIcon,
+  UsersIcon,
+  UserGroupIcon,
+  AdjustmentsVerticalIcon,
+  MusicalNoteIcon,
+} from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -17,7 +23,8 @@ export default function Inner() {
     {
       name: 'Products',
       href: '/browse/products',
-      icon: HomeIcon,
+      // icon: AdjustmentsVerticalIcon,
+      icon: MusicalNoteIcon,
       current: currentPath === '/browse/products',
     },
     {

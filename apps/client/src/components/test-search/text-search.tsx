@@ -102,7 +102,7 @@ export default function TestSearch({
       // bg-gray-50
       className=" w-full"
     >
-      {/* <AlternateNav /> */}
+      <AlternateNav />
 
       <div>
         <main>
