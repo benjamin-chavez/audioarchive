@@ -24,8 +24,6 @@ export default async function MyAccountsPage() {
   if (stripeAccounts) {
     return (
       <>
-        <h1>{user?.username} Listings</h1>
-        <Link href={'/dashboard/'}>Back to Dashboard</Link>
         <TwTable stripeAccounts={stripeAccounts} />
       </>
     );

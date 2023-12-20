@@ -40,8 +40,6 @@ export default async function MyProductsPage() {
   if (products) {
     return (
       <>
-        <h1>{user?.username} Listings</h1>
-        <Link href={'/dashboard/'}>Back to Dashboard</Link>
         <TwTable products={products} />
         {/* <ShadcnTable products={products} /> */}
       </>

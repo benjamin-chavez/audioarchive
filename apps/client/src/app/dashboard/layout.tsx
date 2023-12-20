@@ -30,11 +30,11 @@ const teams = [
   { id: 3, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
 ];
 const secondaryNavigation = [
-  { name: 'My Products', href: '/settings/products', current: true },
-  { name: 'My Accounts', href: '/settings/accounts', current: false },
-  { name: 'My Orders', href: '/settings/orders', current: false },
-  { name: 'Billing', href: '/settings/billing', current: false },
-  { name: 'My Settings', href: '/settings/settings', current: false },
+  { name: 'My Products', href: '/dashboard/products', current: true },
+  { name: 'My Accounts', href: '/dashboard/accounts', current: false },
+  { name: 'My Orders', href: '/dashboard/orders', current: false },
+  { name: 'Billing', href: '/dashboard/billing', current: false },
+  { name: 'My Settings', href: '/dashboard/settings', current: false },
 ];
 
 function classNames(...classes) {
