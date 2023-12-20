@@ -48,6 +48,7 @@ function ProductSearch() {
   if (products) {
     return (
       <Container>
+        <h1>PRODUCT SEARCH</h1>
         {/* <Suspense fallback={<p>loading products...</p>}> */}
         <ProductsGrid products={products} />
         {/* </Suspense> */}
