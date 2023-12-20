@@ -49,6 +49,8 @@ class CartService {
   static async getCartWithCartItems(
     appUserId: number
   ): Promise<CartWithCartItems | any> {
+    await this.getCart(appUserId);
+
     let cartData: CartWithCartItems | null | any =
       await CartModel.getCartWithItems(appUserId);
 
@@ -123,7 +125,7 @@ class CartService {
       // quantity: cartItemData.quantity,
       cartItem: cartItemData,
     });
-    console.log('newnew', newCartItem);
+    // console.log('newnew', newCartItem);
 
     const cartWithItems: CartWithCartItems =
       await this.getCartWithCartItems(appUserId);

@@ -107,9 +107,9 @@ function mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems) {
 
   const mergedCart = Object.values(
     [...cartItems, ...databaseCartItems].reduce((acc, item) => {
-      const combinedQuantity = acc[item.productId]
-        ? acc[item.productId].quantity
-        : 0 + item.quantity;
+      const combinedQuantity =
+        (acc[item.productId] ? acc[item.productId].quantity : 0) +
+        item.quantity;
 
       const adjustedQuantity =
         combinedQuantity > MAX_CART_ITEM_QUANTITY
