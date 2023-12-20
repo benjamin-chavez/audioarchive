@@ -44,7 +44,7 @@ function SidebarNavigation({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function Browse2Layout({
+export default function BrowseLayout({
   children,
 }: {
   children: React.ReactNode;

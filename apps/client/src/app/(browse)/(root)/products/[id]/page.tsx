@@ -5,7 +5,7 @@ import { getProductDetails } from '@/lib/data/product';
 import { ProductWithAppUser } from '@shared/src';
 // import { revalidateCart } from '../../cart/page';
 import PageClient from './page.client-side';
-import { revalidateCart } from '@/app/cart/page';
+import { revalidateCart } from '@/app/(app-users)/cart/page';
 import Container from '@/components/container';
 
 type ProductProps = {

@@ -8,7 +8,7 @@ import {
   filters,
   activeFilters,
   products,
-} from '../../products/config';
+} from '../../(root)/products/config';
 import Link from 'next/link';
 
 async function getProducts() {

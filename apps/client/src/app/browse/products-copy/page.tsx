@@ -5,7 +5,7 @@ import Container from '@/components/container';
 import { Suspense, useState } from 'react';
 import TestSearch from '@/components/test-search/text-search';
 import Inner from '@/components/test-search/inner';
-import AppUsersBrowser from '../app-users-browser';
+import AppUsersBrowser from '@/app/development/tmp/app-users-browser';
 
 async function getProducts() {
   const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
@@ -34,9 +34,9 @@ export default async function ProductsPage() {
           <Inner />
           {/* <Suspense fallback={<p>loading products...</p>}> */}
 
-          <TestSearch>
+          {/* <TestSearch>
             <ProductsGrid products={products} />
-          </TestSearch>
+          </TestSearch> */}
 
           <TestSearch>
             <AppUsersBrowser />
