@@ -128,7 +128,7 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
  - Cart:
     <!-- //- Set up logic to store cart in local storage/context if not logged in -->
     - Fix formatting
-        - order toal `$NAN`
+        - order total `$NAN`
         - all numbers should only have two decimal places. Currently showing this: `$899.7000000000002`
     - update with tax info
     - Add to cart toast notification

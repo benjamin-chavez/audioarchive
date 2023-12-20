@@ -9,28 +9,30 @@ import RemoveFromCartButton from './remove-from-cart-button';
 import { useEffect, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { Badge } from '@/components/ui/badge';
-// function calculatePriceSubtotal(cartItems: any): number {
-//   // @ts-ignore
-//   const subtotal = cartItems?.reduce((sum, cartItem) => {
-//     return sum + cartItem.price;
-//   }, 0);
-//   // console.log(subtotal);
-//   return subtotal;
-// }
 
-// function calculateTaxEstimate(): number {
-//   return 0.0;
-// }
+function calculatePriceSubtotal(cartItems: any): number {
+  // @ts-ignore
+  const subtotal = cartItems?.reduce((sum, cartItem) => {
+    return sum + cartItem.price;
+  }, 0);
+  // console.log(subtotal);
+  return subtotal;
+}
 
-// function calculateOrderTotal({
-//   subtotal,
-//   estimatedTax,
-// }: {
-//   subtotal: number;
-//   estimatedTax: number;
-// }): number {
-//   return subtotal + estimatedTax;
-// }
+function calculateTaxEstimate(): number {
+  return 0.0;
+}
+
+function calculateOrderTotal({
+  subtotal,
+  estimatedTax,
+}: {
+  subtotal: number;
+  estimatedTax: number;
+}): number {
+  // TODO: ENSURE THAT RETURN VALUE IS NOT `NAN`
+  return subtotal + estimatedTax;
+}
 
 function OrderSummary({
   subtotal,
@@ -291,21 +293,16 @@ export default function CartPageClient({
   // }
 
   // const { items: cartItems } = res.data;
-  // const subtotal = calculatePriceSubtotal(cartItems);
-  // const estimatedTax = calculateTaxEstimate();
-  // const orderTotal = calculateOrderTotal({ subtotal, estimatedTax });
+  const subtotal = calculatePriceSubtotal(cartItems);
+  const estimatedTax = calculateTaxEstimate();
+  const orderTotal = calculateOrderTotal({ subtotal, estimatedTax });
+  useEffect(() => {
+    // TODO:
+  }, []);
 
-  const subtotal = 0;
-  const estimatedTax = 0;
-  const orderTotal = 0;
-
-  const sortCartItems = (items) => {
-    return items.sort(
-      (a, b) =>
-        new Date(a.cartItemCreatedAt).getTime() -
-        new Date(b.cartItemCreatedAt).getTime(),
-    );
-  };
+  // const subtotal = 0;
+  // const estimatedTax = 0;
+  // const orderTotal = 0;
 
   return (
     <div className="bg-white">
