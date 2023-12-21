@@ -5,7 +5,7 @@
 import { QuestionMarkCircleIcon } from '@heroicons/react/20/solid';
 import CheckoutButton from './checkout-button';
 import { useCart } from '@/contexts/cartContext';
-import { CURRENCY, formatAmountForDisplay } from '@/lib/currency-utils';
+import { CURRENCY, formatAmountForDisplay } from '@/lib/cart-calculations';
 
 export function OrderSummary({} // subtotal,
 // orderTotal,

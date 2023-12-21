@@ -1,5 +1,11 @@
 'use client';
 
+import {
+  calculateEstimatedTax,
+  calculateOrderTotalPrice,
+  calculatePriceSubtotal,
+  calculateTotalItemQuantity,
+} from '@/lib/cart-calculations';
 import { getMyCart } from '@/lib/data/me';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { MAX_CART_ITEM_QUANTITY } from '@shared';
@@ -132,6 +138,9 @@ function mergeLocalStorageCartWithDBCart(cartItems, databaseCartItems) {
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const { user, isLoading } = useUser();
+  const cartData = useFetchCart(user, isLoading);
+  const updateCart = useUpdateCart(user);
+  const hasInitialized = useRef(false);
   const [localCartItems, setLocalCartItems] = useLocalStorage<ApiCartItem[]>(
     'cart-items',
     [],
@@ -139,12 +148,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<ApiCartItem[]>(
     localCartItems || [],
   );
-
-  const cartData = useFetchCart(user, isLoading);
-  // console.log('cartData', cartData);
-  const updateCart = useUpdateCart(user);
-
-  const hasInitialized = useRef(false);
 
   useEffect(() => {
     if (!user || isLoading || hasInitialized.current || !cartData) {
@@ -271,52 +274,23 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [user, setCartItems, setLocalCartItems],
   );
 
-  const calculateTotalItemQuantity = (items) => {
-    console.log('calculating items quantity');
-    return items.reduce((total, item) => total + item.quantity, 0);
-  };
-
   const totalItemQuantity = useMemo(
     () => calculateTotalItemQuantity(cartItems),
     [cartItems],
   );
-
-  // const [subtotal, setSubtotal] = useState(0);
-  // const [estimatedTax, setEstimatedTax] = useState(0);
-  // const [orderTotal, setOrderTotal] = useState(0);
-
-  const calculatePriceSubtotal = (cartItems: any): number => {
-    const subtotal = cartItems?.reduce((sum, cartItem) => {
-      return sum + cartItem.price * cartItem.quantity;
-    }, 0);
-
-    return subtotal;
-  };
 
   const subtotal = useMemo(
     () => calculatePriceSubtotal(cartItems),
     [cartItems],
   );
 
-  const calculateEstimatedTax = (cartItems: any): number => {
-    const estimatedTax = subtotal * 0.07;
-    console.log('calculating tax', estimatedTax);
-
-    return estimatedTax;
-  };
-
   const estimatedTax = useMemo(
-    () => calculateEstimatedTax(cartItems),
+    () => calculateEstimatedTax(subtotal),
     [cartItems],
   );
 
-  const calculateOrderTotalPrice = (cartItems: any): number => {
-    console.log('calculating total', subtotal, estimatedTax);
-    return subtotal + estimatedTax;
-  };
-
   const orderTotalPrice = useMemo(
-    () => calculateOrderTotalPrice(cartItems),
+    () => calculateOrderTotalPrice({ subtotal, estimatedTax }),
     [subtotal, estimatedTax],
   );
 

@@ -4,9 +4,9 @@ export const CURRENCY = 'usd';
 
 // Set your amount limits: Use float for decimal currencies and
 // Integer for zero-decimal currencies: https://stripe.com/docs/currencies#zero-decimal.
-export const MIN_AMOUNT = 10.0;
-export const MAX_AMOUNT = 5000.0;
-export const AMOUNT_STEP = 5.0;
+// export const MIN_AMOUNT = 10.0;
+// export const MAX_AMOUNT = 5000.0;
+// export const AMOUNT_STEP = 5.0;
 
 export function formatAmountForDisplay(
   amount: number,
@@ -39,6 +39,10 @@ export function formatAmountForStripe(
   return zeroDecimalCurrency ? amount : Math.round(amount * 100);
 }
 
+export const calculateTotalItemQuantity = (items) => {
+  return items.reduce((total, item) => total + item.quantity, 0);
+};
+
 export function convertDollarsToCents(price: number) {
   // const priceInCents = Math.round(price * 100);
   // return priceInCents;
@@ -49,29 +53,32 @@ export function convertCentsToDollars(cents: number) {
   return (cents / 100).toFixed(2);
 }
 
-// export function calculatePriceSubtotal(cartItems: any): number {
-//   // @ts-ignore
-//   const subtotal = cartItems?.reduce((sum, cartItem) => {
-//     return sum + cartItem.price;
-//   }, 0);
-//   // console.log(subtotal);
-//   return subtotal;
-// }
+export const calculatePriceSubtotal = (cartItems: any): number => {
+  const subtotal = cartItems?.reduce((sum, cartItem) => {
+    return sum + cartItem.price * cartItem.quantity;
+  }, 0);
 
-// export function calculateTaxEstimate(): number {
-//   return 0.0;
-// }
+  return subtotal;
+};
 
-// export function calculateOrderTotal({
-//   subtotal,
-//   estimatedTax,
-// }: {
-//   subtotal: number;
-//   estimatedTax: number;
-// }): number {
-//   // TODO: ENSURE THAT RETURN VALUE IS NOT `NAN`
-//   return subtotal + estimatedTax;
-// }
+export const calculateEstimatedTax = (subtotal: number): number => {
+  // TODO:DON'T HARDCODE TAX PERCENTAGE
+  const estimatedTax = subtotal * 0.07;
+  console.log('calculating tax', estimatedTax);
+
+  return estimatedTax;
+};
+
+export const calculateOrderTotalPrice = ({
+  subtotal,
+  estimatedTax,
+}: {
+  subtotal: number;
+  estimatedTax: number;
+}): number => {
+  console.log('calculating total', subtotal, estimatedTax);
+  return subtotal + estimatedTax;
+};
 
 // convertCentsToDollars;
 // const storedValue = 2999;
