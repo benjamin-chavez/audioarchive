@@ -12,9 +12,3 @@ export function generateRandomString(length: number) {
     Math.floor(Math.random() * 36).toString(36),
   ).join('');
 }
-
-export function convertDollarsToCents(price: number) {
-  // const priceInCents = Math.round(price * 100);
-  // return priceInCents;
-  return Math.round(price * 100);
-}

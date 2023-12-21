@@ -2,6 +2,8 @@
 import 'server-only';
 
 import { Hero } from '@/components/hero';
+import { Badge } from '@/components/ui/badge';
+import Badge2 from '@/components/ui/badge2';
 // import { Dialog, Popover, Tab, Transition } from '@headlessui/react';
 // import { ChevronDownIcon } from '@heroicons/react/20/solid';
 // import {
@@ -23,7 +25,11 @@ export default function Client() {
   // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <main className="bg-white -z-50">
+    <main
+      // bg-white
+      className="-z-50"
+    >
+      <div className="w-10"></div>
       <Hero />
     </main>
   );

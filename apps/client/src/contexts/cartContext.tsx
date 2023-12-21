@@ -42,6 +42,9 @@ export type CartContext = {
   totalItemQuantity: number;
   setCartItems: Dispatch<any>;
   setLocalCartItems: Dispatch<any>;
+  subtotal: number;
+  estimatedTax: number;
+  orderTotalPrice: number;
 } & ApiCartData;
 
 function useFetchCart(user, isLoading) {
@@ -269,12 +272,52 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   const calculateTotalItemQuantity = (items) => {
+    console.log('calculating items quantity');
     return items.reduce((total, item) => total + item.quantity, 0);
   };
 
   const totalItemQuantity = useMemo(
     () => calculateTotalItemQuantity(cartItems),
     [cartItems],
+  );
+
+  // const [subtotal, setSubtotal] = useState(0);
+  // const [estimatedTax, setEstimatedTax] = useState(0);
+  // const [orderTotal, setOrderTotal] = useState(0);
+
+  const calculatePriceSubtotal = (cartItems: any): number => {
+    const subtotal = cartItems?.reduce((sum, cartItem) => {
+      return sum + cartItem.price * cartItem.quantity;
+    }, 0);
+
+    return subtotal;
+  };
+
+  const subtotal = useMemo(
+    () => calculatePriceSubtotal(cartItems),
+    [cartItems],
+  );
+
+  const calculateEstimatedTax = (cartItems: any): number => {
+    const estimatedTax = subtotal * 0.07;
+    console.log('calculating tax', estimatedTax);
+
+    return estimatedTax;
+  };
+
+  const estimatedTax = useMemo(
+    () => calculateEstimatedTax(cartItems),
+    [cartItems],
+  );
+
+  const calculateOrderTotalPrice = (cartItems: any): number => {
+    console.log('calculating total', subtotal, estimatedTax);
+    return subtotal + estimatedTax;
+  };
+
+  const orderTotalPrice = useMemo(
+    () => calculateOrderTotalPrice(cartItems),
+    [subtotal, estimatedTax],
   );
 
   const contextValue = useMemo(
@@ -285,9 +328,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
       storeCart,
       setLocalCartItems,
       totalItemQuantity,
+      subtotal,
+      estimatedTax,
+      orderTotalPrice,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cartItems, setCartItems, storeCart, setLocalCartItems, totalItemQuantity],
+    [
+      cartItems,
+      setCartItems,
+      storeCart,
+      setLocalCartItems,
+      totalItemQuantity,
+      subtotal,
+      estimatedTax,
+      orderTotalPrice,
+    ],
   );
 
   return (
