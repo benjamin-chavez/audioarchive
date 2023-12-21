@@ -128,6 +128,7 @@ export default function PageClient({
 }) {
   const { cartItems, storeCart } = useCart();
   const { user } = useUser();
+  // TODO: START HERE => FIX THIS EDIT OPTION
   const isProductSeller = user && user.id === product.appUserId;
 
   return (
