@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { Fragment, useEffect } from 'react';
 import { faqs, license, product2, reviews } from './temp-data';
 import { MAX_CART_ITEM_QUANTITY } from '@shared';
+import { Button } from 'ui';
 // import { revalidateCart2 } from '../../cart/page';
 
 // @ts-ignore
@@ -127,6 +128,7 @@ export default function PageClient({
 }) {
   const { cartItems, storeCart } = useCart();
   const { user } = useUser();
+  const isProductSeller = user && user.id === product.appUserId;
 
   return (
     <div className="bg-white">
@@ -137,7 +139,7 @@ export default function PageClient({
       >
         <div
           // mt-10
-          className=""
+          className="flex flex-row w-full justify-between"
         >
           <Link
             href="/products"
@@ -146,8 +148,16 @@ export default function PageClient({
           >
             Back to Products
           </Link>
+
+          {isProductSeller && (
+            // TODO: Refactor after you write the Button Component
+            <Button>
+              <Link href={`/dashboard/products/edit/${product.id}`}>Edit</Link>
+            </Button>
+          )}
         </div>
         {/* Product */}
+
         <div className="lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16 py-0 sm:py-8 ">
           {/* Product image */}
           <div className="lg:col-span-4 lg:row-end-1">

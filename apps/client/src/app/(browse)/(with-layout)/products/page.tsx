@@ -2,13 +2,6 @@
 
 // 'use client';
 
-import { Filters } from './components/filters';
-import {
-  sortOptions,
-  filters,
-  activeFilters,
-  products,
-} from '../../(root)/products/config';
 import Link from 'next/link';
 
 async function getProducts() {
