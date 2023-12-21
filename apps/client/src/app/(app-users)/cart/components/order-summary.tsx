@@ -7,20 +7,12 @@ import CheckoutButton from './checkout-button';
 import { useCart } from '@/contexts/cartContext';
 import { CURRENCY, formatAmountForDisplay } from '@/lib/cart-calculations';
 
-export function OrderSummary({} // subtotal,
-// orderTotal,
-// cartItems,
-: {
-  // subtotal: number;
-  // orderTotal: number;
-  // cartItems: any;
-}) {
+export function OrderSummary({}: {}) {
   const { cartItems, storeCart, subtotal, estimatedTax, orderTotalPrice } =
     useCart();
 
   return (
     <>
-      {/* Order summary */}
       <section
         aria-labelledby="summary-heading"
         className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
