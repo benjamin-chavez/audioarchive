@@ -161,7 +161,7 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - Show Page
         - Should pull all data from actual product
         - Remove the Download Button unless user already purchased product
-        - Add `Edit` button if user is the product Seller
+        <!-- //- Add `Edit` button if user is the product Seller -->
     - Index Page
         - Stream in data
 
@@ -183,7 +183,7 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
 
  - General Feature
     - Add `Follow` Feature and display followed users in the dashboards
-      - do i need to add a block feauture?
+      - do i need to add a block feauture? <- Yes
     - Comments/Rating functionality
     - Review all cacheing behavior
     - Email Feature

@@ -15,6 +15,7 @@ import Footer from '@/components/footer';
 import { getMyCart } from '@/lib/data/me';
 // import AlternateNav from '@/components/test-search/alternate-nav';
 import Container from '@/components/container';
+import { AudioPlayer } from '@/components/audio-player';
 
 // import Footer from '@/components/footer';
 // import Toast from '@/components/ui/toast';
@@ -40,17 +41,22 @@ export default async function RootLayout({
       className={`dark ${GeistSans.className} h-full`}
       // className="dark"
     >
-      <body className={`${inter.className} h-full`}>
+      <body className={`${inter.className} h-full w-full`}>
         {/* <UserProvider> */}
         <Providers getMyCart={getMyCart}>
           <Navbar />
+
           {/* <Container> */}
           {/* <AlternateNav /> */}
           {/* </Container> */}
 
           {children}
         </Providers>
+
         <Footer />
+        <div className="fixed inset-x-0 bottom-0 z-10 lg:left-112 xl:left-120 bg-red-500/10 w-full">
+          <AudioPlayer />
+        </div>
       </body>
     </html>
   );
