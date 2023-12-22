@@ -4,6 +4,7 @@ import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
 import knex from '../config/database';
 import S3Service from '../services/s3.service';
+import { promise } from 'zod';
 
 export const searchAppUsers: RequestHandler = asyncHandler(async (req, res) => {
   const searchQuery = req.params.query;
@@ -61,16 +62,70 @@ export const searchProductsFuzzy: RequestHandler = asyncHandler(
   }
 );
 
+const VALID_PRODUCT_FILTERS = ['genre_name', 'daw', 'key', 'price', 'bpm'];
+
+// SELECT * FROM products
+// WHERE genre_name IN ('Electronic', 'Pop', 'Rock')
+//   AND key = 'C Major'
+//   AND bpm BETWEEN 100 AND 120;
+
+// console.log(searchQuery);
+
+// const filters = {
+// genre: [],
+// genre_name: ['Breaks', 'Bass House'],
+// daw: ['Ableton'],
+// key: ['F Major'],
+// };
+
+// price_bucket=1&min=500&max=1000
+// bpm=1&min=120&max=130
+// GET /api/products
+// GET /api/products?genre=Bass House&key=F Major&bpm=120
+// GET /api/products?genre=Bass House&genre=Breaks&key=F Major
+// GET /api/products?genre=Bass House,Breaks&key=F Major&bpm=1&min=120&max=130
+
+// BASE URL:
+//  https://audioarchive.com/api/products
+
+// SEARCHING:
+//  GET /api/products/search?q={searchTerm}
+//  GET /api/products/search?q=drumkits
+
+// FILTERING:
+//  GET /api/products/filter?category={category}&price={priceRange}&rating={rating}
+//  GET /api/products/filter?category=synth&price=0-100&rating=4-5
+//  GET /api/products/filter?daw=ableton&price=0-100&bpm=100-150
+//  GET /api/search/products/filter?daw=ableton
+//  GET /api/search/products/filter?daw=ableton&genre_name=Bass%20House
+//  GET /api/search/products/filter?daw=ableton&price=0-100&bpm=100-150
+//  GET /api/search/products/filter?daw=ableton&daw=flstudio&price=0-100&bpm=100-150
+
+// SEARCH AND FILTER:
+//  GET /api/products?q={searchTerm}&category={category}&price={priceRange}&rating={rating}
+
+// PAGINATION:
+//  GET /api/products?q={searchTerm}&page={pageNumber}&limit={limitPerPage}
+
+// Sorting:
+//  GET /api/products?q={searchTerm}&sort={sortBy}
+
+// encodeURI(baseUrl) + '?query=' + encodeURIComponent(query);
 /*
  * *****************
  * FULL TEXT SEARCH
  * *****************
  */
-export const searchProducts: RequestHandler = asyncHandler(async (req, res) => {
-  const searchQuery = req.params.query;
-  // console.log(searchQuery);
+// encodeURIComponent() and decodeURIComponent()
+// const searchQuery = req.params.query;
+// const { category, price, bpm } = req.query;
+// const { category, price, bpm } = req.query;
+// const filterParams = req.params.query;
 
-  const products = await knex('products')
+export const filterProducts: RequestHandler = asyncHandler(async (req, res) => {
+  const filters = req.query;
+
+  let productQuery = knex('products')
     .select(
       'products.id ',
       'products.genre_name',
@@ -83,30 +138,36 @@ export const searchProducts: RequestHandler = asyncHandler(async (req, res) => {
       'products.key',
       'products.label',
       'products.description',
-      'products.digital_file_s3_key', // TODO: delete this field
+      'products.digital_file_s3_key',
       knex.raw('app_users.id as appUserId'),
       knex.raw('app_users.username')
       // knex.raw('app_users.id AS seller_id'),
       // knex.raw('app_users.username AS seller_username')
     )
-    .join('app_users', 'products.app_user_id', 'app_users.id')
-    .whereRaw('products.genre_name % ?', [searchQuery])
-    .orWhereRaw('products.name % ?', [searchQuery])
-    .orWhereRaw('products.daw % ?', [searchQuery])
-    // .orWhereRaw('products.bpm::text % ?', [searchQuery])
-    .orWhereRaw('products.description % ?', [searchQuery])
-    .orWhereRaw('app_users.username % ?', [searchQuery])
-    .orWhereRaw('app_users.display_name % ?', [searchQuery]);
+    .join('app_users', 'products.app_user_id', 'app_users.id');
 
-  console.log('products!', products);
+  Object.entries(filters).forEach(([key, val]) => {
+    // TODO: potentially set up the `VALID_PRODUCT_FILTERS` array to update automatically based on ts types or something
+
+    if (!VALID_PRODUCT_FILTERS.includes(key)) {
+      return res.status(400).json({ message: `Invalid filter: ${key}` });
+      // return;
+    }
+
+    // TODO: Add additional type checking/validation on query params
+
+    productQuery = Array.isArray(val)
+      ? productQuery.whereIn(key, val)
+      : productQuery.where(key, '=', val);
+  });
+
+  const products = await productQuery;
 
   const productsWithSignedUrls =
     await S3Service.getSignedUrlsForProducts(products);
 
-  // return productsWithSignedUrls;
-
   const searchResults = productsWithSignedUrls;
-  // console.log(products);
+
   // const searchResults = products;
 
   res.status(200).json({ data: searchResults, message: 'Search Results' });

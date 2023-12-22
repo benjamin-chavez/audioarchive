@@ -3,16 +3,24 @@
 import { Knex } from 'knex';
 
 const TABLE_NAME = 'daws';
-const DAW_VALUES = ['Ableton', 'FL_Studio', 'Logic', 'Bitwig'];
+const DAW_VALUES = ['ableton', 'fl studio', 'logic', 'bitwig'];
+// const DAW_VALUES = ['Ableton', 'FL Studio', 'Logic', 'Bitwig'];
 
 exports.up = async function (knex: Knex): Promise<void> {
   return knex.schema.createTable(TABLE_NAME, async (t) => {
     t.increments('id').primary();
     t.string('name').unique().notNullable();
+    // t.string('display_name').unique().notNullable();
+    // t.string('search_name').unique().notNullable();
 
     t.index('name');
+    // t.index(['display_name', 'search_name']);
 
     const dawRows = DAW_VALUES.map((name) => ({ name }));
+    // const dawRows = DAW_VALUES.map((name) => ({
+    //   display_name: name,
+    //   search_name: name.toLowerCase(),
+    // }));
     await knex(TABLE_NAME).insert(dawRows);
   });
 };

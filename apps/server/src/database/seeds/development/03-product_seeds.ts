@@ -15,7 +15,8 @@
 //       accountId: 1,
 //       name: 'The Look',
 // genre_id: 'Bass House',
-//       daw: 'Ableton',
+// daw: 'Ableton',
+// daw: 'ableton'
 //       bpm: 126,
 //       key: '',
 //       label: 'Seasonal Frequency',
@@ -31,7 +32,8 @@
 //       accountId: 1,
 //       name: 'Booty',
 // genre_id: 'Bass House',
-//       daw: 'Ableton',
+// daw: 'Ableton',
+// daw: 'ableton'
 //       bpm: 127,
 //       key: '',
 //       label: '',
@@ -48,7 +50,8 @@
 //       name: 'Dred 84',
 genre_id: 'Breaks / Breakbeat / UK Bass';
 // genre_id: 'Breaks',
-//       daw: 'Ableton',
+// daw: 'Ableton',
+// daw: 'ableton'
 //       bpm: 99,
 //       key: 'F Minor',
 //       label: 'Hardcore Energy',
@@ -66,7 +69,8 @@ genre_id: 'Breaks / Breakbeat / UK Bass';
 
 // genre_id: 'Techno (Raw / Deep / Hypnotic)',
 // genre_id: 'Techno',
-//       daw: 'Ableton',
+// daw: 'Ableton',
+// daw: 'ableton'
 //       bpm: 145,
 //       key: 'F Major',
 //       label: 'Fantastic Voyage',
@@ -83,7 +87,8 @@ genre_id: 'Breaks / Breakbeat / UK Bass';
 //       name: 'Let Me - KEEFE Roller Mix',
 
 // genre_id:
-//       daw: 'Ableton',
+// daw: 'Ableton',
+// daw: 'ableton'
 //       bpm: 135,
 //       key: 'F Major',
 //       label: 'Vassnova',
@@ -100,7 +105,7 @@ genre_id: 'Breaks / Breakbeat / UK Bass';
 //       name: 'Translation',
 // genre_id:
 
-//       daw: 'Ableton',
+// daw: 'Ableton',
 //       bpm: 117,
 //       key: 'F Major',
 //       label: 'Vassnova',
@@ -118,7 +123,7 @@ genre_id: 'Breaks / Breakbeat / UK Bass';
 
 // genre_id: 'Deep House',
 
-//       daw: 'Ableton',
+// daw: 'ableton'
 //       bpm: 120,
 //       key: 'F Major',
 //       label: '',
@@ -162,7 +167,8 @@ export async function seed(knex: Knex): Promise<void> {
       name: 'The Look',
       genre_id: 1,
       genre_name: 'Bass House',
-      daw: 'Ableton',
+      // daw: 'Ableton',
+      daw: 'ableton',
       bpm: 126,
       key: '',
       label: 'Seasonal Frequency',
@@ -179,7 +185,8 @@ export async function seed(knex: Knex): Promise<void> {
       name: 'Booty',
       genre_id: 1,
       genre_name: 'Bass House',
-      daw: 'Ableton',
+      // daw: 'Ableton',
+      daw: 'ableton',
       bpm: 127,
       key: '',
       label: '',
@@ -198,7 +205,8 @@ export async function seed(knex: Knex): Promise<void> {
       // genre_id: 'Breaks / Breakbeat /nameUK Bass'
       genre_id: 3,
       genre_name: 'Breaks',
-      daw: 'Ableton',
+      // daw: 'Ableton',
+      daw: 'ableton',
       bpm: 99,
       key: 'F Minor',
       label: 'Hardcore Energy',
@@ -216,7 +224,8 @@ export async function seed(knex: Knex): Promise<void> {
       genre_id: 9,
       // genre_name: 'Techno (Raw / Deep / Hypnotic)',
       genre_name: 'Techno',
-      daw: 'Ableton',
+      // daw: 'Ableton',
+      daw: 'ableton',
       bpm: 145,
       key: 'F Major',
       label: 'Fantastic Voyage',
@@ -233,7 +242,8 @@ export async function seed(knex: Knex): Promise<void> {
       name: 'Let Me - KEEFE Roller Mix',
       genre_id: 7,
       genre_name: 'House',
-      daw: 'Ableton',
+      // daw: 'Ableton',
+      daw: 'ableton',
       bpm: 135,
       key: 'F Major',
       label: 'Vassnova',
@@ -250,7 +260,8 @@ export async function seed(knex: Knex): Promise<void> {
       name: 'Translation',
       genre_id: 4,
       genre_name: 'Deep House',
-      daw: 'Ableton',
+      // daw: 'Ableton',
+      daw: 'ableton',
       bpm: 117,
       key: 'F Major',
       label: 'Vassnova',
@@ -267,7 +278,8 @@ export async function seed(knex: Knex): Promise<void> {
       name: 'Division',
       genre_id: 4,
       genre_name: 'Deep House',
-      daw: 'Ableton',
+      // daw: 'Ableton',
+      daw: 'ableton',
       bpm: 120,
       key: 'F Major',
       label: '',
