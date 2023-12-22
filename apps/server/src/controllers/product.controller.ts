@@ -49,7 +49,15 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
 
 export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
   async (req, res) => {
-    const products = await ProductService.getAllProductsWithUserDetails();
+    const { q, page, limit, sort, ...filters } = req.query;
+    // await ProductService.searchAndFilterProducts
+    const products = await ProductService.getAllProductsWithUserDetails({
+      q,
+      page,
+      limit,
+      sort,
+      filters,
+    });
 
     res.status(200).json({
       // data: productsWithSignedUrls,

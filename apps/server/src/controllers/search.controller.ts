@@ -4,7 +4,6 @@ import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
 import knex from '../config/database';
 import S3Service from '../services/s3.service';
-import { promise } from 'zod';
 
 export const searchAppUsers: RequestHandler = asyncHandler(async (req, res) => {
   const searchQuery = req.params.query;
@@ -61,8 +60,6 @@ export const searchProductsFuzzy: RequestHandler = asyncHandler(
       .json({ data: productsWithSignedUrls, message: 'Search Results' });
   }
 );
-
-const VALID_PRODUCT_FILTERS = ['genre_name', 'daw', 'key', 'price', 'bpm'];
 
 // SELECT * FROM products
 // WHERE genre_name IN ('Electronic', 'Pop', 'Rock')
@@ -121,6 +118,7 @@ const VALID_PRODUCT_FILTERS = ['genre_name', 'daw', 'key', 'price', 'bpm'];
 // const { category, price, bpm } = req.query;
 // const { category, price, bpm } = req.query;
 // const filterParams = req.params.query;
+const VALID_PRODUCT_FILTERS = ['genre_name', 'daw', 'key', 'price', 'bpm'];
 
 export const filterProducts: RequestHandler = asyncHandler(async (req, res) => {
   const { q, page, limit, sort, ...filters } = req.query;
@@ -151,17 +149,8 @@ export const filterProducts: RequestHandler = asyncHandler(async (req, res) => {
     )
     .join('app_users', 'products.app_user_id', 'app_users.id');
 
-  // if (q) {
-  //   const searchQuery = q;
-  //   productQuery
-  //     .whereRaw('products.genre_name % ?', [searchQuery])
-  //     .orWhereRaw('products.name % ?', [searchQuery])
-  //     .orWhereRaw('products.daw % ?', [searchQuery])
-  //     // .orWhereRaw('products.bpm::text % ?', [searchQuery])
-  //     .orWhereRaw('products.description % ?', [searchQuery])
-  //     .orWhereRaw('app_users.username % ?', [searchQuery])
-  //     .orWhereRaw('app_users.display_name % ?', [searchQuery]);
-  // }
+  // let fullTextQuery = productQuery.clone();
+  // let fullTextQuery = JSON.parse(JSON.stringify(productQuery));
 
   if (q && typeof q === 'string') {
     const searchQuery = q.split(' ').join(' | ');

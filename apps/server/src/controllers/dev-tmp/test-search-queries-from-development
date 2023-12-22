@@ -49,4 +49,7 @@ https://audioarchive.com/api/products?q=drumkits&genre=electronic&price=100-200&
 {{base_url}}/api/search/products/filter?q=drumkits&genre_name[]=Bass House&genre_name[]=Breaks&sort=app_users.username__desc
 
 
-{{base_url}}/api/search/products/filter?q=keefe&genre_name[]=Bass House&genre_name[]=Breaks&sort=app_users.username__desc
+{{base_url}}/api/products?q=keefe&genre_name[]=Bass House&genre_name[]=Breaks&sort=app_users.username__desc
+
+
+{{base_url}}/api/products/2

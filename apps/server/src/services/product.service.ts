@@ -12,9 +12,32 @@ class ProductService {
     return ProductModel.getAll();
   }
 
-  static async getAllProductsWithUserDetails(): Promise<any> {
-    const products = await ProductModel.getAllProductsWithUserDetails();
-    console.log(products);
+  static async getAllProductsWithUserDetails({
+    q,
+    page,
+    limit,
+    sort,
+    filters,
+  }: {
+    q: any;
+    page: any;
+    limit: any;
+    sort: any;
+    filters: any;
+  }): Promise<any> {
+    const baseQuery = ProductModel.createBaseQuery(filters);
+
+    let products = await ProductModel.fullTextSearch({
+      productQuery: baseQuery,
+      q,
+      page,
+      limit,
+      sort,
+      filters,
+    });
+
+    // const products = await ProductModel.getAllProductsWithUserDetails();
+
     const productsWithSignedUrls =
       await S3Service.getSignedUrlsForProducts(products);
 
