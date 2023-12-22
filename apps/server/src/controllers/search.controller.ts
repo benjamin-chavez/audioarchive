@@ -123,7 +123,12 @@ const VALID_PRODUCT_FILTERS = ['genre_name', 'daw', 'key', 'price', 'bpm'];
 // const filterParams = req.params.query;
 
 export const filterProducts: RequestHandler = asyncHandler(async (req, res) => {
-  const filters = req.query;
+  const { q, page, limit, sort, ...filters } = req.query;
+  console.log('q', q);
+  console.log('page', page);
+  console.log('limit', limit);
+  console.log('sort', sort);
+  console.log('filters', filters);
 
   let productQuery = knex('products')
     .select(
@@ -146,6 +151,34 @@ export const filterProducts: RequestHandler = asyncHandler(async (req, res) => {
     )
     .join('app_users', 'products.app_user_id', 'app_users.id');
 
+  // if (q) {
+  //   const searchQuery = q;
+  //   productQuery
+  //     .whereRaw('products.genre_name % ?', [searchQuery])
+  //     .orWhereRaw('products.name % ?', [searchQuery])
+  //     .orWhereRaw('products.daw % ?', [searchQuery])
+  //     // .orWhereRaw('products.bpm::text % ?', [searchQuery])
+  //     .orWhereRaw('products.description % ?', [searchQuery])
+  //     .orWhereRaw('app_users.username % ?', [searchQuery])
+  //     .orWhereRaw('app_users.display_name % ?', [searchQuery]);
+  // }
+
+  if (q && typeof q === 'string') {
+    const searchQuery = q.split(' ').join(' | ');
+    console.log(searchQuery);
+    productQuery
+      .whereRaw(
+        `(
+            to_tsvector('english', products.name) ||
+            to_tsvector('english', products.genre_name) ||
+            to_tsvector('english', products.bpm::text) ||
+            to_tsvector('english', products.key) ||
+            to_tsvector('english', app_users.display_name)
+         ) || to_tsvector('english', app_users.username) @@ to_tsquery('${searchQuery}')`
+      )
+      .groupBy('products.id', 'app_users.id');
+  }
+
   Object.entries(filters).forEach(([key, val]) => {
     // TODO: potentially set up the `VALID_PRODUCT_FILTERS` array to update automatically based on ts types or something
 
@@ -161,7 +194,19 @@ export const filterProducts: RequestHandler = asyncHandler(async (req, res) => {
       : productQuery.where(key, '=', val);
   });
 
-  const products = await productQuery;
+  if (typeof sort === 'string') {
+    const [sortBy, sortOrder] = sort.split('__');
+    productQuery.orderBy(sortBy, sortOrder === 'desc' ? 'DESC' : 'ASC');
+  }
+
+  // PAGINATION
+  // @ts-ignore
+  const pageNumber = parseInt(page, 10) || 1;
+  // @ts-ignore
+  const limitPerPage = parseInt(limit, 10) || 10;
+  const offset = (pageNumber - 1) * limitPerPage;
+
+  const products = await productQuery.offset(offset).limit(limitPerPage);
 
   const productsWithSignedUrls =
     await S3Service.getSignedUrlsForProducts(products);
