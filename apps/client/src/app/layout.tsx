@@ -16,6 +16,7 @@ import { getMyCart } from '@/lib/data/me';
 // import AlternateNav from '@/components/test-search/alternate-nav';
 import Container from '@/components/container';
 import { AudioPlayer } from '@/components/audio-player';
+import { Suspense } from 'react';
 
 // import Footer from '@/components/footer';
 // import Toast from '@/components/ui/toast';

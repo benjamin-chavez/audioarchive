@@ -1,4 +1,5 @@
 // apps/client/src/components/audio-player.tsx
+'use client';
 
 import {
   MagnifyingGlassIcon,
@@ -19,8 +20,11 @@ export function AudioPlayer() {
         // bg-gray-800
         className=" p-4 rounded-lg text-white"
       >
-        <audio id="audioPlayer" src="path_to_your_audio_file.mp3">
-          <source src="horse.ogg" type="audio/ogg" />
+        <audio
+          id="audioPlayer"
+          // src="path_to_your_audio_file.mp3"
+        >
+          {/* <source src="horse.ogg" type="audio/ogg" /> */}
         </audio>
         <div className="flex items-center gap-4">
           <button id="playButton" className="w-5 h-5">
@@ -31,14 +35,15 @@ export function AudioPlayer() {
             <PauseIcon />
           </button>
 
-          <div className="w-4/5 flex flex-row gap-4">
+          <div className="w-4/5 flex flex-row gap-4 items-center">
             <span id="current-time">0:00</span>
             <input
               type="range"
               id="seek-slider"
               max="100"
               value="0"
-              className="w-full"
+              className="w-full h-1 bg-yellow-200 rounded-md appearance-none cursor-pointer dark:bg-slate-700"
+              onChange={() => {}}
             />
             <span id="duration" className="time">
               0:00

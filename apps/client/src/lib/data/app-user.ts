@@ -23,7 +23,7 @@ export async function getAppUserWProducts(username: string) {
 
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch products');
+    throw new Error('Failed to fetch app user with products');
   }
 
   return res.json();

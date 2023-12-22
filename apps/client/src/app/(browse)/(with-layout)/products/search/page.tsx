@@ -3,7 +3,7 @@
 
 import { useParams, useSearchParams } from 'next/navigation';
 import { searchProducts } from './actions';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Container from '@/components/container';
 import ProductsGrid from '@/app/(browse)/(with-layout)/products/components/products-grid';
 import ProductsGridV2 from '../components/products-grid-v2';
@@ -40,6 +40,7 @@ function ProductSearch() {
       }
 
       const { data } = await res.json();
+
       setProducts(data);
     };
 
@@ -50,7 +51,6 @@ function ProductSearch() {
     return (
       <Container>
         {/* <Suspense fallback={<p>loading products...</p>}> */}
-        {/* <ProductsGridV2 products={products} /> */}
         <ProductsGridV2 products={products} />
         {/* </Suspense> */}
       </Container>

@@ -12,6 +12,7 @@ import { Fragment, useEffect } from 'react';
 import { faqs, license, product2, reviews } from './temp-data';
 import { MAX_CART_ITEM_QUANTITY } from '@shared';
 import { Button } from 'ui';
+import { CURRENCY, formatAmountForDisplay } from '@/lib/cart-calculations';
 // import { revalidateCart2 } from '../../cart/page';
 
 // @ts-ignore
@@ -128,7 +129,7 @@ export default function PageClient({
 }) {
   const { cartItems, storeCart } = useCart();
   const { user } = useUser();
-  // TODO: START HERE => FIX THIS EDIT OPTION
+
   const isProductSeller = user && user.id === product.appUserId;
 
   return (
@@ -152,7 +153,7 @@ export default function PageClient({
 
           {isProductSeller && (
             // TODO: Refactor after you write the Button Component
-            <Button>
+            <Button className="bg-blue-500  px-4 ">
               <Link href={`/dashboard/products/edit/${product.id}`}>Edit</Link>
             </Button>
           )}
@@ -217,7 +218,7 @@ export default function PageClient({
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
               <p className="text-3xl tracking-tight text-gray-900">
-                {product.price}
+                {formatAmountForDisplay(product.price, CURRENCY)}
               </p>
             </div>
 

@@ -12,8 +12,13 @@ type AppUserProps = {
   params: { username: string };
 };
 
-export default async function UserDetail({ params }: AppUserProps) {
-  let res = await getAppUserWProducts(params.username);
+export default async function Page({ params }: AppUserProps) {
+  if (!params || !params.username) {
+    return;
+  }
+
+  console.log('params.username', params.username);
+  const res = await getAppUserWProducts(params.username);
   const { appUser, products } = res.data;
 
   return (
