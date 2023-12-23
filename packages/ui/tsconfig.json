@@ -1,5 +1,5 @@
 {
   "extends": "tsconfig/react-library.json",
-  "include": ["."],
+  "include": [".", "../../apps/client/src/components/checkbox.tsx"],
   "exclude": ["dist", "build", "node_modules"]
 }

@@ -215,4 +215,8 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
       - React API Layer: [Why You Need an API Layer and How To Build It in React](https://semaphoreci.com/blog/api-layer-react)
       - Graceful Shutdown example: [cgmartin/express-api-server](https://github.com/cgmartin/express-api-server/blob/master/src/lib/graceful-shutdown.js)
       - Express Examples: [https://github.com/expressjs/express/tree/master/examples](https://github.com/expressjs/express/tree/master/examples)
-https://react-spectrum.adobe.com/react-aria/examples/index.html
+
+
+  - UI/Styles...
+    - https://react-spectrum.adobe.com/react-aria/examples/index.html
+    - https://github.com/adobe/react-spectrum/tree/main/examples/rac-tailwind

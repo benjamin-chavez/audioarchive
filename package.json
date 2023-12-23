@@ -25,5 +25,8 @@
     "node": ">=14.0.0",
     "npm": ">=7.0.0"
   },
+  "resolutions": {
+    "jackspeak": "2.1.1"
+  },
   "packageManager": "pnpm@8.8.0"
 }

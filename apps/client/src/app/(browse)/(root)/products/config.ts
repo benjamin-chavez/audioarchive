@@ -16,7 +16,7 @@ export const sortOptions = [
 
 export const filters = [
   {
-    id: 'Genre',
+    id: 'genre_name',
     name: 'Genre',
     options: GENRE_ENUM_VALUES.map((genre) => ({
       value: genre.toLowerCase(),
