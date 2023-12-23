@@ -91,6 +91,7 @@ const config: Config = {
   plugins: [
     require('@tailwindcss/forms'),
     require('tailwindcss-animate'),
+    require('tailwindcss-react-aria-components'),
     // require('@tailwindcss/aspect-ratio'),
   ],
 };

@@ -19,7 +19,7 @@ export const filters = [
     id: 'Genre',
     name: 'Genre',
     options: GENRE_ENUM_VALUES.map((genre) => ({
-      value: genre,
+      value: genre.toLowerCase(),
       label: genre,
       checked: false,
     })),

@@ -130,6 +130,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import errorHandler from './middleware/errorMiddleware'; // notFoundHandler, // generalErrorHandler,
 import routes from './routes/index';
+// TODO: look into adding `express-validator`
 
 // export const createServer: any = () => {
 //   const app = express();

@@ -197,7 +197,9 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
       - See if there better practices for how to organize all of this
     - Set up free tier quota
 
- - Add validation to all forms
+ - Add validation to all forms and API Routes:
+    - API Route - [API Route - Query Param Validator](https://github.com/claclacla/Building-a-Node-Express.js-Rest-API-server-using-a-repository-pattern/blob/master/routes/validators/QueryParamsValidator.js)
+
 
  - SQS Queue
     - Add retry logic
@@ -210,3 +212,7 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
       - Look at Wappalyzer on https://edm.com/
       - Swagger? => See branch: [add-cart-context-and-swagger](https://github.com/benjamin-chavez/audioarchive/compare/master...add-cart-context-and-swagger)
       - Directory Structure: [Delightful React File/Directory Structure](https://www.joshwcomeau.com/react/file-structure/)
+      - React API Layer: [Why You Need an API Layer and How To Build It in React](https://semaphoreci.com/blog/api-layer-react)
+      - Graceful Shutdown example: [cgmartin/express-api-server](https://github.com/cgmartin/express-api-server/blob/master/src/lib/graceful-shutdown.js)
+      - Express Examples: [https://github.com/expressjs/express/tree/master/examples](https://github.com/expressjs/express/tree/master/examples)
+https://react-spectrum.adobe.com/react-aria/examples/index.html
