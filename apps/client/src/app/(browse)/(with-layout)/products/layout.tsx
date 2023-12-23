@@ -1,9 +1,11 @@
 // apps/client/src/app/(browse)/(with-layout)/products/layout.tsx
 
 import { Filters } from './components/filters';
+import { FiltersCopy } from './components/filters-copy';
 import {
   sortOptions,
   filters,
+  filters1,
   activeFilters,
   products,
 } from '../../(root)/products/config';
@@ -37,6 +39,12 @@ export default function ProductsLayout({
         <div>
           <main>
             <CategoryHeader />
+
+            {/* <FiltersCopy
+              filters={filters1}
+              sortOptions={sortOptions}
+              activeFilters={activeFilters}
+            /> */}
 
             <Filters
               filters={filters}

@@ -1,8 +1,6 @@
 // packages/ui/Checkbox.tsx
-import * as Checkboxx from '@radix-ui/react-checkbox';
-import { CheckIcon } from '@radix-ui/react-icons';
-import { useState } from 'react';
-function Checkbox({
+
+export function Checkbox({
   id,
   name,
   defaultValue,
@@ -17,17 +15,10 @@ function Checkbox({
   onCheck?: (checked: boolean) => void;
   children: React.ReactNode;
 }) {
-  const [checked, setChecked] = useState(defaultChecked);
-  const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // const handleClick = (event: React.MouseEvent<HTMLInputElement>) => {
-    //   setCheckked(!checkked);
-    //   console.log('checkked', checkked);
-    //   // Call the onCheck prop with the new checked state
-    //   onCheck?.(event.currentTarget.checked);
-    // };
-    const newChecked = event.target.checked;
-    setChecked(newChecked);
-    onCheck?.(newChecked);
+  // const [checked, setChecked] = useState(defaultChecked);
+  const handleClick = (event: React.MouseEvent<HTMLInputElement>) => {
+    // Call the onCheck prop with the new checked state
+    onCheck?.(event.currentTarget.checked);
   };
 
   return (
@@ -39,13 +30,12 @@ function Checkbox({
         <input
           id={id}
           name={name}
-          // defaultValue={defaultValue}
+          defaultValue={defaultValue}
           type="checkbox"
-          // defaultChecked={checkked}
-          checked={checked}
+          defaultChecked={defaultChecked}
           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-          onChange={handleClick}
-          // checked={checkked}
+          onClick={handleClick}
+          // checked={checked}
         />
         <label
           htmlFor={id}
@@ -57,4 +47,3 @@ function Checkbox({
     </>
   );
 }
-export { Checkbox };

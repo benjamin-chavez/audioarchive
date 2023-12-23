@@ -14,7 +14,7 @@ export const sortOptions = [
   { name: 'Price: High to Low', href: '#', current: false },
 ];
 
-export const filters = [
+export const filters1 = [
   {
     id: 'genre_name',
     name: 'Genre',
@@ -42,7 +42,7 @@ export const filters = [
     options: STANDARD_KEYS_ENUM_VALUES.map((key) => ({
       value: key,
       label: key,
-      chekced: false,
+      checked: false,
     })),
   },
   {
@@ -51,7 +51,7 @@ export const filters = [
     options: DAW_ENUM_VALUES.map((daw) => ({
       value: daw,
       label: daw,
-      chekced: false,
+      checked: false,
     })),
   },
 ];
@@ -140,3 +140,202 @@ export const products = [
   },
   // More products...
 ];
+
+export const filters = {
+  genre_name: {
+    name: 'Genre',
+    options: {
+      'bass house': {
+        label: 'Bass House',
+        checked: false,
+      },
+      breakbeat: {
+        label: 'Breakbeat',
+        checked: false,
+      },
+      breaks: {
+        label: 'Breaks',
+        checked: false,
+      },
+      'deep house': {
+        label: 'Deep House',
+        checked: false,
+      },
+      'uk bass': {
+        label: 'UK Bass',
+        checked: false,
+      },
+      dubstep: {
+        label: 'dubstep',
+        checked: false,
+      },
+      house: {
+        label: 'House',
+        checked: false,
+      },
+      pop: {
+        label: 'Pop',
+        checked: false,
+      },
+      techno: {
+        label: 'Techno',
+        checked: false,
+      },
+      trap: {
+        label: 'Trap',
+        checked: false,
+      },
+    },
+  },
+  BPM: {
+    name: 'BPM',
+    options: {
+      white: {
+        label: 'White',
+        checked: false,
+      },
+      beige: {
+        label: 'Beige',
+        checked: false,
+      },
+      blue: {
+        label: 'Blue',
+        checked: false,
+      },
+      brown: {
+        label: 'Brown',
+        checked: false,
+      },
+      green: {
+        label: 'Green',
+        checked: false,
+      },
+      purple: {
+        label: 'Purple',
+        checked: false,
+      },
+    },
+  },
+  Key: {
+    name: 'Key',
+    options: {
+      'B Major': {
+        label: 'B Major',
+        checked: false,
+      },
+      'F♯/G♭ Major': {
+        label: 'F♯/G♭ Major',
+        checked: false,
+      },
+      'D♭ Major': {
+        label: 'D♭ Major',
+        checked: false,
+      },
+      'A♭ Major': {
+        label: 'A♭ Major',
+        checked: false,
+      },
+      'E♭ Major': {
+        label: 'E♭ Major',
+        checked: false,
+      },
+      'B♭ Major': {
+        label: 'B♭ Major',
+        checked: false,
+      },
+      'F Major': {
+        label: 'F Major',
+        checked: false,
+      },
+      'C Major': {
+        label: 'C Major',
+        checked: false,
+      },
+      'G Major': {
+        label: 'G Major',
+        checked: false,
+      },
+      'D Major': {
+        label: 'D Major',
+        checked: false,
+      },
+      'A Major': {
+        label: 'A Major',
+        checked: false,
+      },
+      'E Major': {
+        label: 'E Major',
+        checked: false,
+      },
+      'A♭ Minor': {
+        label: 'A♭ Minor',
+        checked: false,
+      },
+      'E♭ Minor': {
+        label: 'E♭ Minor',
+        checked: false,
+      },
+      'B♭ Minor': {
+        label: 'B♭ Minor',
+        checked: false,
+      },
+      'F Minor': {
+        label: 'F Minor',
+        checked: false,
+      },
+      'C Minor': {
+        label: 'C Minor',
+        checked: false,
+      },
+      'G Minor': {
+        label: 'G Minor',
+        checked: false,
+      },
+      'D Minor': {
+        label: 'D Minor',
+        checked: false,
+      },
+      'A Minor': {
+        label: 'A Minor',
+        checked: false,
+      },
+      'E Minor': {
+        label: 'E Minor',
+        checked: false,
+      },
+      'B Minor': {
+        label: 'B Minor',
+        checked: false,
+      },
+      'F♯/G♭ Minor': {
+        label: 'F♯/G♭ Minor',
+        checked: false,
+      },
+      'D♭ Minor': {
+        label: 'D♭ Minor',
+        checked: false,
+      },
+    },
+  },
+  DAW: {
+    name: 'DAW',
+    options: {
+      Ableton: {
+        label: 'Ableton',
+        checked: false,
+      },
+      'FL Studio': {
+        label: 'FL Studio',
+        checked: false,
+      },
+      Logic: {
+        label: 'Logic',
+        checked: false,
+      },
+      Bitwig: {
+        label: 'Bitwig',
+        checked: false,
+      },
+    },
+  },
+};

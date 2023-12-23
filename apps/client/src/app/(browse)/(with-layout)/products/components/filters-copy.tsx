@@ -13,7 +13,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export function Filters({
+export function FiltersCopy({
   filters,
   sortOptions,
   activeFilters,
@@ -24,38 +24,18 @@ export function Filters({
 }) {
   // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [params, setParams] = useState(JSON.parse(JSON.stringify(filters)));
+
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const router = useRouter();
   // const [params, setParams] = useState(() => {
   //   return new URLSearchParams(searchParams as unknown as string);
   // });
+  const [params, setParams] = useState(() => {
+    return filters;
+  });
+
   // const url = `${pathname}?${searchParams}`;
-
-  useEffect(() => {
-    const updatedFilters = () => {
-      let updatedFilters;
-
-      if (!searchParams.toString()) {
-        updatedFilters = JSON.parse(JSON.stringify(filters));
-        console.log('NOT searchParams', `${searchParams}`);
-      } else {
-        updatedFilters = { ...params };
-        console.log(' searchParams', `${searchParams}`);
-      }
-
-      searchParams.forEach((value, key) => {
-        updatedFilters[key]['options'][value].checked = true;
-      });
-
-      setParams(updatedFilters);
-    };
-
-    updatedFilters();
-  }, [pathname, searchParams]);
-
-  // /////////////////////
+  const router = useRouter();
 
   const handleUpdateFilters = (section: any, option: any, checked: boolean) => {
     const locSearchParams: URLSearchParams = new URLSearchParams(
@@ -65,22 +45,24 @@ export function Filters({
     // const locSearchParams: URLSearchParams = params;
 
     if (checked) {
-      locSearchParams.append(section, option);
+      locSearchParams.append(section.id, option.value);
       locSearchParams.sort();
     } else {
-      locSearchParams.delete(section, option);
+      locSearchParams.delete(section.id, option.value);
     }
+
+    console.log(JSON.stringify(filters, null, 2));
 
     router.push(`${pathname}?${locSearchParams}`);
   };
 
   return (
     <>
-      {/* <MobileFilterMenu
+      <MobileFilterMenu
         filters={filters}
         mobileFiltersOpen={mobileFiltersOpen}
         setMobileFiltersOpen={setMobileFiltersOpen}
-      /> */}
+      />
       {/* Filters */}
       <section aria-labelledby="filter-heading">
         <h2 id="filter-heading" className="sr-only">
@@ -145,18 +127,18 @@ export function Filters({
             <div className="hidden sm:block">
               <div className="flow-root">
                 <Popover.Group className="-mx-4 flex items-center divide-x divide-gray-200">
-                  {Object.entries(params).map(([sectionKey, sectionVal]) => (
+                  {filters.map((section, sectionIdx) => (
                     <Popover
-                      key={sectionKey}
+                      key={section.name}
                       className="relative inline-block px-4 text-left"
                     >
                       <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                        <span>{sectionVal['name']}</span>
-                        {/* {sectionIdx === 0 ? (
+                        <span>{section.name}</span>
+                        {sectionIdx === 0 ? (
                           <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
-                            {sectionKey}
+                            1
                           </span>
-                        ) : null} */}
+                        ) : null}
                         <ChevronDownIcon
                           className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                           aria-hidden="true"
@@ -174,44 +156,45 @@ export function Filters({
                       >
                         <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                           <form className="space-y-4">
-                            {Object.entries(sectionVal.options).map(
-                              ([key1, val1]) => {
-                                return (
-                                  <div
-                                    // key={key1}
-                                    key={`${sectionKey}-${key1}`}
-                                  >
-                                    <Checkbox
-                                      // id={`filter-${section.id}-${optionIdx}`}
-                                      name={`${key1}[]`}
-                                      // defaultValue={option.value}
-                                      defaultChecked={val1['checked']}
-                                      // id={`${sectionKey}-${val1['label']}`}
-                                      id={`${sectionKey}-${key1}`}
-                                      defaultValue={val1['checked']}
-                                      // onCheck={(checked) =>
-                                      //   handleUpdateFilters(
-                                      //     sectionKey,
-                                      //     key1,
-                                      //     val1['checked'],
-                                      //   )
-                                      // }
-                                      onCheck={(checked) =>
-                                        handleUpdateFilters(
-                                          sectionKey,
-                                          key1,
-                                          // val1['checked'],
-                                          checked,
-                                        )
-                                      }
-                                    >
-                                      {/* {option.label} */}
-                                      {key1}
-                                    </Checkbox>
-                                  </div>
-                                );
-                              },
-                            )}
+                            {section.options.map((option, optionIdx) => (
+                              // <div
+                              //   key={option.value}
+                              //   className="flex items-center"
+                              // >
+                              //   <input
+                              //     id={`filter-${section.id}-${optionIdx}`}
+                              //     name={`${section.id}[]`}
+                              //     defaultValue={option.value}
+                              //     type="checkbox"
+                              //     defaultChecked={option.checked}
+                              //     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                              //     onClick={() => handleUpdateFilters(option)}
+                              //   />
+                              //   <label
+                              //     htmlFor={`filter-${section.id}-${optionIdx}`}
+                              //     className="ml-3 whitespace-nowrap pr-6 text-sm font-medium text-gray-900"
+                              //   >
+                              //     {option.label}
+                              //   </label>
+                              // </div>
+                              <div key={option.value}>
+                                <Checkbox
+                                  id={`filter-${section.id}-${optionIdx}`}
+                                  name={`${section.id}[]`}
+                                  defaultValue={option.value}
+                                  defaultChecked={option.checked}
+                                  onCheck={(checked) =>
+                                    handleUpdateFilters(
+                                      section,
+                                      option,
+                                      checked,
+                                    )
+                                  }
+                                >
+                                  {option.label}
+                                </Checkbox>
+                              </div>
+                            ))}
                           </form>
                         </Popover.Panel>
                       </Transition>
