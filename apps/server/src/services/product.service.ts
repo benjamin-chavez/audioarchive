@@ -4,6 +4,13 @@ import { Product } from '@shared/src/schemas';
 import { BadRequestError, NotFoundError } from '../middleware/customErrors';
 import ProductModel from '../models/product.model';
 import S3Service from './s3.service';
+import {
+  processFilters,
+  processLimit,
+  processOffset,
+  processSearchQuery,
+  processSort,
+} from '../lib/queryBuildingUtils';
 
 const CONTEXT = 'ProductService';
 
@@ -25,17 +32,41 @@ class ProductService {
     sort: any;
     filters: any;
   }): Promise<any> {
-    const baseQuery = ProductModel.createBaseQuery(filters);
+    let productQuery = ProductModel.createBaseQuery();
+    const processedFilters = processFilters(filters);
+    const processedSearchQuery = processSearchQuery(q);
+    const [sortBy, sortOrder] = processSort(sort);
+    const limitPerPage = processLimit(limit);
+    const offset = processOffset(page, limitPerPage);
 
     let products = await ProductModel.fullTextSearch({
-      productQuery: baseQuery,
-      q,
-      page,
-      limit,
-      sort,
-      filters,
+      productQuery,
+      q: processedSearchQuery,
+      sortBy,
+      sortOrder,
+      offset,
+      limitPerPage,
+      filters: processedFilters,
     });
+    // let products;
 
+    if (!products.length) {
+      console.log('fuzz');
+      const fuzzySearchQuery = processSearchQuery(q);
+
+      products = await ProductModel.fullTextSearch({
+        productQuery,
+        q: fuzzySearchQuery,
+        sortBy,
+        sortOrder,
+        offset,
+        limitPerPage,
+        filters: processedFilters,
+        isFuzzy: true,
+      });
+    }
+
+    // console.log('products, ', products);
     // const products = await ProductModel.getAllProductsWithUserDetails();
 
     const productsWithSignedUrls =

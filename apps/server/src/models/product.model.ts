@@ -3,12 +3,11 @@
 import { Product } from '@shared/src/schemas';
 import knex from '../config/database';
 
-const VALID_PRODUCT_FILTERS = ['genre_name', 'daw', 'key', 'price', 'bpm'];
-
 class ProductModel {
   private static tableName = 'products';
 
-  static createBaseQuery({ filters }: { filters: any }) {
+  static createBaseQuery() {
+    // { filters }: { filters: any }
     return knex('products')
       .select(
         'products.id ',
@@ -31,25 +30,31 @@ class ProductModel {
       .join('app_users', 'products.app_user_id', 'app_users.id');
   }
 
-  static async fullTextSearch({
-    productQuery,
-    q,
-    page,
-    limit,
-    sort,
-    filters,
-  }: {
-    productQuery: any;
-    q: any;
-    page: any;
-    limit: any;
-    sort: any;
-    filters: any;
-  }) {
-    if (q && typeof q === 'string') {
-      const searchQuery = q.split(' ').join(' | ');
-      console.log(searchQuery);
-      productQuery
+  static applyFilters(productQuery, filters) {
+    if (!filters) {
+      return productQuery;
+    }
+
+    Object.entries(filters).forEach(([key, val]) => {
+      productQuery = Array.isArray(val)
+        ? productQuery.whereIn(key, val)
+        : productQuery.where(key, '=', val);
+    });
+
+    return productQuery;
+  }
+
+  static applySearchQuery(productQuery, q, isFuzzy) {
+    // if (q && typeof q === 'string') {
+    // const searchQuery = q.split(' ').join(' | ');
+    if (!q) {
+      return productQuery;
+    }
+
+    const searchQuery = q;
+
+    if (!isFuzzy) {
+      return productQuery
         .whereRaw(
           `(
             to_tsvector('english', products.name) ||
@@ -62,34 +67,50 @@ class ProductModel {
         .groupBy('products.id', 'app_users.id');
     }
 
-    Object.entries(filters).forEach(([key, val]) => {
-      // TODO: potentially set up the `VALID_PRODUCT_FILTERS` array to update automatically based on ts types or something
+    return (
+      productQuery
+        .whereRaw('products.genre_name % ?', [searchQuery])
+        .orWhereRaw('products.name % ?', [searchQuery])
+        .orWhereRaw('products.daw % ?', [searchQuery])
+        // .orWhereRaw('products.bpm::text % ?', [searchQuery])
+        .orWhereRaw('products.description % ?', [searchQuery])
+        .orWhereRaw('app_users.username % ?', [searchQuery])
+        .orWhereRaw('app_users.display_name % ?', [searchQuery])
+    );
 
-      if (!VALID_PRODUCT_FILTERS.includes(key)) {
-        // return res.status(400).json({ message: `Invalid filter: ${key}` });
-        TODO: return;
-      }
+    // return productQuery;
+  }
 
-      // TODO: Add additional type checking/validation on query params
+  static setSortAndPageParameters(sortBy, sortOrder, offser) {}
 
-      productQuery = Array.isArray(val)
-        ? productQuery.whereIn(key, val)
-        : productQuery.where(key, '=', val);
-    });
+  static async fullTextSearch({
+    productQuery,
+    q,
+    sortBy,
+    sortOrder,
+    offset,
+    limitPerPage,
+    filters,
+    isFuzzy = false,
+  }: {
+    productQuery: any;
+    q: any;
+    sortBy: any;
+    sortOrder: any;
+    offset: any;
+    limitPerPage: any;
+    filters: any;
+    isFuzzy?: boolean;
+  }) {
+    productQuery = this.applySearchQuery(productQuery, q, isFuzzy);
+    productQuery = this.applyFilters(productQuery, filters);
 
-    if (typeof sort === 'string') {
-      const [sortBy, sortOrder] = sort.split('__');
-      productQuery.orderBy(sortBy, sortOrder === 'desc' ? 'DESC' : 'ASC');
+    if (sortBy && sortOrder) {
+      productQuery.orderBy(sortBy, sortOrder);
     }
 
-    // PAGINATION
-    // @ts-ignore
-    const pageNumber = parseInt(page, 10) || 1;
-    // @ts-ignore
-    const limitPerPage = parseInt(limit, 10) || 10;
-    const offset = (pageNumber - 1) * limitPerPage;
-
     const products = await productQuery.offset(offset).limit(limitPerPage);
+
     return products;
   }
 

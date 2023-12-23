@@ -183,17 +183,17 @@ export const filterProducts: RequestHandler = asyncHandler(async (req, res) => {
       : productQuery.where(key, '=', val);
   });
 
-  if (typeof sort === 'string') {
-    const [sortBy, sortOrder] = sort.split('__');
-    productQuery.orderBy(sortBy, sortOrder === 'desc' ? 'DESC' : 'ASC');
-  }
-
   // PAGINATION
   // @ts-ignore
   const pageNumber = parseInt(page, 10) || 1;
   // @ts-ignore
   const limitPerPage = parseInt(limit, 10) || 10;
   const offset = (pageNumber - 1) * limitPerPage;
+
+  if (typeof sort === 'string') {
+    const [sortBy, sortOrder] = sort.split('__');
+    productQuery.orderBy(sortBy, sortOrder === 'desc' ? 'DESC' : 'ASC');
+  }
 
   const products = await productQuery.offset(offset).limit(limitPerPage);
 
