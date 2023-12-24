@@ -73,15 +73,28 @@ export default async function Page({ params }: AppUserProps) {
         </div>
         {/* </div> */}
 
-        {products.length ? (
-          <Container>
-            <ProductsGrid products={products} appUser={appUser} />
-          </Container>
-        ) : (
-          <div className="pt-20">
-            <h3>No Products</h3>
+        <Container>
+          <div className="mt-20">
+            <h2>Featured Section</h2>
           </div>
-        )}
+        </Container>
+
+        <div className="mt-5">
+          {' '}
+          <Container>
+            {' '}
+            <h2>Navigation + Filters</h2>
+          </Container>
+          {products.length ? (
+            <>
+              <ProductsGrid products={products} appUser={appUser} />
+            </>
+          ) : (
+            <div className="pt-20">
+              <h3>No Products</h3>
+            </div>
+          )}
+        </div>
       </Container>
     </>
   );

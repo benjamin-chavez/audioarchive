@@ -48,7 +48,7 @@ exports.up = async function (knex: Knex): Promise<void> {
     t.string('name').notNullable();
     // t.specificType('genre', 'genre').notNullable();
     t.string('daw').notNullable();
-    t.integer('bpm')
+    t.float('bpm')
       .unsigned()
       .notNullable()
       .checkBetween([[20, 999]]);

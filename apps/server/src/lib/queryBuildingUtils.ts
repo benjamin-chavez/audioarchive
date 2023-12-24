@@ -53,13 +53,15 @@ export function processSort(sort) {
 
 export function processLimit(limit) {
   if (!limit) {
-    return 10;
+    // return 10;
+    return;
   }
 
   return parseInt(limit, 10);
 }
 
 export function processOffset(page, limitPerPage) {
+  return;
   const pageNumber = parseInt(page, 10) || 1;
   const offset = (pageNumber - 1) * limitPerPage;
 
