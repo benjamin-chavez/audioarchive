@@ -6,13 +6,17 @@ import {
   STANDARD_KEYS_ENUM_VALUES,
 } from '@shared/src';
 
-export const sortOptions = [
-  { name: 'Most Popular', href: '#', current: true },
-  { name: 'Best Rating', href: '#', current: false },
-  { name: 'Newest', href: '#', current: false },
-  { name: 'Price: Low to High', href: '#', current: false },
-  { name: 'Price: High to Low', href: '#', current: false },
-];
+// TODO: Consider changing the name of the `value` key to `id`?
+
+export const sortOptions = {
+  sort_by: [
+    { value: 'pop', name: 'Most Popular', current: false },
+    // { name: 'Best Rating',  current: false },
+    // { name: 'Newest',  current: false },
+    { value: 'pr_lh', name: 'Price: Low to High', current: false },
+    { value: 'pr_hl', name: 'Price: High to Low', current: false },
+  ],
+};
 
 export const filters1 = [
   {

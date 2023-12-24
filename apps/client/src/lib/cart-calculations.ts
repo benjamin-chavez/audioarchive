@@ -64,6 +64,8 @@ export const calculatePriceSubtotal = (cartItems: any): number => {
 export const calculateEstimatedTax = (subtotal: number): number => {
   // TODO:DON'T HARDCODE TAX PERCENTAGE
   const estimatedTax = subtotal * 0.07;
+
+  // TODO: CHECK WHY THIS IS GETTING CALLED SO OFTEN
   console.log('calculating tax', estimatedTax);
 
   return estimatedTax;

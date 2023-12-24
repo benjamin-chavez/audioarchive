@@ -1,8 +1,7 @@
 // apps/client/src/app/(browse)/(with-layout)/products/layout.tsx
 
+import { filters, filters1, sortOptions } from '../../(root)/products/config';
 import { Filters } from './components/filters';
-import { sortOptions, filters, products } from '../../(root)/products/config';
-import Link from 'next/link';
 
 function CategoryHeader() {
   return (
@@ -33,7 +32,7 @@ export default function ProductsLayout({
           <main>
             <CategoryHeader />
 
-            <Filters filters={filters} sortOptions={sortOptions} />
+            {/* <Filters  filters1={filters1}  filters={filters} sortOptions={sortOptions} /> */}
             {children}
           </main>
         </div>

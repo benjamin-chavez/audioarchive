@@ -25,10 +25,12 @@ function classNames(...classes) {
 
 export function Filters({
   filters,
+  filters1,
   sortOptions,
   activeFilters,
 }: {
   filters: any;
+  filters1?: any;
   sortOptions: any;
   activeFilters: any;
 }) {
@@ -81,7 +83,7 @@ export function Filters({
 
                 {/* Filters */}
                 <form className="mt-4">
-                  {filters.map((section) => (
+                  {filters1?.map((section) => (
                     <Disclosure
                       as="div"
                       key={section.name}
@@ -205,7 +207,7 @@ export function Filters({
             <div className="hidden sm:block">
               <div className="flow-root">
                 <Popover.Group className="-mx-4 flex items-center divide-x divide-gray-200">
-                  {filters.map((section, sectionIdx) => (
+                  {filters1.map((section, sectionIdx) => (
                     <Popover
                       key={section.name}
                       className="relative inline-block px-4 text-left"
