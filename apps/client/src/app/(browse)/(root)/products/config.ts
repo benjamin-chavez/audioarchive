@@ -56,7 +56,7 @@ export const filters1 = [
   },
 ];
 
-export const activeFilters = [{ value: 'objects', label: 'Objects' }];
+// export const activeFilters = [{ value: 'objects', label: 'Objects' }];
 export const products = [
   {
     id: 1,

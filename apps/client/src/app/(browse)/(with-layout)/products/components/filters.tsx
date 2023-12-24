@@ -6,7 +6,7 @@ import { Menu, Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
-import MobileFilterMenu from './mobile-filter-menu';
+// import MobileFilterMenu from './mobile-filter-menu';
 import { Checkbox } from '@/components/ui/checkbox';
 
 function classNames(...classes) {
@@ -16,11 +16,9 @@ function classNames(...classes) {
 export function Filters({
   filters,
   sortOptions,
-  activeFilters,
 }: {
   filters: any;
   sortOptions: any;
-  activeFilters: any;
 }) {
   // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -28,6 +26,15 @@ export function Filters({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [activeFilters, setActiveFilters] = useState(() => {
+    const active = [];
+    for (const value of searchParams.values()) {
+      active.push(value);
+    }
+
+    return active;
+  });
+
   // const [params, setParams] = useState(() => {
   //   return new URLSearchParams(searchParams as unknown as string);
   // });
@@ -39,10 +46,8 @@ export function Filters({
 
       if (!searchParams.toString()) {
         updatedFilters = JSON.parse(JSON.stringify(filters));
-        console.log('NOT searchParams', `${searchParams}`);
       } else {
         updatedFilters = { ...params };
-        console.log(' searchParams', `${searchParams}`);
       }
 
       searchParams.forEach((value, key) => {
@@ -51,6 +56,11 @@ export function Filters({
 
       setParams(updatedFilters);
     };
+
+    // console.log('searchParams', `${searchParams}`);
+    // for (const value of searchParams.values()) {
+    //   console.log(value);
+    // }
 
     updatedFilters();
   }, [pathname, searchParams]);
@@ -71,9 +81,12 @@ export function Filters({
       locSearchParams.delete(section, option);
     }
 
+    setActiveFilters([...activeFilters, option]);
+
     router.push(`${pathname}?${locSearchParams}`);
   };
 
+  // TODO: START HERE -> REFACTOR
   return (
     <>
       {/* <MobileFilterMenu
@@ -243,7 +256,8 @@ export function Filters({
                     key={activeFilter.value}
                     className="m-1 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"
                   >
-                    <span>{activeFilter.label}</span>
+                    {/* <span>{activeFilter.label}</span> */}
+                    <span>{activeFilter}</span>
                     <button
                       type="button"
                       className="ml-1 inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500"

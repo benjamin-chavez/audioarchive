@@ -6,7 +6,6 @@ import {
   sortOptions,
   filters,
   filters1,
-  activeFilters,
   products,
 } from '../../(root)/products/config';
 import Link from 'next/link';
@@ -43,14 +42,10 @@ export default function ProductsLayout({
             {/* <FiltersCopy
               filters={filters1}
               sortOptions={sortOptions}
-              activeFilters={activeFilters}
+
             /> */}
 
-            <Filters
-              filters={filters}
-              sortOptions={sortOptions}
-              activeFilters={activeFilters}
-            />
+            <Filters filters={filters} sortOptions={sortOptions} />
             {children}
           </main>
         </div>
