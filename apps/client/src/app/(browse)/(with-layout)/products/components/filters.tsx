@@ -4,28 +4,56 @@
 
 import { Menu, Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Fragment, useEffect, useState } from 'react';
+import {
+  ReadonlyURLSearchParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from 'next/navigation';
+import { Fragment, useContext, useEffect, useState } from 'react';
 // import MobileFilterMenu from './mobile-filter-menu';
 import { Checkbox } from '@/components/ui/checkbox';
+import { FiltersContext } from '@/contexts/filters-context';
+import { FilterItem } from '@/lib/filters';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export function ActiveFilters({
-  activeFilters,
-  setActiveFilters,
-}: {
-  activeFilters: any;
-  setActiveFilters: any;
-}) {
+// const printSearchParams = (searchParams: ReadonlyURLSearchParams) => {
+//   console.log('searchParams', `${searchParams}`);
+
+//   for (const value of searchParams.values()) {
+//     console.log(value);
+//   }
+// };
+
+///////////
+
+// const [activeFilters, setActiveFilters] = useState(() => {
+//   const uniqueFilters = new Set();
+//   for (const value of searchParams.values()) {
+//     uniqueFilters.add(value);
+//   }
+
+//   return Array.from(uniqueFilters);
+// });
+
+// const [params, setParams] = useState(() => {
+//   return new URLSearchParams(searchParams as unknown as string);
+// });
+// const url = `${pathname}?${searchParams}`;
+
+export function SelectedFilters({}: {}) {
+  const { filterItems, selectedFilters, deselectAllFilters } =
+    useContext(FiltersContext);
+
   const handleRemoveFilter = (filterToRemove) => {
-    const updatedFilters = activeFilters.filter(
+    const updatedFilters = selectedFilters.filter(
       (filter) => filter !== filterToRemove,
     );
 
-    setActiveFilters(updatedFilters);
+    setSelectedFilters(updatedFilters);
   };
 
   return (
@@ -45,7 +73,7 @@ export function ActiveFilters({
 
           <div className="mt-2 sm:ml-4 sm:mt-0">
             <div className="-m-1 flex flex-wrap items-center">
-              {activeFilters?.map((activeFilter) => (
+              {selectedFilters?.map((activeFilter) => (
                 <span
                   key={activeFilter.value}
                   className="m-1 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"
@@ -82,95 +110,79 @@ export function ActiveFilters({
     </>
   );
 }
+// const [sortQuery, setSortQuery] = useState(
+//   JSON.parse(JSON.stringify(sortOptions)),
+// );
+// const [params, setParams] = useState(JSON.parse(JSON.stringify(filters)));
 
-export function Filters({
-  filters,
-  filters1,
-  sortOptions,
-}: {
-  filters: any;
-  filters1: any;
-  sortOptions: any;
-}) {
+export function Filters({ sortOptions }: { sortOptions: any }) {
   // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [params, setParams] = useState(JSON.parse(JSON.stringify(filters)));
-  const [sortQuery, setSortQuery] = useState(
-    JSON.parse(JSON.stringify(sortOptions)),
-  );
+
+  const {
+    filterItems: filters,
+    selectedFiltersByCategory,
+    deselectAllFilters,
+    addSelectedFilter,
+    removeSelectedFilter,
+  } = useContext(FiltersContext);
+
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [url, setUrl] = useState<string>(`${pathname}?${searchParams}`);
 
-  const [activeFilters, setActiveFilters] = useState(() => {
-    const uniqueFilters = new Set();
-    for (const value of searchParams.values()) {
-      uniqueFilters.add(value);
-    }
+  // useEffect(() => {
+  //   const updatedFilters = () => {
+  //     let updatedFilters;
 
-    return Array.from(uniqueFilters);
-  });
+  //     if (!searchParams.toString()) {
+  //       updatedFilters = JSON.parse(JSON.stringify(filters));
+  //     } else {
+  //       updatedFilters = { ...params };
+  //     }
+  //     console.log(`sp: ${searchParams}`);
 
-  // const [params, setParams] = useState(() => {
-  //   return new URLSearchParams(searchParams as unknown as string);
-  // });
-  // const url = `${pathname}?${searchParams}`;
+  //     searchParams.forEach((value, key) => {
+  //       if (key === 'sort') {
+  //         return;
+  //       }
 
-  useEffect(() => {
-    const updatedFilters = () => {
-      let updatedFilters;
+  //       updatedFilters[key]['options'][value].checked = true;
+  //     });
 
-      if (!searchParams.toString()) {
-        updatedFilters = JSON.parse(JSON.stringify(filters));
-      } else {
-        updatedFilters = { ...params };
-      }
-      console.log(`sp: ${searchParams}`);
+  //     setParams(updatedFilters);
+  //   };
 
-      searchParams.forEach((value, key) => {
-        if (key === 'sort') {
-          return;
-        }
+  //   updatedFilters();
+  // }, [pathname, searchParams]);
 
-        updatedFilters[key]['options'][value].checked = true;
-      });
-
-      setParams(updatedFilters);
-    };
-
-    // console.log('searchParams', `${searchParams}`);
-    // for (const value of searchParams.values()) {
-    //   console.log(value);
-    // }
-
-    updatedFilters();
-  }, [pathname, searchParams]);
-
-  // /////////////////////
-
-  const handleUpdateFilters = (section: any, option: any, checked: boolean) => {
+  const handleUpdateFilters = (
+    category: any,
+    filterId: string,
+    checked: boolean,
+  ) => {
     const locSearchParams: URLSearchParams = new URLSearchParams(
       searchParams as unknown as string,
     );
 
-    // const locSearchParams: URLSearchParams = params;
-    let uniqueFilters;
-
     if (checked) {
-      locSearchParams.append(section, option);
+      locSearchParams.append(category, filterId);
       locSearchParams.sort();
-      uniqueFilters = new Set([...activeFilters, option]);
-      setActiveFilters(Array.from(uniqueFilters));
+      addSelectedFilter(category, filterId);
     } else {
-      locSearchParams.delete(section, option);
-      const updatedFilters = activeFilters.filter(
-        (filter) => filter !== option,
-      );
-      setActiveFilters(updatedFilters);
+      locSearchParams.delete(category, filterId);
+      removeSelectedFilter(category, filterId);
     }
 
     router.push(`${pathname}?${locSearchParams}`);
   };
+
+  // useEffect(() => {
+  //   setUrl(`${pathname}?${searchParams}`);
+
+
+  // }, [pathname, searchParams]);
 
   const handleSortParam = (option) => {
     console.log(option);
@@ -202,6 +214,7 @@ export function Filters({
           Filters
         </h2>
 
+        {/* HERE */}
         <div className="border-b border-gray-200 bg-white pb-4">
           <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <Menu as="div" className="relative inline-block text-left">
@@ -261,16 +274,16 @@ export function Filters({
             <div className="hidden sm:block">
               <div className="flow-root">
                 <Popover.Group className="-mx-4 flex items-center divide-x divide-gray-200">
-                  {Object.entries(params).map(([sectionKey, sectionVal]) => (
+                  {Object.entries(filters).map(([category, filterItems]) => (
                     <Popover
-                      key={sectionKey}
+                      key={category}
                       className="relative inline-block px-4 text-left"
                     >
                       <Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                        <span>{sectionVal['name']}</span>
+                        <span>{category}</span>
                         {/* {sectionIdx === 0 ? ( */}
                         <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
-                          {/* {sectionKey} */}1
+                          1{/* {category} */}
                         </span>
                         {/* ) : null} */}
                         <ChevronDownIcon
@@ -289,40 +302,27 @@ export function Filters({
                         leaveTo="transform opacity-0 scale-95"
                       >
                         <Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          {/* HERE */}
+
                           <form className="space-y-4">
-                            {Object.entries(sectionVal.options).map(
-                              ([key1, val1]) => {
+                            {Object.entries(filterItems).map(
+                              ([idx, filterItem]) => {
                                 return (
-                                  <div
-                                    // key={key1}
-                                    key={`${sectionKey}-${key1}`}
-                                  >
+                                  <div key={`${category}-${filterItem.id}`}>
                                     <Checkbox
-                                      // id={`filter-${section.id}-${optionIdx}`}
-                                      name={`${key1}[]`}
-                                      // defaultValue={option.value}
-                                      defaultChecked={val1['checked']}
-                                      // id={`${sectionKey}-${val1['label']}`}
-                                      id={`${sectionKey}-${key1}`}
-                                      defaultValue={val1['checked']}
-                                      // onCheck={(checked) =>
-                                      //   handleUpdateFilters(
-                                      //     sectionKey,
-                                      //     key1,
-                                      //     val1['checked'],
-                                      //   )
-                                      // }
+                                      name={`${filterItem.id}[]`}
+                                      defaultChecked={filterItem.checked}
+                                      id={`${category}-${filterItem.id}`}
+                                      defaultValue={filterItem.checked}
                                       onCheck={(checked) =>
                                         handleUpdateFilters(
-                                          sectionKey,
-                                          key1,
-                                          // val1['checked'],
+                                          category,
+                                          filterItem.id,
                                           checked,
                                         )
                                       }
                                     >
-                                      {/* {option.label} */}
-                                      {key1}
+                                      {filterItem['label']}
                                     </Checkbox>
                                   </div>
                                 );
@@ -340,10 +340,7 @@ export function Filters({
         </div>
 
         {/* Active filters */}
-        <ActiveFilters
-          activeFilters={activeFilters}
-          setActiveFilters={setActiveFilters}
-        />
+        {/* <SelectedFilters /> */}
       </section>
     </>
   );

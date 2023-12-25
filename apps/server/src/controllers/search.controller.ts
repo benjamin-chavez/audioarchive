@@ -206,3 +206,54 @@ export const filterProducts: RequestHandler = asyncHandler(async (req, res) => {
 
   res.status(200).json({ data: searchResults, message: 'Search Results' });
 });
+
+export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
+  const selectedFilters = {
+    genre_name: [],
+    key: [],
+    daw: [],
+  };
+
+  // Function to apply filters to a query
+  function applyFilters(query, filters) {
+    Object.entries(filters).forEach(([filterKey, filterValues]) => {
+      // @ts-ignore
+      if (filterValues.length > 0) {
+        query.whereIn(filterKey, filterValues);
+      }
+    });
+  }
+
+  // GET FILTERED PRODUCTS
+  const productQuery = knex.select('id', 'name', 'key', 'daw').from('products');
+  applyFilters(productQuery, selectedFilters);
+  const filteredProducts = await productQuery;
+
+  // BUILD FILTERED GENRES QUERY
+  const genresQuery = knex('products').distinct('genre_name');
+  applyFilters(genresQuery, selectedFilters);
+
+  // BUILD FILTERED KEYS QUERY
+  const tonalKeysQuery = knex('products').distinct('key');
+  applyFilters(tonalKeysQuery, selectedFilters);
+
+  // BUILD FILTERED DAWs QUERY
+  const dawsQuery = knex('products').distinct('daw');
+  applyFilters(dawsQuery, selectedFilters);
+
+  const [genres, tonalKeys, daws] = await Promise.all([
+    genresQuery.pluck('genre_name'),
+    tonalKeysQuery.pluck('key'),
+    dawsQuery.pluck('daw'),
+  ]);
+
+  const searchResults = {
+    filters: {
+      genres,
+      tonalKeys,
+      daws,
+    },
+    products: filteredProducts,
+  };
+  res.status(200).json({ data: searchResults, message: 'Search Results' });
+});

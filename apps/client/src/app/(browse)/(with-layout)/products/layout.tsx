@@ -2,13 +2,10 @@
 
 import { Filters } from './components/filters';
 import { FiltersCopy } from './components/filters-copy';
-import {
-  sortOptions,
-  filters,
-  filters1,
-  products,
-} from '../../(root)/products/config';
+import { sortOptions, products } from '../../../../lib/filters';
 import Link from 'next/link';
+import { useContext } from 'react';
+import { FiltersContext } from '@/contexts/filters-context';
 
 function CategoryHeader() {
   return (
@@ -45,7 +42,7 @@ export default function ProductsLayout({
 
             /> */}
 
-            <Filters filters={filters} sortOptions={sortOptions} />
+            <Filters sortOptions={sortOptions} />
             {children}
           </main>
         </div>
