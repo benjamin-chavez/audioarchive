@@ -14,6 +14,7 @@ type FiltersState = {
   toggleOption: any;
   handleFilterChecked: any;
   replaceAllFilters: any;
+  setInitialFilters: any;
 };
 
 export const FiltersContext = createContext({} as FiltersState);
@@ -26,25 +27,19 @@ const FiltersProvider = ({ children }) => {
   const [url, setUrl] = useState(`${pathname}?${searchParams}`);
   const [filters, setFilters] = useState(normalizedData_OPTION1);
 
+  const setInitialFilters = (normalizedData) => {
+    // setFilters(normalizedData);
+  };
+
   const toggleOption = (categoryId, optionId) => {
-    // setFilters((currentState) =>
-    //   produce(currentState, (draftState) => {
-    //     const option = draftState.entities.options[optionId];
-    //     if (option) {
-    //       option.checked = !option.checked;
-    //     }
-    //   }),
-    // );
-
-    const updated = produce({ ...filters }, (draftState) => {
-      const option = draftState.entities.options[optionId];
-      if (option) {
-        option.checked = !option.checked;
-      }
-    });
-
-    // setFilters(updated);
-    return updated;
+    setFilters((currentFilters) =>
+      produce(currentFilters, (draftState) => {
+        const option = draftState.entities.options[optionId];
+        if (option) {
+          option.checked = !option.checked;
+        }
+      }),
+    );
   };
 
   // const toggleOption = useCallback((categoryId, optionId) => {
@@ -82,14 +77,13 @@ const FiltersProvider = ({ children }) => {
   };
 
   const handleFilterChecked = (categoryId, optionId, isChecked) => {
-    const nn = pushNewPathnameAndSearchParams(categoryId, optionId, isChecked);
-    setUrl(nn);
-
-    const updatedFilters = toggleOption(categoryId, optionId);
-
-    const updatedData2 = replaceAllFilters(updatedFilters);
-    setFilters(updatedData2);
-    console.log('nn:', nn, ', url:', url);
+    toggleOption(categoryId, optionId);
+    const newUrl = pushNewPathnameAndSearchParams(
+      categoryId,
+      optionId,
+      isChecked,
+    );
+    setUrl(newUrl);
   };
 
   const replaceAllFilters = (normalizedData) => {
@@ -134,8 +128,8 @@ const FiltersProvider = ({ children }) => {
 
     // console.log(JSON.stringify(updatedData2, null, 2));
 
-    return updatedData2;
-    // setFilters(updatedData2);
+    // return updatedData2;
+    setFilters(updatedData2);
   };
 
   // const value = {
@@ -156,6 +150,7 @@ const FiltersProvider = ({ children }) => {
     toggleOption,
     handleFilterChecked,
     replaceAllFilters,
+    setInitialFilters,
   };
 
   return (

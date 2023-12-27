@@ -5,14 +5,25 @@ import { useContext, useEffect, useState } from 'react';
 
 function ClientPage({ normalizedData }: { normalizedData: any }) {
   // console.log('data: ', JSON.stringify(normalizedData, null, 2));
-  const { filters, setFilters, handleFilterChecked, replaceAllFilters, url } =
-    useContext(FiltersContext);
+  const {
+    filters,
+    setFilters,
+    handleFilterChecked,
+    replaceAllFilters,
+    url,
+    setInitialFilters,
+  } = useContext(FiltersContext);
   // console.log(`URL: `, url);
   // const [isLoading, setIsLoading] = useState(false);
 
+  // useEffect(() => {
+  //   replaceAllFilters(normalizedData);
+  // }, [normalizedData]);
+
   useEffect(() => {
+    // setInitialFilters(normalizedData);
     replaceAllFilters(normalizedData);
-  }, [normalizedData]);
+  }, []);
 
   const handleClick = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -55,6 +66,7 @@ function ClientPage({ normalizedData }: { normalizedData: any }) {
                             //   filters.entities.options[optionId].checked ||
                             //   false
                             // }
+
                             checked={
                               filters.entities.options[optionId]?.checked ||
                               false
