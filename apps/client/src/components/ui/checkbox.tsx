@@ -7,13 +7,18 @@ export function Checkbox({
   defaultChecked,
   onCheck,
   children,
+  label,
+  ...props
 }: {
-  id: any;
-  name: any;
-  defaultValue: any;
-  defaultChecked: any;
+  id: string;
+  name: string;
+  defaultValue?: boolean;
+  defaultChecked?: boolean;
   onCheck?: (checked: boolean) => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  label: string;
+  // props?: unknown;
+  [x: string]: any;
 }) {
   // const [checked, setChecked] = useState(defaultChecked);
   const handleClick = (event: React.MouseEvent<HTMLInputElement>) => {
@@ -41,7 +46,7 @@ export function Checkbox({
           htmlFor={id}
           className="ml-3 whitespace-nowrap pr-6 text-sm font-medium text-gray-900"
         >
-          {children}
+          {label}
         </label>
       </div>
     </>
