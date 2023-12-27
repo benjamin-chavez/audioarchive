@@ -7,14 +7,14 @@ import S3Service from '../services/s3.service';
 
 export const searchAppUsers: RequestHandler = asyncHandler(async (req, res) => {
   const searchQuery = req.params.query;
-  console.log(searchQuery);
+  // console.log(searchQuery);
 
   const searchResults = await knex('appUsers')
     .select('*')
     .whereRaw('display_name % ?', [searchQuery])
     .orWhereRaw('username % ?', [searchQuery]);
 
-  console.log(searchResults);
+  // console.log(searchResults);
 
   res.status(200).json({ data: searchResults, message: 'Search Results' });
 });
@@ -122,11 +122,11 @@ const VALID_PRODUCT_FILTERS = ['genre_name', 'daw', 'key', 'price', 'bpm'];
 
 export const filterProducts: RequestHandler = asyncHandler(async (req, res) => {
   const { q, page, limit, sort, ...filters } = req.query;
-  console.log('q', q);
-  console.log('page', page);
-  console.log('limit', limit);
-  console.log('sort', sort);
-  console.log('filters', filters);
+  // console.log('q', q);
+  // console.log('page', page);
+  // console.log('limit', limit);
+  // console.log('sort', sort);
+  // console.log('filters', filters);
 
   let productQuery = knex('products')
     .select(
@@ -154,7 +154,7 @@ export const filterProducts: RequestHandler = asyncHandler(async (req, res) => {
 
   if (q && typeof q === 'string') {
     const searchQuery = q.split(' ').join(' | ');
-    console.log(searchQuery);
+    // console.log(searchQuery);
     productQuery
       .whereRaw(
         `(
@@ -214,7 +214,6 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
     daw: [],
   };
 
-  // Function to apply filters to a query
   function applyFilters(query, filters) {
     Object.entries(filters).forEach(([filterKey, filterValues]) => {
       // @ts-ignore
@@ -225,20 +224,29 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
   }
 
   // GET FILTERED PRODUCTS
-  const productQuery = knex.select('id', 'name', 'key', 'daw').from('products');
+  const productQuery = knex
+    .select('id', 'name', 'genre_name', 'key', 'daw')
+    .from('products')
+    .whereNot('genre_name', null);
   applyFilters(productQuery, selectedFilters);
   const filteredProducts = await productQuery;
 
   // BUILD FILTERED GENRES QUERY
-  const genresQuery = knex('products').distinct('genre_name');
+  const genresQuery = knex('products')
+    .distinct('genre_name')
+    .whereNot('genre_name', null);
   applyFilters(genresQuery, selectedFilters);
 
   // BUILD FILTERED KEYS QUERY
-  const tonalKeysQuery = knex('products').distinct('key');
+  const tonalKeysQuery = knex('products')
+    .distinct('key')
+    .whereNot('genre_name', null);
   applyFilters(tonalKeysQuery, selectedFilters);
 
   // BUILD FILTERED DAWs QUERY
-  const dawsQuery = knex('products').distinct('daw');
+  const dawsQuery = knex('products')
+    .distinct('daw')
+    .whereNot('genre_name', null);
   applyFilters(dawsQuery, selectedFilters);
 
   const [genres, tonalKeys, daws] = await Promise.all([

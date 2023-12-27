@@ -1,11 +1,11 @@
 // apps/client/src/app/(browse)/(with-layout)/products/layout.tsx
 
-import { Filters } from './components/filters';
-import { FiltersCopy } from './components/filters';
+// import { Filters } from './components/filters';
+// import { FiltersCopy } from './components/filters';
 import { sortOptions, products } from '../../../../lib/filters';
 import Link from 'next/link';
 import { useContext } from 'react';
-import { FiltersContext } from '@/contexts/filters-context';
+// import { FiltersContext } from '@/contexts/filters-context-old';
 
 function CategoryHeader() {
   return (
@@ -42,7 +42,7 @@ export default function ProductsLayout({
 
             /> */}
 
-            <Filters sortOptions={sortOptions} />
+            {/* <Filters sortOptions={sortOptions} /> */}
             {children}
           </main>
         </div>

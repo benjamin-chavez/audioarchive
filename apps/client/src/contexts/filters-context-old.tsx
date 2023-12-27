@@ -18,7 +18,7 @@ type FiltersState = {
   removeSelectedFilter: any;
 };
 
-export const FiltersContext = createContext({} as FiltersState);
+const FiltersContext = createContext({} as FiltersState);
 
 const FiltersProvider = ({ children }) => {
   const [filterItems, setFilterItems] =
@@ -145,4 +145,4 @@ const FiltersProvider = ({ children }) => {
   );
 };
 
-export default FiltersProvider;
+default FiltersProvider;

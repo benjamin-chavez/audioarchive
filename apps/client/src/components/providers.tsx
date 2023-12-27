@@ -3,7 +3,7 @@
 'use client';
 
 import { CartProvider } from '@/contexts/cartContext';
-import FiltersProvider from '@/contexts/filters-context';
+import FiltersProvider from '@/contexts/filter-context';
 // import { MeProvider } from '@/contexts/appUserContext';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
