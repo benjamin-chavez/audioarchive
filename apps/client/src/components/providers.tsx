@@ -24,12 +24,12 @@ export default function Providers({
     <QueryClientProvider client={queryClient}>
       <UserProvider>
         {/* <MeProvider> */}
-        <FiltersProvider>
-          <CartProvider>
+        <CartProvider>
+          <FiltersProvider>
             <ReactQueryDevtools initialIsOpen={false} />
             {children}
-          </CartProvider>
-        </FiltersProvider>
+          </FiltersProvider>
+        </CartProvider>
         {/* </MeProvider> */}
       </UserProvider>
     </QueryClientProvider>

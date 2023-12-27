@@ -1,7 +1,7 @@
 // apps/client/src/app/(browse)/(with-layout)/products/layout.tsx
 
 import { Filters } from './components/filters';
-import { FiltersCopy } from './components/filters-copy';
+import { FiltersCopy } from './components/filters';
 import { sortOptions, products } from '../../../../lib/filters';
 import Link from 'next/link';
 import { useContext } from 'react';

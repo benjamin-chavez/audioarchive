@@ -5,6 +5,7 @@ import {
   GENRE_ENUM_VALUES,
   STANDARD_KEYS_ENUM_VALUES,
 } from '@shared/src';
+import { normalize, schema } from 'normalizr';
 
 // TODO: Consider changing the name of the `value` key to `id`?
 
@@ -17,48 +18,6 @@ export const sortOptions = {
     { value: 'pr_hl', name: 'Price: High to Low', current: false },
   ],
 };
-
-export const filters1 = [
-  {
-    id: 'genre_name',
-    name: 'Genre',
-    options: GENRE_ENUM_VALUES.map((genre) => ({
-      value: genre.toLowerCase(),
-      label: genre,
-      checked: false,
-    })),
-  },
-  {
-    id: 'BPM',
-    name: 'BPM',
-    options: [
-      { value: 'white', label: 'White', checked: false },
-      { value: 'beige', label: 'Beige', checked: false },
-      { value: 'blue', label: 'Blue', checked: false },
-      { value: 'brown', label: 'Brown', checked: false },
-      { value: 'green', label: 'Green', checked: false },
-      { value: 'purple', label: 'Purple', checked: false },
-    ],
-  },
-  {
-    id: 'Key',
-    name: 'Key',
-    options: STANDARD_KEYS_ENUM_VALUES.map((key) => ({
-      value: key,
-      label: key,
-      checked: false,
-    })),
-  },
-  {
-    id: 'DAW',
-    name: 'DAW',
-    options: DAW_ENUM_VALUES.map((daw) => ({
-      value: daw,
-      label: daw,
-      checked: false,
-    })),
-  },
-];
 
 // export const activeFilters = [{ value: 'objects', label: 'Objects' }];
 export const products = [
@@ -145,176 +104,6 @@ export const products = [
   // More products...
 ];
 
-// export const filters0 = {
-//   genre_name: {
-//     name: 'Genre',
-//     options: {
-//       'bass house': {
-//         label: 'Bass House',
-//         checked: false,
-//       },
-//       breakbeat: {
-//         label: 'Breakbeat',
-//         checked: false,
-//       },
-//       breaks: {
-//         label: 'Breaks',
-//         checked: false,
-//       },
-//       'deep house': {
-//         label: 'Deep House',
-//         checked: false,
-//       },
-//       'uk bass': {
-//         label: 'UK Bass',
-//         checked: false,
-//       },
-//       dubstep: {
-//         label: 'Dubstep',
-//         checked: false,
-//       },
-//       house: {
-//         label: 'House',
-//         checked: false,
-//       },
-//       pop: {
-//         label: 'Pop',
-//         checked: false,
-//       },
-//       techno: {
-//         label: 'Techno',
-//         checked: false,
-//       },
-//       trap: {
-//         label: 'Trap',
-//         checked: false,
-//       },
-//     },
-//   },
-//   Key: {
-//     name: 'Key',
-//     options: {
-//       b_major: {
-//         label: 'B Major',
-//         checked: false,
-//       },
-//       'f♯/g♭major': {
-//         label: 'F♯/G♭ Major',
-//         checked: false,
-//       },
-//       'd♭major': {
-//         label: 'D♭ Major',
-//         checked: false,
-//       },
-//       'a♭major': {
-//         label: 'A♭ Major',
-//         checked: false,
-//       },
-//       'e♭major': {
-//         label: 'E♭ Major',
-//         checked: false,
-//       },
-//       'b♭major': {
-//         label: 'B♭ Major',
-//         checked: false,
-//       },
-//       f_major: {
-//         label: 'F Major',
-//         checked: false,
-//       },
-//       c_major: {
-//         label: 'C Major',
-//         checked: false,
-//       },
-//       g_major: {
-//         label: 'G Major',
-//         checked: false,
-//       },
-//       d_major: {
-//         label: 'D Major',
-//         checked: false,
-//       },
-//       a_major: {
-//         label: 'A Major',
-//         checked: false,
-//       },
-//       e_major: {
-//         label: 'E Major',
-//         checked: false,
-//       },
-//       'a♭minor': {
-//         label: 'A♭ Minor',
-//         checked: false,
-//       },
-//       'e♭minor': {
-//         label: 'E♭ Minor',
-//         checked: false,
-//       },
-//       'b♭minor': {
-//         label: 'B♭ Minor',
-//         checked: false,
-//       },
-//       f_minor: {
-//         label: 'F Minor',
-//         checked: false,
-//       },
-//       c_minor: {
-//         label: 'C Minor',
-//         checked: false,
-//       },
-//       g_minor: {
-//         label: 'G Minor',
-//         checked: false,
-//       },
-//       d_minor: {
-//         label: 'D Minor',
-//         checked: false,
-//       },
-//       a_minor: {
-//         label: 'A Minor',
-//         checked: false,
-//       },
-//       e_minor: {
-//         label: 'E Minor',
-//         checked: false,
-//       },
-//       b_minor: {
-//         label: 'B Minor',
-//         checked: false,
-//       },
-//       'f♯/g♭minor': {
-//         label: 'F♯/G♭ Minor',
-//         checked: false,
-//       },
-//       'd♭minor': {
-//         label: 'D♭ Minor',
-//         checked: false,
-//       },
-//     },
-//   },
-//   DAW: {
-//     name: 'DAW',
-//     options: {
-//       Ableton: {
-//         label: 'Ableton',
-//         checked: false,
-//       },
-//       'FL Studio': {
-//         label: 'FL Studio',
-//         checked: false,
-//       },
-//       Logic: {
-//         label: 'Logic',
-//         checked: false,
-//       },
-//       Bitwig: {
-//         label: 'Bitwig',
-//         checked: false,
-//       },
-//     },
-//   },
-// };
-
 export type FilterItem = {
   id: string;
   label: string;
@@ -323,7 +112,7 @@ export type FilterItem = {
 
 export type FiltersByCategory = Record<string, FilterItem[]>;
 
-export const filters3: FiltersByCategory = {
+export const filters: FiltersByCategory = {
   genre: [
     {
       id: 'bass_house',
@@ -376,128 +165,128 @@ export const filters3: FiltersByCategory = {
       checked: false,
     },
   ],
-  Key: [
-    {
-      id: 'b_major',
-      label: 'B Major',
-      checked: false,
-    },
-    {
-      id: 'f♯/g♭_major',
-      label: 'F♯/G♭ Major',
-      checked: false,
-    },
-    {
-      id: 'd♭_major',
-      label: 'D♭ Major',
-      checked: false,
-    },
-    {
-      id: 'a♭_major',
-      label: 'A♭ Major',
-      checked: false,
-    },
-    {
-      id: 'e♭_major',
-      label: 'E♭ Major',
-      checked: false,
-    },
-    {
-      id: 'b♭_major',
-      label: 'B♭ Major',
-      checked: false,
-    },
-    {
-      id: 'f_major',
-      label: 'F Major',
-      checked: false,
-    },
-    {
-      id: 'c_major',
-      label: 'C Major',
-      checked: false,
-    },
-    {
-      id: 'g_major',
-      label: 'G Major',
-      checked: false,
-    },
-    {
-      id: 'd_major',
-      label: 'D Major',
-      checked: false,
-    },
-    {
-      id: 'a_major',
-      label: 'A Major',
-      checked: false,
-    },
-    {
-      id: 'e_major',
-      label: 'E Major',
-      checked: false,
-    },
-    {
-      id: 'a♭_minor',
-      label: 'A♭ Minor',
-      checked: false,
-    },
-    {
-      id: 'e♭_minor',
-      label: 'E♭ Minor',
-      checked: false,
-    },
-    {
-      id: 'b♭_minor',
-      label: 'B♭ Minor',
-      checked: false,
-    },
-    {
-      id: 'f_minor',
-      label: 'F Minor',
-      checked: false,
-    },
-    {
-      id: 'c_minor',
-      label: 'C Minor',
-      checked: false,
-    },
-    {
-      id: 'g_minor',
-      label: 'G Minor',
-      checked: false,
-    },
-    {
-      id: 'd_minor',
-      label: 'D Minor',
-      checked: false,
-    },
-    {
-      id: 'a_minor',
-      label: 'A Minor',
-      checked: false,
-    },
-    {
-      id: 'e_minor',
-      label: 'E Minor',
-      checked: false,
-    },
-    {
-      id: 'b_minor',
-      label: 'B Minor',
-      checked: false,
-    },
-    {
-      id: 'f♯/g♭_minor',
-      label: 'F♯/G♭ Minor',
-      checked: false,
-    },
-    {
-      id: 'd♭_minor',
-      label: 'D♭ Minor',
-      checked: false,
-    },
-  ],
+  // Key: [
+  //   {
+  //     id: 'b_major',
+  //     label: 'B Major',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'f♯/g♭_major',
+  //     label: 'F♯/G♭ Major',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'd♭_major',
+  //     label: 'D♭ Major',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'a♭_major',
+  //     label: 'A♭ Major',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'e♭_major',
+  //     label: 'E♭ Major',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'b♭_major',
+  //     label: 'B♭ Major',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'f_major',
+  //     label: 'F Major',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'c_major',
+  //     label: 'C Major',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'g_major',
+  //     label: 'G Major',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'd_major',
+  //     label: 'D Major',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'a_major',
+  //     label: 'A Major',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'e_major',
+  //     label: 'E Major',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'a♭_minor',
+  //     label: 'A♭ Minor',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'e♭_minor',
+  //     label: 'E♭ Minor',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'b♭_minor',
+  //     label: 'B♭ Minor',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'f_minor',
+  //     label: 'F Minor',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'c_minor',
+  //     label: 'C Minor',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'g_minor',
+  //     label: 'G Minor',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'd_minor',
+  //     label: 'D Minor',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'a_minor',
+  //     label: 'A Minor',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'e_minor',
+  //     label: 'E Minor',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'b_minor',
+  //     label: 'B Minor',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'f♯/g♭_minor',
+  //     label: 'F♯/G♭ Minor',
+  //     checked: false,
+  //   },
+  //   {
+  //     id: 'd♭_minor',
+  //     label: 'D♭ Minor',
+  //     checked: false,
+  //   },
+  // ],
   DAW: [
     { id: 'ableton', label: 'Ableton', checked: false },
     { id: "fl_studio'", label: 'FL Studio', checked: false },
@@ -507,6 +296,8 @@ export const filters3: FiltersByCategory = {
 };
 
 const SelectedFiltersByCategory: FiltersByCategory = {};
+
+const filter = new schema.Entity('filters');
 
 export const updateFilters = (
   filters: FilterItem[],
@@ -520,5 +311,5 @@ export const updateFilters = (
 };
 
 export const getInitialFilters = () => {
-  return filters3;
+  return filters;
 };

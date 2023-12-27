@@ -5,6 +5,7 @@ import {
   FiltersByCategory,
   getInitialFilters,
 } from '@/lib/filters';
+import { normalizedData_OPTION1 } from '@/lib/normalize';
 import { ReadonlyURLSearchParams } from 'next/navigation';
 import { createContext, useReducer, useState } from 'react';
 
@@ -61,7 +62,7 @@ const FiltersProvider = ({ children }) => {
   };
 
   const removeSelectedFilter = (category, filterId) => {
-    const updatedCategoryFilters = selectedFiltersByCategory[category].filter(
+    const updatedCategoryFilters = selectedFiltersByCategory[category]?.filter(
       (item) => item !== filterId,
     );
 
@@ -70,7 +71,8 @@ const FiltersProvider = ({ children }) => {
       [category]: updatedCategoryFilters,
     };
 
-    setSelectedFiltersByCategory(updatedSelectedFilters);
+    // setSelectedFiltersByCategory(updatedSelectedFilters);
+    setSelectedFiltersByCategory(normalizedData_OPTION1);
 
     let updatedFilterItems = { ...filterItems };
 
@@ -112,18 +114,20 @@ const FiltersProvider = ({ children }) => {
   // };
 
   const deselectAllFilters = (filters) => {
-    setSelectedFiltersByCategory({});
+    // setSelectedFiltersByCategory({});
 
-    setFilterItems(
-      // @ts-ignore
-      Object.fromEntries(
-        Object.entries(filters).map(([key, value]) => [
-          key,
-          // @ts-ignore
-          value.map((filter) => ({ ...filter, checked: false })),
-        ]),
-      ),
-    );
+    // setFilterItems(
+    //   // @ts-ignore
+    //   Object.fromEntries(
+    //     Object.entries(filters).map(([key, value]) => [
+    //       key,
+    //       // @ts-ignore
+    //       value.map((filter) => ({ ...filter, checked: false })),
+    //     ]),
+    //   ),
+    // );
+    // @ts-ignore
+    setFilterItems(normalizedData_OPTION1);
   };
 
   const value = {
