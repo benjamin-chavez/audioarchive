@@ -214,10 +214,7 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
     daw: [],
   };
 
-  // @ts-ignore
   const { sortby, order, ...query } = req.query;
-  console.log('params', query);
-  // params { genres: 'bass house', sortby: 'Alphabetical' }
 
   Object.entries(query).forEach(([key, val]) => {
     let category;
@@ -243,7 +240,6 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
     Object.entries(filters).forEach(([filterKey, filterValues]) => {
       // @ts-ignore
       if (filterValues.length > 0) {
-        // query.whereIn(filterKey, filterValues);
         query.whereIn(
           knex.raw('LOWER(??)', [filterKey]),
           // @ts-ignore
@@ -253,23 +249,21 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
     });
   }
 
-  // function applySorting(query, sortby) {
-  //   let sortDirection;
-  //   let sortColu;
-
-  //   if
-  // }
-
   // GET FILTERED PRODUCTS
   const productQuery = knex
-    .select('id', 'name', 'genre_name', 'key', 'daw')
+    .select('id', 'name', 'genre_name', 'key', 'daw', 'price')
     .from('products');
   // .whereNot('genre_name', null);
   applyFilters(productQuery, selectedFilters);
-  // applySorting(productQuery, sortby);
-  const filteredProducts = await productQuery.orderBy('name', 'asc');
 
-  console.log(JSON.stringify(filteredProducts, null, 2));
+  const sortByString = req.query.sortby ? String(req.query.sortby) : 'name';
+
+  const orderString = req.query.order ? String(req.query.order) : 'asc';
+
+  const filteredProducts = await productQuery.orderBy(
+    sortByString,
+    orderString
+  );
 
   // BUILD FILTERED GENRES QUERY
   const genresQuery = knex('products').distinct('genre_name');

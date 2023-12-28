@@ -10,7 +10,7 @@ import { modifyData } from '@/lib/normalize';
 import Container from '@/components/container';
 import { useSearchParams } from 'next/navigation';
 
-const sortOptions = [
+const sortOptions_old = [
   {
     id: 'featured',
     order: 'desc',
@@ -52,6 +52,49 @@ const sortOptions = [
   // },
 ];
 
+const sortOptions = {
+  byId: {
+    featured__desc: {
+      id: 'featured',
+      order: 'desc',
+      name: 'Featured',
+    },
+    price__asc: {
+      id: 'price',
+      order: 'asc',
+      name: 'Price: Low to High',
+    },
+    price__desc: {
+      id: 'price',
+      order: 'desc',
+      name: 'Price: High to Low',
+    },
+    rating__desc: {
+      id: 'rating',
+      order: 'desc',
+      name: 'Avg. Customer Review',
+    },
+    date__desc: {
+      id: 'date',
+      order: 'desc',
+      name: 'Newest Arrivals',
+    },
+    sales__desc: {
+      id: 'sales',
+      order: 'desc',
+      name: 'Best Sellers',
+    },
+  },
+  allIds: [
+    'featured__desc',
+    'price__asc',
+    'price__desc',
+    'rating__desc',
+    'date__desc',
+    'sales__desc',
+  ],
+};
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
@@ -88,8 +131,8 @@ function Dropdown({
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-            {sortOptions.map((option) => (
-              <Menu.Item key={option.name}>
+            {sortOptions.allIds.map((optionId) => (
+              <Menu.Item key={optionId}>
                 {({ active }) => (
                   <div
                     className={classNames(
@@ -98,9 +141,9 @@ function Dropdown({
                         : 'text-gray-700',
                       'block px-4 py-2 text-sm cursor-pointer',
                     )}
-                    onClick={(e) => handleSortBy(e, option)}
+                    onClick={(e) => handleSortBy(e, sortOptions.byId[optionId])}
                   >
-                    {option.name}
+                    {sortOptions.byId[optionId].name}
                   </div>
                 )}
               </Menu.Item>
@@ -113,12 +156,13 @@ function Dropdown({
 }
 
 function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
+  const searchParams = useSearchParams();
   const [products, setProducts] = useState([]);
-  const [selectedSortOption, setSelectedSortOption] = useState({
-    id: 'featured',
-    order: 'desc',
-    name: 'Featured',
-  });
+  const [selectedSortOption, setSelectedSortOption] = useState(
+    sortOptions.byId[
+      `${searchParams.get('sortby')}__${searchParams.get('order')}`
+    ] || sortOptions.byId['featured__desc'],
+  );
   const [loading, setLoading] = useState(true);
   const {
     filters,
@@ -128,11 +172,13 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
     url,
     handleSort,
   } = useContext(FiltersContext);
-  const searchParams = useSearchParams();
 
   async function fetchAndProcessData() {
     const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
-    const res = await fetch(`${BASE_URL}/search/test?${searchParams}`);
+
+    const res = await fetch(
+      `${BASE_URL}/search/test?${searchParams.toString()}`,
+    );
 
     if (!res.ok) {
       // Handle error appropriately
