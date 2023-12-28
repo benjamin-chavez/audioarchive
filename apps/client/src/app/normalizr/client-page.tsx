@@ -1,3 +1,4 @@
+// apps/client/src/app/normalizr/client-page.tsx
 'use client';
 
 import { Fragment } from 'react';
@@ -9,6 +10,7 @@ import { normalize, schema } from 'normalizr';
 import { modifyData } from '@/lib/normalize';
 import Container from '@/components/container';
 import { useSearchParams } from 'next/navigation';
+import { capitalizeFirstLetter } from '@/lib/utils';
 
 const sortOptions_old = [
   {
@@ -163,6 +165,21 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
       `${searchParams.get('sortby')}__${searchParams.get('order')}`
     ] || sortOptions.byId['featured__desc'],
   );
+
+  const [selectedPriceMax, setSelectedPriceMax] = useState(
+    `${searchParams.get('maxPrice')}` || null,
+  );
+  const [selectedPriceMin, setSelectedPriceMin] = useState(
+    `${searchParams.get('minPrice')}` || null,
+  );
+
+  const [selectedBpmMin, setSelectedBpmMin] = useState(
+    searchParams.get('minBpm') || null,
+  );
+  const [selectedBpmMax, setSelectedBpmMax] = useState(
+    searchParams.get('maxBpm') || null,
+  );
+
   const [loading, setLoading] = useState(true);
   const {
     filters,
@@ -171,6 +188,7 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
     replaceAllFilters,
     url,
     handleSort,
+    handleRange,
   } = useContext(FiltersContext);
 
   async function fetchAndProcessData() {
@@ -227,6 +245,17 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
     return;
   };
 
+  // const handleFormSubmit = (e: React.FormEvent<HTMLElement>) => {
+  const handleFormSubmit = (formData, categoryId) => {
+    // e.preventDefault();
+
+    const minValue = formData.get('minValue'); // || null;
+    const maxValue = formData.get('maxValue'); // || null;
+    const id = capitalizeFirstLetter(categoryId.replace('Range', ''));
+
+    handleRange({ id, min: minValue, max: maxValue });
+  };
+
   if (loading) {
     return <div>Loading...</div>; // Or any loading indicator
   }
@@ -247,19 +276,37 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
                 <div>{category.name}</div>
                 {categoryId.toLowerCase().includes('range') ? (
                   <div className="text-black">
-                    <form action="">
+                    {/* <form action={handleFormSubmit}> */}
+                    <form
+                      action={(formData) =>
+                        handleFormSubmit(formData, categoryId)
+                      }
+                    >
                       <input
+                        name="minValue"
                         type="number"
+                        defaultValue={
+                          categoryId.includes('price')
+                            ? selectedPriceMin
+                            : selectedBpmMin
+                        }
                         data-input-counter
                         data-input-counter-min="1"
                         placeholder={category.options[0]}
                         className="w-20"
                       />
                       <input
+                        defaultValue={
+                          categoryId.includes('price')
+                            ? selectedPriceMax
+                            : selectedBpmMax
+                        }
+                        name="maxValue"
                         type="number"
                         placeholder={category.options[1]}
                         className="w-20"
                       />
+                      <button type="submit">Apply</button>
                     </form>
                   </div>
                 ) : (

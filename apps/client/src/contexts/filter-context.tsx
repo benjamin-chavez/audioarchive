@@ -15,6 +15,7 @@ type FiltersState = {
   handleFilterChecked: any;
   replaceAllFilters: any;
   handleSort: any;
+  handleRange: any;
 };
 
 export const FiltersContext = createContext({} as FiltersState);
@@ -81,6 +82,37 @@ const FiltersProvider = ({ children }) => {
     // return `${pathname}?${locSearchParams}`;
   };
 
+  const handleRange = ({
+    id,
+    min,
+    max,
+  }: {
+    id: string;
+    min: string;
+    max: string;
+  }) => {
+    const locSearchParams: URLSearchParams = new URLSearchParams(
+      searchParams as unknown as string,
+    );
+
+    // locSearchParams.append('price[]', min);
+    // locSearchParams.append('price[]', max);
+
+    // locSearchParams.set(`min${id[0].toUpperCase()}${id.substring(1)}`, min);
+    // locSearchParams.set(`max${id[0].toUpperCase()}${id.substring(1)}`, max);
+
+    locSearchParams.set(`min${id}`, min);
+    locSearchParams.set(`max${id}`, max);
+
+    locSearchParams.sort();
+
+    router.push(`${pathname}?${locSearchParams}`);
+
+    const newUrl = `${pathname}?${locSearchParams}`;
+    setUrl(newUrl);
+    // return `${pathname}?${locSearchParams}`;
+  };
+
   const replaceAllFilters = (normalizedData) => {
     const updatedData2 = produce(normalizedData, (draftState) => {
       searchParams.forEach((optionId, categoryId) => {
@@ -106,6 +138,7 @@ const FiltersProvider = ({ children }) => {
     handleFilterChecked,
     replaceAllFilters,
     handleSort,
+    handleRange,
   };
 
   return (

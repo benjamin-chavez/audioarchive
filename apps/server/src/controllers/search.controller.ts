@@ -213,8 +213,10 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
     key: [],
     daw: [],
   };
+  console.log('params', req.query);
 
-  const { sortby, order, ...query } = req.query;
+  const { sortby, order, minPrice, maxPrice, minBpm, maxBpm, ...query } =
+    req.query;
 
   Object.entries(query).forEach(([key, val]) => {
     let category;
@@ -251,19 +253,59 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
 
   // GET FILTERED PRODUCTS
   const productQuery = knex
-    .select('id', 'name', 'genre_name', 'key', 'daw', 'price')
+    // .select('*')
+    .select(
+      'id',
+      'name',
+      'genre_name',
+      'key',
+      'daw',
+      'price',
+      'created_at',
+      'bpm'
+    )
     .from('products');
   // .whereNot('genre_name', null);
   applyFilters(productQuery, selectedFilters);
 
   const sortByString = req.query.sortby ? String(req.query.sortby) : 'name';
-
   const orderString = req.query.order ? String(req.query.order) : 'asc';
 
-  const filteredProducts = await productQuery.orderBy(
-    sortByString,
-    orderString
-  );
+  const minPriceNum =
+    req.query.minPrice && parseInt(String(req.query.minPrice)) >= 0
+      ? parseInt(String(req.query.minPrice))
+      : 0;
+  const maxPriceNum = req.query.maxPrice
+    ? parseInt(String(req.query.maxPrice))
+    : null;
+
+  const minBpmNum =
+    req.query.minBpm && parseInt(String(req.query.minBpm)) >= 0
+      ? parseInt(String(req.query.minBpm))
+      : 0;
+  const maxBpmNum = req.query.maxBpm
+    ? parseInt(String(req.query.maxBpm))
+    : null;
+
+  console.log('minPriceNum', minPriceNum);
+  console.log('maxPriceNum', maxPriceNum);
+  // const filteredProducts = await productQuery
+  //   .whereBetween('price', [minPriceNum, maxPriceNum])
+  //   .orderBy(sortByString, orderString);
+
+  const filteredProducts = await productQuery
+    .where('price', '>=', minPriceNum)
+    .modify(function (queryBuilder) {
+      if (maxPriceNum !== null) {
+        queryBuilder.where('price', '<=', maxPriceNum);
+      }
+    })
+    .modify(function (queryBuilder) {
+      if (maxBpmNum !== null) {
+        queryBuilder.where('bpm', '<=', maxBpmNum);
+      }
+    })
+    .orderBy(sortByString, orderString);
 
   // BUILD FILTERED GENRES QUERY
   const genresQuery = knex('products').distinct('genre_name');
@@ -286,17 +328,20 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
     dawsQuery.pluck('daw'),
   ]);
 
-  const bpmRange = ['0', '1000'];
+  const bpmRange = ['20', '999'];
+  const priceRange = ['0', 'Max Price'];
 
   const searchResults = {
     filters: {
       genres,
       bpmRange,
+      priceRange,
       tonalKeys,
       daws,
     },
     products: filteredProducts,
   };
 
+  console.log(JSON.stringify(filteredProducts, null, 2));
   res.status(200).json({ data: searchResults, message: 'Search Results' });
 });
