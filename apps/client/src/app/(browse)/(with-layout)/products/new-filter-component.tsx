@@ -138,22 +138,23 @@ function NewFilterComponent({
   async function fetchAndProcessData() {
     const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 
-    const res = await fetch(
-      `${BASE_URL}/search/test?${searchParams.toString()}`,
-    );
+    const res = await fetch(`${BASE_URL}/products?${searchParams.toString()}`);
 
     if (!res.ok) {
+      // console.log(res);
       throw new Error('Failed to fetch products');
     }
 
     const { data } = await res.json();
+    // console.log(data);
 
     if (!data) {
       setLoading(false);
       return;
     }
 
-    setProducts(data.products);
+    // setProducts(data.products);
+    setProducts(data);
     setLoading(false);
   }
 
@@ -201,7 +202,8 @@ function NewFilterComponent({
     return <div>Loading...</div>;
   }
 
-  if (!normalizedFilterData || !filters) {
+  // if (!normalizedFilterData || !filters) {
+  if (!normalizedFilterData) {
     return <div>No data available</div>;
   }
 

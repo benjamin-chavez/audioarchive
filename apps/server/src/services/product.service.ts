@@ -20,48 +20,133 @@ class ProductService {
   }
 
   static async getAllProductsWithUserDetails({
-    q,
+    // q,
+    // page,
+    // limit,
+    // sort,
+    // filters,
+    search,
+    sortBy,
+    order,
+    minPrice,
+    maxPrice,
+    minBpm,
+    maxBpm,
     page,
     limit,
-    sort,
     filters,
   }: {
-    q: any;
+    search: any;
+    sortBy: any;
+    order: any;
+    minPrice: any;
+    maxPrice: any;
+    minBpm: any;
+    maxBpm: any;
     page: any;
     limit: any;
-    sort: any;
     filters: any;
   }): Promise<any> {
+    const selectedFilters = {
+      genre_name: [],
+      key: [],
+      daw: [],
+    };
+
+    Object.entries(filters).forEach(([key, val]) => {
+      let category;
+
+      if (key === 'genres') {
+        category = 'genre_name';
+      } else if (key === 'daw') {
+        category = 'daw';
+      } else if (key === 'tonalKeys') {
+        category = 'key';
+      } else {
+        category = key;
+      }
+
+      if (Array.isArray(val)) {
+        selectedFilters[category].push(...val);
+      } else {
+        selectedFilters[category].push(val);
+      }
+    });
+
     let productQuery = ProductModel.createBaseQuery();
-    const processedFilters = processFilters(filters);
-    const processedSearchQuery = processSearchQuery(q);
-    const [sortBy, sortOrder] = processSort(sort);
-    const limitPerPage = processLimit(limit);
-    const offset = processOffset(page, limitPerPage);
+
+    // const processedFilters = processFilters(filters);
+    const processedSearchQuery = processSearchQuery(search);
+    // const [sortBy, sortOrder] = processSort(sort);
+    // const limitPerPage = processLimit(limit);
+    // const offset = processOffset(page, limitPerPage);
+
+    const sortByString = sortBy ? String(sortBy) : 'name';
+    const orderString = order ? String(order) : 'asc';
+
+    const minPriceNum =
+      minPrice && parseInt(String(minPrice)) >= 0
+        ? parseInt(String(minPrice))
+        : 0;
+    const maxPriceNum = maxPrice ? parseInt(String(maxPrice)) : null;
+
+    const minBpmNum =
+      minBpm && parseInt(String(minBpm)) >= 0 ? parseInt(String(minBpm)) : 0;
+    const maxBpmNum = maxBpm ? parseInt(String(maxBpm)) : null;
+
+    // const filteredProducts = await productQuery
+    //   .whereBetween('price', [minPriceNum, maxPriceNum])
+    //   .orderBy(sortByString, orderString);
+
+    const filteredProducts = await productQuery
+      .where('price', '>=', minPriceNum)
+      .modify(function (queryBuilder) {
+        if (maxPriceNum !== null) {
+          queryBuilder.where('price', '<=', maxPriceNum);
+        }
+      })
+      .modify(function (queryBuilder) {
+        if (maxBpmNum !== null) {
+          queryBuilder.where('bpm', '<=', maxBpmNum);
+        }
+      })
+      .orderBy(sortByString, orderString);
 
     let products = await ProductModel.fullTextSearch({
       productQuery,
       q: processedSearchQuery,
       sortBy,
-      sortOrder,
-      offset,
-      limitPerPage,
-      filters: processedFilters,
+      order,
+      minPriceNum,
+      maxPriceNum,
+      minBpmNum,
+      maxBpmNum,
+      sortByString,
+      orderString,
+      // offset,
+      // limitPerPage,
+      filters: selectedFilters,
     });
-    // let products;
+    // console.log('products-', products);
 
     if (!products.length) {
       console.log('fuzz');
-      const fuzzySearchQuery = processSearchQuery(q);
+      const fuzzySearchQuery = processSearchQuery(search);
 
       products = await ProductModel.fullTextSearch({
         productQuery,
         q: fuzzySearchQuery,
         sortBy,
-        sortOrder,
-        offset,
-        limitPerPage,
-        filters: processedFilters,
+        order,
+        minPriceNum,
+        maxPriceNum,
+        minBpmNum,
+        maxBpmNum,
+        sortByString,
+        orderString,
+        // offset,
+        // limitPerPage,
+        filters: selectedFilters,
         isFuzzy: true,
       });
     }
@@ -71,6 +156,8 @@ class ProductService {
 
     const productsWithSignedUrls =
       await S3Service.getSignedUrlsForProducts(products);
+
+    // console.log(JSON.stringify(productsWithSignedUrls, null, 2));
 
     return productsWithSignedUrls;
   }

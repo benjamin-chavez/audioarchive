@@ -6,6 +6,22 @@ import knex from '../config/database';
 class ProductModel {
   private static tableName = 'products';
 
+  // productQuery = knex
+  //   .select('*')
+  //   // .select(
+  //   //   'id',
+  //   //   'name',
+  //   //   'genre_name',
+  //   //   'key',
+  //   //   'daw',
+  //   //   'price',
+  //   //   'created_at',
+  //   //   'bpm'
+  //   // )
+  //   .from('products');
+  // // .whereNot('genre_name', null);
+  // applyFilters(productQuery, selectedFilters);
+
   static createBaseQuery() {
     // { filters }: { filters: any }
     return knex('products')
@@ -39,6 +55,25 @@ class ProductModel {
       productQuery = Array.isArray(val)
         ? productQuery.whereIn(key, val)
         : productQuery.where(key, '=', val);
+    });
+
+    return productQuery;
+  }
+
+  static applyFiltersNew(productQuery, filters) {
+    if (!filters) {
+      return productQuery;
+    }
+
+    Object.entries(filters).forEach(([filterKey, filterValues]) => {
+      // @ts-ignore
+      if (filterValues.length > 0) {
+        productQuery.whereIn(
+          knex.raw('LOWER(??)', [filterKey]),
+          // @ts-ignore
+          filterValues.map((value) => value.toLowerCase())
+        );
+      }
     });
 
     return productQuery;
@@ -87,7 +122,13 @@ class ProductModel {
     productQuery,
     q,
     sortBy,
-    sortOrder,
+    order,
+    minPriceNum,
+    maxPriceNum,
+    minBpmNum,
+    maxBpmNum,
+    sortByString,
+    orderString,
     offset,
     limitPerPage,
     filters,
@@ -96,20 +137,41 @@ class ProductModel {
     productQuery: any;
     q: any;
     sortBy: any;
-    sortOrder: any;
-    offset: any;
-    limitPerPage: any;
+    order: any;
+    minPriceNum: number;
+    maxPriceNum: number;
+    minBpmNum: number;
+    maxBpmNum: number;
+    sortByString: string;
+    orderString: string;
+    offset?: any;
+    limitPerPage?: any;
     filters: any;
     isFuzzy?: boolean;
   }) {
     productQuery = this.applySearchQuery(productQuery, q, isFuzzy);
-    productQuery = this.applyFilters(productQuery, filters);
+    // productQuery = this.applyFilters(productQuery, filters);
+    productQuery = this.applyFiltersNew(productQuery, filters);
 
-    if (sortBy && sortOrder) {
-      productQuery.orderBy(sortBy, sortOrder);
+    if (sortBy && order) {
+      productQuery.orderBy(sortBy, order);
     }
 
-    const products = await productQuery.offset(offset).limit(limitPerPage);
+    // const products = await productQuery; .offset(offset).limit(limitPerPage);
+
+    const products = await productQuery
+      .where('price', '>=', minPriceNum)
+      .modify(function (queryBuilder) {
+        if (maxPriceNum !== null) {
+          queryBuilder.where('price', '<=', maxPriceNum);
+        }
+      })
+      .modify(function (queryBuilder) {
+        if (maxBpmNum !== null) {
+          queryBuilder.where('bpm', '<=', maxBpmNum);
+        }
+      })
+      .orderBy(sortByString, orderString);
 
     return products;
   }

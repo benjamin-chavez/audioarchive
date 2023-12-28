@@ -63,15 +63,39 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
 
 export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
   async (req, res) => {
-    const { q, page, limit, sort, ...filters } = req.query;
-    // await ProductService.searchAndFilterProducts
-    const products = await ProductService.getAllProductsWithUserDetails({
-      q,
+    // const { search, page, limit, sort, ...filters } = req.query;
+    const {
+      search,
+      sortby,
+      order,
+      minPrice,
+      maxPrice,
+      minBpm,
+      maxBpm,
       page,
       limit,
-      sort,
+      ...filters
+      // ...query
+    } = req.query;
+
+    console.log('params', req.query);
+    // await ProductService.searchAndFilterProducts
+
+    // const products = {};
+    const products = await ProductService.getAllProductsWithUserDetails({
+      sortBy: sortby,
+      order,
+      minPrice,
+      maxPrice,
+      minBpm,
+      maxBpm,
+      page,
+      limit,
       filters,
+      search,
     });
+
+    // console.log(JSON.stringify(products, null, 2));
 
     res.status(200).json({
       // data: productsWithSignedUrls,

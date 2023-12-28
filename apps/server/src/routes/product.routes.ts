@@ -4,6 +4,7 @@ import express, { Router } from 'express';
 import * as productController from '../controllers/product.controller';
 import { checkJwt } from '../middleware/authMiddleware';
 import multer from 'multer';
+import { testQuery } from '../controllers/search.controller';
 
 // TODO: separate out multer middleware?
 const storage = multer.memoryStorage();
@@ -13,7 +14,7 @@ const upload = multer({ storage: storage }).fields([
 ]);
 
 const router: Router = express.Router();
-
+// router.get('/', testQuery);
 router.get('/', productController.getAllProductsWithUserDetails);
 router.get('/:id', productController.getProductById);
 

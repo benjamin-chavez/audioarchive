@@ -11,8 +11,8 @@ const router: Router = express.Router();
 // });
 
 router.get(
-  '/app-users/:query',
-  searchController.searchAppUsers
+  '/app-users/:query'
+  // searchController.searchAppUsers
   // router.get('/app-users/:query', (req, res) => {
   // const searchQuery = req.params.query;
   // console.log(searchQuery);
@@ -21,8 +21,8 @@ router.get(
   // }
 );
 
-router.get('/products/filter', searchController.filterProducts);
-router.get('/products/:query', searchController.searchProductsFuzzy);
+// router.get('/products/filter', searchController.filterProducts);
+// router.get('/products/:query', searchController.searchProductsFuzzy);
 
 router.get('/test', searchController.testQuery);
 
