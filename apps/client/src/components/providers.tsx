@@ -3,6 +3,7 @@
 'use client';
 
 import { CartProvider } from '@/contexts/cartContext';
+import FiltersProvider from '@/contexts/filter-context';
 // import { MeProvider } from '@/contexts/appUserContext';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -24,8 +25,10 @@ export default function Providers({
       <UserProvider>
         {/* <MeProvider> */}
         <CartProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-          {children}
+          <FiltersProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+            {children}
+          </FiltersProvider>
         </CartProvider>
         {/* </MeProvider> */}
       </UserProvider>

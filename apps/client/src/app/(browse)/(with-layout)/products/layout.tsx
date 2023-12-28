@@ -1,14 +1,14 @@
 // apps/client/src/app/(browse)/(with-layout)/products/layout.tsx
+import 'server-only';
 
-import { Filters } from './components/filters';
-import { FiltersCopy } from './components/filters-copy';
-import {
-  sortOptions,
-  filters,
-  filters1,
-  products,
-} from '../../(root)/products/config';
-import Link from 'next/link';
+// import { Filters } from './components/filters';
+// import { FiltersCopy } from './components/filters';
+import NewFilterComponent from './new-filter-component';
+
+import { modifyData } from '@/lib/normalize';
+import { normalize, schema } from 'normalizr';
+import { Suspense } from 'react';
+// import { FiltersContext } from '@/contexts/filters-context-old';
 
 function CategoryHeader() {
   return (
@@ -26,29 +26,52 @@ function CategoryHeader() {
     </div>
   );
 }
+const fetchData = async () => {
+  const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
+  const res = await fetch(`${BASE_URL}/search/test`);
 
-export default function ProductsLayout({
+  if (!res.ok) {
+    throw new Error('Failed to fetch initial Filter data');
+  }
+
+  const { data } = await res.json();
+
+  if (!data) {
+    return;
+  }
+
+  const modifiedData = modifyData(data.filters);
+  const option = new schema.Entity('options');
+  const category = new schema.Entity('categories', {
+    options: [option],
+  });
+
+  return normalize(modifiedData, [category]);
+};
+
+export default async function ProductsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const normalizedFilterData = await fetchData();
+
   return (
     <section className="bg-red-500">
       <div className="bg-gray-50">
-        <div>
-          <main>
-            <CategoryHeader />
+        <main>
+          <CategoryHeader />
 
-            {/* <FiltersCopy
+          {/* <FiltersCopy
               filters={filters1}
               sortOptions={sortOptions}
 
             /> */}
+          <NewFilterComponent normalizedFilterData={normalizedFilterData} />
 
-            <Filters filters={filters} sortOptions={sortOptions} />
-            {children}
-          </main>
-        </div>
+          {/* <Filters sortOptions={sortOptions} /> */}
+          {/* {children} */}
+        </main>
       </div>
     </section>
   );

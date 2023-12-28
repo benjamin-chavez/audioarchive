@@ -26,7 +26,7 @@ export default async function Page() {
       {/* Product grid */}
       <section
         aria-labelledby="products-heading"
-        className="mx-auto max-w-2xl px-4 pb-16 pt-12 sm:px-6 sm:pb-24 sm:pt-16 lg:max-w-7xl lg:px-8"
+        className="mx-auto max-w-2xl px-4 pb-16 pt-12 sm:px-6 sm:pb-24 sm:pt-16 lg:max-w-7xl lg:px-8 bg-red-500"
       >
         <h2 id="products-heading" className="sr-only">
           Products

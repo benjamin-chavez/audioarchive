@@ -12,3 +12,7 @@ export function generateRandomString(length: number) {
     Math.floor(Math.random() * 36).toString(36),
   ).join('');
 }
+
+export const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};

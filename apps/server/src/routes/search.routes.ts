@@ -24,4 +24,6 @@ router.get(
 router.get('/products/filter', searchController.filterProducts);
 router.get('/products/:query', searchController.searchProductsFuzzy);
 
+router.get('/test', searchController.testQuery);
+
 export default router;

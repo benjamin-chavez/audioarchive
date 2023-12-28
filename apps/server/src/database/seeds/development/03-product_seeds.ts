@@ -48,8 +48,7 @@
 //       appUserId: 3,
 //       accountId: 2,
 //       name: 'Dred 84',
-genre_id: 'Breaks / Breakbeat / UK Bass';
-import axios from 'axios';
+// genre_id: 'Breaks / Breakbeat / UK Bass';
 // genre_id: 'Breaks',
 // daw: 'Ableton',
 // daw: 'ableton'
@@ -150,6 +149,7 @@ import axios from 'axios';
 //     await knex(TABLE_NAME).insert({ ...seed });
 //   }
 // }
+import axios from 'axios';
 import fs from 'fs';
 import { Knex } from 'knex';
 import S3Service from '../../../services/s3.service';

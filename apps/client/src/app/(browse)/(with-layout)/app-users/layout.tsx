@@ -1,6 +1,6 @@
 // apps/client/src/app/(browse)/(with-layout)/products/layout.tsx
 
-import { filters, filters1, sortOptions } from '../../(root)/products/config';
+import { filters, filters1, sortOptions } from '../../../../lib/filters';
 import { Filters } from './components/filters';
 
 function CategoryHeader() {
