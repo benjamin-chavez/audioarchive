@@ -13,6 +13,7 @@ import {
   UserIcon,
   ShoppingCartIcon,
   XMarkIcon,
+  BellIcon,
 } from '@heroicons/react/24/outline';
 // import Toast from './ui/toast';
 // import { useMe } from '@/contexts/appUserContext';
@@ -260,11 +261,29 @@ export default function Navbar() {
                             />
                           </a>
                         </div>
-
-                        <div className="flex">
+                        <div className="hidden lg:flex ">
+                          <div className="p-2 -m-2">
+                            <button
+                              type="button"
+                              // className="-m-2 p-2 text-gray-400 hover:text-gray-500"
+                              className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 "
+                            >
+                              <span className="absolute -inset-1.5" />
+                              <span className="sr-only">
+                                View notifications
+                              </span>
+                              <BellIcon
+                                className="h-6 w-6"
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </div>
+                        </div>
+                        <div className="flex ">
                           <a
                             href="#"
                             className="-m-2 p-2 text-gray-400 hover:text-gray-500"
+                            // className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                           >
                             <span className="sr-only">Account</span>
                             <UserIcon className="h-6 w-6" aria-hidden="true" />

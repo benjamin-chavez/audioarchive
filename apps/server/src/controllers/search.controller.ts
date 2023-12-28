@@ -223,7 +223,7 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
 
     if (key === 'genres') {
       category = 'genre_name';
-    } else if (key === 'daws') {
+    } else if (key === 'daw') {
       category = 'daw';
     } else if (key === 'tonalKeys') {
       category = 'key';

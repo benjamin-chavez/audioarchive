@@ -108,7 +108,7 @@ export function Normalizr2() {
       <div>
         {Object.entries(filters).map(([category, filterItems]) => (
           <div key={category}>
-            {category.toUpperCase()}
+            {category}
 
             <div className="pl-5">
               {/* HERE */}

@@ -17,6 +17,10 @@ function classNames(...classes) {
 }
 
 function ProductSection({ products }: { products: any }) {
+  const searchParams = useSearchParams();
+  // /product-detail?referrer=/products?daw=Ableton
+
+  console.log(`/products/8?ref=${searchParams}`);
   return (
     <section
       aria-labelledby="products-heading"
@@ -29,25 +33,25 @@ function ProductSection({ products }: { products: any }) {
       <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
         <Suspense fallback={<p>loading products...</p>}>
           {products.map((product) => (
-            <>
-              <Link
-                key={product.id}
-                href={`/products/${product.id}`}
-                className="group"
-              >
-                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                  <img
-                    src={product.imgS3Url}
-                    alt={product.imgS3Url}
-                    className="h-full w-full object-cover object-center group-hover:opacity-75"
-                  />
-                </div>
-                <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
-                <p className="mt-1 text-lg font-medium text-gray-900">
-                  {product.price}
-                </p>
-              </Link>
-            </>
+            <Link
+              key={product.id}
+              href={`/products/${product.id}?ref=${encodeURIComponent(
+                `/products?${searchParams}`,
+              )}`}
+              className="group"
+            >
+              <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                <img
+                  src={product.imgS3Url}
+                  alt={product.imgS3Url}
+                  className="h-full w-full object-cover object-center group-hover:opacity-75"
+                />
+              </div>
+              <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
+              <p className="mt-1 text-lg font-medium text-gray-900">
+                {product.name}
+              </p>
+            </Link>
           ))}
         </Suspense>
       </div>
@@ -178,15 +182,21 @@ function NewFilterComponent({
     // return;
   };
 
-  // const handleFormSubmit = (e: React.FormEvent<HTMLElement>) => {
   const handleFormSubmit = (formData, categoryId) => {
-    // e.preventDefault();
-
     const minValue = formData.get('minValue');
     const maxValue = formData.get('maxValue');
     const id = capitalizeFirstLetter(categoryId.replace('Range', ''));
-
-    handleRange({ id, min: minValue, max: maxValue });
+    // /////////////////
+    //
+    //
+    // ///////////////////
+    // const handleFormSubmit = (e: React.FormEvent<HTMLElement>) => {
+    // e.preventDefault();
+    // const minValue = e.target;
+    // console.log('etarg', e.target);
+    // const maxValue = formData.get('maxValue');
+    // const id = capitalizeFirstLetter(categoryId.replace('Range', ''));
+    // handleRange({ id, min: minValue, max: maxValue });
   };
 
   if (loading) {
@@ -203,10 +213,10 @@ function NewFilterComponent({
     <div className="text-black">
       <>
         {/* <MobileFilterMenu
-        filters={filters}
-        mobileFiltersOpen={mobileFiltersOpen}
-        setMobileFiltersOpen={setMobileFiltersOpen}
-      /> */}
+          filters={filters}
+          mobileFiltersOpen={mobileFiltersOpen}
+          setMobileFiltersOpen={setMobileFiltersOpen}
+        /> */}
         {/* Filters */}
         <section aria-labelledby="filter-heading">
           <h2 id="filter-heading" className="sr-only">
@@ -219,7 +229,7 @@ function NewFilterComponent({
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                    Sort
+                    Sort by: {selectedSortOption.name}
                     <ChevronDownIcon
                       className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
@@ -239,7 +249,10 @@ function NewFilterComponent({
                   <Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                       {sortOptions.allIds.map((optionId) => (
-                        <Menu.Item key={optionId}>
+                        <Menu.Item
+                          key={optionId}
+                          // key={`${optionId}${sortOptions.byId[optionId].order}`}
+                        >
                           {({ active }) => (
                             <div
                               // href={option.href}
@@ -251,9 +264,11 @@ function NewFilterComponent({
                                 active ? 'bg-gray-100' : '',
                                 'block px-4 py-2 text-sm cursor-pointer',
                               )}
-                              // onClick={() => handleSortParam(option)}
+                              onClick={(e) =>
+                                handleSortBy(e, sortOptions.byId[optionId])
+                              }
                             >
-                              {option.name}
+                              {sortOptions.byId[optionId].name}
                             </div>
                           )}
                         </Menu.Item>
@@ -325,7 +340,11 @@ function NewFilterComponent({
                                             ].name.toLowerCase()}
                                           </div>
                                           <div className="text-black">
-                                            {/* <form action={handleFormSubmit}> */}
+                                            {/* <form
+                                              onSubmit={(e) =>
+                                                handleFormSubmit(e)
+                                              }
+                                            > */}
                                             <form
                                               action={(formData) =>
                                                 handleFormSubmit(
@@ -397,7 +416,8 @@ function NewFilterComponent({
                                                   </Checkbox> */}
 
                                             <div
-                                              key={optionId}
+                                              // key={optionId}
+                                              key={`${categoryId}-${optionId}`}
                                               // className="pl-5"
                                             >
                                               <input

@@ -39,11 +39,12 @@ let data = {
     //   max: 1000,
     // },
     bpmRange: ['0', '1000'],
-    daws: ['Ableton', 'Bitwig', 'FL_Studio', 'Logic'],
+    daw: ['Ableton', 'Bitwig', 'FL_Studio', 'Logic'],
   },
 };
 
 export const modifyData = (dataFilters) => {
+  // TODO: FORMAT CATEGORY NAMES HERE
   // console.log('dataFilters.filters:', dataFilters.filters);
   if (dataFilters) {
     const modifiedData = Object.keys(dataFilters).map((key) => {

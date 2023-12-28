@@ -13,6 +13,7 @@ import { faqs, license, product2, reviews } from './temp-data';
 import { MAX_CART_ITEM_QUANTITY } from '@shared';
 import { Button } from 'ui';
 import { CURRENCY, formatAmountForDisplay } from '@/lib/cart-calculations';
+import { useRouter, useSearchParams } from 'next/navigation';
 // import { revalidateCart2 } from '../../cart/page';
 
 // @ts-ignore
@@ -120,6 +121,11 @@ export async function handleAddToCart({
   }
 }
 
+function getBackLink() {
+  // Default to just '/products' if conditions are not met
+  return '/products';
+}
+
 export default function PageClient({
   product,
   revalidateCart,
@@ -127,6 +133,10 @@ export default function PageClient({
   product: ProductWithAppUser | any;
   revalidateCart: () => Promise<void>;
 }) {
+  const searchParams = useSearchParams();
+  const customReferrer = searchParams.get('ref');
+  // const customReferrer = searchParams.toString();
+  // console.log('customReferrer', `${searchParams}`);
   const { cartItems, storeCart } = useCart();
   const { user } = useUser();
 
@@ -144,13 +154,14 @@ export default function PageClient({
           className="flex flex-row w-full justify-between"
         >
           <Link
-            href="/products"
+            href={
+              customReferrer ? decodeURIComponent(customReferrer) : '/products'
+            }
             // py-1
             className="bg-blue-500  px-4 "
           >
             Back to Products
           </Link>
-
           {isProductSeller && (
             // TODO: Refactor after you write the Button Component
             <Button className="bg-blue-500  px-4 ">
@@ -191,7 +202,19 @@ export default function PageClient({
                   </Link>
                 </p>
                 <p className="mt-2 text-sm text-gray-500">
-                  {product.daw} | {product.genre}
+                  <Link
+                    className="hover:text-blue-500"
+                    href={`/products?daw=${product.daw}`}
+                  >
+                    {product.daw}
+                  </Link>{' '}
+                  |{' '}
+                  <Link
+                    className="hover:text-blue-500"
+                    href={`/products?genres=${product.genreName}`}
+                  >
+                    {product.genreName}
+                  </Link>{' '}
                 </p>
               </div>
 
