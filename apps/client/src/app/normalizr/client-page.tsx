@@ -191,6 +191,8 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
     handleRange,
   } = useContext(FiltersContext);
 
+  console.log(JSON.stringify(filters.result, null, 2));
+
   async function fetchAndProcessData() {
     const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 
@@ -264,78 +266,75 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
     return <div>No data available</div>;
   }
 
+  const categories = filters.entities.categories;
+
   return (
     <Container>
       <h1>Normalizr CLIENT Page</h1>
 
       <div className="mt-20 bg-slate-800">
         <div>
-          {Object.entries(filters?.entities?.categories).map(
-            ([categoryId, category]) => (
-              <div key={categoryId}>
-                <div>{category.name}</div>
-                {categoryId.toLowerCase().includes('range') ? (
-                  <div className="text-black">
-                    {/* <form action={handleFormSubmit}> */}
-                    <form
-                      action={(formData) =>
-                        handleFormSubmit(formData, categoryId)
+          {filters?.result?.map((categoryId) => (
+            <div key={categoryId}>
+              <div>{categories[categoryId].name}</div>
+              {categoryId.toLowerCase().includes('range') ? (
+                <div className="text-black">
+                  {/* <form action={handleFormSubmit}> */}
+                  <form
+                    action={(formData) =>
+                      handleFormSubmit(formData, categoryId)
+                    }
+                  >
+                    <input
+                      name="minValue"
+                      type="number"
+                      defaultValue={
+                        categoryId.includes('price')
+                          ? selectedPriceMin
+                          : selectedBpmMin
                       }
-                    >
-                      <input
-                        name="minValue"
-                        type="number"
-                        defaultValue={
-                          categoryId.includes('price')
-                            ? selectedPriceMin
-                            : selectedBpmMin
-                        }
-                        data-input-counter
-                        data-input-counter-min="1"
-                        placeholder={category.options[0]}
-                        className="w-20"
-                      />
-                      <input
-                        defaultValue={
-                          categoryId.includes('price')
-                            ? selectedPriceMax
-                            : selectedBpmMax
-                        }
-                        name="maxValue"
-                        type="number"
-                        placeholder={category.options[1]}
-                        className="w-20"
-                      />
-                      <button type="submit">Apply</button>
-                    </form>
-                  </div>
-                ) : (
-                  <div>
-                    {category.options.map((optionId) => {
-                      return (
-                        <div key={optionId} className="pl-5">
-                          <input
-                            type="checkbox"
-                            id={optionId}
-                            checked={
-                              filters.entities.options[optionId]?.checked ||
-                              false
-                            }
-                            onChange={(e) =>
-                              handleClick(e, categoryId, optionId)
-                            }
-                          />
-                          <label htmlFor={optionId} className="pl-2">
-                            {filters.entities.options[optionId]?.label}
-                          </label>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            ),
-          )}
+                      data-input-counter
+                      data-input-counter-min="1"
+                      placeholder={categories[categoryId].options[0]}
+                      className="w-20"
+                    />
+                    <input
+                      defaultValue={
+                        categoryId.includes('price')
+                          ? selectedPriceMax
+                          : selectedBpmMax
+                      }
+                      name="maxValue"
+                      type="number"
+                      placeholder={categories[categoryId].options[1]}
+                      className="w-20"
+                    />
+                    <button type="submit">Apply</button>
+                  </form>
+                </div>
+              ) : (
+                <div>
+                  {categories[categoryId].options.map((optionId) => {
+                    return (
+                      <div key={optionId} className="pl-5">
+                        <input
+                          type="checkbox"
+                          id={optionId}
+                          checked={
+                            filters.entities.options[optionId]?.checked || false
+                          }
+                          onChange={(e) => handleClick(e, categoryId, optionId)}
+                        />
+                        <label htmlFor={optionId} className="pl-2">
+                          {filters.entities.options[optionId]?.label}
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </div>
       <Dropdown
