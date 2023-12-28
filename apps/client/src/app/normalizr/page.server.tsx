@@ -1,6 +1,6 @@
 import Container from '@/components/container';
 import { normalize, schema } from 'normalizr';
-import ClientPage from './page.client';
+import ClientPage from './client-page';
 
 async function getData() {
   const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;

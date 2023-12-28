@@ -43,6 +43,34 @@ let data = {
   },
 };
 
+export const modifyData = (dataFilters) => {
+  // console.log('dataFilters.filters:', dataFilters.filters);
+  if (dataFilters) {
+    const modifiedData = Object.keys(dataFilters).map((key) => {
+      return {
+        id: key,
+        name: key.toUpperCase(),
+        options: dataFilters[key]?.map((option) => {
+          if (option === null) {
+            return {
+              id: null,
+              label: 'Other',
+              checked: false,
+            };
+          }
+          return {
+            id: option.toLowerCase(),
+            label: option.toUpperCase().replace('_', ' '),
+            checked: false,
+          };
+        }),
+      };
+    });
+
+    return modifiedData;
+  }
+};
+
 export const newCategoriesData_OPTION1 = Object.keys(data.filters)
   .filter((key) => Array.isArray(data.filters[key]))
   .map((key) => {
