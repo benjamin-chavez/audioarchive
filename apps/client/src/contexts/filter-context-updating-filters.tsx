@@ -14,10 +14,9 @@ type FiltersState = {
   toggleOption: any;
   handleFilterChecked: any;
   replaceAllFilters: any;
-  handleSort: any;
 };
 
-export const FiltersContext = createContext({} as FiltersState);
+export const FiltersContextUpdatingFilters = createContext({} as FiltersState);
 
 const FiltersProvider = ({ children }) => {
   const pathname = usePathname();
@@ -65,22 +64,6 @@ const FiltersProvider = ({ children }) => {
     setUrl(newUrl);
   };
 
-  const handleSort = ({ sortby, order }: { sortby: string; order: string }) => {
-    const locSearchParams: URLSearchParams = new URLSearchParams(
-      searchParams as unknown as string,
-    );
-
-    locSearchParams.set('sortby', sortby);
-    locSearchParams.set('order', order);
-    locSearchParams.sort();
-
-    router.push(`${pathname}?${locSearchParams}`);
-
-    const newUrl = `${pathname}?${locSearchParams}`;
-    setUrl(newUrl);
-    // return `${pathname}?${locSearchParams}`;
-  };
-
   const replaceAllFilters = (normalizedData) => {
     const updatedData2 = produce(normalizedData, (draftState) => {
       searchParams.forEach((optionId, categoryId) => {
@@ -105,11 +88,12 @@ const FiltersProvider = ({ children }) => {
     toggleOption,
     handleFilterChecked,
     replaceAllFilters,
-    handleSort,
   };
 
   return (
-    <FiltersContext.Provider value={value}>{children}</FiltersContext.Provider>
+    <FiltersContextUpdatingFilters.Provider value={value}>
+      {children}
+    </FiltersContextUpdatingFilters.Provider>
   );
 };
 

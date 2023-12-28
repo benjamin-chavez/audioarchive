@@ -213,8 +213,15 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
     key: [],
     daw: [],
   };
-  Object.entries(req.query).forEach(([key, val]) => {
+
+  // @ts-ignore
+  const { sortby, order, ...query } = req.query;
+  console.log('params', query);
+  // params { genres: 'bass house', sortby: 'Alphabetical' }
+
+  Object.entries(query).forEach(([key, val]) => {
     let category;
+
     if (key === 'genres') {
       category = 'genre_name';
     } else if (key === 'daws') {
@@ -225,13 +232,12 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
       category = key;
     }
 
-    selectedFilters.hasOwnProperty(category)
-      ? selectedFilters[category].push(val)
-      : (selectedFilters[category] = val);
-    // return key;
+    if (Array.isArray(val)) {
+      selectedFilters[category].push(...val);
+    } else {
+      selectedFilters[category].push(val);
+    }
   });
-
-  console.log('params', selectedFilters);
 
   function applyFilters(query, filters) {
     Object.entries(filters).forEach(([filterKey, filterValues]) => {
@@ -247,13 +253,21 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
     });
   }
 
+  // function applySorting(query, sortby) {
+  //   let sortDirection;
+  //   let sortColu;
+
+  //   if
+  // }
+
   // GET FILTERED PRODUCTS
   const productQuery = knex
     .select('id', 'name', 'genre_name', 'key', 'daw')
     .from('products');
   // .whereNot('genre_name', null);
   applyFilters(productQuery, selectedFilters);
-  const filteredProducts = await productQuery;
+  // applySorting(productQuery, sortby);
+  const filteredProducts = await productQuery.orderBy('name', 'asc');
 
   console.log(JSON.stringify(filteredProducts, null, 2));
 
@@ -290,6 +304,5 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
     products: filteredProducts,
   };
 
-  // console.log(JSON.stringify(searchResults, null, 2));
   res.status(200).json({ data: searchResults, message: 'Search Results' });
 });

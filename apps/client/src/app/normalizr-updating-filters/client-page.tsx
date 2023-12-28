@@ -3,7 +3,7 @@
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { FiltersContext } from '@/contexts/filter-context';
+import { FiltersContextUpdatingFilters } from '@/contexts/filter-context-updating-filters';
 import { useContext, useEffect, useState } from 'react';
 import { normalize, schema } from 'normalizr';
 import { modifyData } from '@/lib/normalize';
@@ -11,13 +11,12 @@ import Container from '@/components/container';
 import { useSearchParams } from 'next/navigation';
 
 const sortOptions = [
-  { id: 'alphabetical', order: 'asc', name: 'Alphabetical', active: false },
+  { id: 'alphabetical', name: 'Alphabetical', actie: false },
   {
-    id: 'alphabetical',
-    order: 'desc',
+    id: 'alphabetical__desc',
     name: 'Alphabetical Descending',
     href: '#',
-    active: false,
+    actie: false,
   },
   // { name: 'Most Popular', href: '#', current: true },
   // { name: 'Best Rating', href: '#', current: false },
@@ -84,23 +83,19 @@ function Dropdown({
   );
 }
 
-function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
+function ClientPage() {
+  const [normalizedData, setNormalizedData] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const {
-    filters,
-    setFilters,
-    handleFilterChecked,
-    replaceAllFilters,
-    url,
-    handleSort,
-  } = useContext(FiltersContext);
+  const { filters, setFilters, handleFilterChecked, replaceAllFilters, url } =
+    useContext(FiltersContextUpdatingFilters);
   const searchParams = useSearchParams();
 
   const [sortBy, setSortBy] = useState('alphabetical');
 
   async function fetchAndProcessData() {
     const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
+    // console.log(`searchParams: ${searchParams}`);
     const res = await fetch(`${BASE_URL}/search/test?${searchParams}`);
 
     if (!res.ok) {
@@ -123,16 +118,23 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
     });
 
     setProducts(data.products);
+    setNormalizedData(normalize(modifiedData, [category]));
     setLoading(false);
   }
+
+  // useEffect(() => {
+  //   fetchAndProcessData();
+  // }, []);
 
   useEffect(() => {
     fetchAndProcessData();
   }, [searchParams]);
 
   useEffect(() => {
-    replaceAllFilters(normalizedFilterData);
-  }, []);
+    if (normalizedData) {
+      replaceAllFilters(normalizedData);
+    }
+  }, [normalizedData]);
 
   const handleClick = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -142,13 +144,13 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
     const isChecked = event.target.checked;
 
     handleFilterChecked(categoryId, optionId, isChecked);
+    // setLoading(true);
+    // fetchAndProcessData();
   };
 
   const handleSortBy = (e, option) => {
     console.log(option);
-    const data = { sortby: option.name, order: option.order };
-
-    handleSort({ sortby: option.name, order: option.order });
+    handleFilterChecked('sortby', option.name, true);
     return;
   };
 
@@ -156,7 +158,7 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
     return <div>Loading...</div>; // Or any loading indicator
   }
 
-  if (!normalizedFilterData || !filters) {
+  if (!normalizedData || !filters) {
     return <div>No data available</div>;
   }
 
@@ -209,7 +211,7 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
           )}
         </div>
       </div>
-      <Dropdown handleSortBy={handleSortBy} />
+      {/* <Dropdown handleSortBy={handleSortBy} /> */}
       <div>
         {products?.map((product) => <div key={product.id}>{product.name}</div>)}
       </div>
