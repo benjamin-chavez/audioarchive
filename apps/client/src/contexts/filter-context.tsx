@@ -1,24 +1,73 @@
 // apps/client/src/contexts/filter-context.tsx
 
 import { normalizedData_OPTION1 } from '@/lib/normalize';
-import { createContext, useMemo, useState } from 'react';
 import { produce } from 'immer';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { createContext, useState } from 'react';
 // import { useImmer } from 'use-immer';
 
 type FiltersState = {
   filters: any;
-  url: string;
-  setUrl: any;
-  setFilters: any;
   toggleOption: any;
   handleFilterChecked: any;
   replaceAllFilters: any;
   handleSort: any;
-  handleRange: any;
+  handleRange: (rangeDetails: { id: string; min: string; max: string }) => void;
+  selectedSortOption: any;
+  setSelectedSortOption: any;
+  selectedPriceMin: string | null;
+
+  selectedPriceMax: string | null;
+
+  selectedBpmMin: string | null;
+
+  selectedBpmMax: string | null;
 };
 
 export const FiltersContext = createContext({} as FiltersState);
+
+export const sortOptions = {
+  byId: {
+    featured__desc: {
+      id: 'featured',
+      order: 'desc',
+      name: 'Featured',
+    },
+    price__asc: {
+      id: 'price',
+      order: 'asc',
+      name: 'Price: Low to High',
+    },
+    price__desc: {
+      id: 'price',
+      order: 'desc',
+      name: 'Price: High to Low',
+    },
+    rating__desc: {
+      id: 'rating',
+      order: 'desc',
+      name: 'Avg. Customer Review',
+    },
+    date__desc: {
+      id: 'date',
+      order: 'desc',
+      name: 'Newest Arrivals',
+    },
+    sales__desc: {
+      id: 'sales',
+      order: 'desc',
+      name: 'Best Sellers',
+    },
+  },
+  allIds: [
+    'featured__desc',
+    'price__asc',
+    'price__desc',
+    'rating__desc',
+    'date__desc',
+    'sales__desc',
+  ],
+};
 
 const FiltersProvider = ({ children }) => {
   const pathname = usePathname();
@@ -26,6 +75,25 @@ const FiltersProvider = ({ children }) => {
   const router = useRouter();
   const [url, setUrl] = useState(`${pathname}?${searchParams}`);
   const [filters, setFilters] = useState(normalizedData_OPTION1);
+  const [selectedSortOption, setSelectedSortOption] = useState(
+    sortOptions.byId[
+      `${searchParams.get('sortby')}__${searchParams.get('order')}`
+    ] || sortOptions.byId['featured__desc'],
+  );
+
+  const [selectedPriceMax, setSelectedPriceMax] = useState(
+    `${searchParams.get('maxPrice')}` || null,
+  );
+  const [selectedPriceMin, setSelectedPriceMin] = useState(
+    `${searchParams.get('minPrice')}` || null,
+  );
+
+  const [selectedBpmMin, setSelectedBpmMin] = useState(
+    searchParams.get('minBpm') || null,
+  );
+  const [selectedBpmMax, setSelectedBpmMax] = useState(
+    searchParams.get('maxBpm') || null,
+  );
 
   const toggleOption = (categoryId, optionId) => {
     setFilters((currentFilters) =>
@@ -131,14 +199,17 @@ const FiltersProvider = ({ children }) => {
 
   const value = {
     filters,
-    url,
-    setUrl,
-    setFilters,
     toggleOption,
     handleFilterChecked,
     replaceAllFilters,
     handleSort,
     handleRange,
+    selectedSortOption,
+    setSelectedSortOption,
+    selectedPriceMin,
+    selectedPriceMax,
+    selectedBpmMin,
+    selectedBpmMax,
   };
 
   return (

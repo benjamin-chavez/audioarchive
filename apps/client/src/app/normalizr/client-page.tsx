@@ -1,101 +1,13 @@
 // apps/client/src/app/normalizr/client-page.tsx
 'use client';
 
-import { Fragment } from 'react';
+import Container from '@/components/container';
+import { FiltersContext, sortOptions } from '@/contexts/filter-context';
+import { capitalizeFirstLetter } from '@/lib/utils';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { FiltersContext } from '@/contexts/filter-context';
-import { useContext, useEffect, useState } from 'react';
-import { normalize, schema } from 'normalizr';
-import { modifyData } from '@/lib/normalize';
-import Container from '@/components/container';
 import { useSearchParams } from 'next/navigation';
-import { capitalizeFirstLetter } from '@/lib/utils';
-
-const sortOptions_old = [
-  {
-    id: 'featured',
-    order: 'desc',
-    name: 'Featured',
-  },
-  {
-    id: 'price',
-    order: 'asc',
-    name: 'Price: Low to High',
-  },
-  {
-    id: 'price',
-    order: 'desc',
-    name: 'Price: High to Low',
-  },
-  {
-    id: 'rating',
-    order: 'desc',
-    name: 'Avg. Customer Review',
-  },
-  // {
-  //   id: 'rating',
-  //   order: 'desc',
-  //   name: 'Rating',
-  // },
-  { id: 'date', order: 'desc', name: 'Newest Arrivals' },
-  {
-    id: 'sales',
-    order: 'desc',
-    name: 'Best Sellers',
-  },
-
-  // { id: 'date', order: 'asc', name: 'Oldest' },
-  // { id: 'name', order: 'asc', name: 'Alphabetical A to Z', active: false },
-  // {
-  //   id: 'name',
-  //   order: 'desc',
-  //   name: 'Alphabetical Z to A',
-  // },
-];
-
-const sortOptions = {
-  byId: {
-    featured__desc: {
-      id: 'featured',
-      order: 'desc',
-      name: 'Featured',
-    },
-    price__asc: {
-      id: 'price',
-      order: 'asc',
-      name: 'Price: Low to High',
-    },
-    price__desc: {
-      id: 'price',
-      order: 'desc',
-      name: 'Price: High to Low',
-    },
-    rating__desc: {
-      id: 'rating',
-      order: 'desc',
-      name: 'Avg. Customer Review',
-    },
-    date__desc: {
-      id: 'date',
-      order: 'desc',
-      name: 'Newest Arrivals',
-    },
-    sales__desc: {
-      id: 'sales',
-      order: 'desc',
-      name: 'Best Sellers',
-    },
-  },
-  allIds: [
-    'featured__desc',
-    'price__asc',
-    'price__desc',
-    'rating__desc',
-    'date__desc',
-    'sales__desc',
-  ],
-};
+import { Fragment, useContext, useEffect, useState } from 'react';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -104,11 +16,9 @@ function classNames(...classes) {
 function Dropdown({
   handleSortBy,
   selectedSortOption,
-  setSelectedSortOption,
 }: {
   handleSortBy: any;
   selectedSortOption: any;
-  setSelectedSortOption: any;
 }) {
   return (
     <Menu as="div" className="ml-40 relative inline-block text-left">
@@ -160,38 +70,20 @@ function Dropdown({
 function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
   const searchParams = useSearchParams();
   const [products, setProducts] = useState([]);
-  const [selectedSortOption, setSelectedSortOption] = useState(
-    sortOptions.byId[
-      `${searchParams.get('sortby')}__${searchParams.get('order')}`
-    ] || sortOptions.byId['featured__desc'],
-  );
-
-  const [selectedPriceMax, setSelectedPriceMax] = useState(
-    `${searchParams.get('maxPrice')}` || null,
-  );
-  const [selectedPriceMin, setSelectedPriceMin] = useState(
-    `${searchParams.get('minPrice')}` || null,
-  );
-
-  const [selectedBpmMin, setSelectedBpmMin] = useState(
-    searchParams.get('minBpm') || null,
-  );
-  const [selectedBpmMax, setSelectedBpmMax] = useState(
-    searchParams.get('maxBpm') || null,
-  );
-
   const [loading, setLoading] = useState(true);
   const {
     filters,
-    setFilters,
     handleFilterChecked,
     replaceAllFilters,
-    url,
     handleSort,
     handleRange,
+    selectedSortOption,
+    setSelectedSortOption,
+    selectedPriceMin,
+    selectedPriceMax,
+    selectedBpmMin,
+    selectedBpmMax,
   } = useContext(FiltersContext);
-
-  console.log(JSON.stringify(filters.result, null, 2));
 
   async function fetchAndProcessData() {
     const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
@@ -201,7 +93,6 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
     );
 
     if (!res.ok) {
-      // Handle error appropriately
       throw new Error('Failed to fetch products');
     }
 
@@ -211,13 +102,6 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
       setLoading(false);
       return;
     }
-
-    const modifiedData = modifyData(data.filters);
-    // const bpmRangeEntity = new schema.Entity('bpmRange');
-    const option = new schema.Entity('options');
-    const category = new schema.Entity('categories', {
-      options: [option],
-    });
 
     setProducts(data.products);
     setLoading(false);
@@ -242,24 +126,23 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
 
   const handleSortBy = (e, option) => {
     setSelectedSortOption(option);
-
     handleSort({ sortby: option.id, order: option.order });
-    return;
+    // return;
   };
 
   // const handleFormSubmit = (e: React.FormEvent<HTMLElement>) => {
   const handleFormSubmit = (formData, categoryId) => {
     // e.preventDefault();
 
-    const minValue = formData.get('minValue'); // || null;
-    const maxValue = formData.get('maxValue'); // || null;
+    const minValue = formData.get('minValue');
+    const maxValue = formData.get('maxValue');
     const id = capitalizeFirstLetter(categoryId.replace('Range', ''));
 
     handleRange({ id, min: minValue, max: maxValue });
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Or any loading indicator
+    return <div>Loading...</div>;
   }
 
   if (!normalizedFilterData || !filters) {
@@ -340,6 +223,7 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
       <Dropdown
         handleSortBy={handleSortBy}
         selectedSortOption={selectedSortOption}
+        // @ts-ignore
         setSelectedSortOption={setSelectedSortOption}
       />
       <div>
