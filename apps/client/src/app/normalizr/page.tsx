@@ -10,7 +10,6 @@ const fetchData = async () => {
   const res = await fetch(`${BASE_URL}/search/test`);
 
   if (!res.ok) {
-    // Handle error appropriately
     throw new Error('Failed to fetch initial Filter data');
   }
 
@@ -21,14 +20,12 @@ const fetchData = async () => {
   }
 
   const modifiedData = modifyData(data.filters);
-  // const bpmRangeEntity = new schema.Entity('bpmRange');
   const option = new schema.Entity('options');
   const category = new schema.Entity('categories', {
     options: [option],
   });
 
-  const normalizedData = normalize(modifiedData, [category]);
-  return normalizedData;
+  return normalize(modifiedData, [category]);
 };
 
 async function page() {

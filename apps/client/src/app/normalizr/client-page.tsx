@@ -159,44 +159,47 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
         <div>
           {filters?.result?.map((categoryId) => (
             <div key={categoryId}>
-              <div>{categories[categoryId].name}</div>
               {categoryId.toLowerCase().includes('range') ? (
-                <div className="text-black">
-                  {/* <form action={handleFormSubmit}> */}
-                  <form
-                    action={(formData) =>
-                      handleFormSubmit(formData, categoryId)
-                    }
-                  >
-                    <input
-                      name="minValue"
-                      type="number"
-                      defaultValue={
-                        categoryId.includes('price')
-                          ? selectedPriceMin
-                          : selectedBpmMin
+                <>
+                  <div>{categories[categoryId].name}</div>
+                  <div className="text-black">
+                    {/* <form action={handleFormSubmit}> */}
+                    <form
+                      action={(formData) =>
+                        handleFormSubmit(formData, categoryId)
                       }
-                      data-input-counter
-                      data-input-counter-min="1"
-                      placeholder={categories[categoryId].options[0]}
-                      className="w-20"
-                    />
-                    <input
-                      defaultValue={
-                        categoryId.includes('price')
-                          ? selectedPriceMax
-                          : selectedBpmMax
-                      }
-                      name="maxValue"
-                      type="number"
-                      placeholder={categories[categoryId].options[1]}
-                      className="w-20"
-                    />
-                    <button type="submit">Apply</button>
-                  </form>
-                </div>
+                    >
+                      <input
+                        name="minValue"
+                        type="number"
+                        defaultValue={
+                          categoryId.includes('price')
+                            ? selectedPriceMin
+                            : selectedBpmMin
+                        }
+                        data-input-counter
+                        data-input-counter-min="1"
+                        placeholder={categories[categoryId].options[0]}
+                        className="w-20"
+                      />
+                      <input
+                        defaultValue={
+                          categoryId.includes('price')
+                            ? selectedPriceMax
+                            : selectedBpmMax
+                        }
+                        name="maxValue"
+                        type="number"
+                        placeholder={categories[categoryId].options[1]}
+                        className="w-20"
+                      />
+                      <button type="submit">Apply</button>
+                    </form>
+                  </div>
+                </>
               ) : (
                 <div>
+                  <div>{categories[categoryId].name}</div>
                   {categories[categoryId].options.map((optionId) => {
                     return (
                       <div key={optionId} className="pl-5">

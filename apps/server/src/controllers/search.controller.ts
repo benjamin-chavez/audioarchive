@@ -253,17 +253,17 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
 
   // GET FILTERED PRODUCTS
   const productQuery = knex
-    // .select('*')
-    .select(
-      'id',
-      'name',
-      'genre_name',
-      'key',
-      'daw',
-      'price',
-      'created_at',
-      'bpm'
-    )
+    .select('*')
+    // .select(
+    //   'id',
+    //   'name',
+    //   'genre_name',
+    //   'key',
+    //   'daw',
+    //   'price',
+    //   'created_at',
+    //   'bpm'
+    // )
     .from('products');
   // .whereNot('genre_name', null);
   applyFilters(productQuery, selectedFilters);
@@ -287,8 +287,6 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
     ? parseInt(String(req.query.maxBpm))
     : null;
 
-  console.log('minPriceNum', minPriceNum);
-  console.log('maxPriceNum', maxPriceNum);
   // const filteredProducts = await productQuery
   //   .whereBetween('price', [minPriceNum, maxPriceNum])
   //   .orderBy(sortByString, orderString);
@@ -331,6 +329,9 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
   const bpmRange = ['20', '999'];
   const priceRange = ['0', 'Max Price'];
 
+  const productsWithSignedUrls =
+    await S3Service.getSignedUrlsForProducts(filteredProducts);
+
   const searchResults = {
     filters: {
       genres,
@@ -339,9 +340,9 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
       tonalKeys,
       daws,
     },
-    products: filteredProducts,
+    products: productsWithSignedUrls,
   };
 
-  console.log(JSON.stringify(filteredProducts, null, 2));
+  // console.log(JSON.stringify(productsWithSignedUrls, null, 2));
   res.status(200).json({ data: searchResults, message: 'Search Results' });
 });
