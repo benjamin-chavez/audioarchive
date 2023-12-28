@@ -11,19 +11,45 @@ import Container from '@/components/container';
 import { useSearchParams } from 'next/navigation';
 
 const sortOptions = [
-  { id: 'alphabetical', order: 'asc', name: 'Alphabetical', active: false },
   {
-    id: 'alphabetical',
+    id: 'featured',
     order: 'desc',
-    name: 'Alphabetical Descending',
-    href: '#',
-    active: false,
+    name: 'Featured',
   },
-  // { name: 'Most Popular', href: '#', current: true },
-  // { name: 'Best Rating', href: '#', current: false },
-  // { name: 'Newest', href: '#', current: false },
-  // { name: 'Price: Low to High', href: '#', current: false },
-  // { name: 'Price: High to Low', href: '#', current: false },
+  {
+    id: 'price',
+    order: 'asc',
+    name: 'Price: Low to High',
+  },
+  {
+    id: 'price',
+    order: 'desc',
+    name: 'Price: High to Low',
+  },
+  {
+    id: 'rating',
+    order: 'desc',
+    name: 'Avg. Customer Review',
+  },
+  // {
+  //   id: 'rating',
+  //   order: 'desc',
+  //   name: 'Rating',
+  // },
+  { id: 'date', order: 'desc', name: 'Newest Arrivals' },
+  {
+    id: 'sales',
+    order: 'desc',
+    name: 'Best Sellers',
+  },
+
+  // { id: 'date', order: 'asc', name: 'Oldest' },
+  // { id: 'name', order: 'asc', name: 'Alphabetical A to Z', active: false },
+  // {
+  //   id: 'name',
+  //   order: 'desc',
+  //   name: 'Alphabetical Z to A',
+  // },
 ];
 
 function classNames(...classes) {
@@ -32,16 +58,18 @@ function classNames(...classes) {
 
 function Dropdown({
   handleSortBy,
-  option,
+  selectedSortOption,
+  setSelectedSortOption,
 }: {
   handleSortBy: any;
-  option: any;
+  selectedSortOption: any;
+  setSelectedSortOption: any;
 }) {
   return (
     <Menu as="div" className="ml-40 relative inline-block text-left">
       <div>
         <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-          Options
+          Sort by: {selectedSortOption.name}
           <ChevronDownIcon
             className="-mr-1 h-5 w-5 text-gray-400"
             aria-hidden="true"
@@ -86,6 +114,11 @@ function Dropdown({
 
 function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
   const [products, setProducts] = useState([]);
+  const [selectedSortOption, setSelectedSortOption] = useState({
+    id: 'featured',
+    order: 'desc',
+    name: 'Featured',
+  });
   const [loading, setLoading] = useState(true);
   const {
     filters,
@@ -96,8 +129,6 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
     handleSort,
   } = useContext(FiltersContext);
   const searchParams = useSearchParams();
-
-  const [sortBy, setSortBy] = useState('alphabetical');
 
   async function fetchAndProcessData() {
     const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
@@ -140,15 +171,13 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
     optionId: any,
   ) => {
     const isChecked = event.target.checked;
-
     handleFilterChecked(categoryId, optionId, isChecked);
   };
 
   const handleSortBy = (e, option) => {
-    console.log(option);
-    const data = { sortby: option.name, order: option.order };
+    setSelectedSortOption(option);
 
-    handleSort({ sortby: option.name, order: option.order });
+    handleSort({ sortby: option.id, order: option.order });
     return;
   };
 
@@ -172,13 +201,20 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
                 <div>{category.name}</div>
                 {categoryId.toLowerCase().includes('range') ? (
                   <div className="text-black">
-                    <input
-                      type="number"
-                      data-input-counter
-                      data-input-counter-min="1"
-                      placeholder={category.options[0]}
-                    />
-                    <input type="number" placeholder={category.options[1]} />
+                    <form action="">
+                      <input
+                        type="number"
+                        data-input-counter
+                        data-input-counter-min="1"
+                        placeholder={category.options[0]}
+                        className="w-20"
+                      />
+                      <input
+                        type="number"
+                        placeholder={category.options[1]}
+                        className="w-20"
+                      />
+                    </form>
                   </div>
                 ) : (
                   <div>
@@ -209,7 +245,11 @@ function ClientPage({ normalizedFilterData }: { normalizedFilterData: any }) {
           )}
         </div>
       </div>
-      <Dropdown handleSortBy={handleSortBy} />
+      <Dropdown
+        handleSortBy={handleSortBy}
+        selectedSortOption={selectedSortOption}
+        setSelectedSortOption={setSelectedSortOption}
+      />
       <div>
         {products?.map((product) => <div key={product.id}>{product.name}</div>)}
       </div>
