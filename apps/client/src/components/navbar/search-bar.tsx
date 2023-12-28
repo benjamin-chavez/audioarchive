@@ -20,6 +20,7 @@ function SearchBar() {
   // const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
 
   const onSubmit: SubmitHandler<FormData> = (input) => {
+    // router.push(`/products/search?q=${encodeURIComponent(input.searchQuery)}`);
     router.push(`/products/search?q=${encodeURIComponent(input.searchQuery)}`);
   };
 

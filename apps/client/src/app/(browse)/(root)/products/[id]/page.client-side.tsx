@@ -121,11 +121,6 @@ export async function handleAddToCart({
   }
 }
 
-function getBackLink() {
-  // Default to just '/products' if conditions are not met
-  return '/products';
-}
-
 export default function PageClient({
   product,
   revalidateCart,
@@ -135,8 +130,6 @@ export default function PageClient({
 }) {
   const searchParams = useSearchParams();
   const customReferrer = searchParams.get('ref');
-  // const customReferrer = searchParams.toString();
-  // console.log('customReferrer', `${searchParams}`);
   const { cartItems, storeCart } = useCart();
   const { user } = useUser();
 

@@ -18,9 +18,7 @@ function classNames(...classes) {
 
 function ProductSection({ products }: { products: any }) {
   const searchParams = useSearchParams();
-  // /product-detail?referrer=/products?daw=Ableton
 
-  console.log(`/products/8?ref=${searchParams}`);
   return (
     <section
       aria-labelledby="products-heading"
@@ -334,17 +332,7 @@ function NewFilterComponent({
                                         .toLowerCase()
                                         .includes('range') ? (
                                         <>
-                                          <div>
-                                            {categories[
-                                              categoryId
-                                            ].name.toLowerCase()}
-                                          </div>
                                           <div className="text-black">
-                                            {/* <form
-                                              onSubmit={(e) =>
-                                                handleFormSubmit(e)
-                                              }
-                                            > */}
                                             <form
                                               action={(formData) =>
                                                 handleFormSubmit(
@@ -391,8 +379,7 @@ function NewFilterComponent({
                                         </>
                                       ) : (
                                         <>
-                                          <>
-                                            {/* <Checkbox
+                                          {/* <Checkbox
                                                     name={`${optionId}`}
                                                     defaultChecked={
                                                       categories[categoryId]
@@ -415,37 +402,36 @@ function NewFilterComponent({
                                                     {optionId}
                                                   </Checkbox> */}
 
-                                            <div
-                                              // key={optionId}
-                                              key={`${categoryId}-${optionId}`}
-                                              // className="pl-5"
-                                            >
-                                              <input
-                                                type="checkbox"
-                                                id={optionId}
-                                                checked={
-                                                  filters.entities.options[
-                                                    optionId
-                                                  ]?.checked || false
-                                                }
-                                                onChange={(e) =>
-                                                  handleClick(
-                                                    e,
-                                                    categoryId,
-                                                    optionId,
-                                                  )
-                                                }
-                                              />
-                                              <label
-                                                htmlFor={optionId}
-                                                className="pl-2"
-                                              >
-                                                {filters.entities.options[
+                                          <div
+                                            // key={optionId}
+                                            key={`${categoryId}-${optionId}`}
+                                            // className="pl-5"
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              id={optionId}
+                                              checked={
+                                                filters.entities.options[
                                                   optionId
-                                                ]?.label.toLowerCase()}
-                                              </label>
-                                            </div>
-                                          </>
+                                                ]?.checked || false
+                                              }
+                                              onChange={(e) =>
+                                                handleClick(
+                                                  e,
+                                                  categoryId,
+                                                  optionId,
+                                                )
+                                              }
+                                            />
+                                            <label
+                                              htmlFor={optionId}
+                                              className="pl-2"
+                                            >
+                                              {filters.entities.options[
+                                                optionId
+                                              ]?.label.toLowerCase()}
+                                            </label>
+                                          </div>
                                         </>
                                       )}
                                     </div>

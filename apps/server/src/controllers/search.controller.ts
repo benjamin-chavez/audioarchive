@@ -338,7 +338,7 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
       bpmRange,
       priceRange,
       tonalKeys,
-      daws,
+      daw: daws,
     },
     products: productsWithSignedUrls,
   };
