@@ -141,19 +141,16 @@ function NewFilterComponent({
     const res = await fetch(`${BASE_URL}/products?${searchParams.toString()}`);
 
     if (!res.ok) {
-      // console.log(res);
       throw new Error('Failed to fetch products');
     }
 
     const { data } = await res.json();
-    // console.log(data);
 
     if (!data) {
       setLoading(false);
       return;
     }
 
-    // setProducts(data.products);
     setProducts(data);
     setLoading(false);
   }
@@ -178,13 +175,13 @@ function NewFilterComponent({
   const handleSortBy = (e, option) => {
     setSelectedSortOption(option);
     handleSort({ sortby: option.id, order: option.order });
-    // return;
   };
 
-  const handleFormSubmit = (formData, categoryId) => {
-    const minValue = formData.get('minValue');
-    const maxValue = formData.get('maxValue');
-    const id = capitalizeFirstLetter(categoryId.replace('Range', ''));
+  // const handleFormSubmit = (formData, categoryId) => {
+  const handleFormSubmit = () => {
+    // const minValue = formData.get('minValue');
+    // const maxValue = formData.get('maxValue');
+    // const id = capitalizeFirstLetter(categoryId.replace('Range', ''));
     // /////////////////
     //
     //
@@ -208,6 +205,8 @@ function NewFilterComponent({
   }
 
   const categories = filters.entities.categories;
+  console.log(JSON.stringify(filters, null, 2));
+  // console.log(JSON.stringify(categories['bpmRange'].options, null, 2));
 
   return (
     <div className="text-black">
@@ -325,23 +324,24 @@ function NewFilterComponent({
                             {/* HERE */}
 
                             <form className="space-y-4 ">
+                              {/* *** */}
                               {categories[categoryId].options.map(
                                 (optionId) => {
                                   return (
                                     <div key={`${categoryId}-${optionId}`}>
-                                      {/*  */}
                                       {categoryId
                                         .toLowerCase()
                                         .includes('range') ? (
                                         <>
                                           <div className="text-black">
-                                            <form
-                                              action={(formData) =>
-                                                handleFormSubmit(
-                                                  formData,
-                                                  categoryId,
-                                                )
-                                              }
+                                            <div
+                                            // action={handleFormSubmit}
+                                            // action={(formData) =>
+                                            //   handleFormSubmit(
+                                            //     formData,
+                                            //     categoryId,
+                                            //   )
+                                            // }
                                             >
                                               <input
                                                 name="minValue"
@@ -376,7 +376,7 @@ function NewFilterComponent({
                                               <button type="submit">
                                                 Apply
                                               </button>
-                                            </form>
+                                            </div>
                                           </div>
                                         </>
                                       ) : (

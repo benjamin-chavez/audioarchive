@@ -33,6 +33,7 @@ export default function ProductsLayout({
             <CategoryHeader />
 
             {/* <Filters  filters1={filters1}  filters={filters} sortOptions={sortOptions} /> */}
+            {/* <NewFilterComponent normalizedFilterData={normalizedFilterData} /> */}
             {children}
           </main>
         </div>

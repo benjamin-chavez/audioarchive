@@ -3,7 +3,7 @@ import 'server-only';
 
 // import { Filters } from './components/filters';
 // import { FiltersCopy } from './components/filters';
-import NewFilterComponent from './new-filter-component';
+import NewFilterComponent from './components/new-filter-component';
 
 import { modifyData } from '@/lib/normalize';
 import { normalize, schema } from 'normalizr';
@@ -28,7 +28,8 @@ function CategoryHeader() {
 }
 const fetchData = async () => {
   const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
-  const res = await fetch(`${BASE_URL}/search/test`);
+
+  const res = await fetch(`${BASE_URL}/search/populate-filters-and-products`);
 
   if (!res.ok) {
     throw new Error('Failed to fetch initial Filter data');
@@ -75,4 +76,8 @@ export default async function ProductsLayout({
       </div>
     </section>
   );
+}
+
+{
+  /* <Suspense fallback={<p>loading products...</p>}> </Suspense> */
 }

@@ -24,6 +24,11 @@ router.get(
 // router.get('/products/filter', searchController.filterProducts);
 // router.get('/products/:query', searchController.searchProductsFuzzy);
 
-router.get('/test', searchController.testQuery);
+// router.get('/test', searchController.testQuery);
+
+router.get(
+  '/populate-filters-and-products',
+  searchController.populateFiltersAndProducts
+);
 
 export default router;

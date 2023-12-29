@@ -144,3 +144,62 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
   // console.log(JSON.stringify(productsWithSignedUrls, null, 2));
   res.status(200).json({ data: searchResults, message: 'Search Results' });
 });
+
+export const populateFiltersAndProducts: RequestHandler = asyncHandler(
+  async (req, res) => {
+    const selectedFilters = {
+      genre_name: [],
+      key: [],
+      daw: [],
+    };
+    console.log('params', req.query);
+
+    // GET FILTERED PRODUCTS
+    const productQuery = knex.select('*').from('products');
+
+    const sortByString = 'name';
+    const orderString = 'asc';
+
+    const filteredProducts = await productQuery.orderBy(
+      sortByString,
+      orderString
+    );
+
+    // BUILD FILTERED GENRES QUERY
+    const genresQuery = knex('products').distinct('genre_name');
+    // .whereNot('genre_name', null);
+
+    // BUILD FILTERED KEYS QUERY
+    const tonalKeysQuery = knex('products').distinct('key');
+    // .whereNot('genre_name', null);
+
+    // BUILD FILTERED DAWs QUERY
+    const dawsQuery = knex('products').distinct('daw');
+    // .whereNot('genre_name', null);
+
+    const [genres, tonalKeys, daws] = await Promise.all([
+      genresQuery.pluck('genre_name'),
+      tonalKeysQuery.pluck('key'),
+      dawsQuery.pluck('daw'),
+    ]);
+
+    const bpmRange = ['20', '999'];
+    const priceRange = ['0', 'Max Price'];
+
+    const productsWithSignedUrls =
+      await S3Service.getSignedUrlsForProducts(filteredProducts);
+
+    const searchResults = {
+      filters: {
+        genres,
+        bpmRange,
+        priceRange,
+        tonalKeys,
+        daw: daws,
+      },
+      products: productsWithSignedUrls,
+    };
+
+    res.status(200).json({ data: searchResults, message: 'Search Results' });
+  }
+);

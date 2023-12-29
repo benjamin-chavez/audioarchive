@@ -1,6 +1,6 @@
 // frontend/src/app/project-files/page.tsx
 import 'server-only';
-import ProductsGrid from '../(browse)/(with-layout)/products/components/products-grid';
+import ProductsGrid from '../(browse)/(with-layout)/products/components/trash/products-grid';
 import Container from '@/components/container';
 import { Suspense } from 'react';
 import TestSearch from '@/components/test-search/text-search';
