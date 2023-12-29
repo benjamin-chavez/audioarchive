@@ -5,7 +5,7 @@ import Container from '@/components/container';
 import { Suspense, useState } from 'react';
 import TestSearch from '@/components/test-search/text-search';
 import Inner from '@/components/test-search/inner';
-import ProductsGrid from '@/app/(browse)/(with-layout)/products/components/products-grid';
+import ProductsGrid from '@/components/products-grid copy';
 
 async function getProducts() {
   const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;

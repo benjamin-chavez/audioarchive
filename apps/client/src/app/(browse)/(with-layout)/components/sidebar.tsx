@@ -6,7 +6,7 @@ import {
   UsersIcon,
   // HomeIcon,
   // UserGroupIcon,
-  // AdjustmentsVerticalIcon,
+  AdjustmentsVerticalIcon,
   RadioIcon,
   MusicalNoteIcon,
 } from '@heroicons/react/24/outline';
@@ -39,6 +39,12 @@ export default function Sidebar() {
       href: '/cats3',
       icon: RadioIcon,
       current: currentPath === '/browse/app-users',
+    },
+    {
+      name: 'Mix',
+      href: '/development/products--copy',
+      icon: AdjustmentsVerticalIcon,
+      current: currentPath === '/development/products--copy',
     },
   ];
 

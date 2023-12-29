@@ -1,6 +1,6 @@
 // frontend/src/app/project-files/page.tsx
 import 'server-only';
-import ProductsGrid from '../(browse)/(with-layout)/products/components/trash/products-grid';
+import ProductsGrid from '../../(browse)/(with-layout)/products/components/trash/products-grid';
 import Container from '@/components/container';
 import { Suspense } from 'react';
 import TestSearch from '@/components/test-search/text-search';
@@ -24,19 +24,15 @@ export default async function ProductsPage() {
   const products = res.data;
 
   return (
-    <div
-    // className="bg-red-500"
-    >
+    <div>
       <Container>
-        <div className="flex">
+        <div className="flex ">
           <Inner />
-          {/* <Suspense fallback={<p>loading products...</p>}> */}
-
-          <TestSearch>
-            <ProductsGrid products={products} />
-          </TestSearch>
-
-          {/* </Suspense> */}
+          <Suspense fallback={<p>loading products...</p>}>
+            <TestSearch>
+              <ProductsGrid products={products} />
+            </TestSearch>
+          </Suspense>
         </div>
       </Container>
     </div>
