@@ -20,11 +20,6 @@ class ProductService {
   }
 
   static async getAllProductsWithUserDetails({
-    // q,
-    // page,
-    // limit,
-    // sort,
-    // filters,
     search,
     sortBy,
     order,
@@ -77,9 +72,11 @@ class ProductService {
 
     // const processedFilters = processFilters(filters);
     const processedSearchQuery = processSearchQuery(search);
-    // const [sortBy, sortOrder] = processSort(sort);
-    // const limitPerPage = processLimit(limit);
-    // const offset = processOffset(page, limitPerPage);
+
+    const limitPerPage = processLimit(limit);
+    const offset = processOffset(page, limitPerPage);
+    console.log('offset: ', offset);
+    console.log('limitPerPage: ', limitPerPage);
 
     const sortByString = sortBy ? String(sortBy) : 'name';
     const orderString = order ? String(order) : 'asc';
@@ -93,10 +90,6 @@ class ProductService {
     const minBpmNum =
       minBpm && parseInt(String(minBpm)) >= 0 ? parseInt(String(minBpm)) : 0;
     const maxBpmNum = maxBpm ? parseInt(String(maxBpm)) : null;
-
-    // const filteredProducts = await productQuery
-    //   .whereBetween('price', [minPriceNum, maxPriceNum])
-    //   .orderBy(sortByString, orderString);
 
     const filteredProducts = await productQuery
       .where('price', '>=', minPriceNum)
@@ -114,7 +107,7 @@ class ProductService {
 
     let products = await ProductModel.fullTextSearch({
       productQuery,
-      q: processedSearchQuery,
+      searchQuery: processedSearchQuery,
       sortBy,
       order,
       minPriceNum,
@@ -123,19 +116,17 @@ class ProductService {
       maxBpmNum,
       sortByString,
       orderString,
-      // offset,
-      // limitPerPage,
+      offset,
+      limitPerPage,
       filters: selectedFilters,
     });
-    // console.log('products-', products);
 
     if (!products.length) {
-      console.log('fuzz');
       const fuzzySearchQuery = processSearchQuery(search);
 
       products = await ProductModel.fullTextSearch({
         productQuery,
-        q: fuzzySearchQuery,
+        searchQuery: fuzzySearchQuery,
         sortBy,
         order,
         minPriceNum,
@@ -144,20 +135,15 @@ class ProductService {
         maxBpmNum,
         sortByString,
         orderString,
-        // offset,
-        // limitPerPage,
+        offset,
+        limitPerPage,
         filters: selectedFilters,
         isFuzzy: true,
       });
     }
 
-    // console.log('products, ', products);
-    // const products = await ProductModel.getAllProductsWithUserDetails();
-
     const productsWithSignedUrls =
       await S3Service.getSignedUrlsForProducts(products);
-
-    // console.log(JSON.stringify(productsWithSignedUrls, null, 2));
 
     return productsWithSignedUrls;
   }

@@ -6,22 +6,6 @@ import knex from '../config/database';
 class ProductModel {
   private static tableName = 'products';
 
-  // productQuery = knex
-  //   .select('*')
-  //   // .select(
-  //   //   'id',
-  //   //   'name',
-  //   //   'genre_name',
-  //   //   'key',
-  //   //   'daw',
-  //   //   'price',
-  //   //   'created_at',
-  //   //   'bpm'
-  //   // )
-  //   .from('products');
-  // // .whereNot('genre_name', null);
-  // applyFilters(productQuery, selectedFilters);
-
   static createBaseQuery() {
     // { filters }: { filters: any }
     return knex('products')
@@ -44,20 +28,6 @@ class ProductModel {
         // knex.raw('app_users.username AS seller_username')
       )
       .join('app_users', 'products.app_user_id', 'app_users.id');
-  }
-
-  static applyFilters(productQuery, filters) {
-    if (!filters) {
-      return productQuery;
-    }
-
-    Object.entries(filters).forEach(([key, val]) => {
-      productQuery = Array.isArray(val)
-        ? productQuery.whereIn(key, val)
-        : productQuery.where(key, '=', val);
-    });
-
-    return productQuery;
   }
 
   static applyFiltersNew(productQuery, filters) {
@@ -120,7 +90,7 @@ class ProductModel {
 
   static async fullTextSearch({
     productQuery,
-    q,
+    searchQuery,
     sortBy,
     order,
     minPriceNum,
@@ -135,7 +105,7 @@ class ProductModel {
     isFuzzy = false,
   }: {
     productQuery: any;
-    q: any;
+    searchQuery: any;
     sortBy: any;
     order: any;
     minPriceNum: number;
@@ -149,15 +119,12 @@ class ProductModel {
     filters: any;
     isFuzzy?: boolean;
   }) {
-    productQuery = this.applySearchQuery(productQuery, q, isFuzzy);
-    // productQuery = this.applyFilters(productQuery, filters);
+    productQuery = this.applySearchQuery(productQuery, searchQuery, isFuzzy);
     productQuery = this.applyFiltersNew(productQuery, filters);
 
     if (sortBy && order) {
       productQuery.orderBy(sortBy, order);
     }
-
-    // const products = await productQuery; .offset(offset).limit(limitPerPage);
 
     const products = await productQuery
       .where('price', '>=', minPriceNum)
@@ -172,6 +139,8 @@ class ProductModel {
         }
       })
       .orderBy(sortByString, orderString);
+    // .offset(offset)
+    // .limit(limitPerPage);
 
     return products;
   }

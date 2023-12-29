@@ -146,11 +146,11 @@ export default function PageClient({
           // mt-10
           className="flex flex-row w-full justify-between"
         >
+          {/* TODO: POTENTIALLY REWRITE THE BROWSER HISTORY SO THAT WHEN YOU GET "BACK" TO ALL PRODUCTS THE BROWSER HAS A FORWARD NAVIGATION OPTION BACK TO THIS PAGE */}
           <Link
             href={
               customReferrer ? decodeURIComponent(customReferrer) : '/products'
             }
-            // py-1
             className="bg-blue-500  px-4 "
           >
             Back to Products

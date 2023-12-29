@@ -1,6 +1,7 @@
 // apps/client/src/lib/normalize.ts
 
 import { normalize, schema } from 'normalizr';
+import { camelCaseToTitleCase } from './utils';
 // const categories = [
 //   {
 //     id: 'genre',
@@ -50,7 +51,7 @@ export const modifyData = (dataFilters) => {
     const modifiedData = Object.keys(dataFilters).map((key) => {
       return {
         id: key,
-        name: key.toUpperCase(),
+        name: camelCaseToTitleCase(key),
         options: dataFilters[key]?.map((option) => {
           if (option === null) {
             return {

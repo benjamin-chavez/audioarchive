@@ -16,3 +16,8 @@ export function generateRandomString(length: number) {
 export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
+
+export const camelCaseToTitleCase = (str) => {
+  const result = str.replace(/([A-Z])/g, ' $1');
+  return capitalizeFirstLetter(result);
+};
