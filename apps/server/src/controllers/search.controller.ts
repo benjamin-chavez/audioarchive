@@ -203,3 +203,49 @@ export const populateFiltersAndProducts: RequestHandler = asyncHandler(
     res.status(200).json({ data: searchResults, message: 'Search Results' });
   }
 );
+
+export const populateFiltersAndAppUsers: RequestHandler = asyncHandler(
+  async (req, res) => {
+    const selectedFilters = {
+      genre_name: [],
+      daw: [],
+    };
+
+    // GET FILTERED PRODUCTS
+    // const appUserQuery = knex.select('*').from('app_users');
+
+    // const sortByString = 'name';
+    // const orderString = 'asc';
+
+    // const filteredAppUsers = await appUserQuery.orderBy(
+    //   sortByString,
+    //   orderString
+    // );
+
+    // BUILD FILTERED GENRES QUERY
+    const genresQuery = knex('products').distinct('genre_name');
+    // .whereNot('genre_name', null);
+
+    // BUILD FILTERED DAWs QUERY
+    const dawsQuery = knex('products').distinct('daw');
+    // .whereNot('genre_name', null);
+
+    const [genres, daws] = await Promise.all([
+      genresQuery.pluck('genre_name'),
+      dawsQuery.pluck('daw'),
+    ]);
+
+    // const productsWithSignedUrls =
+    //   await S3Service.getSignedUrlsForProducts(filteredProducts);
+
+    const searchResults = {
+      filters: {
+        genres,
+        daw: daws,
+      },
+      // products: productsWithSignedUrls,
+    };
+
+    res.status(200).json({ data: searchResults, message: 'Search Results' });
+  }
+);

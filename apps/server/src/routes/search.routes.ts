@@ -11,6 +11,11 @@ const router: Router = express.Router();
 // });
 
 router.get(
+  '/populate-filters-and-appUsers',
+  searchController.populateFiltersAndAppUsers
+);
+
+router.get(
   '/app-users/:query'
   // searchController.searchAppUsers
   // router.get('/app-users/:query', (req, res) => {

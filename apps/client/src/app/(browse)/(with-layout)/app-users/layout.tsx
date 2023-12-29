@@ -1,7 +1,8 @@
 // apps/client/src/app/(browse)/(with-layout)/products/layout.tsx
 
-import { filters, filters1, sortOptions } from '../../../../lib/filters';
-import { Filters } from './components/filters';
+import { modifyData } from '@/lib/normalize';
+import { normalize, schema } from 'normalizr';
+import NewFilterComponent from '../products/components/new-filter-component';
 
 function CategoryHeader() {
   return (
@@ -20,23 +21,49 @@ function CategoryHeader() {
   );
 }
 
-export default function ProductsLayout({
+const fetchData = async () => {
+  const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
+
+  const res = await fetch(`${BASE_URL}/search/populate-filters-and-appUsers`);
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch initial Filter data');
+  }
+
+  const { data } = await res.json();
+
+  if (!data) {
+    return;
+  }
+
+  const modifiedData = modifyData(data.filters);
+  const option = new schema.Entity('options');
+  const category = new schema.Entity('categories', {
+    options: [option],
+  });
+
+  return normalize(modifiedData, [category]);
+};
+
+export default async function AppUsersLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const normalizedFilterData = await fetchData();
+
   return (
     <section className="bg-red-500">
       <div className="bg-gray-50">
-        <div>
-          <main>
-            <CategoryHeader />
+        <main>
+          <CategoryHeader />
 
-            {/* <Filters  filters1={filters1}  filters={filters} sortOptions={sortOptions} /> */}
-            {/* <NewFilterComponent normalizedFilterData={normalizedFilterData} /> */}
-            {children}
-          </main>
-        </div>
+          <NewFilterComponent
+            artists
+            normalizedFilterData={normalizedFilterData}
+          />
+          {children}
+        </main>
       </div>
     </section>
   );

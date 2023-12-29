@@ -85,8 +85,8 @@ export default async function SearchPage() {
 
   return (
     <div
-      // className="pt-20"
-      className="pt-10"
+      className="pt-20"
+      // className="pt-10"
     >
       <AppUsersGrid appUsers={appUsers} />
     </div>

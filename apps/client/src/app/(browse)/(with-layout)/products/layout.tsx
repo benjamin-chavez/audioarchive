@@ -26,6 +26,7 @@ function CategoryHeader() {
     </div>
   );
 }
+
 const fetchData = async () => {
   const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 

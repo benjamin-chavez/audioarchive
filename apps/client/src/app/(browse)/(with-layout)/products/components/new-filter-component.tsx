@@ -113,8 +113,10 @@ function Dropdown({
 
 function NewFilterComponent({
   normalizedFilterData,
+  artists = false,
 }: {
   normalizedFilterData: any;
+  artists?: boolean;
 }) {
   // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -136,6 +138,11 @@ function NewFilterComponent({
   } = useContext(FiltersContext);
 
   async function fetchAndProcessData() {
+    if (artists) {
+      setLoading(false);
+      return;
+    }
+
     const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 
     const res = await fetch(`${BASE_URL}/products?${searchParams.toString()}`);
@@ -205,11 +212,11 @@ function NewFilterComponent({
   }
 
   const categories = filters.entities.categories;
-  console.log(JSON.stringify(filters, null, 2));
+  // console.log(JSON.stringify(filters, null, 2));
   // console.log(JSON.stringify(categories['bpmRange'].options, null, 2));
 
   return (
-    <div className="text-black">
+    <div className="text-black ">
       <>
         {/* <MobileFilterMenu
           filters={filters}
@@ -223,7 +230,7 @@ function NewFilterComponent({
           </h2>
 
           {/* HERE */}
-          <div className="border-b border-gray-200 bg-white pb-4">
+          <div className="border-b border-gray-200 bg-white pb-4  ">
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
@@ -456,7 +463,7 @@ function NewFilterComponent({
         </section>
       </>
 
-      <ProductSection products={products} />
+      {!artists && <ProductSection products={products} />}
     </div>
   );
 }
