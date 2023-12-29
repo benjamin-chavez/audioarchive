@@ -8,9 +8,11 @@ export const ProductSchema = z.object({
   accountId: z.number().int().positive(),
   name: z.string(),
   genre: z.string(),
+  genreName: z.string(), // TODO: Connect this to the lookup table
   daw: z.string(),
   bpm: z.number(),
   price: z.number(),
+  status: z.string(), // TODO: Connect this to the ENUM
   artwork: z.string().optional(),
   imgS3Key: z.string().optional(),
   imgS3Url: z.string().optional(),

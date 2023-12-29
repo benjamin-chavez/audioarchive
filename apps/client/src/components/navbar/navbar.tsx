@@ -43,10 +43,10 @@ const navItems = {
       name: 'Artists',
       href: '/app-users',
     },
-    {
-      name: <ShoppingCart />,
-      href: `/cart`,
-    },
+    // {
+    //   name: <ShoppingCart />,
+    //   href: `/cart`,
+    // },
   ],
   // anchorLinks: {
   //   loginItem: {
@@ -141,7 +141,7 @@ export default function Navbar() {
         <Container>
           <div
             // max-w-screen-xl
-            className=" flex flex-wrap items-center justify-between mx-auto p-4"
+            className="flex flex-wrap items-center justify-between mx-auto p-4"
           >
             <Link href="/" className="flex items-center">
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
@@ -246,8 +246,11 @@ export default function Navbar() {
                       {navItems.guestAppUserNavigation.name}
                     </a>
                   )}
-                  <div className="flex flex-1 items-center justify-end">
-                    <div className="flex items-center lg:ml-8">
+                  <div className="flex flex-1 items-center justify-end ">
+                    <div
+                      // lg:ml-8
+                      className="flex items-center "
+                    >
                       <div className="flex space-x-8">
                         <div className="hidden lg:flex">
                           <a
@@ -281,7 +284,7 @@ export default function Navbar() {
                         </div>
                         <div className="flex ">
                           <a
-                            href="#"
+                            href="/api/auth/login"
                             className="-m-2 p-2 text-gray-400 hover:text-gray-500"
                             // className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                           >

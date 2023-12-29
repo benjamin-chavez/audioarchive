@@ -21,3 +21,7 @@ export const camelCaseToTitleCase = (str) => {
   const result = str.replace(/([A-Z])/g, ' $1');
   return capitalizeFirstLetter(result);
 };
+
+export function classNames(...classes) {
+  return classes.filter(Boolean).join(' ');
+}

@@ -3,12 +3,11 @@ import { Knex } from 'knex';
 const TABLE_NAME = 'cart_items';
 
 export async function up(knex: Knex): Promise<void> {
-  return knex.schema.createTable(TABLE_NAME, (table) => {
-    table.increments('id').primary();
+  return knex.schema.createTable(TABLE_NAME, (t) => {
+    t.increments('id').primary();
 
     // Foreign Keys
-    table
-      .integer('cartId')
+    t.integer('cartId')
       .unsigned()
       .references('id')
       .inTable('carts')
@@ -21,20 +20,20 @@ export async function up(knex: Knex): Promise<void> {
     //   .references('stripeAccounts.id')
     //   .notNullable();
 
-    table
-      .integer('productId')
+    t.integer('productId')
       .unsigned()
       .references('id')
       .inTable('products')
       .notNullable();
 
-    table.integer('quantity').notNullable();
-    // table.decimal('price', 10, 2).notNullable();
+    t.integer('quantity').notNullable();
+    // t.decimal('price', 10, 2).notNullable();
 
-    table.timestamps(true, true);
+    t.timestamps(true, true);
 
-    table.unique(['cart_id', 'product_id']);
-    // table.index('appUserId');
+    t.unique(['cart_id', 'product_id']);
+    t.index(['created_at']);
+    // t.index('appUserId');
   });
 
   // await knex.schema.raw(

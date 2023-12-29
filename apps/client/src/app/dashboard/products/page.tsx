@@ -23,6 +23,8 @@ import Link from 'next/link';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { getMyProducts } from '@/lib/data/me';
+import { capitalizeFirstLetter, classNames } from '@/lib/utils';
+import { CURRENCY, formatAmountForDisplay } from '@/lib/cart-calculations';
 
 export async function revalidateListings() {
   'use server';
@@ -73,6 +75,11 @@ function ProductsHeader() {
   );
 }
 
+export const statuses = {
+  published: 'text-green-400 bg-green-400/10',
+  draft: 'text-yellow-400 bg-yellow-400/10',
+};
+
 function TwTable({ products }: { products: Product[] }) {
   return (
     <div className="bg-gray-900">
@@ -113,6 +120,12 @@ function TwTable({ products }: { products: Product[] }) {
                         </th>
                         <th
                           scope="col"
+                          className="px-3 py-3.5 text-left text-sm font-semibold text-white"
+                        >
+                          Status
+                        </th>
+                        <th
+                          scope="col"
                           className="relative py-3.5 pl-3 pr-4 sm:pr-0"
                         >
                           <span className="sr-only">Edit</span>
@@ -129,12 +142,29 @@ function TwTable({ products }: { products: Product[] }) {
                             {product.daw}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
-                            {product.genre}
+                            {product.genreName}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
-                            {product.price}
+                            {formatAmountForDisplay(product.price, CURRENCY)}
                           </td>
-                          <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
+                            <div className="flex items-center justify-end gap-x-2  sm:justify-start">
+                              <div
+                                className={classNames(
+                                  statuses[product.status],
+                                  'flex-none rounded-full p-1',
+                                )}
+                              >
+                                <div className="h-1.5 w-1.5 rounded-full bg-current" />
+                              </div>
+                              {capitalizeFirstLetter(product.status)}
+                            </div>
+                          </td>
+
+                          <td
+                            // pl-3
+                            className="relative whitespace-nowrap py-4  pr-4  text-center text-sm font-medium sm:pr-0"
+                          >
                             <Link
                               href={`/dashboard/products/edit/${product.id}`}
                               className="text-indigo-400 hover:text-indigo-300"
