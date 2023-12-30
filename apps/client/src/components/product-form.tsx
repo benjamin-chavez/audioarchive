@@ -1,10 +1,6 @@
 // apps/client/src/app/(app-users)/settings/components/product-form.tsx
 'use client';
 
-// TODO: START HERE: TODO: START HERE: TODO: START HERE: TODO: START HERE:
-// TODO: Start by getting this form to submit for update properly to the backend. Then
-// TODO: go through the rest of the `TODOS` in this file
-
 // import { statuses } from '@/app/dashboard/products/page';
 import {
   capitalizeFirstLetter,
@@ -213,6 +209,13 @@ export default function ProductForm({
     setNewStatus(e.target.value);
   };
 
+  const getButtonText = (status) => {
+    const lowerCaseStatus = status.toLowerCase();
+    if (lowerCaseStatus === 'published') return 'Publish';
+    if (lowerCaseStatus === 'draft') return 'Save Draft';
+    if (lowerCaseStatus === 'archived') return 'Archive';
+  };
+
   if (isLoadingUser) {
     return <p>Loading...</p>;
   }
@@ -285,7 +288,6 @@ export default function ProductForm({
             <div className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
               <div className="flex items-center justify-end gap-x-2  sm:justify-start">
                 <div
-                  // TODO: SET STATE FOR STATUS AND UPDATE CIRCLE AND BUTTON
                   className={classNames(
                     statuses[newStatus.toLowerCase()],
                     'flex-none rounded-full p-1',
@@ -401,10 +403,10 @@ export default function ProductForm({
             className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:bg-red-500 disabled:opacity-75"
             // disabled={isLoading}
           >
-            {/* {isEditMode ? 'Update' : 'Create'} */}
-            {/* TODO: CHANGE BUTTON COLOR DEPENDING ON newStatus */}
-            {/* TODO: CHANGE ACTION DEPENDING ON newStatus aka publish or save draft */}
-            {newStatus.toLowerCase() === 'published' ? 'Publish' : 'Save Draft'}
+            {/* TODO: CHANGE BUTTON COLOR DEPENDING ON `newStatus`? */}
+            {/* TODO: Maybe only change button content for when status is actually changing? otherwise just show `Save` or something? */}
+            {/*TODO: Or Use Your Original Code: {isEditMode ? 'Update' : 'Create'} */}
+            {getButtonText(newStatus)}
           </button>
         </form>
 

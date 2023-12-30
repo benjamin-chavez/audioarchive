@@ -127,6 +127,7 @@ class ProductModel {
     }
 
     const products = await productQuery
+      .where('status', 'published')
       .where('price', '>=', minPriceNum)
       .modify(function (queryBuilder) {
         if (maxPriceNum !== null) {

@@ -79,8 +79,8 @@ class ProductService {
 
     const limitPerPage = processLimit(limit);
     const offset = processOffset(page, limitPerPage);
-    console.log('offset: ', offset);
-    console.log('limitPerPage: ', limitPerPage);
+    // console.log('offset: ', offset);
+    // console.log('limitPerPage: ', limitPerPage);
 
     const sortByString = sortBy ? String(sortBy) : 'name';
     const orderString = order ? String(order) : 'asc';
@@ -94,20 +94,6 @@ class ProductService {
     const minBpmNum =
       minBpm && parseInt(String(minBpm)) >= 0 ? parseInt(String(minBpm)) : 0;
     const maxBpmNum = maxBpm ? parseInt(String(maxBpm)) : null;
-
-    const filteredProducts = await productQuery
-      .where('price', '>=', minPriceNum)
-      .modify(function (queryBuilder) {
-        if (maxPriceNum !== null) {
-          queryBuilder.where('price', '<=', maxPriceNum);
-        }
-      })
-      .modify(function (queryBuilder) {
-        if (maxBpmNum !== null) {
-          queryBuilder.where('bpm', '<=', maxBpmNum);
-        }
-      })
-      .orderBy(sortByString, orderString);
 
     let products = await ProductModel.fullTextSearch({
       productQuery,
