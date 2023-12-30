@@ -31,7 +31,7 @@ export async function up(knex: Knex): Promise<void> {
     $$
     BEGIN
         IF (OLD.status IS DISTINCT FROM NEW.status) THEN
-            INSERT INTO product_status_events(product_id, status, change_date, changed_by)
+            INSERT INTO ${TABLE_NAME}(product_id, status, change_date, changed_by)
             VALUES (NEW.id, NEW.status, NOW(), current_setting('app.current_app_user_id')::INTEGER);
         END IF;
         RETURN NEW;

@@ -4,6 +4,7 @@
 
 import { CartProvider } from '@/contexts/cartContext';
 import FiltersProvider from '@/contexts/filter-context';
+import { FavoritesProvider } from '@/contexts/wishlist-context';
 // import { MeProvider } from '@/contexts/appUserContext';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -26,8 +27,10 @@ export default function Providers({
         {/* <MeProvider> */}
         <CartProvider>
           <FiltersProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
-            {children}
+            <FavoritesProvider>
+              <ReactQueryDevtools initialIsOpen={false} />
+              {children}
+            </FavoritesProvider>
           </FiltersProvider>
         </CartProvider>
         {/* </MeProvider> */}
