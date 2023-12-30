@@ -6,6 +6,16 @@ import { useCart } from '@/contexts/cartContext';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { Tab } from '@headlessui/react';
 import { StarIcon } from '@heroicons/react/20/solid';
+import {
+  Bars3Icon,
+  HeartIcon,
+  MagnifyingGlassIcon,
+  MinusIcon,
+  PlusIcon,
+  ShoppingBagIcon,
+  UserIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
 import { Product, ProductWithAppUser } from '@shared/src';
 import Link from 'next/link';
 import { Fragment, useEffect } from 'react';
@@ -265,6 +275,16 @@ export default function PageClient({
               >
                 Download
               </a>
+              <button
+                type="button"
+                className="ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500"
+              >
+                <HeartIcon
+                  className="h-6 w-6 flex-shrink-0"
+                  aria-hidden="true"
+                />
+                <span className="sr-only">Add to favorites</span>
+              </button>
             </div>
 
             <div className="mt-10 border-t border-gray-200 pt-10">

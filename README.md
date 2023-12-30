@@ -124,6 +124,10 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     <!-- //- Restructure Product table and convert Enums to other type -->
     - Add published/draft logic to products table
     - convert the `/api/app-users/register` route to a webhook route. Something like `/api/webhooks/auth0/register`.
+    - Look into dbdocs.io and/or SchemaSpy for adding database schema documentation
+    - Potentially create new `database/functions` and `database/triggers` folders that are treated similar to the `database/migrations` folder
+
+
 
  - Cart:
     <!-- //- Set up logic to store cart in local storage/context if not logged in -->
@@ -156,12 +160,14 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - Fix the product update logic so that the project file is name is loaded and so that a file isn't required to update the products
     - Reorganize the `My Accounts` section.
     - Add screen to display all orders
+    - Fix Product update logic so that users can only edit their own products**
 
  - Product
     - Show Page
         - Should pull all data from actual product
         - Remove the Download Button unless user already purchased product
         <!-- //- Add `Edit` button if user is the product Seller -->
+        - Add scheduling feature to product publishing. You may need to update the way you are handling products, specifically when you are handling products based on their status
     - Index Page
         - Stream in data
 

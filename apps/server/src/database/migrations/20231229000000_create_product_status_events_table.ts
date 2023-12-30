@@ -24,13 +24,16 @@ export async function up(knex: Knex): Promise<void> {
     );
 `);
 
+  // TODO: MOVE THIS CODE??
   await knex.schema.raw(`
     CREATE OR REPLACE FUNCTION record_product_status_change()
         RETURNS TRIGGER AS
     $$
     BEGIN
-        INSERT INTO ${TABLE_NAME}(product_id, status, change_date, changed_by)
-        VALUES (NEW.id, NEW.status, NOW(), current_setting('app.current_app_user_id')::INTEGER);
+        IF (OLD.status IS DISTINCT FROM NEW.status) THEN
+            INSERT INTO product_status_events(product_id, status, change_date, changed_by)
+            VALUES (NEW.id, NEW.status, NOW(), current_setting('app.current_app_user_id')::INTEGER);
+        END IF;
         RETURN NEW;
     END;
     $$ LANGUAGE plpgsql;
