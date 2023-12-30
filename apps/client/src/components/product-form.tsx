@@ -19,16 +19,18 @@ import { useForm } from 'react-hook-form';
 type FormData = {
   id?: number;
   name: string;
-  genre: string;
+  genre_name: string;
   daw: string;
   bpm: string;
   status: string; //TODO: UPDATE status WITH ACTUAL TYPE
   price: string;
   imgFile?: File;
+  imgS3Url: string;
   digitalFile?: File;
   key: string;
   label: string;
   description: string;
+  appUserId: number;
 };
 
 export const statuses = {
@@ -45,6 +47,7 @@ export default function ProductForm({
   revalidateListings: () => Promise<void>;
 }) {
   const { user, isLoading: isLoadingUser } = useUser();
+  console.log('USER', user?.id);
   const [newImagePreview, setNewImagePreview] = useState<string | null>(null);
   // TODO: update state to status type
   const [newStatus, setNewStatus] = useState<string | null>(product.status);
@@ -54,17 +57,16 @@ export default function ProductForm({
       // name: product?.name || '',
       name: product?.name || generateRandomString(20),
       // genre: product?.genre || '',
-      genre: product?.genre || 'House',
+      genre_name: product?.genre || 'House',
       // daw: product?.daw || '',
       daw: product?.daw || 'Ableton',
       // bpm: product?.bpm !== undefined ? product.bpm.toString() : '',
       bpm: product?.bpm !== undefined ? product.bpm.toString() : '126',
       // price: product?.price !== undefined ? product.price.toString() : '',
-      status:
-        product?.status !== undefined ? product.status.toString() : 'Draft',
+      status: newStatus,
       price: product?.price !== undefined ? product.price.toString() : '29.99',
       // i      imgS3Url
-      // imgS3Url: product?.imgS3Url,
+      imgS3Url: product?.imgS3Url || '',
       key: product?.key || '',
       label: product?.label || '',
       description: product?.description || '',
@@ -107,6 +109,7 @@ export default function ProductForm({
       );
       formData.append('updated_at', new Date().toISOString());
 
+      console.log('formData', JSON.stringify(formData, null, 2));
       let response;
       if (isEditMode) {
         response = await fetch(`/api/products/${data.id}`, {
@@ -140,7 +143,7 @@ export default function ProductForm({
 
       revalidateListings();
     } catch (error) {
-      window.alert('Error saving product');
+      window.alert(`Error saving product: ${error}`);
     }
   };
 
@@ -237,7 +240,7 @@ export default function ProductForm({
               Genre
             </label>
             <input
-              {...register('genre', { required: true })}
+              {...register('genre_name', { required: true })}
               className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 mt-2"
             />
           </div>
@@ -279,7 +282,7 @@ export default function ProductForm({
           </div>
 
           <div>
-            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
+            <div className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
               <div className="flex items-center justify-end gap-x-2  sm:justify-start">
                 <div
                   // TODO: SET STATE FOR STATUS AND UPDATE CIRCLE AND BUTTON
@@ -308,7 +311,7 @@ export default function ProductForm({
                   </select>
                 </div>
               </div>
-            </td>
+            </div>
           </div>
 
           <div className="flex gap-4">

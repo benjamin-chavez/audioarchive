@@ -18,7 +18,7 @@ export async function down(knex: Knex): Promise<void> {
 /////////////
 async function updateProductStatus(productId, newStatus, userId) {
   // Set a session variable for the current user ID
-  await database.query(`SET myapp.current_user_id = $1;`, [userId]);
+  await database.query(`SET app.current_app_user_id = $1;`, [userId]);
 
   // Now update the product's status
   await database.query(

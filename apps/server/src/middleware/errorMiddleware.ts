@@ -19,16 +19,16 @@ import { CustomError } from './customErrors';
 import { Request, Response, NextFunction } from 'express';
 
 function errorHandler(
-  err: CustomError | Error,
+  error: CustomError | Error,
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  if (err instanceof CustomError) {
-    res.status(err.statusCode).json({ message: err.message });
+  if (error instanceof CustomError) {
+    res.status(error.statusCode).json({ message: error.message });
   } else {
-    console.error((err as Error).stack);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error((error as Error).stack);
+    res.status(500).json({ message: `Internal Server Error` });
   }
 }
 

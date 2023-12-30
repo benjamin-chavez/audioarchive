@@ -1,7 +1,11 @@
 // backend/src/services/productService.ts
 
 import { Product } from '@shared/src/schemas';
-import { BadRequestError, NotFoundError } from '../middleware/customErrors';
+import {
+  BadRequestError,
+  CustomError,
+  NotFoundError,
+} from '../middleware/customErrors';
 import ProductModel from '../models/product.model';
 import S3Service from './s3.service';
 import {
@@ -199,7 +203,8 @@ class ProductService {
   static async updateProduct(
     id: number,
     // productData: Partial<Product>
-    productData: any
+    productData: any,
+    appUserId: number
   ): Promise<Product> {
     // TODO:
     // Business logic for validation or other checks before updating.
@@ -209,13 +214,23 @@ class ProductService {
 
     delete productData.imgFile;
 
-    const updatedRowCount = await ProductModel.update(id, productData);
+    const updatedRowCount = await ProductModel.update(
+      id,
+      productData,
+      appUserId
+    );
 
     if (updatedRowCount === 0) {
       throw new NotFoundError('Product not found or failed to update');
     }
 
+    // TODO: Review this. Is the two db queries necesary?
     const updatedProduct = await this.getProductById(id);
+
+    if (!updatedProduct) {
+      throw new CustomError('Product not found', 404);
+    }
+
     return updatedProduct;
   }
 

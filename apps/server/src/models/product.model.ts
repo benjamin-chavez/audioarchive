@@ -197,27 +197,42 @@ class ProductModel {
   //   // return knex(this.tableName).where({ id }).update(product);
   // }
 
-  static async update(id: number, product: any): Promise<number> {
+  static async update(
+    id: number,
+    product: any,
+    appUserId: number
+  ): Promise<number> {
     // Log the product object to debug
     // console.log(product);
+    // Correct usage of set_config to set a custom configuration parameter
 
+    await knex.raw(`SELECT set_config('app.current_app_user_id', ?, false)`, [
+      appUserId.toString(),
+    ]);
+    let updatedRowCount;
+    let updateData = product;
     // Check if the product object contains createdAt or updatedAt fields
     if (product.createdAt || product.updatedAt) {
       console.log('Removing createdAt and updatedAt fields from update object');
 
-      // Remove createdAt and updatedAt fields from the update object
-      const { createdAt, updatedAt, ...updateData } = product;
+      const { createdAt, updatedAt, ...tmpUpdateData } = product;
+      updateData = tmpUpdateData;
       // const updateUpdated = await knex(this.tableName)
       //   .where({ id })
       //   .update(updateData)
       //   .returning('*');
       // console.log('updateUpdated: ', updateUpdated);
       // return 1;
-      return knex(this.tableName).where({ id }).update(updateData);
     }
 
     // Proceed with the update if createdAt and updatedAt fields are not present
-    return knex(this.tableName).where({ id }).update(product);
+    updatedRowCount = await knex(this.tableName)
+      .where({ id })
+      .update(updateData);
+
+    await knex.raw(`SELECT set_config('app.current_app_user_id', '', false)`);
+
+    return updatedRowCount;
   }
 
   static async delete(id: number): Promise<boolean> {

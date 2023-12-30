@@ -7,6 +7,8 @@ import S3Service from '../services/s3.service';
 import StripeService from '../services/stripe.service';
 import StripeAccountService from '../services/stripe-account.service';
 import axios from 'axios';
+import { CustomError } from '../middleware/customErrors';
+import { Product } from '@shared/src/schemas';
 
 const CONTEXT = 'ProductController';
 
@@ -118,10 +120,15 @@ export const getProductById: RequestHandler = asyncHandler(async (req, res) => {
 });
 
 export const updateProduct: RequestHandler = asyncHandler(async (req, res) => {
-  const imgFile = req.files['imgFile'][0];
-  const digitalFile = req.files['digitalFile'][0];
+  const imgFile = req.files['imgFile']?.[0];
+  // const digitalFile = req.files['digitalFile']?.[0];
 
-  const productData = req.body;
+  const { appUserId, digitalFile, ...productData } = req.body;
+  console.log('productData', productData);
+  // const {
+  //   appUserId,
+  //   ...productData
+  // }: { appUserId: number; productData: Partial<Product> } = req.body;
 
   let imgS3Url;
   if (imgFile) {
@@ -132,12 +139,24 @@ export const updateProduct: RequestHandler = asyncHandler(async (req, res) => {
     imgS3Url = await S3Service.getObjectSignedUrl(productData.imgS3Key);
   }
 
+  if (digitalFile) {
+    productData.digitalFileS3Key = await S3Service.uploadFile(digitalFile);
+  }
+
   // const id: number = BigInt(req.params.id);
   const id = parseInt(req.params.id, 10);
-  const updatedProduct = await ProductService.updateProduct(id, productData);
+  if (isNaN(id)) {
+    throw new CustomError('Invalid product ID', 400);
+  }
+
+  const updatedProduct = await ProductService.updateProduct(
+    id,
+    productData,
+    appUserId
+  );
+
   updatedProduct.imgS3Url = imgS3Url;
 
-  console.log(`${CONTEXT}::updateProduct() - success`);
   res
     .status(200)
     .json({ data: updatedProduct, message: 'Product updated successfully' });

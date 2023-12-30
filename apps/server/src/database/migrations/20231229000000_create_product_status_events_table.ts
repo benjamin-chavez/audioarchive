@@ -30,7 +30,7 @@ export async function up(knex: Knex): Promise<void> {
     $$
     BEGIN
         INSERT INTO ${TABLE_NAME}(product_id, status, change_date, changed_by)
-        VALUES (NEW.id, NEW.status, NOW(), current_app_user_id());
+        VALUES (NEW.id, NEW.status, NOW(), current_setting('app.current_app_user_id')::INTEGER);
         RETURN NEW;
     END;
     $$ LANGUAGE plpgsql;
