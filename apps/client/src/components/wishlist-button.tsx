@@ -4,24 +4,63 @@ import {
   useFavoritesDispatch,
   useIsProductFavorited,
 } from '@/contexts/wishlist-context';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { HeartIcon as OutlineHeartIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as FilledHeartIcon } from '@heroicons/react/24/solid';
+
+async function addFavorite(productId) {
+  const res = await fetch(`/api/app-users/me/favorites`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ productId }),
+  });
+
+  if (!res.ok) {
+    throw new Error('Error adding product to wishlist');
+  }
+
+  return res.json();
+}
+
+async function removeFavorite(productId) {
+  const res = await fetch(`/api/app-users/me/favorites/${productId}`, {
+    method: 'DELETE',
+  });
+
+  if (!res.ok) {
+    throw new Error('Error removing product from wishlist');
+  }
+
+  return res.json();
+}
 
 function WishlistButton({ productId }: { productId: number }) {
   const dispatch = useFavoritesDispatch();
   const isFavorite: boolean = useIsProductFavorited(productId);
 
-  const handleToggleFavorite = () => {
-    const actionType = isFavorite ? 'deleted' : 'added';
+  const handleToggleFavorite = async () => {
+    try {
+      handleDispatch();
+
+      const { data } = isFavorite
+        ? await removeFavorite(productId)
+        : await addFavorite(productId);
+
+      dispatch({ type: 'validate', favorites: data });
+    } catch (error) {
+      console.error(error);
+      handleDispatch();
+    }
+  };
+
+  function handleDispatch() {
     dispatch({
-      type: actionType,
+      type: isFavorite ? 'deleted' : 'added',
       productId,
     });
-
-    // TODO: START HERE TODO: START HERE TODO: START HERE TODO: START HERE
-    // TODO: START BY ADDING THE API REQUESTS TO UPDATE THE WISHLIST TABLE
-    // TODO: YOU WILL NEED TO ADD THE API ROUTES AND ASSOCIATED LOGIC TO THE SERVER
-  };
+  }
 
   return (
     <div>
@@ -32,7 +71,7 @@ function WishlistButton({ productId }: { productId: number }) {
       >
         {isFavorite ? (
           <FilledHeartIcon
-            className="h-6 w-6 flex-shrink-0 bg-red-500"
+            className="h-6 w-6 flex-shrink-0 bg-red-500 "
             aria-hidden="true"
           />
         ) : (

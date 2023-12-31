@@ -7,6 +7,7 @@ import asyncHandler from 'express-async-handler';
 import MeService from '../services/me.service';
 import ProductService from '../services/product.service';
 import StripeAccountService from '../services/stripe-account.service';
+import { WishlistService } from '../services/wishlist.service';
 
 // Protected Routes for the authenticated user
 // TODO:
@@ -92,5 +93,66 @@ export const getMyProductById: RequestHandler = asyncHandler(
     const product = await ProductService.getProductById(productId);
 
     res.status(200).json({ data: { product } });
+  }
+);
+
+export const getMyFavorites: RequestHandler = asyncHandler(async (req, res) => {
+  console.log('HERE');
+  // @ts-ignore
+  const authId = req.auth.sub;
+  const appUser = await MeService.getMe(authId);
+
+  const favorites = await WishlistService.getAllFavoritesByAppUserId(
+    appUser.id
+  );
+
+  console.log('ME-CONTROLLER-getMyFavorites: favorites!!!, ', favorites);
+
+  res.status(200).json({ data: favorites });
+});
+
+export const addProductToFavorites: RequestHandler = asyncHandler(
+  async (req, res) => {
+    // @ts-ignore
+    const authId = req.auth.sub;
+    const appUser = await MeService.getMe(authId);
+    const wishlistProductId = req.body;
+
+    console.log('11ME-CONTROLLER-addProductToFavorite: ', wishlistProductId);
+
+    const updatedWishlist = await WishlistService.addProductToFavorites({
+      appUserId: appUser.id,
+      productId: wishlistProductId.productId,
+    });
+
+    console.log('12ME-CONTROLLER-addProductToFavorite: ', wishlistProductId);
+
+    res.status(200).json({
+      data: updatedWishlist,
+      message: 'Product succesfully added to wishlist',
+    });
+  }
+);
+
+export const deleteProductFromFavorites: RequestHandler = asyncHandler(
+  async (req, res) => {
+    // @ts-ignore
+    const authId = req.auth.sub;
+    const appUser = await MeService.getMe(authId);
+    const wishlistProductId = parseInt(req.params.productId, 10);
+
+    console.log('1ME-CONTROLLER-addProductToFavorite: ', wishlistProductId);
+
+    const updatedWishlist = await WishlistService.deleteProductFromFavorites({
+      appUserId: appUser.id,
+      productId: wishlistProductId,
+    });
+
+    console.log('2ME-CONTROLLER-addProductToFavorite: ', updatedWishlist);
+
+    res.status(200).json({
+      data: updatedWishlist,
+      message: 'Product succesfully added to wishlist',
+    });
   }
 );

@@ -57,6 +57,14 @@ router.delete(
 // POST   /cart/checkout    - Checkout items in the cart.
 router.post('/me/cart/checkout', checkJwt, orderController.createCheckout);
 
+router.get('/me/favorites', checkJwt, meController.getMyFavorites);
+router.post('/me/favorites', checkJwt, meController.addProductToFavorites);
+router.delete(
+  '/me/favorites/:productId',
+  checkJwt,
+  meController.deleteProductFromFavorites
+);
+
 router.get('/me', checkJwt, meController.getMe);
 router.put('/me', checkJwt, upload, meController.updateMe);
 router.delete('/me', checkJwt, meController.deleteMe);
