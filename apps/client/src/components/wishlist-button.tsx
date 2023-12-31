@@ -4,7 +4,6 @@ import {
   useFavoritesDispatch,
   useIsProductFavorited,
 } from '@/contexts/wishlist-context';
-import { useUser } from '@auth0/nextjs-auth0/client';
 import { HeartIcon as OutlineHeartIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as FilledHeartIcon } from '@heroicons/react/24/solid';
 
@@ -36,7 +35,13 @@ async function removeFavorite(productId) {
   return res.json();
 }
 
-function WishlistButton({ productId }: { productId: number }) {
+function WishlistButton({
+  productId,
+  text,
+}: {
+  productId: number;
+  text?: string;
+}) {
   const dispatch = useFavoritesDispatch();
   const isFavorite: boolean = useIsProductFavorited(productId);
 
@@ -69,9 +74,10 @@ function WishlistButton({ productId }: { productId: number }) {
         className="ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500"
         onClick={handleToggleFavorite}
       >
+        {text && <span className="pr-2">Favorite </span>}
         {isFavorite ? (
           <FilledHeartIcon
-            className="h-6 w-6 flex-shrink-0 bg-red-500 "
+            className="h-6 w-6 flex-shrink-0 text-red-700 "
             aria-hidden="true"
           />
         ) : (
@@ -80,7 +86,6 @@ function WishlistButton({ productId }: { productId: number }) {
             aria-hidden="true"
           />
         )}
-
         <span className="sr-only">Add to favorites</span>
       </button>
     </div>

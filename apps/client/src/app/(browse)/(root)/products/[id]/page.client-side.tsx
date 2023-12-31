@@ -24,6 +24,7 @@ import { MAX_CART_ITEM_QUANTITY } from '@shared';
 import { Button } from 'ui';
 import { CURRENCY, formatAmountForDisplay } from '@/lib/cart-calculations';
 import { useRouter, useSearchParams } from 'next/navigation';
+import WishlistButton from '@/components/wishlist-button';
 // import { revalidateCart2 } from '../../cart/page';
 
 // @ts-ignore
@@ -266,7 +267,7 @@ export default function PageClient({
               >
                 Add to Cart
               </button>
-              <a
+              {/* <a
                 // type="button"
                 href={product.digitalFileS3Url}
                 target="_blank"
@@ -274,17 +275,10 @@ export default function PageClient({
                 className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-50 px-8 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
               >
                 Download
-              </a>
-              <button
-                type="button"
-                className="ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500"
-              >
-                <HeartIcon
-                  className="h-6 w-6 flex-shrink-0"
-                  aria-hidden="true"
-                />
-                <span className="sr-only">Add to favorites</span>
-              </button>
+              </a> */}
+
+              {/* TODO: UPDATE STYLING OF FAVORRITE BUTTON */}
+              <WishlistButton productId={product.id} text={'Favorite'} />
             </div>
 
             <div className="mt-10 border-t border-gray-200 pt-10">
