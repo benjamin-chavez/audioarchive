@@ -35,7 +35,7 @@ export type NavItem = {
 
 const generateNavItems = (user) => ({
   // TODO: You can put more logic in the function
-  returnnextLinks: [
+  nextLinks: [
     {
       name: 'Products',
       href: '/products',
@@ -67,6 +67,7 @@ const generateNavItems = (user) => ({
   authAppUserNavigation: [
     { name: 'Your Profile', href: user ? `/${user?.username}` : '' },
     { name: 'Dashboard', href: '/dashboard' },
+    { name: 'Favorites', href: '/favorites' },
     { name: 'Settings', href: '/dashboard/settings' },
     { name: 'Admin', href: '/a' },
     { name: 'Logout', href: '/api/auth/logout', anchorTag: true },
@@ -157,7 +158,7 @@ export default function Navbar() {
             <div className="flex">
               <div className=" w-full md:block md:w-auto" id="navbar-default">
                 <div className="flex gap-8">
-                  {navItems.nextLinks?.map((item) => {
+                  {navItems.nextLinks.map((item) => {
                     return (
                       <Link
                         key={item.href}

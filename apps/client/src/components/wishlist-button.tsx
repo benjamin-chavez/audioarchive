@@ -4,8 +4,10 @@ import {
   useFavoritesDispatch,
   useIsProductFavorited,
 } from '@/contexts/wishlist-context';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { HeartIcon as OutlineHeartIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as FilledHeartIcon } from '@heroicons/react/24/solid';
+import { useRouter } from 'next/navigation';
 
 async function addFavorite(productId) {
   const res = await fetch(`/api/app-users/me/favorites`, {
@@ -44,9 +46,16 @@ function WishlistButton({
 }) {
   const dispatch = useFavoritesDispatch();
   const isFavorite: boolean = useIsProductFavorited(productId);
+  const { user } = useUser();
+  const router = useRouter();
 
   const handleToggleFavorite = async () => {
     try {
+      if (!user) {
+        // TODO: AFTER LOGIN, RETURN TO THIS PAGE AND ADD THE ITEM TO FAVORITES
+        router.push('/api/auth/login');
+      }
+
       handleDispatch();
 
       const { data } = isFavorite
