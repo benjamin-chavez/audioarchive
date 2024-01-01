@@ -1,6 +1,7 @@
 // apps/server/src/routes/product.routes.ts
 
 import express, { Router } from 'express';
+import * as productRatingController from '../controllers/product-rating.controller';
 import * as productController from '../controllers/product.controller';
 import { checkJwt } from '../middleware/authMiddleware';
 import multer from 'multer';
@@ -14,7 +15,32 @@ const upload = multer({ storage: storage }).fields([
 ]);
 
 const router: Router = express.Router();
-// router.get('/', testQuery);
+
+router.post(
+  '/:productId/ratings',
+  checkJwt,
+  productRatingController.createRating
+);
+router.get(
+  '/:productId/ratings',
+  productRatingController.getAllRatingsByProductId
+);
+router.get(
+  '/:productId/average-rating',
+  productRatingController.getAverageProductRating
+);
+router.get('/ratings/:ratingId', productRatingController.getRatingById);
+router.patch(
+  '/ratings/:ratingId',
+  checkJwt,
+  productRatingController.updateRating
+);
+router.delete(
+  '/ratings/:ratingId',
+  checkJwt,
+  productRatingController.deleteRating
+);
+
 router.get('/', productController.getAllProductsWithUserDetails);
 router.get('/:id', productController.getProductById);
 

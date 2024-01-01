@@ -14,6 +14,7 @@ import {
   ShoppingCartIcon,
   XMarkIcon,
   BellIcon,
+  SpeakerWaveIcon,
 } from '@heroicons/react/24/outline';
 // import Toast from './ui/toast';
 // import { useMe } from '@/contexts/appUserContext';
@@ -255,13 +256,25 @@ export default function Navbar() {
                       className="flex items-center "
                     >
                       <div className="flex space-x-8">
-                        <div className="hidden lg:flex">
+                        {/* <div className="hidden lg:flex">
                           <a
                             href="#"
                             className="-m-2 p-2 text-gray-400 hover:text-gray-500"
                           >
                             <span className="sr-only">Search</span>
                             <MagnifyingGlassIcon
+                              className="h-6 w-6"
+                              aria-hidden="true"
+                            />
+                          </a>
+                        </div> */}
+                        <div className="hidden lg:flex">
+                          <a
+                            href="#"
+                            className="-m-2 p-2 text-gray-400 hover:text-gray-500"
+                          >
+                            <span className="sr-only">Search</span>
+                            <SpeakerWaveIcon
                               className="h-6 w-6"
                               aria-hidden="true"
                             />

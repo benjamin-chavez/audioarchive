@@ -5,10 +5,12 @@ import asyncHandler from 'express-async-handler';
 import ProductService from '../services/product.service';
 import S3Service from '../services/s3.service';
 import StripeService from '../services/stripe.service';
+import { ProductRatingService } from '../services/product-rating.service';
 import StripeAccountService from '../services/stripe-account.service';
 import axios from 'axios';
 import { CustomError } from '../middleware/customErrors';
 import { Product } from '@shared/src/schemas';
+import MeService from '../services/me.service';
 
 const CONTEXT = 'ProductController';
 

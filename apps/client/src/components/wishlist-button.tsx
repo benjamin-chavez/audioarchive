@@ -53,6 +53,7 @@ function WishlistButton({
     try {
       if (!user) {
         // TODO: AFTER LOGIN, RETURN TO THIS PAGE AND ADD THE ITEM TO FAVORITES
+        // TODO: REDIRECT SHOULD ACTUALLY GO TO SIGN UP PAGE
         router.push('/api/auth/login');
       }
 

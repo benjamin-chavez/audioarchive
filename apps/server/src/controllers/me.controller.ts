@@ -16,6 +16,9 @@ export const getMe: RequestHandler = asyncHandler(async (req, res) => {
   const authId = req.auth.sub;
   const appUser = await MeService.getMe(authId);
 
+  // @ts-ignore
+  // console.log(req);
+
   res.status(200).json({
     data: appUser,
     message: 'Authenticated AppUser retrieved successfully.',

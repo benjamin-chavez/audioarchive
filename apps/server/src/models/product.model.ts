@@ -6,9 +6,23 @@ import knex from '../config/database';
 class ProductModel {
   private static tableName = 'products';
 
+  static async create(product: Omit<Product, 'id'>): Promise<Product> {
+    const results: Product[] = await knex(this.tableName)
+      .insert(product)
+      .returning('*');
+
+    const newProduct = results[0];
+
+    if (!newProduct) {
+      throw new Error('Creation failed');
+    }
+
+    return newProduct;
+  }
+
   static createBaseQuery() {
     // { filters }: { filters: any }
-    return knex('products')
+    return knex(this.tableName)
       .select(
         'products.id ',
         'products.genre_name',
@@ -172,20 +186,6 @@ class ProductModel {
       .where('products.id', id)
       .select('products.*', 'appUsers.username');
     return products[0] || null;
-  }
-
-  static async create(product: Omit<Product, 'id'>): Promise<Product> {
-    const results: Product[] = await knex(this.tableName)
-      .insert(product)
-      .returning('*');
-
-    const newProduct = results[0];
-
-    if (!newProduct) {
-      throw new Error('Creation failed');
-    }
-
-    return newProduct;
   }
 
   // static async update(id: number, product: Partial<Product>): Promise<number> {
