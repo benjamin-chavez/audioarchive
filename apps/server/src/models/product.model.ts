@@ -22,26 +22,52 @@ class ProductModel {
 
   static createBaseQuery() {
     // { filters }: { filters: any }
-    return knex(this.tableName)
-      .select(
-        'products.id ',
-        'products.genre_name',
-        'products.name',
-        'products.daw',
-        'products.bpm',
-        'products.price',
-        'products.img_s3_key',
-        'products.img_s3_url',
-        'products.key',
-        'products.label',
-        'products.description',
-        'products.digital_file_s3_key',
-        knex.raw('app_users.id as appUserId'),
-        knex.raw('app_users.username')
-        // knex.raw('app_users.id AS seller_id'),
-        // knex.raw('app_users.username AS seller_username')
-      )
-      .join('app_users', 'products.app_user_id', 'app_users.id');
+    return (
+      knex(this.tableName)
+        .select(
+          'products.id ',
+          'products.genre_name',
+          'products.name',
+          'products.daw',
+          'products.bpm',
+          'products.price',
+          'products.img_s3_key',
+          'products.img_s3_url',
+          'products.key',
+          'products.label',
+          'products.description',
+          'products.digital_file_s3_key',
+          knex.raw('AVG(product_ratings.rating) as average_rating'),
+          knex.raw('app_users.id as appUserId'),
+          knex.raw('app_users.username')
+          // knex.raw('app_users.id AS seller_id'),
+          // knex.raw('app_users.username AS seller_username')
+        )
+        // .join('app_users', 'products.app_user_id', 'app_users.id')
+        .leftJoin('appUsers', 'products.appUserId', '=', 'appUsers.id')
+        .leftJoin(
+          'product_ratings',
+          'products.id',
+          'product_ratings.product_id'
+        )
+        .groupBy('products.id', 'appUsers.id')
+      // .groupBy(
+      //   'products.id',
+      //   'products.genre_name',
+      //   'products.name',
+      //   'products.daw',
+      //   'products.bpm',
+      //   'products.price',
+      //   'products.img_s3_key',
+      //   'products.img_s3_url',
+      //   'products.key',
+      //   'products.label',
+      //   'products.description',
+      //   'products.digital_file_s3_key',
+      //   'app_users.id',
+      //   'app_users.username'
+      // )
+    );
   }
 
   static applyFiltersNew(productQuery, filters) {
@@ -161,31 +187,55 @@ class ProductModel {
   }
 
   static async getAll(): Promise<Product[]> {
-    return knex(this.tableName).select('*');
+    return knex(this.tableName)
+      .leftJoin('product_ratings', 'products.id', 'product_ratings.product_id')
+      .select(
+        'products.*',
+        knex.raw('AVG(product_ratings.rating) as average_rating')
+      );
   }
 
   static async getAllProductsWithUserDetails(): Promise<any> {
     const products = await knex(this.tableName)
-      .join('appUsers', 'products.appUserId', '=', 'appUsers.id')
-      .select('products.*', 'appUsers.username', 'appUsers.auth_id');
+      .leftJoin('appUsers', 'products.appUserId', '=', 'appUsers.id')
+      .leftJoin('product_ratings', 'products.id', 'product_ratings.product_id')
+      .select(
+        'products.*',
+        'appUsers.username',
+        'appUsers.auth_id',
+        knex.raw('AVG(product_ratings.rating) as average_rating')
+      );
 
     return products;
   }
 
   static async getAllProductsByAppUser(appUserId: number): Promise<any> {
     const products = await knex(this.tableName)
+      .leftJoin('product_ratings', 'products.id', 'product_ratings.product_id')
       .where('appUserId', appUserId)
-      .select('*');
+      .select(
+        'products.*',
+        knex.raw('AVG(product_ratings.rating) as average_rating')
+      )
+      .groupBy('products.id');
 
     return products;
   }
 
   static async findById(id: number): Promise<Product | null> {
-    const products = await knex(this.tableName)
-      .join('appUsers', 'products.appUserId', '=', 'appUsers.id')
+    const product = await knex(this.tableName)
+      .leftJoin('appUsers', 'products.appUserId', '=', 'appUsers.id')
+      .leftJoin('product_ratings', 'products.id', 'product_ratings.product_id')
       .where('products.id', id)
-      .select('products.*', 'appUsers.username');
-    return products[0] || null;
+      .select(
+        'products.*',
+        'appUsers.username',
+        knex.raw('AVG(product_ratings.rating) as average_rating')
+      )
+      .groupBy('products.id', 'appUsers.id')
+      .first();
+
+    return product || null;
   }
 
   // static async update(id: number, product: Partial<Product>): Promise<number> {
