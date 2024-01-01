@@ -229,7 +229,7 @@ export default function PageClient({
                     <StarIcon
                       key={rating}
                       className={classNames(
-                        reviews.average > rating
+                        product.averageRating > rating
                           ? 'text-yellow-400'
                           : 'text-gray-300',
                         'h-5 w-5 flex-shrink-0',

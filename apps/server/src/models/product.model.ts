@@ -51,22 +51,6 @@ class ProductModel {
           'product_ratings.product_id'
         )
         .groupBy('products.id', 'appUsers.id')
-      // .groupBy(
-      //   'products.id',
-      //   'products.genre_name',
-      //   'products.name',
-      //   'products.daw',
-      //   'products.bpm',
-      //   'products.price',
-      //   'products.img_s3_key',
-      //   'products.img_s3_url',
-      //   'products.key',
-      //   'products.label',
-      //   'products.description',
-      //   'products.digital_file_s3_key',
-      //   'app_users.id',
-      //   'app_users.username'
-      // )
     );
   }
 
@@ -212,7 +196,7 @@ class ProductModel {
   static async getAllProductsByAppUser(appUserId: number): Promise<any> {
     const products = await knex(this.tableName)
       .leftJoin('product_ratings', 'products.id', 'product_ratings.product_id')
-      .where('appUserId', appUserId)
+      .where('products.appUserId', appUserId)
       .select(
         'products.*',
         knex.raw('AVG(product_ratings.rating) as average_rating')
