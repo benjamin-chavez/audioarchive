@@ -2,6 +2,7 @@
 
 import express, { Router } from 'express';
 import * as productRatingController from '../controllers/product-rating.controller';
+import * as productReviewController from '../controllers/product-review.controller';
 import * as productController from '../controllers/product.controller';
 import { checkJwt } from '../middleware/authMiddleware';
 import multer from 'multer';
@@ -16,6 +17,7 @@ const upload = multer({ storage: storage }).fields([
 
 const router: Router = express.Router();
 
+// PRODUCT RATINGS
 router.post(
   '/:productId/ratings',
   checkJwt,
@@ -39,6 +41,28 @@ router.delete(
   '/ratings/:ratingId',
   checkJwt,
   productRatingController.deleteRating
+);
+
+// PRODUCT REVIEWS
+router.post(
+  '/:productId/reviews',
+  checkJwt,
+  productReviewController.createReview
+);
+router.get(
+  '/:productId/reviews',
+  productReviewController.getAllReviewsByProductId
+);
+router.get('/reviews/:reviewId', productReviewController.getReviewById);
+router.patch(
+  '/reviews/:reviewId',
+  checkJwt,
+  productReviewController.updateReview
+);
+router.delete(
+  '/reviews/:reviewId',
+  checkJwt,
+  productReviewController.deleteReview
 );
 
 router.get('/', productController.getAllProductsWithUserDetails);

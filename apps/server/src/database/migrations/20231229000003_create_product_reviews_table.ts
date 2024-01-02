@@ -10,7 +10,7 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments('id').primary();
     t.string('title');
-    t.string('comment');
+    t.text('comment');
 
     t.integer('product_id')
       .unsigned()
@@ -26,7 +26,7 @@ export async function up(knex: Knex): Promise<void> {
       .notNullable()
       .onDelete('CASCADE');
 
-    t.integer('rating').unsigned().notNullable();
+    // t.integer('review').unsigned().notNullable();
 
     t.timestamps(true, true);
 

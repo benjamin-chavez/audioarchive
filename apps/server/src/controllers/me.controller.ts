@@ -17,7 +17,7 @@ export const getMe: RequestHandler = asyncHandler(async (req, res) => {
   const appUser = await MeService.getMe(authId);
 
   // @ts-ignore
-  // console.log(req);
+  console.log(req);
 
   res.status(200).json({
     data: appUser,
