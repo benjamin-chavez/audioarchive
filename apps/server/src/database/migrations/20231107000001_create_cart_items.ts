@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
     t.increments('id').primary();
 
     // Foreign Keys
-    t.integer('cartId')
+    t.integer('cart_id')
       .unsigned()
       .references('id')
       .inTable('carts')
@@ -20,7 +20,7 @@ export async function up(knex: Knex): Promise<void> {
     //   .references('stripeAccounts.id')
     //   .notNullable();
 
-    t.integer('productId')
+    t.integer('product_id')
       .unsigned()
       .references('id')
       .inTable('products')

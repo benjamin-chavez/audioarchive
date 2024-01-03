@@ -12,9 +12,10 @@ exports.up = async function (knex: Knex): Promise<void> {
     t.increments('id').primary();
 
     // Foreign Key
-    t.integer('appUserId')
+    t.integer('app_user_id')
       .unsigned()
-      .references('appUsers.id')
+      .references('id')
+      .inTable('app_users')
       .notNullable()
       .onDelete('CASCADE');
 
@@ -54,29 +55,29 @@ exports.up = async function (knex: Knex): Promise<void> {
       .checkBetween([[20, 999]]);
     t.decimal('price').checkPositive().unsigned().notNullable(); // <= // [precision, scale]
 
-    t.specificType('status', 'productStatusType')
+    t.specificType('status', 'product_status_type')
       .notNullable()
       .defaultTo('draft');
 
-    t.string('imgS3Key', 512).defaultTo('default-album-artwork-seed.webp');
-    t.string('imgS3Url', 512);
+    t.string('img_s3_key', 512).defaultTo('default-album-artwork-seed.webp');
+    t.string('img_s3_url', 512);
 
-    t.string('digitalFileS3Key', 512).defaultTo(
+    t.string('digital_file_s3_key', 512).defaultTo(
       'ableton-audio-archive-demo-file-project-seed.zip'
     );
-    t.string('digitalFileS3Url', 512);
+    t.string('digital_file_s3_url', 512);
 
     // New Optional Columns
     t.string('key');
     t.string('label');
     t.text('description');
 
-    t.string('stripeProductId');
+    t.string('stripe_product_id');
 
     t.timestamps(true, true);
 
     // Composite Unique Constraint
-    t.unique(['appUserId', 'name']);
+    t.unique(['app_user_id', 'name']);
   });
 };
 

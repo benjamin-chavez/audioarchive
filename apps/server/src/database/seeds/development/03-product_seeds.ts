@@ -407,8 +407,8 @@ export async function seed(knex: Knex): Promise<void> {
       const newBpm = typeof seed.bpm === 'number' ? seed.bpm : 126;
 
       const productToCreate = {
-        appUserId: appUserId,
-        accountId: 1,
+        app_user_id: appUserId,
+        account_id: 1,
         name: seed.name,
         // genre_id: 4,
         // genre_name: 'Deep House',
@@ -419,22 +419,22 @@ export async function seed(knex: Knex): Promise<void> {
         label: '',
         description: seed.description,
         price: newPrice,
-        imgS3Key: seed.imgS3Key,
+        img_s3_key: seed.imgS3Key,
         // imgS3Key: `${seed.name
         //   .replace(/\s+/g, '-')
         //   .toLowerCase()}-product-img-seed`,
         // imgS3Key: seed.imgS3Key,
         // imgS3Key: 'amin-chavez-the-look-seed.jpg',
         status: 'published',
-        imgS3Url: '',
-        digitalFileS3Key: 'ableton-audio-archive-demo-file-project-seed.zip',
+        img_s3_url: '',
+        digital_file_s3_key: 'ableton-audio-archive-demo-file-project-seed.zip',
         // created_at: currentTimestamp,
         // updated_at: currentTimestamp,
       };
 
       // console.log('product.imgS3Key: ', productToCreate.imgS3Key);
-      productToCreate.imgS3Url = await S3Service.getObjectSignedUrl(
-        productToCreate.imgS3Key
+      productToCreate.img_s3_url = await S3Service.getObjectSignedUrl(
+        productToCreate.img_s3_key
       );
       const newProduct = await ProductService.addNewProduct(productToCreate);
     } catch (error) {

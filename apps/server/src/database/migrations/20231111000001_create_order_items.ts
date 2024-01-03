@@ -8,14 +8,14 @@ export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(TABLE_NAME, (table) => {
     table.increments('id').primary();
     table
-      .integer('orderId')
+      .integer('order_id')
       .unsigned()
       .references('id')
       .inTable('orders')
       .notNullable()
       .onDelete('CASCADE');
     table
-      .integer('productId')
+      .integer('product_id')
       .unsigned()
       .references('id')
       .inTable('products')

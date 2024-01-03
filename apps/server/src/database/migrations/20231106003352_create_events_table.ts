@@ -4,7 +4,7 @@ const TABLE_NAME = 'events';
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.raw(
-    "CREATE TYPE eventStatusType AS ENUM ('pending', 'processing', 'processed', 'failed')"
+    "CREATE TYPE event_status_type AS ENUM ('pending', 'processing', 'processed', 'failed')"
     // "CREATE TYPE eventStatusType AS ENUM (\'pending\', \'processing\', \'processed\', \'failed\')"
   );
 
@@ -14,7 +14,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string('source');
     table.string('type');
     table.text('processing_errors');
-    table.specificType('status', 'eventStatusType').notNullable();
+    table.specificType('status', 'event_status_type').notNullable();
 
     table.timestamps(true, true);
   });
