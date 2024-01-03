@@ -8,6 +8,7 @@ import MeService from '../services/me.service';
 import ProductService from '../services/product.service';
 import StripeAccountService from '../services/stripe-account.service';
 import { WishlistService } from '../services/wishlist.service';
+import knex from '../config/database';
 
 // Protected Routes for the authenticated user
 // TODO:
