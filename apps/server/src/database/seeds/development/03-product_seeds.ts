@@ -391,7 +391,17 @@ export async function seed(knex: Knex): Promise<void> {
         mimetype: pictureBuffer.headers['content-type'],
         buffer: Buffer.from(pictureBuffer.data),
       };
-      product.imgS3Key = await S3Service.uploadFile(pictureFile);
+
+      const newImgS3Key = `${seed.name
+        .replace(/\s+/g, '-')
+        .toLowerCase()}-product-img-seed`;
+      const newFileType = pictureFile.mimetype.split('/')[1];
+      // product.imgS3Key = await S3Service.uploadFile(
+      //   pictureFile,
+      //   newImgS3Key,
+      //   newFileType
+      // );
+      product.imgS3Key = `${newImgS3Key}.${newFileType}`;
 
       const { id: appUserId } = await knex('app_users')
         .first('id')
@@ -407,8 +417,8 @@ export async function seed(knex: Knex): Promise<void> {
       const newBpm = typeof seed.bpm === 'number' ? seed.bpm : 126;
 
       const productToCreate = {
-        app_user_id: appUserId,
-        account_id: 1,
+        appUserId: appUserId,
+        accountId: 1,
         name: seed.name,
         // genre_id: 4,
         // genre_name: 'Deep House',
@@ -419,23 +429,24 @@ export async function seed(knex: Knex): Promise<void> {
         label: '',
         description: seed.description,
         price: newPrice,
-        img_s3_key: seed.imgS3Key,
+        imgS3Key: seed.imgS3Key,
+        // imgS3Key: `${newImgS3Key}.${newFileType}`,
         // imgS3Key: `${seed.name
         //   .replace(/\s+/g, '-')
         //   .toLowerCase()}-product-img-seed`,
-        // imgS3Key: seed.imgS3Key,
+
         // imgS3Key: 'amin-chavez-the-look-seed.jpg',
         status: 'published',
-        img_s3_url: '',
-        digital_file_s3_key: 'ableton-audio-archive-demo-file-project-seed.zip',
+        imgS3Url: '',
+        digitalFileS3Key: 'ableton-audio-archive-demo-file-project-seed.zip',
         // created_at: currentTimestamp,
         // updated_at: currentTimestamp,
       };
 
-      // console.log('product.imgS3Key: ', productToCreate.imgS3Key);
-      productToCreate.img_s3_url = await S3Service.getObjectSignedUrl(
-        productToCreate.img_s3_key
+      productToCreate.imgS3Url = await S3Service.getObjectSignedUrl(
+        productToCreate.imgS3Key
       );
+      console.log('product.imgS3Key: ', productToCreate);
       const newProduct = await ProductService.addNewProduct(productToCreate);
     } catch (error) {
       console.log(error, seed);

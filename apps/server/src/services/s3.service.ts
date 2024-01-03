@@ -206,9 +206,9 @@ class S3Service {
   // }
 
   // static async uploadFile({ fileBuffer, fileName, mimetype }): Promise<any> {
-  static async uploadFile(file): Promise<any> {
+  static async uploadFile(file, newImgS3Key?, newFileType?): Promise<any> {
     try {
-      const imgS3Key = generateRandomBytes();
+      const imgS3Key = `${newImgS3Key}.${newFileType}` || generateRandomBytes();
       const bucketName =
         process.env.AWS_BUCKET_NAME || 'audio-archive-initial-dev-setup';
       const mimetype = file.mimetype;
@@ -220,6 +220,7 @@ class S3Service {
         ContentType: mimetype,
         Body: buffer,
       };
+      console.log(uploadParams);
 
       await s3.send(new PutObjectCommand(uploadParams));
 
