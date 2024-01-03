@@ -119,7 +119,7 @@ export function useFavorites() {
 
 export function useIsProductFavorited(productId) {
   const favorites = useContext(FavoritesContext);
-  console.log('favorites.inc', favorites);
+  // console.log('favorites.inc', favorites);
   return favorites?.includes(productId);
 }
 

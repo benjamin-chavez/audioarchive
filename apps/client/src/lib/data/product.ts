@@ -14,4 +14,17 @@ export async function getProductDetails(integerId: number) {
   return res.json();
 }
 
+export async function getProductReviews(productId: number) {
+  const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
+
+  const res = await fetch(`${BASE_URL}/products/${productId}/reviews`);
+
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch products');
+  }
+
+  return res.json();
+}
+
 // export const dynamic = 'force-dynamic';

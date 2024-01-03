@@ -37,7 +37,15 @@ class ProductReviewModel {
   }
 
   static getAllByProductId(productId) {
-    return knex(this.tableName).select('*').where({ productId });
+    return knex(this.tableName)
+      .select(
+        'productReviews.*',
+        'appUsers.displayName',
+        'appUsers.avatarS3Key',
+        'appUsers.avatarS3Url'
+      )
+      .leftJoin('appUsers', 'productReviews.appUserId', '=', 'appUsers.id')
+      .where({ productId });
   }
 
   static async update({

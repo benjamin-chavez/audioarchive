@@ -25,6 +25,7 @@ import { Button } from 'ui';
 import { CURRENCY, formatAmountForDisplay } from '@/lib/cart-calculations';
 import { useRouter, useSearchParams } from 'next/navigation';
 import WishlistButton from '@/components/wishlist-button';
+
 // import { revalidateCart2 } from '../../cart/page';
 
 // @ts-ignore
@@ -135,9 +136,11 @@ export async function handleAddToCart({
 export default function PageClient({
   product,
   revalidateCart,
+  productReviewData,
 }: {
   product: ProductWithAppUser | any;
   revalidateCart: () => Promise<void>;
+  productReviewData: any;
 }) {
   const searchParams = useSearchParams();
   const customReferrer = searchParams.get('ref');
@@ -146,6 +149,7 @@ export default function PageClient({
 
   const isProductSeller = user && user.id === product.appUserId;
 
+  console.log('productReviewData', productReviewData);
   return (
     <div className="bg-white">
       <div
@@ -414,18 +418,20 @@ export default function PageClient({
                 <Tab.Panel className="-mb-10">
                   <h3 className="sr-only">Customer Reviews</h3>
 
-                  {reviews.featured.map((review, reviewIdx) => (
+                  {/* {reviews.featured.map((review, reviewIdx) => ( */}
+                  {productReviewData.map((review, reviewIdx) => (
                     <div
                       key={review.id}
                       className="flex space-x-4 text-sm text-gray-500"
                     >
                       <div className="flex-none py-10">
                         <img
-                          src={review.avatarSrc}
+                          src={review.avatarS3Url}
                           alt=""
-                          className="h-10 w-10 rounded-full bg-gray-100"
+                          className="inline-block h-12 w-12 rounded-full"
                         />
                       </div>
+
                       <div
                         className={classNames(
                           reviewIdx === 0 ? '' : 'border-t border-gray-200',
@@ -433,10 +439,13 @@ export default function PageClient({
                         )}
                       >
                         <h3 className="font-medium text-gray-900">
-                          {review.author}
+                          {/* {reviews[reviewIdx]?.author} */}
+                          {review.displayName}
                         </h3>
                         <p>
-                          <time dateTime={review.datetime}>{review.date}</time>
+                          <time dateTime={reviews[reviewIdx]?.datetime}>
+                            {reviews[reviewIdx]?.date}
+                          </time>
                         </p>
 
                         <div className="mt-4 flex items-center">
@@ -444,7 +453,7 @@ export default function PageClient({
                             <StarIcon
                               key={rating}
                               className={classNames(
-                                review.rating > rating
+                                reviews[reviewIdx]?.rating > rating
                                   ? 'text-yellow-400'
                                   : 'text-gray-300',
                                 'h-5 w-5 flex-shrink-0',
@@ -454,12 +463,13 @@ export default function PageClient({
                           ))}
                         </div>
                         <p className="sr-only">
-                          {review.rating} out of 5 stars
+                          {reviews[reviewIdx]?.rating} out of 5 stars
                         </p>
 
                         <div
                           className="prose prose-sm mt-4 max-w-none text-gray-500"
-                          dangerouslySetInnerHTML={{ __html: review.content }}
+                          // dangerouslySetInnerHTML={{ __html: review.content }}
+                          dangerouslySetInnerHTML={{ __html: review.comment }}
                         />
                       </div>
                     </div>

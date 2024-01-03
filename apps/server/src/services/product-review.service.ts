@@ -2,6 +2,7 @@
 
 import { NotFoundError } from '../middleware/customErrors';
 import { ProductReviewModel } from '../models/product-review.model';
+import S3Service from './s3.service';
 
 class ProductReviewService {
   static async createReview({
@@ -38,7 +39,28 @@ class ProductReviewService {
       throw new Error('Reviews not found');
     }
 
-    return reviews;
+    const reviewsWithAppUserAvatars = await Promise.allSettled(
+      reviews.map(async (review) => {
+        try {
+          const avatarS3Url = await S3Service.getObjectSignedUrl(
+            review.avatarS3Key
+          );
+          console.log(avatarS3Url);
+          return { ...review, avatarS3Url };
+        } catch (error) {
+          console.error('Error getting avatar URL:', error);
+          return { ...review, avatarS3Url: null };
+        }
+      })
+    );
+
+    // return reviews;
+    return (
+      reviewsWithAppUserAvatars
+        .filter((result) => result.status === 'fulfilled')
+        // @ts-ignore
+        .map((result) => result.value)
+    );
   }
 
   static async getReviewById(reviewId) {
