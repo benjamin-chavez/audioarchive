@@ -214,7 +214,7 @@ export async function seed(knex: Knex): Promise<void> {
   //   //   label: '',
   //   //   description: 'product description',
   //   //   price: 29.99,
-  //   //   imgS3Key: 'amin-chavez-Booty-seed.png',
+  //// imgS3Key: 'amin-chavez-Booty-seed.png',
   //   //   digitalFileS3Key: 'ableton-audio-archive-demo-file-project-seed.zip',
   //   //   // created_at: currentTimestamp,
   //   //   // updated_at: currentTimestamp,
@@ -401,7 +401,7 @@ export async function seed(knex: Knex): Promise<void> {
       //   console.error('Error fetching app user ID:', error);
       //   return;
       // });
-      console.log('appUserId', appUserId);
+      // console.log('appUserId', appUserId);
 
       const newPrice = seed.price > 50 ? 29.99 : seed.price;
       const newBpm = typeof seed.bpm === 'number' ? seed.bpm : 126;
@@ -419,9 +419,13 @@ export async function seed(knex: Knex): Promise<void> {
         label: '',
         description: seed.description,
         price: newPrice,
-        // imgS3Key: `${seed.name}-seed`,
         imgS3Key: seed.imgS3Key,
+        // imgS3Key: `${seed.name
+        //   .replace(/\s+/g, '-')
+        //   .toLowerCase()}-product-img-seed`,
+        // imgS3Key: seed.imgS3Key,
         // imgS3Key: 'amin-chavez-the-look-seed.jpg',
+        status: 'published',
         imgS3Url: '',
         digitalFileS3Key: 'ableton-audio-archive-demo-file-project-seed.zip',
         // created_at: currentTimestamp,

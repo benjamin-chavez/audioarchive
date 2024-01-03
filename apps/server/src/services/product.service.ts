@@ -178,7 +178,7 @@ class ProductService {
 
       const newProduct = await ProductModel.create(productData);
 
-      console.log(`${CONTEXT}::addNewProduct - success`);
+      // console.log(`${CONTEXT}::addNewProduct - success`);
       return newProduct;
     } catch (error) {
       console.log('Errer: ', error);
