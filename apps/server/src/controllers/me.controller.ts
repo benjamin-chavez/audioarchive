@@ -17,7 +17,7 @@ export const getMe: RequestHandler = asyncHandler(async (req, res) => {
   const appUser = await MeService.getMe(authId);
 
   // @ts-ignore
-  console.log(req);
+  // console.log(req);
 
   res.status(200).json({
     data: appUser,
@@ -27,11 +27,13 @@ export const getMe: RequestHandler = asyncHandler(async (req, res) => {
 
 // TODO:
 export const updateMe: RequestHandler = asyncHandler(async (req, res) => {
+  console.log('req.body', req.files['imgFile']);
   // @ts-ignore
   const imgFile = req.files['imgFile'][0];
   // @ts-ignore
   const authId = req.auth.sub;
-  const updatedAppUser = await MeService.updateMe(authId, req.body);
+
+  const updatedAppUser = await MeService.updateMe(authId, req.body, imgFile);
 
   res.status(200).json({
     data: updatedAppUser,

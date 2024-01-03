@@ -13,6 +13,7 @@ type FormData = {
   email: string;
   username: string;
   // avatar?: string;
+  avatarS3Url: string;
   imgFile?: File;
 };
 
@@ -23,20 +24,23 @@ export default function SettingsForm({
   appUser: AppUser;
   revalidateAppUser: () => Promise<void>;
 }) {
+  console.log(JSON.stringify(appUser, null, 2));
   // const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [newImagePreview, setNewImagePreview] = useState<string | null>(null);
 
-  const { register, handleSubmit, control } = useForm<FormData>({
+  const { register, handleSubmit, setValue, watch } = useForm<FormData>({
     defaultValues: {
       firstName: appUser.firstName,
       lastName: appUser.lastName,
       email: appUser.email,
       username: appUser.username,
-      // avatar: appUser.avatar,
+      avatarS3Url: appUser.avatarS3Url,
     },
     mode: 'onChange',
   });
+
+  // const imgFileValue = watch('imgFile');
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -44,17 +48,21 @@ export default function SettingsForm({
       const formData = new FormData();
 
       Object.keys(data).forEach((key) => {
-        if (key !== 'imgFile' && key !== 'digitalFile') {
+        console.log(`data[${key}]: `, `${data[key][0]}`);
+        if (key !== 'imgFile') {
           // @ts-ignore
           formData.append(key, data[key]);
         }
       });
 
       if (data.imgFile) {
-        formData.append('imgFile', data.imgFile[0]);
+        formData.append('imgFile', data.imgFile);
       }
       formData.append('updated_at', new Date().toISOString());
 
+      Array.from(formData.entries()).forEach(([key, value]) => {
+        console.log(`${key}: ${value}`);
+      });
       const response = await fetch('/api/app-users/me', {
         method: 'PUT',
         // headers: {
@@ -96,15 +104,18 @@ export default function SettingsForm({
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
+    console.log('e.target.files', e.target.files[0]);
+    console.log(file);
 
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         if (typeof reader.result === 'string') {
+          // setSelectedImage(reader.result);
           setNewImagePreview(reader.result);
         }
       };
-
+      setValue('imgFile', file);
       reader.readAsDataURL(file);
     }
   };
@@ -159,10 +170,11 @@ export default function SettingsForm({
                 {/*  */}
                 <div className="col-span-full flex items-center gap-x-8">
                   <img
-                    src={newImagePreview || appUser.avatarS3Url}
-                    alt=""
+                    src={newImagePreview || appUser.avatarS3Url || null}
+                    alt={appUser.avatarS3Url}
                     className="h-24 w-24 flex-none rounded-lg bg-gray-800 object-cover"
                   />
+
                   <div>
                     <button
                       className="rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"

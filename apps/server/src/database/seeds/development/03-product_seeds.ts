@@ -430,17 +430,9 @@ export async function seed(knex: Knex): Promise<void> {
         description: seed.description,
         price: newPrice,
         imgS3Key: seed.imgS3Key,
-        // imgS3Key: `${newImgS3Key}.${newFileType}`,
-        // imgS3Key: `${seed.name
-        //   .replace(/\s+/g, '-')
-        //   .toLowerCase()}-product-img-seed`,
-
-        // imgS3Key: 'amin-chavez-the-look-seed.jpg',
         status: 'published',
         imgS3Url: '',
         digitalFileS3Key: 'ableton-audio-archive-demo-file-project-seed.zip',
-        // created_at: currentTimestamp,
-        // updated_at: currentTimestamp,
       };
 
       productToCreate.imgS3Url = await S3Service.getObjectSignedUrl(

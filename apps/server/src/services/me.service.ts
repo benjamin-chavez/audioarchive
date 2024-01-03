@@ -63,9 +63,13 @@ class MeService {
 
   static async updateMe(
     authId: string,
-    appUserData: Partial<AppUser | null>
+    appUserData: Partial<AppUser | null>,
+    imgFile: any
   ): Promise<AppUser> {
     // TODO: Add validation logic
+    if (imgFile) {
+      appUserData.avatarS3Key = await S3Service.uploadFile(imgFile);
+    }
 
     if (!appUserData) {
       throw new BadRequestError('Invalid appUser data provided');
