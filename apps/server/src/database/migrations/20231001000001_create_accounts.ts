@@ -8,24 +8,24 @@ export async function up(knex: Knex): Promise<void> {
 
     // Foreign Key
     table
-      .integer('appUserId')
+      .integer('app_user_id')
       .unsigned()
       .references('id')
-      .inTable('appUsers')
+      .inTable('app_users')
       .notNullable()
       .onDelete('CASCADE');
 
-    table.string('stripeAccountId').notNullable().unique();
-    table.boolean('chargesEnabled').defaultTo(false);
-    table.boolean('payoutsEnabled').defaultTo(false);
-    table.boolean('detailsSubmitted').defaultTo(false);
+    table.string('stripe_account_id').notNullable().unique();
+    table.boolean('charges_enabled').defaultTo(false);
+    table.boolean('payouts_enabled').defaultTo(false);
+    table.boolean('details_submitted').defaultTo(false);
     // TODO: Ensure that a user can only have one default account
-    table.boolean('defaultAccount').defaultTo(true);
+    table.boolean('default_account').defaultTo(true);
 
     table.timestamps(true, true);
 
-    table.index('appUserId');
-    table.index('defaultAccount');
+    table.index('app_user_id');
+    table.index('default_account');
   });
 }
 
