@@ -407,12 +407,19 @@ export async function seed(knex: Knex): Promise<void> {
         .first('id')
         .where('spotify_id', product.artistId);
 
+      let { id: accountId } = await knex('accounts').select('id').first();
+
+      accountId =
+        product.spotifyId === '1HBoMknv2KI9eI7tTnb6vZ'
+          ? accountId + 1
+          : accountId;
+
       const newPrice = seed.price > 50 ? 29.99 : seed.price;
       const newBpm = typeof seed.bpm === 'number' ? seed.bpm : 126;
 
       const productToCreate = {
         appUserId: appUserId,
-        accountId: 1,
+        accountId: accountId,
         name: seed.name,
         // genre_id: 4,
         // genre_name: 'Deep House',
@@ -432,7 +439,7 @@ export async function seed(knex: Knex): Promise<void> {
       // productToCreate.imgS3Url = await S3Service.getObjectSignedUrl(
       // productToCreate.imgS3Key
       // );
-      console.log('product.imgS3Key: ', productToCreate);
+      // console.log('product.imgS3Key: ', productToCreate);
       const newProduct = await ProductService.addNewProduct(productToCreate);
     } catch (error) {
       console.log(error, seed);
