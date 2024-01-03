@@ -4,7 +4,7 @@ const TABLE_NAME = 'products';
 
 exports.up = async function (knex: Knex): Promise<void> {
   await knex.schema.raw(
-    "CREATE TYPE productStatusType AS ENUM ('draft', 'published', 'archived')"
+    "CREATE TYPE product_status_type AS ENUM ('draft', 'published', 'archived')"
   );
 
   return knex.schema.createTable(TABLE_NAME, (t) => {

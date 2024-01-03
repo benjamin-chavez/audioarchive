@@ -14,7 +14,7 @@ export async function up(knex: Knex): Promise<void> {
     (
         id          SERIAL PRIMARY KEY,
         product_id  INTEGER           NOT NULL REFERENCES products (id) ON DELETE CASCADE,
-        status      productStatusType NOT NULL,
+        status      product_status_type NOT NULL,
         --change_date TIMESTAMP WITHOUT TIME ZONE DEFAULT (NOW() AT TIME ZONE 'UTC'),
         change_date TIMESTAMP WITH TIME ZONE    DEFAULT CURRENT_TIMESTAMP,
         changed_by  INTEGER REFERENCES app_users (id),
