@@ -406,12 +406,6 @@ export async function seed(knex: Knex): Promise<void> {
       const { id: appUserId } = await knex('app_users')
         .first('id')
         .where('spotify_id', product.artistId);
-      // .then((row) => (row ? row.id : null))
-      // .catch((error) => {
-      //   console.error('Error fetching app user ID:', error);
-      //   return;
-      // });
-      // console.log('appUserId', appUserId);
 
       const newPrice = seed.price > 50 ? 29.99 : seed.price;
       const newBpm = typeof seed.bpm === 'number' ? seed.bpm : 126;
@@ -435,9 +429,9 @@ export async function seed(knex: Knex): Promise<void> {
         digitalFileS3Key: 'ableton-audio-archive-demo-file-project-seed.zip',
       };
 
-      productToCreate.imgS3Url = await S3Service.getObjectSignedUrl(
-        productToCreate.imgS3Key
-      );
+      // productToCreate.imgS3Url = await S3Service.getObjectSignedUrl(
+      // productToCreate.imgS3Key
+      // );
       console.log('product.imgS3Key: ', productToCreate);
       const newProduct = await ProductService.addNewProduct(productToCreate);
     } catch (error) {
