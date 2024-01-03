@@ -286,6 +286,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const estimatedTax = useMemo(
     () => calculateEstimatedTax(subtotal),
+    // TODO: update dependency array
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [cartItems],
   );
 

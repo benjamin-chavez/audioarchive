@@ -1,0 +1,4 @@
+# apps/client/.eslintignore
+
+"/apps/client/src/trash"
+"./src/trash/contexts/filters-context-old.tsx"

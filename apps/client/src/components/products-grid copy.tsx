@@ -1,5 +1,5 @@
 // apps/client/src/components/products-grid.tsx
-import 'server-only';
+// import 'server-only';
 
 import Card from '../components/card';
 import { AppUser, AppUserWithProducts, Product } from '@shared/src';

@@ -1,5 +1,8 @@
-import { Select as HeadlessSelect, type SelectProps as HeadlessSelectProps } from '@headlessui/react'
-import { clsx } from 'clsx'
+import {
+  Select as HeadlessSelect,
+  type SelectProps as HeadlessSelectProps,
+} from '@headlessui/react';
+import { clsx } from 'clsx';
 
 export function Select({ className, multiple, ...props }: HeadlessSelectProps) {
   return (
@@ -66,11 +69,21 @@ export function Select({ className, multiple, ...props }: HeadlessSelectProps) {
             aria-hidden="true"
             fill="none"
           >
-            <path d="M5.75 10.75L8 13L10.25 10.75" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M10.25 5.25L8 3L5.75 5.25" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M5.75 10.75L8 13L10.25 10.75"
+              strokeWidth={1.5}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M10.25 5.25L8 3L5.75 5.25"
+              strokeWidth={1.5}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </span>
       )}
     </span>
-  )
+  );
 }

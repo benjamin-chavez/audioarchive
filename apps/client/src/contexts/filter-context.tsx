@@ -194,6 +194,7 @@ const FiltersProvider = ({ children }) => {
       });
     });
 
+    // @ts-ignore
     setFilters(updatedData2);
   };
 

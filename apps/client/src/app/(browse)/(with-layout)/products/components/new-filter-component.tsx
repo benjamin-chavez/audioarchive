@@ -6,7 +6,6 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { Fragment, Suspense, useContext, useEffect, useState } from 'react';
 // import MobileFilterMenu from './mobile-filter-menu';
 import { Checkbox } from '@/components/ui/checkbox';
-// import { FiltersContext } from '@/contexts/filters-context-old';
 import { FiltersContext, sortOptions } from '@/contexts/filter-context';
 import { useSearchParams } from 'next/navigation';
 import { capitalizeFirstLetter } from '@/lib/utils';

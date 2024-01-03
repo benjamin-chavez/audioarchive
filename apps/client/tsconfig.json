@@ -17,5 +17,5 @@
     "src/app/products/.todo/[id]-page-client-component.tsx",
     "src/app/products/.todo/example1.tsx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "./src/trash/", "apps/client/src/app/development"]
 }

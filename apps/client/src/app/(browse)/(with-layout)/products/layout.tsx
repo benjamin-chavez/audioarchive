@@ -4,11 +4,9 @@ import 'server-only';
 // import { Filters } from './components/filters';
 // import { FiltersCopy } from './components/filters';
 import NewFilterComponent from './components/new-filter-component';
-
 import { modifyData } from '@/lib/normalize';
 import { normalize, schema } from 'normalizr';
 import { Suspense } from 'react';
-// import { FiltersContext } from '@/contexts/filters-context-old';
 
 function CategoryHeader() {
   return (

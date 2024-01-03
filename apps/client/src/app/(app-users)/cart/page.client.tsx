@@ -62,9 +62,9 @@ export default function CartPageClient({
             )}
           </section>
           <OrderSummary
-            // subtotal={subtotal}
-            // orderTotal={orderTotalPrice}
-            // cartItems={cartItems}
+          // subtotal={subtotal}
+          // orderTotal={orderTotalPrice}
+          // cartItems={cartItems}
           />
         </form>
       </div>

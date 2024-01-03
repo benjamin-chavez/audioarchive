@@ -103,42 +103,42 @@ export const normalizedData_OPTION1 = normalize(newCategoriesData_OPTION1, [
 
 // /////////////////
 
-// let categories_OPTION2 = Object.keys(data.filters).map((category) => {
-//   return { id: category, name: category.toUpperCase() };
-// });
+let categories_OPTION2 = Object.keys(data.filters).map((category) => {
+  return { id: category, name: category.toUpperCase() };
+});
 
-// const options = Object.entries(data.filters).flatMap(([category, options]) => {
-//   return options.map((option) => {
-//     return {
-//       id: option,
-//       categoryId: category,
-//       label: option.toUpperCase(),
-//       checked: false,
-//     };
-//   });
-// });
+const options = Object.entries(data.filters).flatMap(([category, options]) => {
+  return options.map((option) => {
+    return {
+      id: option,
+      categoryId: category,
+      label: option.toUpperCase(),
+      checked: false,
+    };
+  });
+});
 
-// const option_OPTION2 = new schema.Entity('options');
+const option_OPTION2 = new schema.Entity('options');
 
-// export const category_OPTION2 = new schema.Entity('categories', {
-//   options: [option_OPTION2],
-// });
+export const category_OPTION2 = new schema.Entity('categories', {
+  options: [option_OPTION2],
+});
 
-// let categoryOptionsMap_OPTION2 = options.reduce((acc, option) => {
-//   if (!acc[option.categoryId]) {
-//     acc[option.categoryId] = [];
-//   }
-//   acc[option.categoryId].push(option);
-//   return acc;
-// }, {});
+let categoryOptionsMap_OPTION2 = options.reduce((acc, option) => {
+  if (!acc[option.categoryId]) {
+    acc[option.categoryId] = [];
+  }
+  acc[option.categoryId].push(option);
+  return acc;
+}, {});
 
-// export const normalizedCategories_OPTION2 = categories_OPTION2.map(
-//   (category) => ({
-//     ...category,
-//     options: categoryOptionsMap_OPTION2[category.id] || [],
-//   }),
-// );
+export const normalizedCategories_OPTION2 = categories_OPTION2.map(
+  (category) => ({
+    ...category,
+    options: categoryOptionsMap_OPTION2[category.id] || [],
+  }),
+);
 
-// export const normalizedData_OPTION2 = normalize(normalizedCategories_OPTION2, [
-//   category_OPTION2,
-// ]);
+export const normalizedData_OPTION2 = normalize(normalizedCategories_OPTION2, [
+  category_OPTION2,
+]);

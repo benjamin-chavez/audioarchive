@@ -1,5 +1,8 @@
-import { Textarea as HeadlessTextarea, type TextareaProps as HeadlessTextareaProps } from '@headlessui/react'
-import { clsx } from 'clsx'
+import {
+  Textarea as HeadlessTextarea,
+  type TextareaProps as HeadlessTextareaProps,
+} from '@headlessui/react';
+import { clsx } from 'clsx';
 
 export function Textarea({ className, ...props }: HeadlessTextareaProps) {
   return (
@@ -50,5 +53,5 @@ export function Textarea({ className, ...props }: HeadlessTextareaProps) {
         {...props}
       />
     </span>
-  )
+  );
 }
