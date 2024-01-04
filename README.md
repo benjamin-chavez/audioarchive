@@ -122,7 +122,7 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
         - Must get updated Stripe data
         - Must have significantly higher volume
     <!-- //- Restructure Product table and convert Enums to other type -->
-    - Add published/draft logic to products table
+    <!-- //- Add published/draft logic to products table -->
     - convert the `/api/app-users/register` route to a webhook route. Something like `/api/webhooks/auth0/register`.
     - Look into dbdocs.io and/or SchemaSpy for adding database schema documentation
     - Potentially create new `database/functions` and `database/triggers` folders that are treated similar to the `database/migrations` folder
@@ -157,7 +157,8 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - The navbar option for this should only be visible to Admin users
 
  - Seller Dashboard:
-    - Fix the product update logic so that the project file is name is loaded and so that a file isn't required to update the products
+    - Fix the product update logic so that the project file is name is loaded
+    <!-- //- Fix the product update logic and so that a file isn't required to update the products -->
     - Reorganize the `My Accounts` section.
     - Add screen to display all orders
     - Fix Product update logic so that users can only edit their own products**
@@ -191,10 +192,12 @@ https://www.google.com/search?q=aws+ecs+fargate+ssm+parameter+store&oq=aws+ecs+f
     - Add `Follow` Feature and display followed users in the dashboards
       - do i need to add a block feauture? <- Yes
     - Comments/Rating functionality
+      - TODO: Finish
     - Review all cacheing behavior
     - Email Feature
       - Purchase confirmations
       - General Marketing
+    - Add Screen to display all favorites
 
  - File Storage
     - Set up Malware scanning
