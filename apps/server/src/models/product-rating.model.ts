@@ -1,25 +1,28 @@
 // apps/server/src/models/rating.model.ts
 
+import { Knex } from 'knex';
 import knex from '../config/database';
 
 class ProductRatingModel {
   private static tableName = 'productRatings';
 
   static async create({
+    rating,
     appUserId,
     productId,
-    rating,
+    dbTransaction,
   }: {
+    rating: number;
     appUserId: number;
     productId: number;
-    rating: number;
+    dbTransaction?: Knex.Transaction;
   }) {
-    // const results:  any[] = await knex(this.tableName)
-    const results: any[] = await knex(this.tableName)
+    const [newRating]: any[] = await knex(this.tableName)
       .insert({ appUserId, productId, rating })
-      .returning('*');
+      .returning('*')
+      .transacting(dbTransaction);
 
-    return results[0];
+    return newRating;
   }
 
   // TODO: Verify that you have the return type correct
@@ -41,21 +44,32 @@ class ProductRatingModel {
   static async update({
     ratingId,
     rating,
+    dbTransaction,
   }: {
     ratingId: number;
     rating: number;
+    dbTransaction?: Knex.Transaction;
   }): Promise<any> {
     // }): Promise<Rating> {
     const [updatedRating] = await knex(this.tableName)
       .where({ id: ratingId })
       .update({ rating })
-      .returning('*');
+      .returning('*')
+      .transacting(dbTransaction);
 
     return updatedRating;
   }
 
-  static async delete(ratingId: number): Promise<boolean> {
-    return (await knex(this.tableName).where({ id: ratingId }).del()) > 0;
+  static async delete(
+    ratingId: number,
+    dbTransaction?: Knex.Transaction
+  ): Promise<boolean> {
+    return (
+      (await knex(this.tableName)
+        .where({ id: ratingId })
+        .del()
+        .transacting(dbTransaction)) > 0
+    );
   }
 }
 

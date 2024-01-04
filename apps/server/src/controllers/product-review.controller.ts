@@ -4,15 +4,17 @@ import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
 import MeService from '../services/me.service';
 import { ProductReviewService } from '../services/product-review.service';
+import { ProductRatingService } from '../services/product-rating.service';
 
 const CONTEXT = 'ProductReviewController';
 
+// console.log('req.body', JSON.stringify(req.body, null, 2));
+// console.log('productId', productId);
 export const createReview: RequestHandler = asyncHandler(async (req, res) => {
-  const { title, comment } = req.body;
-  const productId = parseInt(req.params.productId, 10);
-  console.log(JSON.stringify(req.body, null, 2));
   // @ts-ignore
   const authId = req.auth.sub;
+  const { title, comment, rating } = req.body;
+  const productId = parseInt(req.params.productId, 10);
 
   const { id: appUserId } = await MeService.getMe(authId);
 
@@ -23,9 +25,19 @@ export const createReview: RequestHandler = asyncHandler(async (req, res) => {
     appUserId,
   });
 
-  res
-    .status(201)
-    .json({ data: newReview, message: 'Review created successfully' });
+  let message = 'Review created successfully';
+  let newRating;
+  if (rating) {
+    newRating = await ProductRatingService.createRating({
+      rating,
+      productId,
+      appUserId,
+    });
+
+    message = 'Review with Rating created succesfully';
+  }
+
+  res.status(201).json({ data: newReview, message: message });
 });
 
 export const getAllReviewsByProductId: RequestHandler = asyncHandler(

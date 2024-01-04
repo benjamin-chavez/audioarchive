@@ -1,5 +1,6 @@
 // apps/server/src/services/review.service.ts
 
+import { Knex } from 'knex';
 import { NotFoundError } from '../middleware/customErrors';
 import { ProductReviewModel } from '../models/product-review.model';
 import S3Service from './s3.service';
@@ -8,21 +9,24 @@ class ProductReviewService {
   static async createReview({
     title,
     comment,
-    productId,
     appUserId,
+    productId,
+    dbTransaction,
   }: {
     title: string;
     comment: string;
-    productId: number;
     appUserId: number;
+    productId: number;
+    dbTransaction?: Knex.Transaction;
   }) {
     // TODO: ADD VALIDATION LOGIC TO ENSURE THE USER HAS ACTUALLY PURCHASED THIS PRODUCT
 
     const newReview = await ProductReviewModel.create({
       title,
       comment,
-      productId,
       appUserId,
+      productId,
+      dbTransaction,
     });
 
     if (!newReview) {
@@ -42,14 +46,14 @@ class ProductReviewService {
     const reviewsWithAppUserAvatars = await Promise.allSettled(
       reviews.map(async (review) => {
         try {
-          const avatarS3Url = await S3Service.getObjectSignedUrl(
-            review.avatarS3Key
+          const appUserAvatarS3Url = await S3Service.getObjectSignedUrl(
+            review.appUserAvatarS3Key
           );
-          console.log(avatarS3Url);
-          return { ...review, avatarS3Url };
+
+          return { ...review, appUserAvatarS3Url };
         } catch (error) {
           console.error('Error getting avatar URL:', error);
-          return { ...review, avatarS3Url: null };
+          return { ...review, appUserAvatarS3Url: null };
         }
       })
     );
@@ -78,11 +82,13 @@ class ProductReviewService {
     comment,
     reviewId,
     appUserId,
+    dbTransaction,
   }: {
     title: string;
     comment: string;
     reviewId: number;
     appUserId: number;
+    dbTransaction?: Knex.Transaction;
   }) {
     // TODO: ADD VALIDATION LOGIC TO ENSURE THE USER HAS ACTUALLY PURCHASED THIS PRODUCT
 
@@ -90,6 +96,7 @@ class ProductReviewService {
       title,
       comment,
       reviewId,
+      dbTransaction,
     });
 
     if (!updatedReview) {
@@ -102,13 +109,15 @@ class ProductReviewService {
   static async deleteReview({
     appUserId,
     reviewId,
+    dbTransaction,
   }: {
     appUserId: number;
     reviewId: number;
+    dbTransaction?: Knex.Transaction;
   }) {
     // TODO: ADD VALIDATION LOGIC TO ENSURE THE USER HAS ACTUALLY PURCHASED THIS PRODUCT
 
-    const success = await ProductReviewModel.delete(reviewId);
+    const success = await ProductReviewModel.delete(reviewId, dbTransaction);
 
     if (!success) {
       throw new NotFoundError('Review not found or deletion failed');

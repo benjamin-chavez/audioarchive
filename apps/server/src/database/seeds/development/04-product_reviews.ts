@@ -1,50 +1,68 @@
 // apps/server/src/database/seeds/development/04-product_reviews.ts
 
 import { Knex } from 'knex';
+
+import { ProductRatingFactory } from '../../factories/product-rating-factory';
 import { ProductReviewFactory } from '../../factories/product-review-factory';
 
-const TABLE_NAME = 'product_reviews';
-// const COUNT = 150;
+const REVIEWS_TABLE = 'product_reviews';
+const RATINGS_TABLE = 'product_ratings';
 
-// function getRandomElementAndRemove<T extends { id: number }>(arr: T[]): T {
-function getRandomElementAndRemove<T>(arr: T[]): number {
+function getRandomIndicies<T>(arr: T[], count): number[] {
   if (arr.length === 0) {
     throw new Error('Array is empty');
   }
 
-  const randomIndex = Math.floor(Math.random() * arr.length);
-  // return arr.splice(randomIndex, 1)[0];
-  //
-  return randomIndex;
+  const randomIndiciesSet: Set<number> = new Set();
+
+  for (let i = 0; i < count; i++) {
+    try {
+      randomIndiciesSet.add(Math.floor(Math.random() * arr.length));
+    } catch (error) {}
+  }
+
+  return [...randomIndiciesSet];
+}
+
+function getRandomBoolean() {
+  return Math.random() < 0.5;
 }
 
 export async function seed(knex: Knex): Promise<void> {
-  await knex(TABLE_NAME).del();
+  await knex(REVIEWS_TABLE).del();
 
   const products = await knex('products').select('id');
   const appUsers = await knex('appUsers').select('id');
-  console.log(products);
-  console.log(appUsers);
 
-  const seedData: ReturnType<typeof ProductReviewFactory>[] = [];
+  const ReviewSeedData: ReturnType<typeof ProductReviewFactory>[] = [];
+  const RatingSeedData: ReturnType<typeof ProductRatingFactory>[] = [];
 
-  const min = 1;
+  const min = 0;
   const max = 3;
   products.forEach((product) => {
-    // for (let i = 0; i < COUNT; i++) {
     const reviewsPerProduct = Math.round(Math.random() * (max - min)) + min;
-    console.log(reviewsPerProduct);
+    const randomIndicies = getRandomIndicies(appUsers, reviewsPerProduct);
 
-    for (let j = 0; j < reviewsPerProduct; j += 1) {
-      if (appUsers.length === 0) break;
+    randomIndicies.forEach((idx) => {
+      if (appUsers.length === 0) return;
 
-      // const randomAppUserId = getRandomElementAndRemove(appUsers).
-      // id;
-      const randomAppUserId = getRandomElementAndRemove(appUsers);
-      const productReview = ProductReviewFactory(product.id, randomAppUserId);
-      seedData.push(productReview);
-    }
-    // }
+      const appUserId = appUsers[idx].id;
+
+      const createReview = getRandomBoolean();
+      const createRating = getRandomBoolean();
+
+      if (createReview) {
+        const productReview = ProductReviewFactory(product.id, appUserId);
+        ReviewSeedData.push(productReview);
+      }
+
+      if (createRating) {
+        const productRating = ProductRatingFactory(product.id, appUserId);
+        RatingSeedData.push(productRating);
+      }
+    });
   });
-  await knex(TABLE_NAME).insert(seedData);
+
+  await knex(REVIEWS_TABLE).insert(ReviewSeedData);
+  await knex(RATINGS_TABLE).insert(RatingSeedData);
 }

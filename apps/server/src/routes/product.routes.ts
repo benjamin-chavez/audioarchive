@@ -4,6 +4,7 @@ import express, { Router } from 'express';
 import * as productRatingController from '../controllers/product-rating.controller';
 import * as productReviewController from '../controllers/product-review.controller';
 import * as productController from '../controllers/product.controller';
+import * as productFeedbackController from '../controllers/product-feedback.controller';
 import { checkJwt } from '../middleware/authMiddleware';
 import multer from 'multer';
 import { testQuery } from '../controllers/search.controller';
@@ -16,6 +17,32 @@ const upload = multer({ storage: storage }).fields([
 ]);
 
 const router: Router = express.Router();
+
+// PRODUCT FEEDBACK ROUTES (Ratings & Reviews)
+router.post(
+  '/:productId/feedback',
+  checkJwt,
+  productFeedbackController.createReviewAndRating
+);
+// router.get(
+//   '/:productId/ratings',
+//   productRatingController.getAllRatingsByProductId
+// );
+// router.get(
+//   '/:productId/average-rating',
+//   productRatingController.getAverageProductRating
+// );
+// router.get('/ratings/:ratingId', productRatingController.getRatingById);
+router.patch(
+  '/:productId/feedback',
+  checkJwt,
+  productFeedbackController.updateReviewAndRating
+);
+router.delete(
+  '/:productId/feedback',
+  checkJwt,
+  productFeedbackController.deleteReviewAndRating
+);
 
 // PRODUCT RATINGS
 router.post(

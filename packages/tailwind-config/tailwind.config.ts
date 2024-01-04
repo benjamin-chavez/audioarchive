@@ -92,6 +92,8 @@ const config: Config = {
     require('@tailwindcss/forms'),
     require('tailwindcss-animate'),
     require('tailwindcss-react-aria-components'),
+    require('tailwindcss/nesting', 'postcss-nesting'),
+
     // require('@tailwindcss/aspect-ratio'),
   ],
 };

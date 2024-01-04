@@ -43,7 +43,6 @@ export default function ProductForm({
   revalidateListings: () => Promise<void>;
 }) {
   const { user, isLoading: isLoadingUser } = useUser();
-  console.log('USER', user?.id);
   const [newImagePreview, setNewImagePreview] = useState<string | null>(null);
   // TODO: update state to status type
   const [newStatus, setNewStatus] = useState<string | null>(product.status);
@@ -105,7 +104,6 @@ export default function ProductForm({
       );
       formData.append('updated_at', new Date().toISOString());
 
-      console.log('formData', JSON.stringify(formData, null, 2));
       let response;
       if (isEditMode) {
         response = await fetch(`/api/products/${data.id}`, {

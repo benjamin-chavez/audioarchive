@@ -1,24 +1,28 @@
 // apps/server/src/services/rating.service.ts
 
+import { Knex } from 'knex';
 import { NotFoundError } from '../middleware/customErrors';
 import { ProductRatingModel } from '../models/product-rating.model';
 
 class ProductRatingService {
   static async createRating({
+    rating,
     appUserId,
     productId,
-    rating,
+    dbTransaction,
   }: {
+    rating: number;
     appUserId: number;
     productId: number;
-    rating: number;
+    dbTransaction?: Knex.Transaction;
   }) {
     // TODO: ADD VALIDATION LOGIC TO ENSURE THE USER HAS ACTUALLY PURCHASED THIS PRODUCT
 
     const newRating = await ProductRatingModel.create({
+      rating,
       appUserId,
       productId,
-      rating,
+      dbTransaction,
     });
 
     if (!newRating) {
@@ -63,19 +67,22 @@ class ProductRatingService {
   }
 
   static async updateRating({
-    appUserId,
-    ratingId,
     rating,
+    ratingId,
+    appUserId,
+    dbTransaction,
   }: {
+    rating: number;
     appUserId: number;
     ratingId: number;
-    rating: number;
+    dbTransaction?: Knex.Transaction;
   }) {
     // TODO: ADD VALIDATION LOGIC TO ENSURE THE USER HAS ACTUALLY PURCHASED THIS PRODUCT
 
     const updatedRating = await ProductRatingModel.update({
       ratingId,
       rating,
+      dbTransaction,
     });
 
     if (!updatedRating) {
@@ -88,13 +95,15 @@ class ProductRatingService {
   static async deleteRating({
     appUserId,
     ratingId,
+    dbTransaction,
   }: {
     appUserId: number;
     ratingId: number;
+    dbTransaction?: Knex.Transaction;
   }) {
     // TODO: ADD VALIDATION LOGIC TO ENSURE THE USER HAS ACTUALLY PURCHASED THIS PRODUCT
 
-    const success = await ProductRatingModel.delete(ratingId);
+    const success = await ProductRatingModel.delete(ratingId, dbTransaction);
 
     if (!success) {
       throw new NotFoundError('Rating not found or deletion failed');

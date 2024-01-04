@@ -25,3 +25,9 @@ export const camelCaseToTitleCase = (str) => {
 export function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
+
+export function printFormData(formData) {
+  Array.from(formData.entries()).forEach(([key, value]) => {
+    console.log(`${key}: ${value}`);
+  });
+}

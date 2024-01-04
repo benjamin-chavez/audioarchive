@@ -25,6 +25,8 @@ import { Button } from 'ui';
 import { CURRENCY, formatAmountForDisplay } from '@/lib/cart-calculations';
 import { useRouter, useSearchParams } from 'next/navigation';
 import WishlistButton from '@/components/wishlist-button';
+import { RatingForm } from './components/rating-form';
+import RatingStars from '@/components/rating-stars';
 
 // import { revalidateCart2 } from '../../cart/page';
 
@@ -147,9 +149,11 @@ export default function PageClient({
   const { cartItems, storeCart } = useCart();
   const { user } = useUser();
 
+  // TODO: Make sure that auth0 appUserIds are updated to match the local db otherwise this won't work.
   const isProductSeller = user && user.id === product.appUserId;
+  // console.log('user.id', user?.id);
+  // console.log('product.appUserId', product?.appUserId);
 
-  console.log('productReviewData', productReviewData);
   return (
     <div className="bg-white">
       <div
@@ -226,24 +230,7 @@ export default function PageClient({
                 </p>
               </div>
 
-              <div>
-                <h3 className="sr-only">Reviews</h3>
-                <div className="flex items-center">
-                  {[0, 1, 2, 3, 4].map((rating) => (
-                    <StarIcon
-                      key={rating}
-                      className={classNames(
-                        product.averageRating > rating
-                          ? 'text-yellow-400'
-                          : 'text-gray-300',
-                        'h-5 w-5 flex-shrink-0',
-                      )}
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
-                <p className="sr-only">{reviews.average} out of 5 stars</p>
-              </div>
+              <RatingStars productRating={product.averageRating} />
             </div>
 
             <div className="mt-3">
@@ -418,6 +405,9 @@ export default function PageClient({
                 <Tab.Panel className="-mb-10">
                   <h3 className="sr-only">Customer Reviews</h3>
 
+                  {/* @ts-ignore */}
+                  <RatingForm productId={product.id} />
+
                   {/* {reviews.featured.map((review, reviewIdx) => ( */}
                   {productReviewData.map((review, reviewIdx) => (
                     <div
@@ -426,7 +416,7 @@ export default function PageClient({
                     >
                       <div className="flex-none py-10">
                         <img
-                          src={review.avatarS3Url}
+                          src={review.appUserAvatarS3Url}
                           alt=""
                           className="inline-block h-12 w-12 rounded-full"
                         />
@@ -440,7 +430,7 @@ export default function PageClient({
                       >
                         <h3 className="font-medium text-gray-900">
                           {/* {reviews[reviewIdx]?.author} */}
-                          {review.displayName}
+                          {review.appUserDisplayName}
                         </h3>
                         <p>
                           <time dateTime={reviews[reviewIdx]?.datetime}>
@@ -448,23 +438,27 @@ export default function PageClient({
                           </time>
                         </p>
 
-                        <div className="mt-4 flex items-center">
-                          {[0, 1, 2, 3, 4].map((rating) => (
-                            <StarIcon
-                              key={rating}
-                              className={classNames(
-                                reviews[reviewIdx]?.rating > rating
-                                  ? 'text-yellow-400'
-                                  : 'text-gray-300',
-                                'h-5 w-5 flex-shrink-0',
-                              )}
-                              aria-hidden="true"
-                            />
-                          ))}
-                        </div>
-                        <p className="sr-only">
-                          {reviews[reviewIdx]?.rating} out of 5 stars
-                        </p>
+                        {review.rating && (
+                          <>
+                            <div className="mt-4 flex items-center">
+                              {[0, 1, 2, 3, 4].map((rating) => (
+                                <StarIcon
+                                  key={rating}
+                                  className={classNames(
+                                    review.rating > rating
+                                      ? 'text-yellow-400'
+                                      : 'text-gray-300',
+                                    'h-5 w-5 flex-shrink-0',
+                                  )}
+                                  aria-hidden="true"
+                                />
+                              ))}
+                            </div>
+                            <p className="sr-only">
+                              {review.rating} out of 5 stars
+                            </p>
+                          </>
+                        )}
 
                         <div
                           className="prose prose-sm mt-4 max-w-none text-gray-500"

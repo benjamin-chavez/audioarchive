@@ -24,7 +24,7 @@ export default function SettingsForm({
   appUser: AppUser;
   revalidateAppUser: () => Promise<void>;
 }) {
-  console.log(JSON.stringify(appUser, null, 2));
+  // console.log(JSON.stringify(appUser, null, 2));
   // const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [newImagePreview, setNewImagePreview] = useState<string | null>(null);
