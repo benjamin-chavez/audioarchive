@@ -18,12 +18,10 @@ function RatingStars({
     const newRating = rating === productRating ? 0 : rating;
     onChange(newRating);
   };
-  
 
   return (
     <>
       <div>
-        <h3 className="sr-only">Reviews</h3>
         <div className="flex items-center">
           {[0, 1, 2, 3, 4].map((rating) => (
             <StarIcon

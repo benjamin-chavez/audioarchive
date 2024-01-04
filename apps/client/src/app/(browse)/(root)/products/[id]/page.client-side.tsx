@@ -25,8 +25,9 @@ import { Button } from 'ui';
 import { CURRENCY, formatAmountForDisplay } from '@/lib/cart-calculations';
 import { useRouter, useSearchParams } from 'next/navigation';
 import WishlistButton from '@/components/wishlist-button';
-import { RatingForm } from './components/rating-form';
+import { ProductFeedbackForm } from './components/product-feedback-form';
 import RatingStars from '@/components/rating-stars';
+import ProductReviewsPanel from './components/product-reviews-panel';
 
 // import { revalidateCart2 } from '../../cart/page';
 
@@ -138,7 +139,7 @@ export async function handleAddToCart({
 export default function PageClient({
   product,
   revalidateCart,
-  productReviewData,
+  productReviewData = [],
 }: {
   product: ProductWithAppUser | any;
   revalidateCart: () => Promise<void>;
@@ -404,71 +405,11 @@ export default function PageClient({
               <Tab.Panels as={Fragment}>
                 <Tab.Panel className="-mb-10">
                   <h3 className="sr-only">Customer Reviews</h3>
-
-                  {/* @ts-ignore */}
-                  <RatingForm productId={product.id} />
-
-                  {/* {reviews.featured.map((review, reviewIdx) => ( */}
-                  {productReviewData.map((review, reviewIdx) => (
-                    <div
-                      key={review.id}
-                      className="flex space-x-4 text-sm text-gray-500"
-                    >
-                      <div className="flex-none py-10">
-                        <img
-                          src={review.appUserAvatarS3Url}
-                          alt=""
-                          className="inline-block h-12 w-12 rounded-full"
-                        />
-                      </div>
-
-                      <div
-                        className={classNames(
-                          reviewIdx === 0 ? '' : 'border-t border-gray-200',
-                          'py-10',
-                        )}
-                      >
-                        <h3 className="font-medium text-gray-900">
-                          {/* {reviews[reviewIdx]?.author} */}
-                          {review.appUserDisplayName}
-                        </h3>
-                        <p>
-                          <time dateTime={reviews[reviewIdx]?.datetime}>
-                            {reviews[reviewIdx]?.date}
-                          </time>
-                        </p>
-
-                        {review.rating && (
-                          <>
-                            <div className="mt-4 flex items-center">
-                              {[0, 1, 2, 3, 4].map((rating) => (
-                                <StarIcon
-                                  key={rating}
-                                  className={classNames(
-                                    review.rating > rating
-                                      ? 'text-yellow-400'
-                                      : 'text-gray-300',
-                                    'h-5 w-5 flex-shrink-0',
-                                  )}
-                                  aria-hidden="true"
-                                />
-                              ))}
-                            </div>
-                            <p className="sr-only">
-                              {review.rating} out of 5 stars
-                            </p>
-                          </>
-                        )}
-
-                        <div
-                          className="prose prose-sm mt-4 max-w-none text-gray-500"
-                          // dangerouslySetInnerHTML={{ __html: review.content }}
-                          dangerouslySetInnerHTML={{ __html: review.comment }}
-                        />
-                      </div>
-                    </div>
-                  ))}
                 </Tab.Panel>
+                <ProductReviewsPanel
+                  product={product}
+                  productReviewData={productReviewData}
+                />
 
                 <Tab.Panel className="text-sm text-gray-500">
                   <h3 className="sr-only">Frequently Asked Questions</h3>

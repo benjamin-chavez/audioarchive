@@ -13,7 +13,7 @@ type FormData = {
   comment: string;
 };
 
-function RatingForm({
+function ProductFeedbackForm({
   productId,
   rating,
 }: {
@@ -46,7 +46,7 @@ function RatingForm({
       console.log(JSON.stringify(data, null, 2));
       console.log(`/api/products/${productId}/reviews`);
 
-      const res = await fetch(`/api/products/${productId}/reviews`, {
+      const res = await fetch(`/api/products/${productId}/feedback`, {
         method: fetchMethod,
         headers: {
           'Content-Type': 'application/json',
@@ -136,4 +136,4 @@ function RatingForm({
   );
 }
 
-export { RatingForm };
+export { ProductFeedbackForm };
