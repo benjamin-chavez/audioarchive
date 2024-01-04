@@ -44,7 +44,15 @@ class ProductReviewModel {
     return knex(this.tableName)
       .select(
         'product_reviews.*',
+        knex.raw('product_reviews.id as review_id'),
+        knex.raw('product_reviews.title'),
+        knex.raw('product_reviews.comment'),
+        knex.raw('product_reviews.product_id'),
+        knex.raw('product_reviews.app_user_id'),
+        knex.raw('product_reviews.created_at'),
+        knex.raw('product_reviews.updated_at'),
         knex.raw('product_ratings.rating as rating'),
+        knex.raw('product_ratings.id as rating_id'),
         knex.raw('app_users.display_name as app_user_display_name'),
         knex.raw('app_users.avatar_s3_key as app_user_avatar_s3_key'),
         knex.raw('app_users.avatar_s3_url as app_user_avatar_s3_url')

@@ -61,7 +61,12 @@ export const updateReviewAndRating: RequestHandler = asyncHandler(
     const authId = req.auth.sub;
     const { title, comment, rating, ratingId, reviewId } = req.body;
     const productId = parseInt(req.params.productId, 10);
+
+    console.log('rating', rating);
+    // TODO:: UNDO THIS!!!
     const { id: appUserId } = await MeService.getMe(authId);
+    console.log('appUserId', appUserId);
+    // const appUserId = 16;
 
     // TODO: ADD MORE VALIDATION
     if ((!ratingId && !reviewId) || !appUserId) {

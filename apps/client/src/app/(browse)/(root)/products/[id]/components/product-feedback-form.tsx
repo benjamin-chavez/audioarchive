@@ -2,33 +2,49 @@
 'use client';
 
 import RatingStars from '@/components/rating-stars';
-import { printFormData } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 type FormData = {
-  productId: number;
   title: string;
   rating: number;
   comment: string;
+  review: any;
+  productId: number;
+  reviewId?: number;
+  ratingId?: number;
 };
 
 function ProductFeedbackForm({
   productId,
   rating,
+  review,
+  setEditableReview, // ratingId,
+  // reviewId,
 }: {
   productId: number;
   rating?: any;
+  review?: any;
+  setEditableReview: (reviewId) => void;
+  // ratingId?: number;
+  // reviewId?: number;
 }) {
-  const [userRating, setUserRating] = useState(0);
-  // const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(review?.rating || 0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const isEditMode = Boolean(rating || review);
+
+  console.log('REVIEW', review);
 
   const { register, handleSubmit, setValue } = useForm<FormData>({
     defaultValues: {
-      productId: productId,
-      title: '',
+      title: review?.title || '',
       rating: userRating,
-      comment: '',
+      review: review,
+      comment: review?.comment || '',
+      productId: productId,
+      ratingId: review?.ratingId,
+      reviewId: review?.reviewId,
     },
   });
 
@@ -36,15 +52,13 @@ function ProductFeedbackForm({
     setValue('rating', userRating);
   }, [userRating, setValue]);
 
-  // const isEditMode = Boolean(rating);
-
-  // const fetchMethod = isEditMode ? 'PUT' : 'POST';
-  const fetchMethod = 'POST';
+  // const fetchMethod = 'POST';
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     try {
-      // setIsLoading(true);
+      const fetchMethod = isEditMode ? 'PATCH' : 'POST';
+      setIsLoading(true);
       console.log(JSON.stringify(data, null, 2));
-      console.log(`/api/products/${productId}/reviews`);
+      console.log(`/api/products/${productId}/feedback`);
 
       const res = await fetch(`/api/products/${productId}/feedback`, {
         method: fetchMethod,
@@ -61,8 +75,42 @@ function ProductFeedbackForm({
       window.alert(`Error saving product: ${error}`);
     }
 
-    // setIsLoading(false);
+    setIsLoading(false);
+    setEditableReview(null);
   };
+
+  const handleDelete = async () => {
+    try {
+      const ratingId = review?.ratingId;
+      const reviewId = review?.reviewId;
+
+      if (
+        (ratingId || reviewId) &&
+        // TODO: Convert confirmation alert to a modal
+        window.confirm('Are you sure you want to delete your Review?')
+      ) {
+        const res = await fetch(`/api/products/${productId}/feedback`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ratingId, reviewId }),
+        });
+
+        if (!res.ok) {
+          throw new Error('Failed to submit review');
+        }
+
+        // revalidateListings();
+      }
+    } catch (error) {
+      window.alert(`Error deleting Feedback`);
+    }
+  };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="relative mt-5">
@@ -119,16 +167,33 @@ function ProductFeedbackForm({
       </div>
 
       <div className="absolute inset-x-px bottom-0">
-        <div className="flex items-center justify-between space-x-3 border-t border-gray-200 px-2 py-2 sm:px-3">
+        <div
+          // space-x-3
+          className="flex items-center justify-between border-t border-gray-200 px-2 py-2 sm:px-3 "
+        >
           <div className="flex"></div>
 
-          <div className="flex-shrink-0">
-            <button
-              type="submit"
-              className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Post
-            </button>
+          <div
+            // flex-shrink-0
+            className="w-full flex justify-end justify-between"
+          >
+            {isEditMode && (
+              <button
+                className="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                onClick={() => handleDelete()}
+              >
+                Delete
+              </button>
+            )}
+
+            <div className="flex-grow flex justify-end">
+              <button
+                type="submit"
+                className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 justify-self-end"
+              >
+                {isEditMode ? 'Save' : 'Post'}
+              </button>
+            </div>
           </div>
         </div>
       </div>

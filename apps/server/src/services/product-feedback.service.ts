@@ -78,6 +78,8 @@ class ProductFeedbackService {
     await beginTransaction(async (trx) => {
       try {
         if (rating && !ratingId) {
+          console.log('rating && !ratingId');
+          console.log('HERE', rating, productId, appUserId);
           const newRating = await ProductRatingService.createRating({
             rating,
             productId,
@@ -87,6 +89,7 @@ class ProductFeedbackService {
 
           updatedFeedback['newRating'] = newRating;
         } else if (rating) {
+          console.log('else rating');
           const updatedRating = await ProductRatingService.updateRating({
             rating,
             ratingId,
@@ -98,6 +101,7 @@ class ProductFeedbackService {
         }
 
         if (comment && !reviewId) {
+          console.log('if (comment && !reviewId) {');
           const newReview = await ProductReviewService.createReview({
             title,
             comment,
@@ -108,6 +112,7 @@ class ProductFeedbackService {
 
           updatedFeedback['newReview'] = newReview;
         } else if (comment) {
+          console.log('else comment');
           const updatedReview = await ProductReviewService.updateReview({
             title,
             comment,
