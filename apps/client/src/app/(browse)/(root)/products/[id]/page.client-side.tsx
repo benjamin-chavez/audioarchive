@@ -2,32 +2,20 @@
 // TODO: Convert this to a server component and move into `apps/client/src/app/products/[id]/page.tsx` file.
 'use client';
 
+import RatingStars from '@/components/rating-stars';
+import WishlistButton from '@/components/wishlist-button';
 import { useCart } from '@/contexts/cartContext';
+import { CURRENCY, formatAmountForDisplay } from '@/lib/cart-calculations';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { Tab } from '@headlessui/react';
-import { StarIcon } from '@heroicons/react/20/solid';
-import {
-  Bars3Icon,
-  HeartIcon,
-  MagnifyingGlassIcon,
-  MinusIcon,
-  PlusIcon,
-  ShoppingBagIcon,
-  UserIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+import { MAX_CART_ITEM_QUANTITY } from '@shared';
 import { Product, ProductWithAppUser } from '@shared/src';
 import Link from 'next/link';
-import { Fragment, useEffect } from 'react';
-import { faqs, license, product2, reviews } from './temp-data';
-import { MAX_CART_ITEM_QUANTITY } from '@shared';
+import { useSearchParams } from 'next/navigation';
+import { Fragment } from 'react';
 import { Button } from 'ui';
-import { CURRENCY, formatAmountForDisplay } from '@/lib/cart-calculations';
-import { useRouter, useSearchParams } from 'next/navigation';
-import WishlistButton from '@/components/wishlist-button';
-import { ProductFeedbackForm } from './components/product-feedback-form';
-import RatingStars from '@/components/rating-stars';
 import ProductReviewsPanel from './components/product-reviews-panel';
+import { faqs, license, product2 } from './temp-data';
 
 // import { revalidateCart2 } from '../../cart/page';
 
@@ -403,7 +391,7 @@ export default function PageClient({
                 </Tab.List>
               </div>
               <Tab.Panels as={Fragment}>
-                <Tab.Panel className="-mb-10">
+                <Tab.Panel className="">
                   <h3 className="sr-only">Customer Reviews</h3>
                 </Tab.Panel>
                 <ProductReviewsPanel

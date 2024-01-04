@@ -178,12 +178,20 @@ function ProductFeedbackForm({
             className="w-full flex justify-end justify-between"
           >
             {isEditMode && (
-              <button
-                className="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-                onClick={() => handleDelete()}
-              >
-                Delete
-              </button>
+              <div className="space-x-1">
+                <button
+                  className="inline-flex items-center rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
+                  onClick={() => setEditableReview(null)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                  onClick={() => handleDelete()}
+                >
+                  Delete
+                </button>
+              </div>
             )}
 
             <div className="flex-grow flex justify-end">
