@@ -6,6 +6,11 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 /* Instruments */
 import { incrementAsync } from './thunks';
 
+const initialState: CounterSliceState = {
+  value: 0,
+  status: 'idle',
+};
+
 export const counterSlice = createSlice({
   name: 'counter',
   initialState,
