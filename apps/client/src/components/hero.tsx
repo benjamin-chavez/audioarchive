@@ -1,11 +1,11 @@
 // apps/client/src/components/hero.tsx
-
+import 'server-only';
 import Link from 'next/link';
 
 export function Hero() {
   return (
     <div className="">
-      <div className="relative bg-gray-900 bg-green-500">
+      <div className="relative bg-gray-900">
         <div className="bg-red-500">
           {' '}
           <div
