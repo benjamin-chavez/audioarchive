@@ -20,7 +20,7 @@ import {
 // import { useMe } from '@/contexts/appUserContext';
 import { getMe } from '@/lib/data/me';
 import { useCart } from '@/contexts/cartContext';
-import { authAdapter } from '@/lib/auth';
+import { authAdapter } from '@/lib/auth/auth';
 import { SearchBar } from './search-bar';
 import Container from '../container';
 
