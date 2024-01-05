@@ -1,7 +1,7 @@
 // apps/client/src/lib/redux/slices/counterSlice/thunk.ts
 
 /* Instruments */
-import { createAppAsyncThunk } from '../../createAppAsyncThunk';
+import { createAppAsyncThunk } from '@/lib/redux/createAppAsyncThunk';
 import { fetchIdentityCount } from './fetchIdentityCount';
 import { selectCount } from './selectors';
 import { counterSlice } from './counterSlice';

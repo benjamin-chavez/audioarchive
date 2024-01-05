@@ -1,6 +1,6 @@
 // apps/client/src/lib/redux/slices/counterSlice/fetchIdentityCount.ts
 
-const URL = 'http://localhost:3000/api/identity-count';
+const URL = 'http://localhost:3001/api/identity-count';
 
 export const fetchIdentityCount = async (
   amount = 1,

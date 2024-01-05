@@ -1,7 +1,11 @@
 // apps/client/src/lib/redux/store.ts
 
 /* Core */
-import { configureStore } from '@reduxjs/toolkit';
+import {
+  configureStore,
+  type ThunkAction,
+  type Action,
+} from '@reduxjs/toolkit';
 import {
   useSelector as useReduxSelector,
   useDispatch as useReduxDispatch,
