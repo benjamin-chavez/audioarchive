@@ -41,6 +41,7 @@
         - Must get updated Stripe data
         - Must have significantly higher volume
     - convert the `/api/app-users/register` route to a webhook route. Something like `/api/webhooks/auth0/register`.
+    - Add Social Links to appUser table
 
 
  - ### Cart:
