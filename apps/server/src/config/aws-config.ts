@@ -1,5 +1,6 @@
 // apps/server/src/config/aws-config.ts
 
+import { CloudFrontClient } from '@aws-sdk/client-cloudfront';
 import { S3Client } from '@aws-sdk/client-s3';
 import { SQSClient } from '@aws-sdk/client-sqs';
 import dotenv from 'dotenv';
@@ -26,3 +27,4 @@ if (process.env.NODE_ENV === 'development') {
 
 export const sqsClient = new SQSClient(awsConfig);
 export const s3 = new S3Client(awsConfig);
+export const cloudFront = new CloudFrontClient(awsConfig);

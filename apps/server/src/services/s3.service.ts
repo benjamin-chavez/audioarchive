@@ -11,9 +11,10 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import 'dotenv/config';
 import { generateRandomBytes } from '../lib/utils';
 import { AppUser, Product } from '@shared/src';
-import { s3 } from '../config/aws-config';
+import { cloudFront, s3 } from '../config/aws-config';
 // import ParameterStoreService from './parameter-store.service';
-
+import { getSignedUrl as cf_getSignedUrl } from '@aws-sdk/cloudfront-signer';
+import { CreateInvalidationCommand } from '@aws-sdk/client-cloudfront';
 const CONTEXT = 'S3Service';
 
 // if (
@@ -97,19 +98,49 @@ class S3Service {
     };
 
     if (contentDisposition) {
+      console.log('contentDisposition', contentDisposition);
       params.ResponseContentDisposition = contentDisposition;
     }
 
+    // OLD IMPLEMENTATION
     // https://aws.amazon.com/blogs/developer/generate-presigned-url-modular-aws-sdk-javascript/
-    const command = new GetObjectCommand(params);
+    // const command = new GetObjectCommand(params);
     // const seconds = 86400;
-    const seconds = 60;
+    // const seconds = 60;
+    // const url = await getSignedUrl(s3, command, { expiresIn: seconds });
+    // return url;
 
-    const url = await getSignedUrl(s3, command, { expiresIn: seconds });
-
-    // console.log('key', key);
-    // console.log('url', url);
+    // CLOUDFRONT W/OUT SIGNING
+    const url = 'https://d163f9c9ik205g.cloudfront.net/' + key;
     return url;
+
+    // CLOUDFRONT W/ SIGNING
+    // const url = 'https://d163f9c9ik205g.cloudfront.net/' + key;
+    // // const expirationDate = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7);
+    // // const expirationDate = new Date(Date.now() + 1000 /*sec*/ * 60);
+    // const expirationDate = new Date(Date.now() + 1000 * 60 * 5);
+    // const dateLessThan = expirationDate.toISOString().split('T')[0];
+    // const privateKey = process.env.AWS_CLOUDFRONT_PRIVATE_KEY;
+    // const keyPairId = process.env.AWS_CLOUDFRONT_KEY_PAIR_ID;
+
+    // // console.log('Private Key: ', privateKey);
+    // // console.log('Key Pair ID: ', keyPairId);
+
+    // try {
+    //   // const signedUrl = await cf_getSignedUrl({
+    //   const signedUrl = cf_getSignedUrl({
+    //     url,
+    //     keyPairId,
+    //     dateLessThan,
+    //     privateKey,
+    //   });
+
+    //   // console.log('Generated signed URL:', signedUrl);
+    //   return signedUrl;
+    // } catch (error) {
+    //   console.error('Error generating signed URL:', error);
+    //   throw error;
+    // }
   }
 
   // FOR MORE THAN ONE - TODO: CONSIDER RENAMING
@@ -131,6 +162,7 @@ class S3Service {
     return productsWithSignedUrls;
   }
 
+  // TODO: Add a second version of this method that does not return a link the the product file. The second version should only return a link to the image url
   static async getSignedUrlsForOneProduct(product: Product): Promise<Product> {
     const productWithSignedUrls = { ...product };
 
@@ -138,6 +170,7 @@ class S3Service {
       // @ts-ignore
       product.imgS3Key
     );
+
     productWithSignedUrls.digitalFileS3Url = await this.getObjectSignedUrl(
       // @ts-ignore
       product.digitalFileS3Key
@@ -145,8 +178,6 @@ class S3Service {
 
     // product.imgS3Url: await this.getObjectSignedUrl(product.imgS3Key),
     // product.digitalFileS3Url: await this.getObjectSignedUrl(product.digitalFileS3Key),
-
-    // console.log(productWithSignedUrls);
 
     return productWithSignedUrls;
   }
@@ -225,12 +256,41 @@ class S3Service {
 
       await s3.send(new PutObjectCommand(uploadParams));
 
-      console.log(`${CONTEXT}::uploadFile - SUCCESS`);
+      // console.log(`${CONTEXT}::uploadFile - SUCCESS`);
       return imgS3Key;
     } catch (error) {
-      console.log(`${CONTEXT}::uploadFile - FAILED`);
+      // console.log(`${CONTEXT}::uploadFile - FAILED`);
       throw new Error(error);
     }
+  }
+
+  static async invalidateCachedFile(fileName: string) {
+    const encodedFileName = encodeURIComponent(fileName);
+    // const encodedFileName =
+    // ('222%E2%80%A0-%E2%88%82%E2%88%86-%C2%A7%C2%A7%C2%A7-product-img-seed.jpeg'); //
+    // console.log('filename--InvalidateCachedFile', fileName);
+    // console.log('filename--encodedFileName', encodedFileName);
+
+    const invalidationParams = {
+      DistributionId: process.env.AWS_CLOUDFRONT_DIST_ID,
+      InvalidationBatch: {
+        // CallerReference: fileName,
+        CallerReference: `invalidate-${new Date().getTime()}`,
+        // CallerReference: encodedFileName,
+        Paths: {
+          Quantity: 1,
+          Items: ['/' + encodedFileName],
+        },
+      },
+    };
+
+    const invalidationCommand = new CreateInvalidationCommand(
+      invalidationParams
+    );
+
+    const res = await cloudFront.send(invalidationCommand);
+    // console.log('res', res);
+    return;
   }
 
   static async deleteFile(fileName: string) {

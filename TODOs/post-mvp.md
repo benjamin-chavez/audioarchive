@@ -2,7 +2,7 @@
 
 # POST MVP TODOs
   - ### AWS:
-    -
+    - Add public and private key rotation - will likely want to switch over to Key Management Service (KMS)
 
 
   - ### Infrastructure:

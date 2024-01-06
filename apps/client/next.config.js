@@ -33,6 +33,7 @@ const nextConfig = {
     },
   },
   images: {
+    // TODO: Remove the http versions?
     remotePatterns: [
       {
         protocol: 'http',
@@ -43,6 +44,18 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'audio-archive-initial-dev-setup.s3.us-east-2.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'd163f9c9ik205g.cloudfront.net',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'd163f9c9ik205g.cloudfront.net',
         port: '',
         pathname: '/**',
       },

@@ -223,6 +223,8 @@ class ProductService {
   static async deleteProduct(id: number): Promise<boolean> {
     // Business logic, e.g., checking if the product is still in stock or has pending orders.
 
+    // TODO: Should also handle the user's files that are saved to S3
+
     // const deletedRowCount = await ProductModel.delete(id);
     const success = await ProductModel.delete(id);
 

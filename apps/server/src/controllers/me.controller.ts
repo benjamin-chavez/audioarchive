@@ -103,7 +103,6 @@ export const getMyProductById: RequestHandler = asyncHandler(
 );
 
 export const getMyFavorites: RequestHandler = asyncHandler(async (req, res) => {
-  console.log('HERE');
   // @ts-ignore
   const authId = req.auth.sub;
   const appUser = await MeService.getMe(authId);
