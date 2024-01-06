@@ -1,8 +1,8 @@
-// apps/client/src/lib/redux/rootReducer.ts
+// // apps/client/src/lib/redux/rootReducer.ts
 
-/* Instruments */
-import { counterSlice } from './slices';
+// /* Instruments */
+// import { counterSlice } from './slices';
 
-export const reducer = {
-  counter: counterSlice.reducer,
-};
+// export const reducer = {
+//   counter: counterSlice.reducer,
+// };

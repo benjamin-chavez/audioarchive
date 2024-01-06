@@ -1,37 +1,26 @@
 // apps/client/src/lib/redux/store.ts
 
-/* Core */
-import {
-  configureStore,
-  type ThunkAction,
-  type Action,
-} from '@reduxjs/toolkit';
-import {
-  useSelector as useReduxSelector,
-  useDispatch as useReduxDispatch,
-  type TypedUseSelectorHook,
-} from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import counterReducer from '../../features/counter-slice';
+import { dogsApiSlice } from '../../app/(features)/dogs/dogs-api.slice';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { pokemonApi } from '@/app/(features)/pokemon/pokemon-api.slice';
 
-/* Instruments */
-import { reducer } from './rootReducer';
-import { middleware } from './middleware';
+export const store = configureStore({
+  reducer: {
+    counter: counterReducer,
+    [dogsApiSlice.reducerPath]: dogsApiSlice.reducer,
+    [pokemonApi.reducerPath]: pokemonApi.reducer,
+  },
 
-export const reduxStore = configureStore({
-  reducer,
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(middleware);
+    return getDefaultMiddleware()
+      .concat(dogsApiSlice.middleware)
+      .concat(pokemonApi.middleware);
   },
 });
-export const useDispatch = () => useReduxDispatch<ReduxDispatch>();
-export const useSelector: TypedUseSelectorHook<ReduxState> = useReduxSelector;
 
-/* Types */
-export type ReduxStore = typeof reduxStore;
-export type ReduxState = ReturnType<typeof reduxStore.getState>;
-export type ReduxDispatch = typeof reduxStore.dispatch;
-export type ReduxThunkAction<ReturnType = void> = ThunkAction<
-  ReturnType,
-  ReduxState,
-  unknown,
-  Action
->;
+setupListeners(store.dispatch);
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;

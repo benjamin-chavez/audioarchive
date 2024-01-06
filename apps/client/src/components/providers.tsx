@@ -10,6 +10,8 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactNode, useState } from 'react';
+import { Provider as ReduxProvider } from 'react-redux';
+import { store } from '../lib/redux/store';
 
 export default function Providers({
   children,
@@ -22,19 +24,21 @@ export default function Providers({
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <UserProvider>
-        {/* <MeProvider> */}
-        <CartProvider>
-          <FiltersProvider>
-            <FavoritesProvider>
-              <ReactQueryDevtools initialIsOpen={false} />
-              {children}
-            </FavoritesProvider>
-          </FiltersProvider>
-        </CartProvider>
-        {/* </MeProvider> */}
-      </UserProvider>
-    </QueryClientProvider>
+    <ReduxProvider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <UserProvider>
+          {/* <MeProvider> */}
+          <CartProvider>
+            <FiltersProvider>
+              <FavoritesProvider>
+                <ReactQueryDevtools initialIsOpen={false} />
+                {children}
+              </FavoritesProvider>
+            </FiltersProvider>
+          </CartProvider>
+          {/* </MeProvider> */}
+        </UserProvider>
+      </QueryClientProvider>
+    </ReduxProvider>
   );
 }
