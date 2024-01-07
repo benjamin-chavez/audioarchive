@@ -57,8 +57,8 @@ export default async function ProductsLayout({
   const normalizedFilterData = await fetchData();
 
   return (
-    <section className="bg-red-500">
-      <div className="bg-gray-50">
+    <section className="bg-white">
+      <div className="bg-gray-50 bg-pink-500/10">
         <main>
           <CategoryHeader />
 
@@ -67,10 +67,10 @@ export default async function ProductsLayout({
               sortOptions={sortOptions}
 
             /> */}
-          {/* <NewFilterComponent normalizedFilterData={normalizedFilterData} /> */}
+          <NewFilterComponent normalizedFilterData={normalizedFilterData} />
 
           {/* <Filters sortOptions={sortOptions} /> */}
-          {children}
+          {/* {children} */}
         </main>
       </div>
     </section>

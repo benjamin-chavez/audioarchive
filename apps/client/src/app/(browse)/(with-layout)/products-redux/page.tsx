@@ -1,7 +1,7 @@
 // apps/client/src/app/(browse)/cats2/page.tsx
 
 // 'use client';
-import 'server-only';
+
 import Link from 'next/link';
 
 async function getProducts() {

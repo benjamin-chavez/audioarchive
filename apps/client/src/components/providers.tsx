@@ -11,7 +11,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactNode, useState } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
-import { store } from '../lib/redux/store';
+import { reduxStore } from '../lib/redux/store';
 
 export default function Providers({
   children,
@@ -21,10 +21,21 @@ export default function Providers({
   // getMyCart: Promise<any>;
   getMyCart: any;
 }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            // With SSR, we usually want to set some default staleTime
+            // above 0 to avoid refetching immediately on the client
+            staleTime: 60 * 1000,
+          },
+        },
+      }),
+  );
 
   return (
-    <ReduxProvider store={store}>
+    <ReduxProvider store={reduxStore}>
       <QueryClientProvider client={queryClient}>
         <UserProvider>
           {/* <MeProvider> */}

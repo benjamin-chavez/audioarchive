@@ -17,7 +17,7 @@ import Link from 'next/link';
 
 export default withPageAuthRequired(
   // @ts-ignore
-  async function ProductsOverview({ products }: { products: Product[] }) {
+  async function OldProductsOverview({ products }: { products: Product[] }) {
     // const { user } = await getSession();
     // const res = await getAppUserWithProducts(parseInt(user.id));
     // const { appUser, products } = res.data;
