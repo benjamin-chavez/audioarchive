@@ -23,9 +23,10 @@ const nextConfig = {
   poweredByHeader: false,
   transpilePackages: ['ui', 'parameter-store'],
   output: 'standalone',
-  // experimental: {
-  //   outputFileTracingRoot: path.join(__dirname, '../../'),
-  // },
+  experimental: {
+    // outputFileTracingRoot: path.join(__dirname, '../../'),
+    windowHistorySupport: true,
+  },
   // https://nextjs.org/docs/app/api-reference/next-config-js/output
   logging: {
     fetches: {

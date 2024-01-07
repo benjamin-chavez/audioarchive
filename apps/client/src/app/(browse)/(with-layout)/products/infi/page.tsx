@@ -29,13 +29,16 @@ async function Page() {
     pages: 3,
   });
 
+  const fetchedProducts = await getProducts(0);
+  console.log(fetchedProducts);
+
   return (
     <div>
       <h1>Server Component</h1>
 
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <ClientPage />
-      </HydrationBoundary>
+      {/* <HydrationBoundary state={dehydrate(queryClient)}> */}
+      <ClientPage fetchedProducts={fetchedProducts} />
+      {/* </HydrationBoundary> */}
     </div>
   );
 }
