@@ -11,20 +11,20 @@ import { Fragment, Suspense, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import WishlistButton from '@/components/wishlist-button';
 
-const getProducts = async (pageParam: number) => {
-  const res = await fetch('/api/products?page=' + pageParam);
+// const getProducts = async (pageParam: number) => {
+//   const res = await fetch('/api/products?page=' + pageParam);
 
-  return res.json();
-};
+//   return res.json();
+// };
 
 export default function Products() {
   // const [page, setPage] = useState(3);
   // const [limit, setLimit] = useState(1);
-  const { ref, inView, entry } = useInView({ threshold: 1 });
+  const { ref, inView, entry } = useInView({ threshold: 0 });
   const searchParams = useSearchParams();
 
-  // const getProducts = (pageParam: number) =>
-  //   fetch('/api/products?page=' + pageParam).then((res) => res.json());
+  const getProducts = (pageParam: number) =>
+    fetch('/api/products?page=' + pageParam).then((res) => res.json());
 
   const {
     data,
@@ -41,7 +41,7 @@ export default function Products() {
     queryKey: ['products'],
     // queryFn: getProducts,
     queryFn: ({ pageParam }) => getProducts(pageParam),
-    initialPageParam: 1,
+    initialPageParam: 0,
     // ...options,
     // placeholderData: keepPreviousData,
     // getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
@@ -49,7 +49,6 @@ export default function Products() {
     //   lastPage.nextCursor,
 
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      console.log('lastPage', lastPage);
       if (lastPage.length === 0) {
         return undefined;
       }
@@ -58,16 +57,24 @@ export default function Products() {
   });
 
   useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-    }
-  }, [fetchNextPage, inView, isFetching]);
+    const scrollToInfiniti = async () => {
+      if (inView) {
+        await fetchNextPage();
+      }
+    };
 
-  if (isPending) {
+    scrollToInfiniti();
+  }, [
+    fetchNextPage,
+    inView,
+    // isFetching
+  ]);
+
+  if (status === 'pending' || isPending) {
     return <div>Loading...</div>;
   }
 
-  if (isError) {
+  if (status === 'error' || isError) {
     <div>Error: {error.message}</div>;
   }
 

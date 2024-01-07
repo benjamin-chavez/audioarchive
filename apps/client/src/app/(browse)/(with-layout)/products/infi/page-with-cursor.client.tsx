@@ -11,15 +11,15 @@ import { Fragment, Suspense, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import WishlistButton from '@/components/wishlist-button';
 
-const getProducts = async (pageParam: number) => {
-  const res = await fetch('/api/products?cursor=' + pageParam);
-  // const res = await fetch('/api/products?page=15');
+// const getProducts = async (pageParam: number) => {
+//   const res = await fetch('/api/products?cursor=' + pageParam);
+//   // const res = await fetch('/api/products?page=15');
 
-  const products = await res.json();
-  console.log('products', products);
-  // return res.json();
-  return products;
-};
+//   const products = await res.json();
+//   console.log('products', products);
+//   // return res.json();
+//   return products;
+// };
 
 export default function Products() {
   // const [page, setPage] = useState(3);
@@ -29,6 +29,9 @@ export default function Products() {
 
   // const getProducts = (pageParam: number) =>
   //   fetch('/api/products?cursor=' + pageParam).then((res) => res.json());
+
+  const getProducts = (pageParam: number) =>
+    fetch('/api/app-users/profiles').then((res) => res.json());
 
   const {
     // isPending,
@@ -47,7 +50,7 @@ export default function Products() {
     queryKey: ['products'],
     // queryFn: getProducts,
     queryFn: ({ pageParam }) => getProducts(pageParam),
-    initialPageParam: 5,
+    initialPageParam: 0,
     // ...options,
     // placeholderData: keepPreviousData,
     getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
@@ -73,11 +76,7 @@ export default function Products() {
     if (inView) {
       fetchNextPage();
     }
-  }, [
-    fetchNextPage,
-    inView,
-    // isFetching
-  ]);
+  }, [fetchNextPage, inView, isFetching]);
 
   // if (isPending) {
   //   return <div>Loading...</div>;
