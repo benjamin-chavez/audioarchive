@@ -67,7 +67,7 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
 //     .json({ data: products, message: 'Products retrieved successfully' });
 // });
 
-export const getAllProductsWithUserDetails0: RequestHandler = asyncHandler(
+export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
   async (req, res) => {
     // const { search, page, limit, sort, ...filters } = req.query;
     const {
@@ -109,7 +109,7 @@ export const getAllProductsWithUserDetails0: RequestHandler = asyncHandler(
   }
 );
 
-export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
+export const getAllProductsWithUserDetails0: RequestHandler = asyncHandler(
   async (req, res) => {
     try {
       const limit = 10;
