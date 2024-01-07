@@ -62,7 +62,7 @@ export function processLimit(limit) {
 
 export function processOffset(page, limitPerPage) {
   // return;
-  const pageNumber = parseInt(page, 10) || 1;
+  const pageNumber = parseInt(page, 10) || 0;
   const offset = (pageNumber - 1) * limitPerPage;
 
   return offset;

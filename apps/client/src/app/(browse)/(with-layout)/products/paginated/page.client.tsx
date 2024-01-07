@@ -106,74 +106,55 @@
 
 'use client';
 
-import {
-  keepPreviousData,
-  useQuery,
-  useInfiniteQuery,
-} from '@tanstack/react-query';
-import { Fragment, useEffect, useState } from 'react';
-// import { useIntersection } from '@mantine/hooks';
-import { useInView } from 'react-intersection-observer';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+
+// async function getProducts(page = 1, limit = 1) {
+//   const res = await fetch(`/api/products?page=${page}&limit=${limit}`);
+
+//   if (!res.ok) {
+//     // This will activate the closest `error.js` Error Boundary
+//     throw new Error('Failed to fetch products');
+//   }
+
+//   return res.json();
+// }
 
 export default function Products() {
-  // const [page, setPage] = useState(3);
+  const [page, setPage] = useState(3);
   // const [limit, setLimit] = useState(1);
-  const { ref, inView } = useInView();
 
-  const getProducts = ({ pageParam }) =>
-    fetch('/api/products?page=1' + pageParam).then((res) => res.json());
+  const getProducts = (page = 3) =>
+    fetch('/api/products?page=' + page).then((res) => res.json());
 
-  // const { isPending, isError, error, data, isFetching, isPlaceholderData } =
-  //   useQuery({
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery({
-    // const { data } = useQuery({
-    // queryKey: ['products', page],
-    queryKey: ['products'],
-    queryFn: getProducts,
-    initialPageParam: 1,
-    // placeholderData: keepPreviousData,
-    // @ts-ignore
-    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
-  });
-
-  useEffect(() => {
-    inView && fetchNextPage();
-  }, [inView]);
+  const { isPending, isError, error, data, isFetching, isPlaceholderData } =
+    useQuery({
+      // const { data } = useQuery({
+      // queryKey: ['products'],
+      queryKey: ['products', page],
+      queryFn: () => getProducts(page),
+      placeholderData: keepPreviousData,
+    });
 
   return (
     <div>
       <h2>Client Component</h2>
-      <div>{JSON.stringify(data?.pages, null, 2)}</div>
 
-      {status === 'pending' ? (
+      {isPending ? (
         <div>Loading...</div>
-      ) : status === 'error' ? (
+      ) : isError ? (
         <div>Error: {error.message}</div>
       ) : (
         <div className="px-10 py-5 bg-orange-700/10">
-          {/* @ts-ignore */}
-          {data?.pages?.map((group, i) => (
-            <Fragment key={i}>
-              {group.data.map((product) => (
-                <div className="bg-red-500/40 mt-10">
-                  <p key={product.id}>{product.name}</p>
-                </div>
-              ))}
-            </Fragment>
+          {data.data.map((product) => (
+            <p key={product.id}>{product.name}</p>
           ))}
+          {/* <div>{JSON.stringify(data, null, 2)}</div> */}
         </div>
       )}
 
       <div className="mt-10 space-x-4 flex">
-        {/* <button
+        <button
           className="px-4 py-2 rounded bg-pink-500 disabled:bg-pink-200 text-gray-300"
           // onClick={() => setPage(page - 1)}
           onClick={() => setPage((old) => Math.max(old - 1, 1))}
@@ -196,22 +177,7 @@ export default function Products() {
         >
           Next Page
         </button>
-      </div> */}
-
-        <button
-          ref={ref}
-          onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetchingNextPage}
-          className="h-10 bg-blue-500"
-        >
-          {isFetchingNextPage
-            ? 'Loading more...'
-            : hasNextPage
-              ? 'Load More'
-              : 'Nothing more to load'}
-        </button>
       </div>
-      <div>{isFetching && !isFetchingNextPage ? 'Fetching...' : null}</div>
     </div>
   );
 }

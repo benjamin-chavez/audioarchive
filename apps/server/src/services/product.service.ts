@@ -95,6 +95,9 @@ class ProductService {
       minBpm && parseInt(String(minBpm)) >= 0 ? parseInt(String(minBpm)) : 0;
     const maxBpmNum = maxBpm ? parseInt(String(maxBpm)) : null;
 
+    console.log('limitPerPage', limitPerPage);
+    console.log('offset', offset);
+
     let products = await ProductModel.fullTextSearch({
       productQuery,
       searchQuery: processedSearchQuery,

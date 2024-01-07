@@ -163,10 +163,10 @@ class ProductModel {
           queryBuilder.where('bpm', '<=', maxBpmNum);
         }
       })
-      .orderBy(sortByString, orderString);
-    // .limit(1);
-    // .offset(offset)
-    // .limit(limitPerPage);
+      .orderBy(sortByString, orderString)
+      // .limit(1);
+      .offset(offset)
+      .limit(limitPerPage);
 
     return products;
   }

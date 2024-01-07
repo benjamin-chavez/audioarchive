@@ -11,6 +11,7 @@ import axios from 'axios';
 import { CustomError } from '../middleware/customErrors';
 import { Product } from '@shared/src/schemas';
 import MeService from '../services/me.service';
+import { processOffset } from '../lib/queryBuildingUtils';
 
 const CONTEXT = 'ProductController';
 
@@ -99,12 +100,45 @@ export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
       search,
     });
 
-    // console.log(JSON.stringify(products, null, 2));
+    console.log(JSON.stringify(products, null, 2));
+    // const productHasMore = { ...products, hasMore: true };
+    const cursor = processOffset(page, limit);
+
+    // res.status(200).json({
+    //   // data: productsWithSignedUrls,
+    //   data: { pages: products },
+
+    //   // data: productHasMore,
+    //   message: 'Products with user details retrieved successfully',
+    //   hasMore: true,
+    //   nextCursor: cursor,
+    // });
 
     res.status(200).json({
-      // data: productsWithSignedUrls,
-      data: products,
-      message: 'Products with user details retrieved successfully',
+      data: [
+        {
+          id: 'project1',
+          name: 'Project 1',
+          // Other project details...
+        },
+        {
+          id: 'project2',
+          name: 'Project 2',
+          // Other project details...
+        },
+        {
+          id: 'project3',
+          name: 'Project 1',
+          // Other project details...
+        },
+        {
+          id: 'project4',
+          name: 'Project 2',
+          // Other project details...
+        },
+        // ... more projects
+      ],
+      nextCursor: '3', // or null if there are no more pages
     });
   }
 );
@@ -116,9 +150,10 @@ export const getProductById: RequestHandler = asyncHandler(async (req, res) => {
   // @ts-ignore
   // product.imgS3Url = await S3Service.getObjectSignedUrl(product.imgS3Key);
 
-  res
-    .status(200)
-    .json({ data: product, message: 'Product retrieved successfully' });
+  res.status(200).json({
+    data: product,
+    message: 'Product retrieved successfully',
+  });
 });
 
 export const updateProduct: RequestHandler = asyncHandler(async (req, res) => {
