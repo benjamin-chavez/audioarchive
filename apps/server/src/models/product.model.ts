@@ -3,6 +3,7 @@
 import { Product } from '@shared/src/schemas';
 import knex from '../config/database';
 
+
 class ProductModel {
   private static tableName = 'products';
 
@@ -163,7 +164,7 @@ class ProductModel {
           queryBuilder.where('bpm', '<=', maxBpmNum);
         }
       })
-      .orderBy(sortByString, orderString)
+      // .orderBy(sortByString, orderString)
       // .limit(1);
       .offset(offset)
       .limit(limitPerPage);

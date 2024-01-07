@@ -12,7 +12,7 @@ import axios from 'axios';
 
 export function getProducts() {
   return axios
-    .get('http://localhost:5000/api/products', {
+    .get('http://localhost:5000/api/products?cursor=1', {
       // params: { _sort: 'tite' },
     })
     .then((res) => res.data);
@@ -30,9 +30,9 @@ async function Page() {
     <div>
       <h1>Server Component</h1>
 
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <ClientPage />
-      </HydrationBoundary>
+      {/* <HydrationBoundary state={dehydrate(queryClient)}> */}
+      <ClientPage />
+      {/* </HydrationBoundary> */}
     </div>
   );
 }

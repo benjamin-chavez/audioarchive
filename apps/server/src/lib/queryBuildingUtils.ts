@@ -53,7 +53,7 @@ export function processSort(sort) {
 
 export function processLimit(limit) {
   if (!limit) {
-    return 10;
+    return 15;
     // return;
   }
 

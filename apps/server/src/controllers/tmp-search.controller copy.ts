@@ -213,7 +213,7 @@ export const testQuery: RequestHandler = asyncHandler(async (req, res) => {
     key: [],
     daw: [],
   };
-  console.log('params', req.query);
+  console.log('tmp-controller: params', req.query);
 
   const { sortby, order, minPrice, maxPrice, minBpm, maxBpm, ...query } =
     req.query;

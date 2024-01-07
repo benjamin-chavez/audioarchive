@@ -12,6 +12,7 @@ import { CustomError } from '../middleware/customErrors';
 import { Product } from '@shared/src/schemas';
 import MeService from '../services/me.service';
 import { processOffset } from '../lib/queryBuildingUtils';
+import knex from '../config/database';
 
 const CONTEXT = 'ProductController';
 
@@ -66,7 +67,7 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
 //     .json({ data: products, message: 'Products retrieved successfully' });
 // });
 
-export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
+export const getAllProductsWithUserDetails0: RequestHandler = asyncHandler(
   async (req, res) => {
     // const { search, page, limit, sort, ...filters } = req.query;
     const {
@@ -86,7 +87,6 @@ export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
     console.log('params', req.query);
     // await ProductService.searchAndFilterProducts
 
-    // const products = {};
     const products = await ProductService.getAllProductsWithUserDetails({
       sortBy: sortby,
       order,
@@ -100,46 +100,46 @@ export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
       search,
     });
 
-    console.log(JSON.stringify(products, null, 2));
-    // const productHasMore = { ...products, hasMore: true };
-    const cursor = processOffset(page, limit);
-
-    // res.status(200).json({
-    //   // data: productsWithSignedUrls,
-    //   data: { pages: products },
-
-    //   // data: productHasMore,
-    //   message: 'Products with user details retrieved successfully',
-    //   hasMore: true,
-    //   nextCursor: cursor,
-    // });
-
     res.status(200).json({
-      data: [
-        {
-          id: 'project1',
-          name: 'Project 1',
-          // Other project details...
-        },
-        {
-          id: 'project2',
-          name: 'Project 2',
-          // Other project details...
-        },
-        {
-          id: 'project3',
-          name: 'Project 1',
-          // Other project details...
-        },
-        {
-          id: 'project4',
-          name: 'Project 2',
-          // Other project details...
-        },
-        // ... more projects
-      ],
-      nextCursor: '3', // or null if there are no more pages
+      data: products,
+      message: 'Products with user details retrieved successfully',
+      // hasMore: true,
+      // nextCursor: cursor,
     });
+  }
+);
+
+export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
+  async (req, res) => {
+    try {
+      const limit = 10;
+      let { cursor } = req.query;
+
+      console.log('params0', req.query);
+
+      let query = knex('products').orderBy('id').limit(limit);
+
+      if (cursor) {
+        query = query.where('id', '>', cursor);
+      }
+
+      const products = await query;
+
+      // console.log('products', products);
+      const nextCursor =
+        products?.length === limit ? products[products?.length - 1].id : null;
+
+      res.status(200).json({
+        data: products,
+        message: 'Products with user details retrieved successfully',
+        // hasMore: true,
+        nextCursor: nextCursor,
+      });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: 'Error fetching products', error: error.message });
+    }
   }
 );
 

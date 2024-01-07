@@ -152,7 +152,7 @@ export const populateFiltersAndProducts: RequestHandler = asyncHandler(
       key: [],
       daw: [],
     };
-    console.log('params', req.query);
+    // console.log('searchcontroller-params', req.query);
 
     // GET FILTERED PRODUCTS
     const productQuery = knex.select('*').from('products');
