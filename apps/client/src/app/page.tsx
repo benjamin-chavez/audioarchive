@@ -4,6 +4,7 @@ import 'server-only';
 import { Hero } from '@/components/hero';
 import { Badge } from '@/components/ui/badge';
 import Badge2 from '@/components/ui/badge2';
+import { FeaturedProducts } from '@/components/featured-products';
 // import { Dialog, Popover, Tab, Transition } from '@headlessui/react';
 // import { ChevronDownIcon } from '@heroicons/react/20/solid';
 // import {
@@ -31,6 +32,7 @@ export default function Client() {
     >
       <div className="w-10"></div>
       <Hero />
+      <FeaturedProducts />
     </main>
   );
 }

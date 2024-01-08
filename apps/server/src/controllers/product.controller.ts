@@ -145,6 +145,21 @@ export const getAllProductsWithUserDetailsCursor: RequestHandler = asyncHandler(
   }
 );
 
+export const getFeaturedProducts: RequestHandler = asyncHandler(
+  async (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    // const id: number = BigInt(req.params.id);
+    const product = await ProductService.getFeaturedProducts();
+    // @ts-ignore
+    // product.imgS3Url = await S3Service.getObjectSignedUrl(product.imgS3Key);
+
+    res.status(200).json({
+      data: product,
+      message: 'Featured products retrieved successfully',
+    });
+  }
+);
+
 export const getProductById: RequestHandler = asyncHandler(async (req, res) => {
   const id = parseInt(req.params.id, 10);
   // const id: number = BigInt(req.params.id);

@@ -150,6 +150,15 @@ class ProductService {
     return productsWithSignedUrls;
   }
 
+  static async getFeaturedProducts(): Promise<any> {
+    const products = await ProductModel.getFeaturedProductsWithAppUserDetails();
+
+    const productsWithSignedUrls =
+      await S3Service.getSignedUrlsForProducts(products);
+
+    return productsWithSignedUrls;
+  }
+
   static async getProductById(id: number): Promise<Product> {
     const product = await ProductModel.findById(id);
     if (!product) {

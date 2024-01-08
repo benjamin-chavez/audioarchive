@@ -59,6 +59,7 @@
 
  - ### Admin Dashboard:
     - The navbar option for this should only be visible to Admin users
+    - Add ability to update featured products
 
 
  - ### Seller Dashboard:

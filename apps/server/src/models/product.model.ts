@@ -198,6 +198,23 @@ class ProductModel {
     return products;
   }
 
+  static async getFeaturedProductsWithAppUserDetails(): Promise<any> {
+    const products = await knex(this.tableName)
+      .leftJoin('appUsers', 'products.appUserId', '=', 'appUsers.id')
+      .leftJoin('product_ratings', 'products.id', 'product_ratings.product_id')
+      .select(
+        'products.*',
+        'appUsers.username',
+        // 'appUsers.auth_id',
+        knex.raw('AVG(product_ratings.rating) as average_rating')
+      )
+      .where('is_featured', true)
+      .groupBy('products.id', 'appUsers.id')
+      .orderBy('products.id');
+
+    return products;
+  }
+
   static async getAllProductsByAppUser(appUserId: number): Promise<any> {
     const products = await knex(this.tableName)
       .leftJoin('product_ratings', 'products.id', 'product_ratings.product_id')

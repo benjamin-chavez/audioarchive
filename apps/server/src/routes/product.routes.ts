@@ -92,6 +92,8 @@ router.delete(
   productReviewController.deleteReview
 );
 
+router.get('/featured', productController.getFeaturedProducts);
+
 router.get('/', productController.getAllProductsWithUserDetails);
 router.get('/:id', productController.getProductById);
 

@@ -159,9 +159,11 @@ export default function PageClient({
             href={
               customReferrer ? decodeURIComponent(customReferrer) : '/products'
             }
-            className="bg-blue-500  px-4 "
+            // bg-pink-800
+            className="bg-blue-500  px-4 py-2 rounded "
           >
-            Back to Products
+            {/* TODO: "Back to search results" should be conditionally rendered depending on where they came from*/}
+            Back to search results
           </Link>
           {isProductSeller && (
             // TODO: Refactor after you write the Button Component
