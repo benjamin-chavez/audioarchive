@@ -164,7 +164,7 @@ class ProductModel {
         }
       })
       // .orderBy(sortByString, orderString)
-      .limit(10)
+      .limit(24)
       .offset(offset);
     // .limit(limitPerPage);
 

@@ -1,20 +1,11 @@
 // apps/client/src/app/(browse)/layout.tsx
 
 // apps/client/src/app/(browse2)/layout.tsx
-'use client';
-import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import {
-  Bars3Icon,
-  CalendarIcon,
-  ChartPieIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+// 'use client';
+import 'server-only';
+
 import Container from '@/components/container';
+// import { useState } from 'react';
 import Sidebar from './components/sidebar';
 
 function classNames(...classes) {
@@ -22,7 +13,7 @@ function classNames(...classes) {
 }
 
 function SidebarNavigation({ children }: { children: React.ReactNode }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  // const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <>
@@ -49,7 +40,7 @@ export default function BrowseLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  // const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <section

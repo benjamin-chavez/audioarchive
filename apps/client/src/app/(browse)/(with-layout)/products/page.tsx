@@ -24,19 +24,25 @@ import { Pagination } from './components/pagination';
 //     .then((res) => res.data);
 // }
 
-export async function getProducts(pageNumber) {
-  const page = pageNumber;
-  const limit = 10;
-  const res = await fetch(
-    `http://localhost:5000/api/products?page=${page}&limit=${limit}`,
-  );
+export async function getProducts({
+  searchParams, // limit,
+  // page,
+}: {
+  searchParams: URLSearchParams;
+  // page: number;
+  // limit?: number;
+}) {
+  // const res = await fetch(
+  //   `http://localhost:5000/api/products?page=${page}&limit=${limit}`,
+  // );
+
+  const res = await fetch(`http://localhost:5000/api/products?${searchParams}`);
 
   if (!res) {
     throw new Error('');
   }
 
   const { data } = await res.json();
-  // console.log('products', products);
   return data;
 }
 
@@ -51,11 +57,15 @@ type ProductProps = {
 export default async function Page({ params, searchParams }: ProductProps) {
   const currentPage = Number(searchParams?.page) || 1;
 
-  console.log('\n\n\n');
-  console.log('🚀 ~ searchParams:', JSON.stringify(searchParams, null, 2));
-  console.log('🚀 ~ currentPage:', currentPage);
+  // console.log('\n\n\n');
+  // console.log('🚀 ~ searchParams:', JSON.stringify(searchParams, null, 2));
+  // console.log('🚀 ~ currentPage:', currentPage);
 
-  const products = await getProducts(currentPage);
+  const searchParamsString: URLSearchParams = new URLSearchParams(
+    searchParams as unknown as string,
+  );
+  // const products = await getProducts({ page: currentPage });
+  const products = await getProducts({ searchParams: searchParamsString });
   const totalPages = 20;
 
   return (
@@ -78,10 +88,6 @@ export function ProductSection({
   products: any[];
   searchParams: any;
 }) {
-  const searchParamsString: URLSearchParams = new URLSearchParams(
-    searchParams as unknown as string,
-  );
-
   return (
     <>
       <section
@@ -100,7 +106,7 @@ export function ProductSection({
                 <Link
                   // href="#"
                   href={`/products/${product.id}?ref=${encodeURIComponent(
-                    `/products?${searchParamsString}`,
+                    `/products?${searchParams}`,
                   )}`}
                   className="group"
                 >

@@ -45,6 +45,7 @@
     - Add ability to handle multiple pictures and/or video media - Will need to update the model, the show page, the product-form, and...
     - Product Index Page
         - Infinite Scroll? - Might not be worth the SEO challenges
+        - Add Limit per Page option
 
  - ### Footer:
     -
