@@ -143,6 +143,10 @@ class ProductModel {
     filters: any;
     isFuzzy?: boolean;
   }) {
+    let tmpOffsetVariableToBeDeletedAsItIsAHack = offset;
+    if (offset < 0) {
+      tmpOffsetVariableToBeDeletedAsItIsAHack = 0;
+    }
     productQuery = this.applySearchQuery(productQuery, searchQuery, isFuzzy);
     productQuery = this.applyFiltersNew(productQuery, filters);
 
@@ -165,7 +169,7 @@ class ProductModel {
       })
       // .orderBy(sortByString, orderString)
       .limit(24)
-      .offset(offset);
+      .offset(tmpOffsetVariableToBeDeletedAsItIsAHack);
     // .limit(limitPerPage);
 
     return products;

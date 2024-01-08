@@ -26,8 +26,8 @@ import { Pagination } from './components/pagination';
 
 export async function getProducts({
   searchParams, // limit,
-  // page,
-}: {
+} // page,
+: {
   searchParams: URLSearchParams;
   // page: number;
   // limit?: number;
@@ -70,7 +70,7 @@ export default async function Page({ params, searchParams }: ProductProps) {
 
   return (
     <div>
-      <ProductSection products={products} searchParams={searchParams} />
+      <ProductSection products={products} searchParams={searchParamsString} />
 
       <Pagination
         currentPage={currentPage}
