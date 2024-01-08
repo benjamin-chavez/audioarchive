@@ -12,8 +12,8 @@ import { useInView } from 'react-intersection-observer';
 import WishlistButton from '@/components/wishlist-button';
 
 const getProducts = async (pageParam: number) => {
-  // const res = await fetch('/api/app-users/profiles');
-  const res = await fetch('/api/products?cursor=15');
+  const res = await fetch('/api/products?cursor=' + pageParam);
+  // const res = await fetch('/api/products?page=15');
 
   const products = await res.json();
   // console.log('products', products);
@@ -21,15 +21,16 @@ const getProducts = async (pageParam: number) => {
   return products;
 };
 
-export default function Products({
-  fetchedProducts,
-}: {
-  fetchedProducts: any;
-}) {
+export default function Products(fetchedProducts: any) {
+  const [currentCursor, setcurrentCursor] = useState(null);
   const { ref, inView, entry } = useInView({ threshold: 1 });
   const searchParams = useSearchParams();
 
-  console.log(JSON.stringify(fetchedProducts, null, 2));
+  // const getProducts = (pageParam: number) =>
+  //   fetch('/api/products?cursor=' + pageParam).then((res) => res.json());
+
+  // const getProducts = (pageParam: number) =>
+  // fetch('/api/app-users/profiles').then((res) => res.json());
   const pathname = usePathname();
   const router = useRouter();
   const {
@@ -48,21 +49,60 @@ export default function Products({
   } = useInfiniteQuery({
     queryKey: ['products'],
     queryFn: ({ pageParam }) => getProducts(pageParam),
-    // initialData: () => ({ fetchedProducts }),
-    initialData: () => ({
-      pages: [fetchedProducts],
-      //  pages: [posts.slice(0, 2)],
-      pageParams: [undefined],
-    }),
-    initialPageParam: undefined,
+    initialData: fetchedProducts,
+    initialPageParam: 0,
     // ...options,
     placeholderData: keepPreviousData,
     getNextPageParam: (lastPage, pages, lastPageParam) => {
       const nextCursor = lastPage?.nextCursor;
+      // if (nextCursor && nextCursor != currentCursor) {
+      //   setcurrentCursor(nextCursor);
+      // }
+
+      if (nextCursor && nextCursor != currentCursor) {
+        setcurrentCursor(nextCursor);
+
+        // const updatedParams = new URLSearchParams(searchParams);
+        // updatedParams.set('scroll', `${scrollPosition}`);
+        // updatedParams.set('cursor', nextCursor.toString());
+        // const newUrl = `http://localhost:3000${pathname}?${updatedParams}`;
+
+        // window.history.pushState({}, '', newUrl);
+      }
 
       return nextCursor;
+      // return lastPage.nextCursor;
     },
+    // getNextPageParam: (lastPage) => lastPage.nextId ?? undefined,
+    // getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
+    //   lastPage.nextCursor,
+
+    // getNextPageParam: (lastPage, allPages, lastPageParam) => {
+    //   console.log(
+    //     'lastPage',
+    //     lastPage,
+    //     'lastPage.nextCursor',
+    //     lastPage.nextCursor,
+    //   );
+    //   if (lastPage.length === 0) {
+    //     return undefined;
+    //   }
+    //   return lastPageParam + 1;
+    // },
   });
+
+  // useEffect(() => {
+  //   const myFunc = async () => {
+  //     const params = new URLSearchParams(searchParams);
+  //     const scrollPos = parseInt(params.get('scroll'), 10);
+  //     console.log('scrollPos', scrollPos);
+  //     await new Promise((resolve) => setTimeout(resolve, 1000));
+  //     console.log('window.scrollY', window.scrollY);
+
+  //     window.scrollTo({ top: scrollPos, behavior: 'auto' });
+  //   };
+  //   myFunc();
+  // }, []);
 
   useEffect(() => {
     if (inView) {
@@ -70,19 +110,19 @@ export default function Products({
     }
   }, [fetchNextPage, inView, isFetching]);
 
-  // useEffect(() => {
-  //   if (currentCursor !== null) {
-  //     const updatedParams = new URLSearchParams(searchParams);
+  useEffect(() => {
+    if (currentCursor !== null) {
+      const updatedParams = new URLSearchParams(searchParams);
 
-  //     // const scrollPosition = window.scrollY;
-  //     // updatedParams.set('scroll', `${scrollPosition}`);
+      // const scrollPosition = window.scrollY;
+      // updatedParams.set('scroll', `${scrollPosition}`);
 
-  //     updatedParams.set('cursor', currentCursor.toString());
+      updatedParams.set('cursor', currentCursor.toString());
 
-  //     const newUrl = `http://localhost:3000${pathname}?${updatedParams}`;
-  //     window.history.pushState({}, '', newUrl);
-  //   }
-  // }, [currentCursor]);
+      const newUrl = `http://localhost:3000${pathname}?${updatedParams}`;
+      window.history.pushState({}, '', newUrl);
+    }
+  }, [currentCursor]);
 
   if (isPending) {
     return <div>Loading...</div>;

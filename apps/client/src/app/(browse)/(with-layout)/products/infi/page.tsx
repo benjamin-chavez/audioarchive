@@ -19,26 +19,28 @@ export function getProducts(pageParam: number) {
 }
 
 async function Page() {
-  const queryClient = new QueryClient();
+  // const queryClient = new QueryClient();
 
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: ['products'],
-    queryFn: ({ pageParam }) => getProducts(pageParam),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
-    pages: 3,
-  });
+  // await queryClient.prefetchInfiniteQuery({
+  //   queryKey: ['products'],
+  //   queryFn: ({ pageParam }) => getProducts(pageParam),
+  //   initialPageParam: 0,
+  //   getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+  //   pages: 3,
+  // });
 
-  const fetchedProducts = await getProducts(0);
+  const fetchedProducts = await getProducts(1);
   console.log(fetchedProducts);
 
   return (
     <div>
       <h1>Server Component</h1>
 
-      {/* <HydrationBoundary state={dehydrate(queryClient)}> */}
       <ClientPage fetchedProducts={fetchedProducts} />
-      {/* </HydrationBoundary> */}
+
+      {/* <HydrationBoundary state={dehydrate(queryClient)}>
+        <ClientPage />
+      </HydrationBoundary> */}
     </div>
   );
 }

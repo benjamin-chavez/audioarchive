@@ -67,8 +67,11 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
 //     .json({ data: products, message: 'Products retrieved successfully' });
 // });
 
-export const getAllProductsWithUserDetails0: RequestHandler = asyncHandler(
-  async (req, res) => {
+export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
+  async (req, res, next) => {
+    if (req.query.cursor) {
+      return getAllProductsWithUserDetailsCursor(req, res, next);
+    }
     // const { search, page, limit, sort, ...filters } = req.query;
     const {
       search,
@@ -103,13 +106,12 @@ export const getAllProductsWithUserDetails0: RequestHandler = asyncHandler(
     res.status(200).json({
       data: products,
       message: 'Products with user details retrieved successfully',
-      // hasMore: true,
-      // nextCursor: cursor,
+      hasMore: true,
     });
   }
 );
 
-export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
+export const getAllProductsWithUserDetailsCursor: RequestHandler = asyncHandler(
   async (req, res) => {
     try {
       const limit = 10;
