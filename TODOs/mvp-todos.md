@@ -25,6 +25,7 @@
     - Fix numeric product filters
     - Set up Artist Search Filtering
     - Update all Filter ui component(s) to make the filtering feel more controlled and less all over the place. So like showing all filters at once and/or showing all active filters
+    - filtering should work as `filter & filter` not `filter || filter`
     - resources:
       - [postgres-full-text-search-is-good-enough](https://rachbelaid.com/postgres-full-text-search-is-good-enough/)
       - [postgres-full-text-search-engine](https://xata.io/blog/postgres-full-text-search-engine)

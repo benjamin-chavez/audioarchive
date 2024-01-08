@@ -8,6 +8,8 @@ import { GENRE_VALUES } from '../../migrations/20230902000001_create_genre_looku
 
 const TABLE_NAME = 'products';
 export async function seed(knex: Knex): Promise<void> {
+  console.log(`Seeding ${TABLE_NAME} seeds`);
+
   await knex(TABLE_NAME).del();
 
   const currentTimestamp = new Date();
@@ -51,10 +53,11 @@ export async function seed(knex: Knex): Promise<void> {
           : accountId;
 
       const price = seed.price > 50 ? 29.99 : seed.price;
-      const genre =
-        GENRE_VALUES[
-          faker.number.int({ min: 0, max: GENRE_VALUES.length - 1 })
-        ];
+      const genre = seed.genre_name
+        ? seed.genre
+        : GENRE_VALUES[
+            faker.number.int({ min: 0, max: GENRE_VALUES.length - 1 })
+          ];
 
       const productToCreate = {
         appUserId: appUserId,
@@ -67,6 +70,7 @@ export async function seed(knex: Knex): Promise<void> {
         key: seed.key,
         label: '',
         description: seed.description,
+        is_featured: seed.is_featured || false,
         price,
         imgS3Key: seed.imgS3Key,
         status: 'published',

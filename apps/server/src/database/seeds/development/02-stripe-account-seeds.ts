@@ -5,7 +5,8 @@ import { Knex } from 'knex';
 const TABLE_NAME = 'accounts';
 
 export async function seed(knex: Knex): Promise<void> {
-  // Deletes ALL existing entries
+  console.log(`Seeding ${TABLE_NAME} seeds`);
+
   await knex(TABLE_NAME).del();
 
   const currentTimestamp = new Date().toISOString();

@@ -71,6 +71,7 @@ exports.up = async function (knex: Knex): Promise<void> {
     t.string('key');
     t.string('label');
     t.text('description');
+    t.boolean('is_featured').defaultTo(false).notNullable;
 
     t.string('stripe_product_id');
 

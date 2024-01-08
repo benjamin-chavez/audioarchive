@@ -3,8 +3,8 @@
 import { Knex } from 'knex';
 
 const TABLE_NAME = 'daws';
-const DAW_VALUES = ['ableton', 'fl studio', 'logic', 'bitwig'];
-// const DAW_VALUES = ['Ableton', 'FL Studio', 'Logic', 'Bitwig'];
+// const DAW_VALUES = ['ableton', 'fl studio', 'logic', 'bitwig'];
+const DAW_VALUES = ['Ableton', 'FL Studio', 'Logic Pro', 'Bitwig', 'Pro Tools'];
 
 exports.up = async function (knex: Knex): Promise<void> {
   return knex.schema.createTable(TABLE_NAME, async (t) => {

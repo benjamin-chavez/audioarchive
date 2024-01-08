@@ -112,5 +112,6 @@
       - Graceful Shutdown example: [cgmartin/express-api-server](https://github.com/cgmartin/express-api-server/blob/master/src/lib/graceful-shutdown.js)
       - Express Examples: [https://github.com/expressjs/express/tree/master/examples](https://github.com/expressjs/express/tree/master/examples)
       - Look into: `RTK Query OpenAPI` and/or `GraphQL codegens`
+      - Feedback Mechanism for both buyers and sellers
 
 https://medium.com/inforwaves-blogs/how-to-setup-redux-toolkit-in-next-js-app-router-82bde47fb863

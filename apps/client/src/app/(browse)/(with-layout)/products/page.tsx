@@ -26,8 +26,8 @@ import { Pagination } from './components/pagination';
 
 export async function getProducts({
   searchParams, // limit,
-} // page,
-: {
+  // page,
+}: {
   searchParams: URLSearchParams;
   // page: number;
   // limit?: number;
@@ -122,7 +122,7 @@ export function ProductSection({
                     {product.name}
                   </p>
                 </Link>
-                <span>{product.id}</span>
+                <div className="text-gray-600">{product.id}</div>
                 <WishlistButton productId={product.id} />
               </div>
             </Suspense>

@@ -6,7 +6,8 @@ import seedData from '../data/app-user-seed-data-with-spotify.json';
 const TABLE_NAME = 'app_users';
 
 export async function seed(knex: Knex): Promise<void> {
-  // Deletes ALL existing entries
+  console.log(`Seeding ${TABLE_NAME} seeds`);
+
   await knex(TABLE_NAME).del();
 
   const currentTimestamp = new Date().toISOString();

@@ -329,11 +329,12 @@
     "display_name": "Dr. Fresch",
     "first_name": "Dr.",
     "last_name": "Fresch",
-    "username": "dr.-fresch",
+    "username": "drfresch",
     "email": "dr.-fresch@faker-mail.dev",
     "avatar_s3_key": "dr.-fresch-avatar-seed.webp",
     "spotify_id": "1htHgbGwgCWJBfGiQwcRqC",
-    "spotify_url": "https://open.spotify.com/artist/1htHgbGwgCWJBfGiQwcRqC"
+    "spotify_url": "https://open.spotify.com/artist/1htHgbGwgCWJBfGiQwcRqC",
+    "instagram_url": "https://www.instagram.com/drfresch/"
   },
   {
     "auth_id": "auth0|d77f81c209fdafc427c238a9",

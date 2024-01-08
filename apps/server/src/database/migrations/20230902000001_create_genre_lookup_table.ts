@@ -2,16 +2,17 @@ import { Knex } from 'knex';
 
 const TABLE_NAME = 'genre';
 export const GENRE_VALUES = [
-  'Bass House',
-  'Breakbeat',
-  'Breaks',
-  'Deep House',
-  'UK Bass',
+  'bass house',
+  'breakbeat',
+  'breaks',
+  'dance',
+  'deep house',
+  'uk bass',
   'dubstep',
-  'House',
-  'Pop',
-  'Techno',
-  'Trap',
+  'house',
+  'pop',
+  'techno',
+  'trap',
 ];
 
 exports.up = async function (knex: Knex): Promise<void> {

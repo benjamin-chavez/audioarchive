@@ -28,7 +28,11 @@ function getRandomBoolean() {
   return Math.random() < 0.5;
 }
 
+const TABLE_NAME = 'product_reviews';
+
 export async function seed(knex: Knex): Promise<void> {
+  console.log(`Seeding ${TABLE_NAME} seeds`);
+
   await knex(REVIEWS_TABLE).del();
 
   const products = await knex('products').select('id');
