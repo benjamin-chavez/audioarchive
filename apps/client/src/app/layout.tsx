@@ -17,6 +17,7 @@ import { getMyCart } from '@/lib/data/me';
 import Container from '@/components/container';
 import { AudioPlayer } from '@/components/audio-player';
 import { Suspense } from 'react';
+import ExampleFooter from '@/components/ffooter';
 
 // import Footer from '@/components/footer';
 // import Toast from '@/components/ui/toast';
@@ -54,6 +55,7 @@ export default async function RootLayout({
           {children}
         </Providers>
 
+        
         <Footer />
         <div className="fixed inset-x-0 bottom-0 z-10 lg:left-112 xl:left-120 bg-red-500/10 w-full">
           <AudioPlayer />
