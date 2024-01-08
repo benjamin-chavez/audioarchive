@@ -1,60 +1,47 @@
-// apps/client/src/app/(browse)/cats2/page.tsx
-
-// 'use client';
+// apps/client/src/app/(browse)/(with-layout)/products/infi/page.tsx
 import 'server-only';
-import Link from 'next/link';
 
-async function getProducts() {
-  const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
+import ClientPage from './page.client';
 
-  const res = await fetch(`${BASE_URL}/products`);
+import axios from 'axios';
 
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch products');
-  }
+type ProductProps = {
+  params: { pageNumber: string };
+};
 
-  return res.json();
+export async function getProducts(pageNumber) {
+  const page = pageNumber;
+  const limit = 10;
+  return axios
+    .get(`http://localhost:5000/api/products?page=${page}&limit=${limit}`, {
+      // .get(`http://localhost:5000/api/app-users/profiles`, {
+      // params: { _sort: 'tite' },
+    })
+    .then((res) => res.data);
 }
 
-export default async function Page() {
-  const res = await getProducts();
-  const products = res.data;
+async function Page({ params }: ProductProps) {
+  const queryClient = new QueryClient();
+  const serverPage = 1;
+  const pageNumber = parseInt(params.pageNumber);
+
+  await queryClient.prefetchQuery({
+    queryKey: ['products', pageNumber],
+    queryFn: () => getProducts(pageNumber),
+  });
 
   return (
-    <>
-      {/* Product grid */}
-      <section
-        aria-labelledby="products-heading"
-        className="mx-auto max-w-2xl px-4 pb-16 pt-12 sm:px-6 sm:pb-24 sm:pt-16 lg:max-w-7xl lg:px-8 bg-red-500"
-      >
-        <h2 id="products-heading" className="sr-only">
-          Products
-        </h2>
-
-        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {products.map((product) => (
-            <Link
-              key={product.id}
-              href={`/products/${product.id}`}
-              className="group"
-            >
-              <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                <img
-                  src={product.imgS3Url}
-                  alt={product.imageAlt}
-                  className="h-full w-full object-cover object-center group-hover:opacity-75"
-                />
-              </div>
-              <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
-              <p className="mt-1 text-lg font-medium text-gray-900">
-                {product.price}
-              </p>
-            </Link>
-          ))}
-        </div>
-      </section>
-    </>
+    <div>
+      <h1>{pageNumber}</h1>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <ClientPage serverPage={serverPage} />
+      </HydrationBoundary>
+    </div>
   );
 }
-// export const dynamic = 'force-dynamic';
+export default Page;

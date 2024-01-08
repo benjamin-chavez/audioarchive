@@ -67,6 +67,7 @@ export default async function ProductsLayout({
               sortOptions={sortOptions}
 
             /> */}
+
           {/* <NewFilterComponent normalizedFilterData={normalizedFilterData} /> */}
 
           {/* <Filters sortOptions={sortOptions} /> */}

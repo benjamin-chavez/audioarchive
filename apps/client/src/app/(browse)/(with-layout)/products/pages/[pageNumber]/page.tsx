@@ -10,8 +10,12 @@ import ClientPage from './page.client';
 
 import axios from 'axios';
 
-export function getProducts() {
-  const page = 1;
+type ProductProps = {
+  params: { pageNumber: string };
+};
+
+export async function getProducts(pageNumber) {
+  const page = pageNumber;
   const limit = 10;
   return axios
     .get(`http://localhost:5000/api/products?page=${page}&limit=${limit}`, {
@@ -21,18 +25,21 @@ export function getProducts() {
     .then((res) => res.data);
 }
 
-async function Page() {
+async function Page({ params }: ProductProps) {
   const queryClient = new QueryClient();
+  const serverPage = 1;
+  const pageNumber = parseInt(params.pageNumber);
 
   await queryClient.prefetchQuery({
-    queryKey: ['products', 1],
-    queryFn: getProducts,
+    queryKey: ['products', pageNumber],
+    queryFn: () => getProducts(pageNumber),
   });
 
   return (
     <div>
+      <h1>{pageNumber}</h1>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <ClientPage />
+        <ClientPage serverPage={serverPage} />
       </HydrationBoundary>
     </div>
   );

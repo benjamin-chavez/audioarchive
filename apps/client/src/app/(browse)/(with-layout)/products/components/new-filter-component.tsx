@@ -468,7 +468,7 @@ function NewFilterComponent({
         </section>
       </>
 
-      {!artists && <ProductSection products={products} />}
+      {/* {!artists && <ProductSection products={products} />} */}
     </div>
   );
 }

@@ -69,9 +69,9 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
 
 export const getAllProductsWithUserDetails: RequestHandler = asyncHandler(
   async (req, res, next) => {
-    if (req.query.cursor) {
-      return getAllProductsWithUserDetailsCursor(req, res, next);
-    }
+    // if (req.query.cursor) {
+    //   return getAllProductsWithUserDetailsCursor(req, res, next);
+    // }
     // const { search, page, limit, sort, ...filters } = req.query;
     const {
       search,

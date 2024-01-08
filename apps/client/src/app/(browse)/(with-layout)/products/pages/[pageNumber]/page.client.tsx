@@ -1,7 +1,7 @@
 'use client';
 
 import WishlistButton from '@/components/wishlist-button';
-import { Pagination } from './pagination';
+import { Pagination } from '../../paginated/pagination';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Fragment, Suspense, useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -9,7 +9,7 @@ import { useSearchParams } from 'next/navigation';
 import { FiltersContext } from '@/contexts/filter-context';
 import { current } from 'immer';
 
-async function getProducts(page = 1, limit = 1) {
+async function getProducts(page: number, limit = 4) {
   const res = await fetch(`/api/products?page=${page}&limit=${limit}`);
   // const res = await fetch(`/api/app-users/profiles`);
 
@@ -21,16 +21,23 @@ async function getProducts(page = 1, limit = 1) {
   return res.json();
 }
 
-export default function Products() {
+export default function Products(serverPage) {
   const searchParams = useSearchParams();
   const pageParam = parseInt(searchParams.get('page'), 10);
   const [currentPage, setCurrentPage] = useState(pageParam || 1);
+  const [totalPages, setTotalPages] = useState(10);
   const [limit, setLimit] = useState(30);
   const { handlePagination } = useContext(FiltersContext);
 
   // const getProducts = (page = 1) =>
   //   // fetch(`/api/app-users/profiles`).then((res) => res.json());
   //   fetch('/api/products?page=' + page).then((res) => res.json());
+
+  useEffect(() => {
+    if (pageParam && pageParam !== currentPage) {
+      setCurrentPage(pageParam);
+    }
+  }, [pageParam]);
 
   const { isPending, isError, error, data, isFetching, isPlaceholderData } =
     useQuery({
@@ -41,24 +48,24 @@ export default function Products() {
       placeholderData: keepPreviousData,
     });
 
-  // const currentPage = 1;
-  const totalPages = 9;
-
-  useEffect(() => {
-    if (pageParam && pageParam !== currentPage) {
-      setCurrentPage(pageParam);
-    }
-  }, [pageParam]);
-
   return (
     <div>
+      {pageParam}
       {isPending ? (
         <div>Loading...</div>
       ) : isError ? (
         <div>Error: {error.message}</div>
       ) : (
         <>
-          <div className="px-10 py-5 bg-orange-700/10">
+          <section
+            aria-labelledby="products-heading"
+            className="mx-auto max-w-2xl px-4 pb-16 pt-12 sm:px-6 sm:pb-24 sm:pt-16 lg:max-w-7xl lg:px-8 "
+          >
+            <h2 id="products-heading" className="sr-only">
+              Products
+            </h2>
+
+            {/* <div className="px-10 py-5 bg-orange-700/10"> */}
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
               {data.data?.map((product) => (
                 <Suspense
@@ -92,7 +99,7 @@ export default function Products() {
                 </Suspense>
               ))}
             </div>
-          </div>
+          </section>
         </>
       )}
 

@@ -3,7 +3,6 @@
 import { Product } from '@shared/src/schemas';
 import knex from '../config/database';
 
-
 class ProductModel {
   private static tableName = 'products';
 
@@ -111,7 +110,7 @@ class ProductModel {
     // return productQuery;
   }
 
-  static setSortAndPageParameters(sortBy, sortOrder, offser) {}
+  static setSortAndPageParameters(sortBy, sortOrder, offset) {}
 
   static async fullTextSearch({
     productQuery,
@@ -165,9 +164,9 @@ class ProductModel {
         }
       })
       // .orderBy(sortByString, orderString)
-      // .limit(1);
-      .offset(offset)
-      .limit(limitPerPage);
+      .limit(10)
+      .offset(offset);
+    // .limit(limitPerPage);
 
     return products;
   }
