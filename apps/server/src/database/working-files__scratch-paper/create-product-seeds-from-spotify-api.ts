@@ -6,7 +6,7 @@ dotenv.config({ path: envPath });
 import { faker } from '@faker-js/faker';
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 import fs from 'fs';
-import artists from './data/app-user-seed-data-with-spotify.json';
+import artists from '../seeds/data/app-user-seed-data-with-spotify.json';
 
 if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
   console.error(
