@@ -5,9 +5,9 @@ import { Pagination } from './paginated/pagination';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Fragment, Suspense, useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import { FiltersContext } from '@/contexts/filter-context';
 import { current } from 'immer';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 async function getProducts(page: number, limit = 4) {
   const res = await fetch(`/api/products?page=${page}&limit=${limit}`);
@@ -28,6 +28,22 @@ export default function Products(serverPage) {
   const [totalPages, setTotalPages] = useState(10);
   const [limit, setLimit] = useState(30);
   const { handlePagination } = useContext(FiltersContext);
+  const router = useRouter();
+  const pathname = usePathname();
+  const locSearchParams: URLSearchParams = new URLSearchParams(
+    searchParams as unknown as string,
+  );
+
+  // const pushNewPathnameAndPageParams = (targetPageNumber) => {
+  //   const locSearchParams: URLSearchParams = new URLSearchParams(
+  //     searchParams as unknown as string,
+  //   );
+
+  //   locSearchParams.set('page', targetPageNumber);
+
+  //   router.push(`${pathname}?${locSearchParams}`);
+  //   return `${pathname}?${locSearchParams}`;
+  // };
 
   // const getProducts = (page = 1) =>
   //   // fetch(`/api/app-users/profiles`).then((res) => res.json());

@@ -4,14 +4,10 @@
   - ### AWS:
     - Go through all IAM and narrow permissions
     - Setup automigration in the CI/CD Pipeline
-    - Set up Cloudfront
-      - Fix URL Signing and try to get images to load in less choppy
 
 
   - ### Infrastructure:
     - Fix bug that breaks the CI/CD when you run a second `pnpm tfa` command
-    *- Caching
-      *- the cached images/data on the product-show/product-details page should be the same as the products index page?
     - Rate Limiting
 
 
@@ -28,7 +24,7 @@
     - Finish setting up product filter functionality
     - Fix numeric product filters
     - Set up Artist Search Filtering
-    - Update all Filters component(s) to make the filtering feel more controlled and less all over the place. So like showing all filters at once and/or showing all active filters
+    - Update all Filter ui component(s) to make the filtering feel more controlled and less all over the place. So like showing all filters at once and/or showing all active filters
     - resources:
       - [postgres-full-text-search-is-good-enough](https://rachbelaid.com/postgres-full-text-search-is-good-enough/)
       - [postgres-full-text-search-engine](https://xata.io/blog/postgres-full-text-search-engine)
@@ -38,8 +34,8 @@
     - Add Genres to Product Seeds
     - Clean up Seed Files
     - Write updated seed data/functions
-        - Must get updated Stripe data
-        - Must have significantly higher volume
+      - Must get updated Stripe data
+      - Must have significantly higher volume
     - convert the `/api/app-users/register` route to a webhook route. Something like `/api/webhooks/auth0/register`.
     - Add Social Links to appUser table
 
@@ -79,7 +75,6 @@
         - Add a Download Button if user already purchased product
     *- Index Page
         *- Stream in data
-        *- Infinite Scroll
     - Add Recommended Products component
 
 

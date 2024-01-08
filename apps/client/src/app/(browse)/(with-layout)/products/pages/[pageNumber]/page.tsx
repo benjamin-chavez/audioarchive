@@ -10,10 +10,6 @@ import ClientPage from './page.client';
 
 import axios from 'axios';
 
-type ProductProps = {
-  params: { pageNumber: string };
-};
-
 export async function getProducts(pageNumber) {
   const page = pageNumber;
   const limit = 10;
@@ -25,7 +21,12 @@ export async function getProducts(pageNumber) {
     .then((res) => res.data);
 }
 
+type ProductProps = {
+  params: { pageNumber: string };
+};
+
 async function Page({ params }: ProductProps) {
+  console.log('\n\n\nSERVER PARAMS', params);
   const queryClient = new QueryClient();
   const serverPage = 1;
   const pageNumber = parseInt(params.pageNumber);

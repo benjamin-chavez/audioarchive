@@ -38,6 +38,7 @@ import { FiltersContext } from '@/contexts/filter-context';
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/20/solid';
 import { current } from 'immer';
 import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useContext, useState } from 'react';
 
 function PaginationPrevious({
@@ -112,6 +113,13 @@ export function Pagination({
   // TODO: Fix up this logic for the displayed page options
   const pageNumbers = Array.from(Array(totalPages).keys());
 
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const locSearchParams: URLSearchParams = new URLSearchParams(
+    searchParams as unknown as string,
+  );
+
+  console.log(`${pathname}?${locSearchParams}`);
   return (
     <>
       <nav
@@ -129,13 +137,14 @@ export function Pagination({
               .slice(currentPage - 2, currentPage + 1)
               .map((pageNum) => (
                 <div key={pageNum}>
-                  <button
-                    onClick={() => handlePageChange(pageNum)}
+                  <Link
+                    // onClick={() => handlePageChange(pageNum)}
+                    href={`${pathname}?page=3`}
                     className="inline-flex h-10 items-center rounded-md border border-gray-300 bg-white px-4 hover:bg-gray-100 focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-25 focus:ring-offset-1 focus:ring-offset-indigo-600"
-                    disabled={pageNum === currentPage}
+                    // disabled={pageNum === currentPage}
                   >
                     {pageNum}
-                  </button>
+                  </Link>
                 </div>
               ))}
           </div>

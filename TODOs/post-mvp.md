@@ -1,12 +1,16 @@
 <!-- TODOs/post-mvp.md -->
 
 # POST MVP TODOs
-  - ### AWS:
+  - ### AWS & General Infrastructure:
     - Add public and private key rotation - will likely want to switch over to Key Management Service (KMS)
-
-
-  - ### Infrastructure:
+    - CloudFront
+      - Set up signed-urls for project files
+      - define base url so that it does not link to cloudfront
     - Look into adding `serverless framework` and splitting iac between terraform and serverless
+
+  - ### Performance Optimizations:
+    - Caching
+      - the cached images/data on the product-show/product-details page should be the same as the products index page?
 
 
   - ### Misc. Backend
@@ -39,6 +43,8 @@
   - ### Product:
     - Add scheduling feature to product publishing. You may need to update the way you are handling products, specifically when you are handling products based on their status
     - Add ability to handle multiple pictures and/or video media - Will need to update the model, the show page, the product-form, and...
+    - Product Index Page
+        - Infinite Scroll? - Might not be worth the SEO challenges
 
  - ### Footer:
     -
@@ -94,6 +100,8 @@
   - ### UI/Styles...
       -
 
+  - ### SEO:
+      -
 
   - ### Misc...
       - Look at Wappalyzer on https://edm.com/
