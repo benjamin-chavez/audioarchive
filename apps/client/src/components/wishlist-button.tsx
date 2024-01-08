@@ -1,5 +1,5 @@
 // apps/client/src/components/wishlist-button.tsx
-
+'use client';
 import {
   useFavoritesDispatch,
   useIsProductFavorited,

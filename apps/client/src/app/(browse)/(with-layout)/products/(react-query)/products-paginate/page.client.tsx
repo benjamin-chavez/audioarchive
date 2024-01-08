@@ -1,7 +1,7 @@
 'use client';
 
 import WishlistButton from '@/components/wishlist-button';
-import { Pagination } from './paginated/pagination';
+import { Pagination } from '../../components/pagination';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Fragment, Suspense, useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -122,7 +122,7 @@ export default function Products(serverPage) {
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={handlePagination}
+        // onPageChange={handlePagination}
       />
     </div>
   );

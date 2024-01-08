@@ -9,7 +9,6 @@ import {
 import ClientPage from './page.client';
 
 import axios from 'axios';
-
 export async function getProducts(pageNumber) {
   const page = pageNumber;
   const limit = 10;
@@ -21,28 +20,20 @@ export async function getProducts(pageNumber) {
     .then((res) => res.data);
 }
 
-type ProductProps = {
-  params: { pageNumber: string };
-};
-
-async function Page({ params }: ProductProps) {
-  console.log('\n\n\nSERVER PARAMS', params);
+export default async function Page() {
+  const currentPage = 1;
   const queryClient = new QueryClient();
-  const serverPage = 1;
-  const pageNumber = parseInt(params.pageNumber);
-
   await queryClient.prefetchQuery({
-    queryKey: ['products', pageNumber],
-    queryFn: () => getProducts(pageNumber),
+    queryKey: ['products', currentPage],
+    queryFn: () => getProducts(currentPage),
   });
 
   return (
     <div>
-      <h1>{pageNumber}</h1>
+      <h1 className="bg-red-500">{currentPage}</h1>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <ClientPage serverPage={serverPage} />
+        <ClientPage />
       </HydrationBoundary>
     </div>
   );
 }
-export default Page;

@@ -62,15 +62,8 @@ export default async function ProductsLayout({
         <main>
           <CategoryHeader />
 
-          {/* <FiltersCopy
-              filters={filters1}
-              sortOptions={sortOptions}
+          <NewFilterComponent normalizedFilterData={normalizedFilterData} />
 
-            /> */}
-
-          {/* <NewFilterComponent normalizedFilterData={normalizedFilterData} /> */}
-
-          {/* <Filters sortOptions={sortOptions} /> */}
           {children}
         </main>
       </div>
