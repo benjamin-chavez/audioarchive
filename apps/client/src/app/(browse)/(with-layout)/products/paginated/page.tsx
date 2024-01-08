@@ -11,8 +11,11 @@ import ClientPage from './page.client';
 import axios from 'axios';
 
 export function getProducts() {
+  const page = 1;
+  const limit = 10;
   return axios
-    .get('http://localhost:5000/api/products', {
+    .get(`http://localhost:5000/api/products?page=${page}&limit=${limit}`, {
+      // .get(`http://localhost:5000/api/app-users/profiles`, {
       // params: { _sort: 'tite' },
     })
     .then((res) => res.data);
@@ -22,14 +25,12 @@ async function Page() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ['products'],
+    queryKey: ['products', 1],
     queryFn: getProducts,
   });
 
   return (
     <div>
-      <h1>Server Component</h1>
-
       <HydrationBoundary state={dehydrate(queryClient)}>
         <ClientPage />
       </HydrationBoundary>

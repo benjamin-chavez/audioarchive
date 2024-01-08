@@ -11,6 +11,7 @@ type FiltersState = {
   toggleOption: any;
   handleFilterChecked: any;
   replaceAllFilters: any;
+  handlePagination: (targetPage: number) => void;
   handleSort: any;
   handleRange: (rangeDetails: { id: string; min: string; max: string }) => void;
   selectedSortOption: any;
@@ -124,6 +125,17 @@ const FiltersProvider = ({ children }) => {
     return `${pathname}?${locSearchParams}`;
   };
 
+  const pushNewPathnameAndPageParams = (targetPageNumber) => {
+    const locSearchParams: URLSearchParams = new URLSearchParams(
+      searchParams as unknown as string,
+    );
+
+    locSearchParams.set('page', targetPageNumber);
+
+    router.push(`${pathname}?${locSearchParams}`);
+    return `${pathname}?${locSearchParams}`;
+  };
+
   const handleFilterChecked = (categoryId, optionId, isChecked) => {
     toggleOption(categoryId, optionId);
     const newUrl = pushNewPathnameAndSearchParams(
@@ -131,6 +143,11 @@ const FiltersProvider = ({ children }) => {
       optionId,
       isChecked,
     );
+    setUrl(newUrl);
+  };
+
+  const handlePagination = (targetPageNumber) => {
+    const newUrl = pushNewPathnameAndPageParams(targetPageNumber);
     setUrl(newUrl);
   };
 
@@ -203,6 +220,7 @@ const FiltersProvider = ({ children }) => {
     toggleOption,
     handleFilterChecked,
     replaceAllFilters,
+    handlePagination,
     handleSort,
     handleRange,
     selectedSortOption,
