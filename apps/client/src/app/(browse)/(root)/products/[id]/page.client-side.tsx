@@ -143,6 +143,9 @@ export default function PageClient({
   // console.log('user.id', user?.id);
   // console.log('product.appUserId', product?.appUserId);
 
+  // console.log(product);
+  console.log('🚀 ~ product:', product);
+
   return (
     <div className="bg-white">
       <div
@@ -231,7 +234,7 @@ export default function PageClient({
               </p>
             </div>
 
-            <p className="mt-6 text-gray-500">{product2.description}</p>
+            <p className="mt-6 text-gray-500">{product.description}</p>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
               <button

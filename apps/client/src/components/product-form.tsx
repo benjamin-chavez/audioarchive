@@ -45,7 +45,7 @@ export default function ProductForm({
   const { user, isLoading: isLoadingUser } = useUser();
   const [newImagePreview, setNewImagePreview] = useState<string | null>(null);
   // TODO: update state to status type
-  const [newStatus, setNewStatus] = useState<string | null>(product.status);
+  const [newStatus, setNewStatus] = useState<string | null>(product?.status);
   const { register, handleSubmit } = useForm<FormData>({
     defaultValues: {
       id: product?.id || undefined,
@@ -208,10 +208,13 @@ export default function ProductForm({
   };
 
   const getButtonText = (status) => {
-    const lowerCaseStatus = status.toLowerCase();
+    const lowerCaseStatus = status?.toLowerCase();
+
     if (lowerCaseStatus === 'published') return 'Publish';
-    if (lowerCaseStatus === 'draft') return 'Save Draft';
+    // if (lowerCaseStatus === 'draft') return 'Save Draft';
     if (lowerCaseStatus === 'archived') return 'Archive';
+
+    return 'Save Draft';
   };
 
   if (isLoadingUser) {
@@ -287,7 +290,7 @@ export default function ProductForm({
               <div className="flex items-center justify-end gap-x-2  sm:justify-start">
                 <div
                   className={classNames(
-                    statuses[newStatus.toLowerCase()],
+                    statuses[newStatus?.toLowerCase()],
                     'flex-none rounded-full p-1',
                   )}
                 >

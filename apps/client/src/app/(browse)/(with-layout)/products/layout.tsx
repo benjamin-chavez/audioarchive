@@ -7,6 +7,7 @@ import NewFilterComponent from './components/new-filter-component';
 import { modifyData } from '@/lib/normalize';
 import { normalize, schema } from 'normalizr';
 import { Suspense } from 'react';
+import { SecondaryFilter } from '@/components/secondary-filter';
 
 function CategoryHeader() {
   return (
@@ -61,9 +62,8 @@ export default async function ProductsLayout({
       <div className="bg-gray-50">
         <main>
           <CategoryHeader />
-
           <NewFilterComponent normalizedFilterData={normalizedFilterData} />
-
+          {/* <SecondaryFilter /> */}
           {children}
         </main>
       </div>

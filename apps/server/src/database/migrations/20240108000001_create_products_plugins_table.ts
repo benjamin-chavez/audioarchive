@@ -6,7 +6,7 @@ const TABLE_NAME = 'products_plugins';
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(TABLE_NAME, (t) => {
-    t.increments('id').primary();
+    t.primary(['product_id', 'plugin_id']);
 
     t.integer('product_id')
       .unsigned()

@@ -54,7 +54,7 @@ export async function seed(knex: Knex): Promise<void> {
 
       const price = seed.price > 50 ? 29.99 : seed.price;
       const genre = seed.genre_name
-        ? seed.genre
+        ? seed.genre_name
         : GENRE_VALUES[
             faker.number.int({ min: 0, max: GENRE_VALUES.length - 1 })
           ];

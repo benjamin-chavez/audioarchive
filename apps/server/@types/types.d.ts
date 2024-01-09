@@ -1,7 +1,7 @@
 // apps/server/@types/types.d.ts
 
 // import { Request } from 'express';
-import { Account, AppUser, Product, Event } from '@shared/src/schemas';
+import { Account, AppUser, Product, Event, Plugin } from '@shared/src/schemas';
 
 declare module 'express' {
   interface Request {
@@ -9,6 +9,7 @@ declare module 'express' {
     product?: Product;
     account?: Account;
     event?: Event;
+    plugin?: Plugin; //TODO: Review This
   }
 }
 

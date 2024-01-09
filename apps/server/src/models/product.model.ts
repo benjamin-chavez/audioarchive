@@ -7,6 +7,7 @@ class ProductModel {
   private static tableName = 'products';
 
   static async create(product: Omit<Product, 'id'>): Promise<Product> {
+    product.accountId = product.accountId ? product.accountId : 1;
     const results: Product[] = await knex(this.tableName)
       .insert(product)
       .returning('*');
