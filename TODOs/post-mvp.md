@@ -24,6 +24,7 @@
   - ### Database:
     - Look into dbdocs.io and/or SchemaSpy for adding database schema documentation
     - Potentially create new `database/functions` and `database/triggers` folders that are treated similar to the `database/migrations` folder
+    - Move appUser social Link URLs fields to their own table?
 
 
   - ### Cart:
@@ -46,6 +47,7 @@
     - Product Index Page
         - Infinite Scroll? - Might not be worth the SEO challenges
         - Add Limit per Page option
+    - Add reusable `Recommended Products` component that uses analytics from throughout the app
 
  - ### Footer:
     -

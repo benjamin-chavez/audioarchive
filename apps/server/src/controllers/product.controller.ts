@@ -18,8 +18,12 @@ const CONTEXT = 'ProductController';
 
 export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
   const imgFile = req.files['imgFile'][0];
-  // req.body.productPlugins = JSON.parse(req.body.productPlugins);
+  req.body.productPlugins = JSON.parse(req.body.productPlugins);
   const { productPlugins, ...product } = req.body;
+
+  // TODO: START HERE!!! TODO: START HERE!!! TODO: START HERE!!! TODO: START HERE!!! TODO: START HERE!!!
+  // TODO: START BY HANDLING THE PLUGIN DATA AND UPDATING THE product_plugins JOIN TABLE
+
   console.log('\n\n\n\n');
   console.log('🚀 ~ productPlugins:', typeof productPlugins);
   console.log('🚀 ~ productPlugins:', JSON.stringify(productPlugins, null, 2));

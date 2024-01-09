@@ -25,20 +25,20 @@
     - Fix numeric product filters
     - Set up Artist Search Filtering
     - Update all Filter ui component(s) to make the filtering feel more controlled and less all over the place. So like showing all filters at once and/or showing all active filters
-    - filtering should work as `filter & filter` not `filter || filter`
+    - filtering should work as `filter & filter` not `filter || filter`??
     - resources:
       - [postgres-full-text-search-is-good-enough](https://rachbelaid.com/postgres-full-text-search-is-good-enough/)
       - [postgres-full-text-search-engine](https://xata.io/blog/postgres-full-text-search-engine)
       - [postgres-full-text-search-a-search-engine-in-a-database](https://www.crunchydata.com/blog/postgres-full-text-search-a-search-engine-in-a-database)
 
  - ### Database:
-    - Add Genres to Product Seeds
+    <!-- //- Add Genres to Product Seeds -->
     - Clean up Seed Files
     - Write updated seed data/functions
       - Must get updated Stripe data
       - Must have significantly higher volume
     - convert the `/api/app-users/register` route to a webhook route. Something like `/api/webhooks/auth0/register`.
-    - Add Social Links to appUser table
+    <!-- //- Add Social Links to appUser table -->
 
 
  - ### Cart:
@@ -77,11 +77,11 @@
         - Add a Download Button if user already purchased product
     *- Index Page
         *- Stream in data
-    - Add Recommended Products component
+    <!-- //- Add Featured Products component -->
 
 
  - ### Footer:
-    - Add Component
+    <!-- //- Add Component -->
     - Plan links and content
 
 
