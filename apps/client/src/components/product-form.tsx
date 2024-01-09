@@ -87,20 +87,19 @@ export default function ProductForm({
 
       // Append form data fields
       Object.keys(data).forEach((key) => {
-        // Exclude imgFile for now
         if (
           key !== 'imgFile' &&
-          key !== 'digitalFile' &&
-          key !== 'productPlugins'
+          key !== 'digitalFile'
+          // && key !== 'productPlugins'
         ) {
           // @ts-ignore
           formData.append(key, data[key]);
         }
       });
 
-      if (data.productPlugins) {
-        formData.append('productPlugins', JSON.stringify(data.productPlugins));
-      }
+      // if (data.productPlugins) {
+      //   formData.append('productPlugins', JSON.stringify(data.productPlugins));
+      // }
 
       if (data.imgFile) {
         formData.append('imgFile', data.imgFile[0]);
@@ -466,36 +465,41 @@ function PluginFormInput({
   setValue;
   control;
 }) {
-  const handleUpdateProductPlugins = (
-    e: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    e.preventDefault();
-    const pluginId = e.target.value;
-    const plugin = plugins.byId[pluginId];
-
-    // console.log(JSON.stringify(plugin, null, 2));
-    const updatedProductPlugins = [...productPlugins, plugin];
-    setProductPlugins(updatedProductPlugins);
-    setValue('productPlugins', updatedProductPlugins);
-    // const updatedProductPluginIds = [
-    //   ...productPlugins.map((p) => p.id),
-    //   pluginId,
-    // ];
-    // setProductPlugins(updatedProductPluginIds);
-    // setValue('productPlugins', updatedProductPluginIds);
-  };
   // const handleUpdateProductPlugins = (
   //   e: React.ChangeEvent<HTMLSelectElement>,
   // ) => {
   //   e.preventDefault();
   //   const pluginId = e.target.value;
-  //   const updatedProductPluginIds = [...productPlugins, pluginId];
-  //   setProductPlugins(updatedProductPluginIds);
-  //   setValue('productPlugins', updatedProductPluginIds);
+  //   const plugin = plugins.byId[pluginId];
+
+  //   // console.log(JSON.stringify(plugin, null, 2));
+  //   const updatedProductPlugins = [...productPlugins, plugin];
+  //   setProductPlugins(updatedProductPlugins);
+  //   setValue('productPlugins', updatedProductPlugins);
+
   // };
 
-  const selectedPluginIds = productPlugins.map((plugin) =>
-    plugin.id.toString(),
+  // const selectedPluginIds = productPlugins.map((plugin) =>
+  //   plugin.id.toString(),
+  // );
+
+  //
+
+  const handleUpdateProductPlugins = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    e.preventDefault();
+    const pluginId = e.target.value;
+
+    const updatedProductPluginIds = [...productPlugins, pluginId];
+    setProductPlugins(updatedProductPluginIds);
+    setValue('productPlugins', updatedProductPluginIds);
+  };
+
+  // const selectedPluginIds = productPlugins;
+
+  const selectedPluginIds = productPlugins.map((pluginId) =>
+    pluginId.toString(),
   );
 
   return (
@@ -521,7 +525,6 @@ function PluginFormInput({
               name="productPlugins"
               render={({ field }) => (
                 <select
-                  // {...register('productPlugins', { required: true })}
                   {...field}
                   className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 mt-2 "
                   // setNewStatus
@@ -552,12 +555,12 @@ function PluginFormInput({
       <div>
         <h3>Used Plugins</h3>
         <ul>
-          {productPlugins.map((plugin) => (
+          {/* {productPlugins.map((plugin) => (
             <li>{plugin.pluginName}</li>
-          ))}
-          {/* {productPlugins.map((pluginId) => (
-            <li>{plugins.byId[pluginId].pluginName}</li>
           ))} */}
+          {productPlugins.map((pluginId) => (
+            <li>{plugins.byId[pluginId].pluginName}</li>
+          ))}
         </ul>
       </div>
     </div>
