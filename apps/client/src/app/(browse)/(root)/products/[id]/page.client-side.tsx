@@ -144,7 +144,7 @@ export default function PageClient({
   // console.log('product.appUserId', product?.appUserId);
 
   // console.log(product);
-  console.log('🚀 ~ product:', product);
+  // console.log('🚀 ~ product:', product);
 
   return (
     <div className="bg-white">

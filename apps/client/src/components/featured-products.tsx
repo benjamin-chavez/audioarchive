@@ -20,7 +20,7 @@ async function getFeaturedProducts() {
 export async function FeaturedProducts() {
   const products = await getFeaturedProducts();
 
-  console.log('🚀 ~ products:', products);
+  // console.log('🚀 ~ products:', products);
 
   return (
     <div

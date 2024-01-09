@@ -28,6 +28,10 @@ export function classNames(...classes) {
 
 export function printFormData(formData) {
   Array.from(formData.entries()).forEach(([key, value]) => {
-    console.log(`${key}: ${value}`);
+    if (typeof value === 'object') {
+      console.log(`${key}: ${JSON.stringify(value, null, 2)}`);
+    } else {
+      console.log(`${key}: ${value}`);
+    }
   });
 }

@@ -6,11 +6,12 @@ import {
   capitalizeFirstLetter,
   classNames,
   generateRandomString,
+  printFormData,
 } from '@/lib/utils';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { Product } from '@shared/src';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 type FormData = {
   id?: number;
@@ -20,6 +21,7 @@ type FormData = {
   bpm: string;
   status: string; //TODO: UPDATE status WITH ACTUAL TYPE
   price: string;
+  productPlugins: any[]; //TODO: UPDATE status WITH ACTUAL TYPE;
   imgFile?: File;
   imgS3Url: string;
   digitalFile?: File;
@@ -37,16 +39,20 @@ export const statuses = {
 
 export default function ProductForm({
   product,
+  pluginOptions,
   revalidateListings,
 }: {
   product?: Product;
+  pluginOptions;
   revalidateListings: () => Promise<void>;
 }) {
+  const [productPlugins, setProductPlugins] = useState([]);
+  const { plugins } = pluginOptions;
   const { user, isLoading: isLoadingUser } = useUser();
   const [newImagePreview, setNewImagePreview] = useState<string | null>(null);
   // TODO: update state to status type
   const [newStatus, setNewStatus] = useState<string | null>(product?.status);
-  const { register, handleSubmit } = useForm<FormData>({
+  const { register, handleSubmit, setValue, control } = useForm<FormData>({
     defaultValues: {
       id: product?.id || undefined,
       // name: product?.name || '',
@@ -61,6 +67,8 @@ export default function ProductForm({
       status: newStatus,
       price: product?.price !== undefined ? product.price.toString() : '29.99',
       // i      imgS3Url
+      // @ts-ignore
+      productPlugins: product?.plugins || [],
       imgS3Url: product?.imgS3Url || '',
       key: product?.key || '',
       label: product?.label || '',
@@ -80,11 +88,19 @@ export default function ProductForm({
       // Append form data fields
       Object.keys(data).forEach((key) => {
         // Exclude imgFile for now
-        if (key !== 'imgFile' && key !== 'digitalFile') {
+        if (
+          key !== 'imgFile' &&
+          key !== 'digitalFile' &&
+          key !== 'productPlugins'
+        ) {
           // @ts-ignore
           formData.append(key, data[key]);
         }
       });
+
+      if (data.productPlugins) {
+        formData.append('productPlugins', JSON.stringify(data.productPlugins));
+      }
 
       if (data.imgFile) {
         formData.append('imgFile', data.imgFile[0]);
@@ -104,6 +120,7 @@ export default function ProductForm({
       );
       formData.append('updated_at', new Date().toISOString());
 
+      printFormData(formData);
       let response;
       if (isEditMode) {
         response = await fetch(`/api/products/${data.id}`, {
@@ -317,6 +334,15 @@ export default function ProductForm({
             </div>
           </div>
 
+          <PluginFormInput
+            plugins={plugins}
+            productPlugins={productPlugins}
+            setProductPlugins={setProductPlugins}
+            register={register}
+            setValue={setValue}
+            control={control}
+          />
+
           <div className="flex gap-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -420,6 +446,119 @@ export default function ProductForm({
             Delete
           </button>
         ) : null}
+      </div>
+    </div>
+  );
+}
+
+function PluginFormInput({
+  plugins,
+  productPlugins,
+  setProductPlugins,
+  register,
+  setValue,
+  control,
+}: {
+  plugins;
+  productPlugins;
+  setProductPlugins;
+  register;
+  setValue;
+  control;
+}) {
+  const handleUpdateProductPlugins = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    e.preventDefault();
+    const pluginId = e.target.value;
+    const plugin = plugins.byId[pluginId];
+
+    // console.log(JSON.stringify(plugin, null, 2));
+    const updatedProductPlugins = [...productPlugins, plugin];
+    setProductPlugins(updatedProductPlugins);
+    setValue('productPlugins', updatedProductPlugins);
+    // const updatedProductPluginIds = [
+    //   ...productPlugins.map((p) => p.id),
+    //   pluginId,
+    // ];
+    // setProductPlugins(updatedProductPluginIds);
+    // setValue('productPlugins', updatedProductPluginIds);
+  };
+  // const handleUpdateProductPlugins = (
+  //   e: React.ChangeEvent<HTMLSelectElement>,
+  // ) => {
+  //   e.preventDefault();
+  //   const pluginId = e.target.value;
+  //   const updatedProductPluginIds = [...productPlugins, pluginId];
+  //   setProductPlugins(updatedProductPluginIds);
+  //   setValue('productPlugins', updatedProductPluginIds);
+  // };
+
+  const selectedPluginIds = productPlugins.map((plugin) =>
+    plugin.id.toString(),
+  );
+
+  return (
+    <div className="flex bg-pink-100/50">
+      <div className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
+        <div className="flex items-center justify-end gap-x-2  sm:justify-start">
+          <div
+          // className={classNames(
+          //   statuses[newStatus?.toLowerCase()],
+          //   'flex-none rounded-full p-1',
+          // )}
+          >
+            <div className="h-1.5 w-1.5 rounded-full bg-current" />
+          </div>
+
+          {/*  */}
+          <div>
+            <label className="block text-sm font-medium leading-6 text-white">
+              Plugins
+            </label>
+            <Controller
+              control={control}
+              name="productPlugins"
+              render={({ field }) => (
+                <select
+                  // {...register('productPlugins', { required: true })}
+                  {...field}
+                  className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 mt-2 "
+                  // setNewStatus
+                  onChange={handleUpdateProductPlugins}
+                  defaultValue={''}
+                >
+                  <option value="" disabled>
+                    Select Plugins
+                  </option>
+                  {plugins.allIds
+                    .filter((pluginId) => !selectedPluginIds.includes(pluginId))
+                    .map((pluginId) => (
+                      <option
+                        // value={`${plugins.byId[pluginId]}`}
+                        value={pluginId}
+                        key={pluginId}
+                      >
+                        {plugins.byId[pluginId].pluginName}
+                      </option>
+                    ))}
+                </select>
+              )}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Used Plugins</h3>
+        <ul>
+          {productPlugins.map((plugin) => (
+            <li>{plugin.pluginName}</li>
+          ))}
+          {/* {productPlugins.map((pluginId) => (
+            <li>{plugins.byId[pluginId].pluginName}</li>
+          ))} */}
+        </ul>
       </div>
     </div>
   );

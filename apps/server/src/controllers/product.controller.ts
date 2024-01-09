@@ -18,7 +18,12 @@ const CONTEXT = 'ProductController';
 
 export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
   const imgFile = req.files['imgFile'][0];
-  const product = req.body;
+  req.body.productPlugins = JSON.parse(req.body.productPlugins);
+  const { productPlugins, ...product } = req.body;
+  console.log('\n\n\n\n');
+  console.log('🚀 ~ productPlugins:', productPlugins);
+  console.log('🚀 ~ productPlugins:', JSON.stringify(productPlugins, null, 2));
+
   if (imgFile) {
     const digitalFile = req.files['digitalFile'][0];
 
@@ -49,9 +54,9 @@ export const createProduct: RequestHandler = asyncHandler(async (req, res) => {
   }
 
   const newProduct = await ProductService.addNewProduct(product);
-  console.log('product.imgS3Key: ', product.imgS3Key);
+  // console.log('product.imgS3Key: ', product.imgS3Key);
   newProduct.imgS3Url = await S3Service.getObjectSignedUrl(product.imgS3Key);
-  console.log(`${CONTEXT}::createProduct() - success`);
+  // console.log(`${CONTEXT}::createProduct() - success`);
 
   res
     .status(201)
